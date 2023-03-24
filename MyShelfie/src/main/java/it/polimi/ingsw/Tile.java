@@ -2,9 +2,12 @@ package it.polimi.ingsw;
 
 public class Tile {
 
-    int type;
+    Type type;
 
-    Tile(int type){
+    Tile(Type type){
         this.type = type;
+    }
+    public Type getType(){
+        return this.type;
     }
 }
