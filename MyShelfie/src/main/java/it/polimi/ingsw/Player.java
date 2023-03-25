@@ -97,8 +97,15 @@ public class Player {
         else throw new PublicObjectiveAlreadyCompletedException("Objective n° " + obj + " already completed\n");
     }
 
+    /**
+     * Getter method of the attribute nickname
+     * @return return the nickname of the player
+     * @author Samuele Mazzoleni
+     * @author Guido Gonnella
+     */
     public String getNickname() {
-        return this.nickname;
+        String temp = this.nickname;
+        return temp;
     }
 
     public boolean[] getPubObjFlag() {
