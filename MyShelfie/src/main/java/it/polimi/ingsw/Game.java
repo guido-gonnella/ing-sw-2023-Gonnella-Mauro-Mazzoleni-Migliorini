@@ -1,18 +1,30 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Stack;
 import java.util.Random;
+
+/**
+ * Class that describes the game, all of its most important methods and attributes
+ * It contains all the data and information necessary to permit the game to be saved and resumed if interrupted
+ * This class is also used to initialize all the components at the very beginning of every game and keeping them updated
+ *
+ * @author Samuele Mazzoleni
+ */
 
 public class Game {
     private Board board;
     private SackOfTiles sackOfTiles;
-    private PublicObjective[] publicObjectives;
-    private ArrayList<Player> players;
-    private Player firstPlayer;
+    private final PublicObjective[] publicObjectives;
+    private final ArrayList<Player> players;
+    private final Player firstPlayer;
     private Player currentPlayer;
-    private Stack<Integer>[] pointsPubObj;
+    private final Stack<Integer>[] pointsPubObj;
 
+    /**
+     * Constructor of the game class
+     */
     public Game() {
         this.board = new Board();
         this.sackOfTiles = new SackOfTiles();
@@ -27,24 +39,51 @@ public class Game {
         this.currentPlayer = new Player(this.players.get(index).getNickname());
     }
 
+    /**
+     * Class used when the current player take the tiles from the board
+     *
+     * @implNote only one tile at time can be taken
+     */
     public void takeTiles() {
         int x, y, col;
+        Optional<Tile>[] temp;
         //coordinate e colonna prese da input
-        Tile temp = this.board.takeTiles(x, y);
-        currentPlayer.placeTile(temp, col);
+        for(int i=0; i<2; i++){
+            //verifica che si possano prendere altre tiles
+            if(){
+                temp[i] = this.board.takeTiles(x, y);
+            }
+        }
+        //qualcosa in mezzo per decidere l'ordine o simile
+        currentPlayer.placeTile(temp[], col);
     }
 
+    /**
+     * It sets the two random public objectives
+     *
+     * @param deckOfPublicObjectives deck that contains all the possible public objectives
+     */
     public void setPublicObjectives(DeckOfPublicObjectives deckOfPublicObjectives) {
         this.publicObjectives[0] = deckOfPublicObjectives.getPublicObjective().get(0);
         this.publicObjectives[1] = deckOfPublicObjectives.getPublicObjective().get(1);
     }
 
+    /**
+     * It takes the random private objectives for every player from the deck, and it gives them to the players
+     *
+     * @param deckOfPrivateObjectives deck that contains all the possible private objectives
+     */
     public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
         for(int i=0; i<3; i++) {
             this.privateObjectives[i] = deckOfPrivateObjectives.getPrivateObjective().get(i);
         }
     }
 
+    /**
+     * It sets the board ready to be used by the specific number of players in this game
+     *
+     * @param board empty and uninitialized board
+     */
     public void setBoard(Board board) {
         Space[][] grid = this.board.getGrid();
 
@@ -104,13 +143,26 @@ public class Game {
         }
 
         this.board.setGrid(grid);
+        this.board.fill(this.sackOfTiles);
     }
 
+    /**
+     * It updates the current saved sack of remaining tiles
+     *
+     * @param sackOfTiles sack that contains all the remaining tiles
+     */
     public void setSackOfTiles(SackOfTiles sackOfTiles) {
         this.sackOfTiles = sackOfTiles;
     }
 
+    /**
+     * It decides if the current player have completed the public objectives remained to him
+     */
     public void reachPubObj() {
-
+        for(int i=0; i<2; i++) {
+            if(!this.currentPlayer.getPubObjFlag()[i]) {
+                this.publicObjectives[i].getObjective().reach(this.currentPlayer.getShelf());
+            }
+        }
     }
 }

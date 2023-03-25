@@ -16,7 +16,7 @@ public class Player {
     private int playerPoints;
     private Shelf shelf;
     //private PrivateObjective privateObjective;
-    private boolean pubObjFlag[];
+    private boolean[] pubObjFlag;
 
     /**
      * @param nickname the nickname of the player
@@ -99,5 +99,9 @@ public class Player {
 
     public String getNickname() {
         return this.nickname;
+    }
+
+    public boolean[] getPubObjFlag() {
+        return this.pubObjFlag;
     }
 }
