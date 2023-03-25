@@ -30,7 +30,7 @@ public class DeckOfPublicObjectives {
 
         do{
             index2 = rand.nextInt(this.publicObjective.size());
-        }while(!chosen.contains(this.publicObjective.get(index2)));
+        }while(chosen.contains(this.publicObjective.get(index2)));
         chosen.add(this.publicObjective.get(index2));
 
         return chosen;
