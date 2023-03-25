@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7efd88c6-c13e-47fe-a566-cc830042faa5" name="Changes" comment="">
+    <list default="true" id="7efd88c6-c13e-47fe-a566-cc830042faa5" name="Changes" comment="UML-PointStack added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/lab_template_pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/lab_template_pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UML.mdj" beforeDir="false" afterPath="$PROJECT_DIR$/UML.mdj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +19,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2N0Ou9h5vohRi338gmqzzyZXlp4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -30,7 +29,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Pier2/Desktop/MyShelfie/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini",
+    "last_opened_file_path": "C:/Users/carlo/Downloads/Github-ingsw/MyShelfie/src/main/java/it/polimi/ingsw",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -39,6 +38,26 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\carlo\Downloads\Github-ingsw\MyShelfie\src\main\java\it\polimi\ingsw" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Github-ingsw" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Github-ingsw" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -50,11 +69,36 @@
       <workItem from="1678797753904" duration="446000" />
       <workItem from="1678799298796" duration="224000" />
       <workItem from="1678799545043" duration="372000" />
+      <workItem from="1679503615378" duration="313000" />
+      <workItem from="1679737294787" duration="5111000" />
     </task>
+    <task id="LOCAL-00001" summary="UML-PointStack added">
+      <created>1679503748964</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679503748964</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="UML-PointStack added" />
+    <option name="LAST_COMMIT_MESSAGE" value="UML-PointStack added" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
