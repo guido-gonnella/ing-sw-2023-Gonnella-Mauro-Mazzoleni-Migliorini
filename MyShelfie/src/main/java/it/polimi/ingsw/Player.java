@@ -96,4 +96,8 @@ public class Player {
         if(!pubObjFlag[obj]) pubObjFlag[obj] = true;
         else throw new PublicObjectiveAlreadyCompletedException("Objective n° " + obj + " already completed\n");
     }
+
+    public String getNickname() {
+        return this.nickname;
+    }
 }
