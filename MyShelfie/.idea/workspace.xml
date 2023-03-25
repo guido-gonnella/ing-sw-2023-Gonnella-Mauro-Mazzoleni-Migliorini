@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="ciliegia 1">
+    <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Space.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,8 +94,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project initialization" />
     <MESSAGE value="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)" />
-    <MESSAGE value="ciliegia 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="ciliegia 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

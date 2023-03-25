@@ -24,7 +24,7 @@ public class Space {
         return this.available;
     }
 
-    public void setTile(Optional<Tile> tile) {
-        this.tile = tile;
+    public void setTile(Tile tile) {
+        this.tile = Optional.of(tile);
     }
 }
