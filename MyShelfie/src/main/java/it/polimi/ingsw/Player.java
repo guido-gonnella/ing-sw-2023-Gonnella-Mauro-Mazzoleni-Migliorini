@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 
 import exceptions.ColumnAlreadyFullException;
 import exceptions.OutOfShelfException;
+import exceptions.PublicObjectiveAlreadyCompletedException;
 
 /**
  * Class that describes the player, it contains the nickname, the player's point, the player's shelf, the player private objective
@@ -81,5 +82,18 @@ public class Player {
 
         //Adding points from the adjacent tiles
 
+    }
+
+
+    /**
+     * Update the flag for a specific objective as true, meaning the player has completed that objective
+     *
+     * @param obj index of the two boolean array
+     * @exception PublicObjectiveAlreadyCompletedException when an objective is already completed by the player(<code>this</code>)
+     * @author Guido Gonnella
+     */
+    public void updatePubObjFlag(int obj) throws PublicObjectiveAlreadyCompletedException{
+        if(!pubObjFlag[obj]) pubObjFlag[obj] = true;
+        else throw new PublicObjectiveAlreadyCompletedException("Objective n° " + obj + " already completed\n");
     }
 }
