@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="ciliegia 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Game.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +78,7 @@
       <workItem from="1679686387034" duration="64000" />
       <workItem from="1679697040930" duration="1331000" />
       <workItem from="1679730497450" duration="10094000" />
-      <workItem from="1679837729430" duration="200000" />
+      <workItem from="1679837729430" duration="319000" />
     </task>
     <task id="LOCAL-00001" summary="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)">
       <created>1679740343837</created>
@@ -93,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679775375497</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="ciliegia 2">
+      <created>1679837965094</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1679837965094</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
