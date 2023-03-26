@@ -16,7 +16,7 @@ public class Player {
     private int playerPoints;
     private Shelf shelf;
     //private PrivateObjective privateObjective;
-    private boolean pubObjFlag[];
+    private boolean[] pubObjFlag;
 
     /**
      * @param nickname the nickname of the player
@@ -95,5 +95,20 @@ public class Player {
     public void updatePubObjFlag(int obj) throws PublicObjectiveAlreadyCompletedException{
         if(!pubObjFlag[obj]) pubObjFlag[obj] = true;
         else throw new PublicObjectiveAlreadyCompletedException("Objective n° " + obj + " already completed\n");
+    }
+
+    /**
+     * Getter method of the attribute nickname
+     * @return return the nickname of the player
+     * @author Samuele Mazzoleni
+     * @author Guido Gonnella
+     */
+    public String getNickname() {
+        String temp = this.nickname;
+        return temp;
+    }
+
+    public boolean[] getPubObjFlag() {
+        return this.pubObjFlag;
     }
 }
