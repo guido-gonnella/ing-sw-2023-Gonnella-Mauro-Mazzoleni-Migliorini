@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Deck of Private Objectives, its a list of 4 private objectives
  *
@@ -9,8 +11,9 @@ public class DeckOfPrivateObjectives {
     private ArrayList<PrivateObjective> privateObjectives;
 
     public DeckOfPrivateObjectives() {
+        int i;
         ArrayList<Integer> randomTempList;
-        objective = new ArrayList<PrivateObjective>;
+        ArrayList<PrivateObjective> objective = new ArrayList<PrivateObjective>;
         Integer id;
         for (Integer i = 1; i < 13; i++) { //this creates a list of 12 ints that range from 1 to 12 that get removed once you extract one so that there are no repeated privateobjectives
             randomTempList.add(i);

@@ -13,7 +13,7 @@ public class DeckOfPublicObjectives {
     private final ArrayList<PublicObjective> publicObjective;
 
     DeckOfPublicObjectives(ArrayList<PublicObjective> pubObj){
-        this.publicObjective = pubObj;
+        this.publicObjective = new ArrayList<PublicObjective>(pubObj);
     }
 
     /**
@@ -30,7 +30,7 @@ public class DeckOfPublicObjectives {
 
         do{
             index2 = rand.nextInt(this.publicObjective.size());
-        }while(chosen.contains(this.publicObjective.get(index2)));
+        }while(index1==index2);
         chosen.add(this.publicObjective.get(index2));
 
         return chosen;

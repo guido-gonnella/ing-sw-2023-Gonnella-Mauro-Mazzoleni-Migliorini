@@ -54,7 +54,9 @@ public class Player {
      * @author Guido Gonnella
      */
     public void addPoints(int points){
-        if(points > 0) this.playerPoints += points;
+        //if(points > 0) this.playerPoints += points;
+        //perché se >0? La prima volta points sarà sempre = 0 quindi non aggiunge mai
+        this.playerPoints += points;
     }
 
     /**
@@ -93,7 +95,7 @@ public class Player {
      * @author Guido Gonnella
      */
     public void updatePubObjFlag(int obj) throws PublicObjectiveAlreadyCompletedException{
-        if(!pubObjFlag[obj]) pubObjFlag[obj] = true;
+        if(!this.pubObjFlag[obj]){ this.pubObjFlag[obj] = true;}
         else throw new PublicObjectiveAlreadyCompletedException("Objective n° " + obj + " already completed\n");
     }
 
@@ -104,11 +106,20 @@ public class Player {
      * @author Guido Gonnella
      */
     public String getNickname() {
-        String temp = this.nickname;
-        return temp;
+        return this.nickname;
     }
 
     public boolean[] getPubObjFlag() {
         return this.pubObjFlag;
+    }
+
+    /**
+     * temporary method, will be replaced by updatePubOnjFlag
+     * when the exception will be handled
+     * @param index of the public objective
+     * @author Pierantonio Mauro
+     */
+    public void setPubObjFlag(int index){
+        this.pubObjFlag[index] = true;
     }
 }

@@ -76,6 +76,7 @@ public class Game {
     public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
         for(int i=0; i<this.players.size(); i++) {
             this.privateObjectives[i] = deckOfPrivateObjectives.getPrivateObjective().get(i);
+            players.get(i) = deckOfPrivateObjectives.getPrivateObjectives().get(i);
         }
     }
 
@@ -157,11 +158,19 @@ public class Game {
 
     /**
      * It decides if the current player have completed the public objectives remained to him
+     * and gives him the points in case he completed it
+     *
+     * @author Samuele Mazzoleni
+     * @author Pierantonio Mauro
      */
     public void reachPubObj() {
         for(int i=0; i<2; i++) {
             if(!this.currentPlayer.getPubObjFlag()[i]) {
-                this.publicObjectives[i].getObjective().reach(this.currentPlayer.getShelf());
+                if(this.publicObjectives[i].getResultObjective(this.currentPlayer.getShelf())){
+                    //setPubObjFlag will be replaced by updatePubObjFlag
+                    this.currentPlayer.setPubObjFlag(i);
+                    this.currentPlayer.addPoints(pointsPubObj[i].pop());
+                }
             }
         }
     }
