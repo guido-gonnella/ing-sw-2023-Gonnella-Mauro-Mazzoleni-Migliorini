@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Andrea Migliorini
  */
 public class PrivateObjective {
-    private List<ElementObjective> objective;
+    private ArrayList<ElementObjective> objective;
     public PrivateObjective(int id) throws ImpossiblePrivateObjException{
         objective=  new ArrayList<ElementObjective>;
         switch(id){

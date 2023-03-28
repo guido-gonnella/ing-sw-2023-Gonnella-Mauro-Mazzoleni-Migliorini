@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Andrea Migliorini
  */
 public class SackOfTiles {
-    private List<Tile> tiles;
+    private ArrayList<Tile> tiles;
     public SackOfTiles () {
         tiles = new ArrayList<Tile>(); //creates a new list of tiles with all of the 132 tiles of the 6 types inside it
         for (int i=0; i<22;i++) {
@@ -26,8 +26,9 @@ public class SackOfTiles {
     public Tile getTile() throws SackEmptyException { //gets a random tile from the ordered sack of tiles
         if (tiles.size()== 0) throw new SackEmptyException();
         else {
+            Random rand = new Random();
             Tile temp;
-            int a = ThreadLocalRandom.current().nextInt(tiles.size());
+            int a = rand.nextInt(tiles.size());;
             temp = tiles.remove(a);
             return (temp);
         }
