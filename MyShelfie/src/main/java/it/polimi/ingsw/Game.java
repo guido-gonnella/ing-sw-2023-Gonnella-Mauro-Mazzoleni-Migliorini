@@ -75,9 +75,11 @@ public class Game {
      * @param deckOfPrivateObjectives deck that contains all the possible private objectives
      */
     public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
+        ArrayList <PrivateObjective> temp;
+        temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
         for(int i=0; i<this.players.size(); i++) {
-            this.privateObjectives[i] = deckOfPrivateObjectives.getPrivateObjective().get(i);
-            players.get(i) = deckOfPrivateObjectives.getPrivateObjectives().get(i);
+            this.privateObjectives[i] = temp.get(i);
+            players.get(i) = this.privateObjectives;
         }
     }
 
