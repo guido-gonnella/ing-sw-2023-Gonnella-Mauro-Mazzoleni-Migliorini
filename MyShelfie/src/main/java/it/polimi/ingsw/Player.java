@@ -18,6 +18,7 @@ public class Player {
     //private PrivateObjective privateObjective;
     private boolean[] pubObjFlag;
 
+
     /**
      * @param nickname the nickname of the player
      * @author Guido Gonnella

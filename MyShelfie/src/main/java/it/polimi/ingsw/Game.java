@@ -20,7 +20,7 @@ public class Game {
     private final ArrayList<Player> players;
     private final Player firstPlayer;
     private Player currentPlayer;
-    private final Stack<Integer>[] pointsPubObj;
+    private final Stack<Integer>[] pointsPubObj =  new Stack[2];
 
     /**
      * Constructor of the game class
@@ -31,7 +31,8 @@ public class Game {
         this.publicObjectives = new PublicObjective[2];
         this.players = new ArrayList<Player>();
         //non so cosa che mi dice quanti giocatori ci sono
-        this.pointsPubObj = new Stack[this.players.size()];
+        this.pointsPubObj[0] = new Stack<Integer>();
+        this.pointsPubObj[1] = new Stack<Integer>();
 
         Random rand = new Random();
         int index = rand.nextInt(this.players.size());
@@ -75,6 +76,9 @@ public class Game {
      * @param deckOfPrivateObjectives deck that contains all the possible private objectives
      */
     public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
+
+
+
         ArrayList <PrivateObjective> temp;
         temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
         for(int i=0; i<this.players.size(); i++) {
@@ -180,5 +184,15 @@ public class Game {
                 }
             }
         }
+    }
+
+    /**
+     * Method that adds a player to the game
+     *
+     * @param player's nickname
+     * @author Pierantonio Mauro
+     */
+    public void addPlayer(String name){
+        this.players.add(new Player(name));
     }
 }
