@@ -4248,7 +4248,7 @@
 											"font": "Arial;13;1",
 											"left": 397,
 											"top": 567,
-											"width": 272.7587890625,
+											"width": 286.48876953125,
 											"height": 13,
 											"text": "DeckOfPrivateObjectives"
 										},
@@ -4281,7 +4281,7 @@
 									"font": "Arial;13;0",
 									"left": 392,
 									"top": 560,
-									"width": 282.7587890625,
+									"width": 296.48876953125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGHFFUShjgguGU="
@@ -4318,7 +4318,7 @@
 											"font": "Arial;13;0",
 											"left": 397,
 											"top": 590,
-											"width": 272.7587890625,
+											"width": 286.48876953125,
 											"height": 13,
 											"text": "-privateObjectives: List<PrivateObjective>",
 											"horizontalAlignment": 0
@@ -4327,7 +4327,7 @@
 									"font": "Arial;13;0",
 									"left": 392,
 									"top": 585,
-									"width": 282.7587890625,
+									"width": 296.48876953125,
 									"height": 23
 								},
 								{
@@ -4352,17 +4352,34 @@
 											"font": "Arial;13;0",
 											"left": 397,
 											"top": 613,
-											"width": 272.7587890625,
+											"width": 286.48876953125,
 											"height": 13,
-											"text": "+getPrivateObjectives(): List<PrivateObjective>",
+											"text": "+getPrivateObjectives(int): List<PrivateObjective>",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGHKH9gn+A8P0s=",
+											"_parent": {
+												"$ref": "AAAAAAGHFFUShjglxNM="
+											},
+											"model": {
+												"$ref": "AAAAAAGHKH9gfeAnNrs="
+											},
+											"font": "Arial;13;0",
+											"left": 397,
+											"top": 628,
+											"width": 286.48876953125,
+											"height": 13,
+											"text": "+SetPrivateObjectives(PrivateObjective): void",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 392,
 									"top": 608,
-									"width": 282.7587890625,
-									"height": 23
+									"width": 296.48876953125,
+									"height": 38
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -4399,8 +4416,8 @@
 							"containerChangeable": true,
 							"left": 392,
 							"top": 560,
-							"width": 282.7587890625,
-							"height": 71,
+							"width": 296.48876953125,
+							"height": 101,
 							"nameCompartment": {
 								"$ref": "AAAAAAGHFFUShjgf28c="
 							},
@@ -4565,7 +4582,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 699,
+									"left": 712,
 									"top": 603,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -4585,7 +4602,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 702,
+									"left": 715,
 									"top": 617,
 									"height": 13,
 									"alpha": -0.7853981633974483,
@@ -4605,7 +4622,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 695,
+									"left": 708,
 									"top": 576,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -4650,7 +4667,7 @@
 							"tail": {
 								"$ref": "AAAAAAGHFFPUfyn1bGE="
 							},
-							"points": "760:526;760:595;674:595",
+							"points": "760:526;760:595;687:595",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGHFFVE/zofmTw="
@@ -8547,6 +8564,43 @@
 									},
 									"type": "List<PrivateObjective>",
 									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHKICSXOpATsQ=",
+									"_parent": {
+										"$ref": "AAAAAAGHFFaaZ1AGFEA="
+									},
+									"name": "int",
+									"type": ""
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGHKH9gfeAnNrs=",
+							"_parent": {
+								"$ref": "AAAAAAGHFFUShjgc248="
+							},
+							"name": "SetPrivateObjectives",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHKIAGA+JS1TI=",
+									"_parent": {
+										"$ref": "AAAAAAGHKH9gfeAnNrs="
+									},
+									"name": "PrivateObjective",
+									"type": ""
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGHKIAGA+JTiNE=",
+									"_parent": {
+										"$ref": "AAAAAAGHKH9gfeAnNrs="
+									},
+									"type": "void",
+									"direction": "return"
 								}
 							]
 						}
@@ -8817,7 +8871,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGHFJRzsZFQkyE="
 									},
-									"name": "int"
+									"name": "int",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
