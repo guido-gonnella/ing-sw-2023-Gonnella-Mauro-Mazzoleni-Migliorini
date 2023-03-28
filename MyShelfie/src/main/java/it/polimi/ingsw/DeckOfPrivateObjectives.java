@@ -3,37 +3,42 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Deck of Private Objectives, its a list of 4 private objectives
+ * Deck of Private Objectives, it's a list containing all of the possible objectives
  *
  * @author Andrea Migliorini
  */
 public class DeckOfPrivateObjectives {
     private ArrayList<PrivateObjective> privateObjectives;
 
-    public DeckOfPrivateObjectives(ArrayList<PrivateObjective> list) {
-        int i;
+    public DeckOfPrivateObjectives() {
+        privateObjectives = new ArrayList<PrivateObjective>();
+        }
+
+
+    public void setPrivateObjectives(PrivateObjective privobj) { //adds the private objectives previously generated in main
+        this.privateObjectives.add(privobj);
+    }
+
+    public ArrayList<PrivateObjective> getPrivateObjectives(int numplayers) { //randomly  adds of the 12 private objectives the same number of players to a list of private objectives as output
+        ArrayList<PrivateObjective> SingleRoundObjectives;
+        int a;
+        SingleRoundObjectives= new ArrayList<>();
         ArrayList<Integer> randomTempList;
-        ArrayList<PrivateObjective> objective = new ArrayList<PrivateObjective>;
-        Integer id;
-        for (Integer i = 1; i < 13; i++) { //this creates a list of 12 ints that range from 1 to 12 that get removed once you extract one so that there are no repeated privateobjectives
+        randomTempList=new ArrayList<>();
+        Random rand;
+        rand=new Random();
+        Integer i;
+        for (i = 0; i < 12; i++) { //this creates a list of 12 ints that range from 1 to 12 that get removed once you extract one so that there are no repeated private objectives
             randomTempList.add(i);
         }
-        Random rand = new Random();
-        for (int j = 0; j < 4; j++) {
-            i = rand.nextInt(randomTempList.size());
-            id = randomTempList.remove(i);
-            try {
-                objective.add(new PrivateObjective(id));
-            } catch (ImpossiblePrivateObjException) {
-                System.out.println(impossiblePrivateobj);
-
-            }
-
+        for (int j=0; j<numplayers;j++){
+            a= rand.nextInt(randomTempList.size());
+            i= randomTempList.remove(a);
+            SingleRoundObjectives.add(privateObjectives.get(i));
 
         }
+
+        return(SingleRoundObjectives);
     }
 
-    public ArrayList<PrivateObjective> getPrivateObjectives() {
-        return privateObjectives;
-    }
 }
