@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="ciliegia 2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="ciliegia 2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,6 +76,7 @@
       <workItem from="1679697040930" duration="1331000" />
       <workItem from="1679730497450" duration="10094000" />
       <workItem from="1679837729430" duration="319000" />
+      <workItem from="1680006879454" duration="74000" />
     </task>
     <task id="LOCAL-00001" summary="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)">
       <created>1679740343837</created>
