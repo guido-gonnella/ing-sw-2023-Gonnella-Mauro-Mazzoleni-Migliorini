@@ -64,8 +64,9 @@ public class Game {
      * @param deckOfPublicObjectives deck that contains all the possible public objectives
      */
     public void setPublicObjectives(DeckOfPublicObjectives deckOfPublicObjectives) {
-        this.publicObjectives[0] = deckOfPublicObjectives.getPublicObjective().get(0);
-        this.publicObjectives[1] = deckOfPublicObjectives.getPublicObjective().get(1);
+        ArrayList<PublicObjective> temp = new ArrayList<PublicObjective>(deckOfPublicObjectives.getPublicObjective());
+        this.publicObjectives[0] = temp.get(0);
+        this.publicObjectives[1] = temp.get(1);
     }
 
     /**
@@ -112,31 +113,36 @@ public class Game {
 
         for(int row=1; row<8; row++) {
             switch (row) {
-                case 1 -> {
+                case 1: {
                     grid[row][3].setAvailable();
                     grid[row][4].setAvailable();
                 }
-                case 2, 6 -> {
+                case 2: {
                     grid[row][3].setAvailable();
                     grid[row][4].setAvailable();
                     grid[row][5].setAvailable();
                 }
-                case 3 -> {
+                case 3: {
                     for (int col = 2; col < 8; col++) {
                         grid[row][col].setAvailable();
                     }
                 }
-                case 4 -> {
+                case 4: {
                     for (int col = 1; col < 8; col++) {
                         grid[row][col].setAvailable();
                     }
                 }
-                case 5 -> {
+                case 5: {
                     for (int col = 1; col < 7; col++) {
                         grid[row][col].setAvailable();
                     }
                 }
-                case 7 -> {
+                case 6: {
+                    grid[row][3].setAvailable();
+                    grid[row][4].setAvailable();
+                    grid[row][5].setAvailable();
+                }
+                case 7: {
                     grid[row][4].setAvailable();
                     grid[row][5].setAvailable();
                 }

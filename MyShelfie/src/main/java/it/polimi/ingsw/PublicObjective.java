@@ -8,7 +8,7 @@ package it.polimi.ingsw;
 public class PublicObjective {
     private final CommonObj obj;
 
-    PublicObjective(CommonObj obj){
+    public PublicObjective(CommonObj obj){
         this.obj = obj;
     }
 

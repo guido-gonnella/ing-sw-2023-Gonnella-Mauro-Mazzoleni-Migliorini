@@ -1,4 +1,6 @@
 package it.polimi.ingsw;
+import exceptions.ImpossiblePrivateObjException;
+
 import java.util.ArrayList;
 /**
  * the Private objective a solution to "hardcoding" the ElementObjectives inside the constructor it adds predefined elements according to an id
@@ -7,8 +9,11 @@ import java.util.ArrayList;
  */
 public class PrivateObjective {
     private ArrayList<ElementObjective> objective;
-    public PrivateObjective(int id) throws ImpossiblePrivateObjException{
-        objective=  new ArrayList<ElementObjective>;
+
+    public PrivateObjective(ArrayList<ElementObjective> list) throws ImpossiblePrivateObjException {
+            this.objective = list;
+
+       /* objective=  new ArrayList<ElementObjective>;
         switch(id){
             case 1:
                 objective.add(new ElementObjective(x,x,CAT));
@@ -107,12 +112,10 @@ public class PrivateObjective {
                 objective.add(new ElementObjective(x,x,BOOK));
                 break;
             default:
-                throw new ImpossiblePrivateObjException();
-
+                throw new ImpossiblePrivateObjException();*/
         }
-    }
 
-    public List<ElementObjective> getObjective() {
-        return objective;
+    public ArrayList<ElementObjective> getObjective() {
+        return this.objective;
     }
 }

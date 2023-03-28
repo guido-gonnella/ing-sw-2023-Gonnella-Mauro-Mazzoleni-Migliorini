@@ -5,14 +5,14 @@ package it.polimi.ingsw;
  * @author Andrea Migliorini
  */
 public class ElementObjective {
-    private int x;
-    private int y;
-    private Type type;
-    public ElementObjective(int i, int j, Type kind) // simple constructor method
+    private final int x;
+    private final int y;
+    private final Type type;
+    public ElementObjective(int x, int y, Type kind) // simple constructor method
     {
         this.type=kind;
-        this.x=i;
-        this.y=j;
+        this.x=x;
+        this.y=y;
     }
 
     public int getX() {

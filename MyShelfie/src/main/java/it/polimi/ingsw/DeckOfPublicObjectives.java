@@ -12,7 +12,7 @@ import java.util.Random;
 public class DeckOfPublicObjectives {
     private final ArrayList<PublicObjective> publicObjective;
 
-    DeckOfPublicObjectives(ArrayList<PublicObjective> pubObj){
+    public DeckOfPublicObjectives(ArrayList<PublicObjective> pubObj){
         this.publicObjective = new ArrayList<PublicObjective>(pubObj);
     }
 

@@ -10,7 +10,7 @@ import java.util.Random;
 public class DeckOfPrivateObjectives {
     private ArrayList<PrivateObjective> privateObjectives;
 
-    public DeckOfPrivateObjectives() {
+    public DeckOfPrivateObjectives(ArrayList<PrivateObjective> list) {
         int i;
         ArrayList<Integer> randomTempList;
         ArrayList<PrivateObjective> objective = new ArrayList<PrivateObjective>;
