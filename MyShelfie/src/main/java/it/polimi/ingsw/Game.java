@@ -78,8 +78,7 @@ public class Game {
         ArrayList <PrivateObjective> temp;
         temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
         for(int i=0; i<this.players.size(); i++) {
-            this.privateObjectives[i] = temp.get(i);
-            players.get(i) = this.privateObjectives;
+            players.get(i).setPrivateObjective() = temp.get(i);
         }
     }
 
