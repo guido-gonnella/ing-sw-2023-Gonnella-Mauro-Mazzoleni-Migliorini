@@ -15,6 +15,9 @@ public class ElementObjective {
         this.y=y;
     }
 
+    /**
+     * basic getters
+     */
     public int getX() {
         return x;
     }

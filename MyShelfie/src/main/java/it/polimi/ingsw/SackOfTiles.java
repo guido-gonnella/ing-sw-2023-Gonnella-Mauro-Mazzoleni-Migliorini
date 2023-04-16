@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
+import exceptions.SackEmptyException;
+
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 /**
  * Class that contains all of the tiles to insert on the board
@@ -8,7 +11,10 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class SackOfTiles {
     private ArrayList<Tile> tiles;
-    public SackOfTiles () {
+    public SackOfTiles (ArrayList<Tile> constrTiles) {
+        this.tiles = new ArrayList<Tile>(constrTiles);
+
+        /*
         tiles = new ArrayList<Tile>(); //creates a new list of tiles with all of the 132 tiles of the 6 types inside it
         for (int i=0; i<22;i++) {
             tiles.add(new Tile(CAT));}
@@ -22,9 +28,25 @@ public class SackOfTiles {
             tiles.add(new Tile(TROPHY));}
         for (int i=0; i<22;i++) {
             tiles.add(new Tile(BOOK));}
+
+         */
     }
-    public Tile getTile() throws SackEmptyException { //gets a random tile from the ordered sack of tiles
-        if (tiles.size()== 0) throw new SackEmptyException();
+
+    /**
+     * This method return the list of all the tiles still available to be drawn
+     *
+     * @return list of tiles left
+     * @author Pierantonio Mauro
+     */
+    public ArrayList<Tile> getLeftTiles(){
+        return this.tiles;
+    }
+
+    /**
+     * @return a random tile of the one still available
+     */
+    public Tile getRandomTile() throws SackEmptyException { //gets a random tile from the ordered sack of tiles
+        if (this.tiles.isEmpty()) throw new SackEmptyException();
         else {
             Random rand = new Random();
             Tile temp;

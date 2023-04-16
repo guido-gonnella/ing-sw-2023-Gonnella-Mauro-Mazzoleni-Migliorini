@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import exceptions.SackEmptyException;
+
 import java.util.Optional;
 
 /**
@@ -11,13 +13,13 @@ import java.util.Optional;
 
 public class Board {
     private Space[][] grid;
-    private final int ROW = 9;
-    private final int COL = 9;
 
     /**
      * Constructor of the board class
      */
     public Board() {
+        int ROW = 9;
+        int COL = 9;
         this.grid = new Space[ROW][COL];
     }
 
@@ -26,12 +28,12 @@ public class Board {
      *
      * @param sackOfTiles sack of the remaining tiles used to extract random tiles to be placed
      */
-    public void fill(SackOfTiles sackOfTiles) {
+    public void fill(SackOfTiles sackOfTiles) throws SackEmptyException {
         for(int row=0; row<9; row++) {
             for(int col=0; col<9; col++) {
                 if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
                     //metodo per settare una random tile nella board dal sacchetto
-                    grid[row][col].setTile();
+                    grid[row][col] = sackOfTiles.getRandomTile();
                 }
             }
         }
@@ -46,9 +48,10 @@ public class Board {
      */
     public Optional<Tile> takeTiles(int row, int col) {
         //togliere la tile dalla board
-        this.grid[row][col].setTile();
+        Optional<Tile> temp = this.grid[row][col].getTile();
+        this.grid[row][col].removeTile();
 
-        return grid[row][col].getTile();
+        return temp;
     }
 
     /**

@@ -27,7 +27,11 @@ public class Game {
      */
     public Game() {
         this.board = new Board();
+
+        //aggiustare questa chiamata al costruttore, bisgna mettere come parametro la
+        //lista con tutte le tiles
         this.sackOfTiles = new SackOfTiles();
+
         this.publicObjectives = new PublicObjective[2];
         this.players = new ArrayList<Player>();
         //non so cosa che mi dice quanti giocatori ci sono
