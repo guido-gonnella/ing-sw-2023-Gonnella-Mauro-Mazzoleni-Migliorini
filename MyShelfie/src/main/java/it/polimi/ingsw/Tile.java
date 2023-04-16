@@ -8,7 +8,7 @@ package it.polimi.ingsw;
  */
 public class Tile {
 
-    Type type;
+    private Type type;
 
     Tile(Type type){
         this.type = type;

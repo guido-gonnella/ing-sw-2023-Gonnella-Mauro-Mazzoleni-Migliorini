@@ -5,6 +5,20 @@ import exceptions.ColumnAlreadyFullException;
 import exceptions.OutOfShelfException;
 import exceptions.PublicObjectiveAlreadyCompletedException;
 
+import java.util.*;
+
+/**
+ * Support class for the method adjacent tiles
+ * @author Guido Gonnella
+ */
+ class coord{
+    int x, y;
+    public coord(int a, int b){
+        this.x = a;
+        this.y = b;
+    }
+}
+
 /**
  * Class that describes the player, it contains the nickname, the player's point, the player's shelf, the player private objective
  * and two flags that points out whether the player has done the public objective
@@ -15,7 +29,7 @@ public class Player {
     private String nickname;
     private int playerPoints;
     private Shelf shelf;
-    //private PrivateObjective privateObjective;
+    private PrivateObjective privateObjective;
     private boolean[] pubObjFlag;
 
 
@@ -29,8 +43,7 @@ public class Player {
         this.playerPoints = 0;
         this.pubObjFlag = new boolean[2];
         pubObjFlag[0] = pubObjFlag[1] = false;
-
-        //this.privateObjective = null;
+        this.privateObjective = null;
     }
 
     /**
@@ -71,20 +84,122 @@ public class Player {
         return temp;
     }
 
-    private int adjacentPoints(Shelf shelf){
-        int points = 0;
+    /**
+     * <h1>Adjacent Points</h1>
+     * It uses the breadth first search algorithm for graphs,
+     * it uses a queue to memorize and then check the spot and its surroundings.<br>
+     * Every spot in the queue is the same type, is the boundaries of the shelf, and it has not been already checked.<br>
+     * If a spot in the shelf meets these requirements it is put in the queue, checks in the checked matrix, and the adjacent counter is incremented.<br><br>
+     * When the queue is empty, which means there aren't any other tiles to check, and based on the adjacent counter, the points variable is assigned: <br>
+     * 2 points if there are 3 adjacent tiles<br>
+     * 3 points if there are 4 adjacent tiles<br>
+     * 5 points if there are 5 adjacent tiles<br>
+     * 8 points if there are more than 5 adjacent tiles.
+     *
+     * @param pshelf the player's shelf
+     * @param checked a matrix, equally sized to the shelf, used for checking if a certain spot on the shelf has been already checked
+     * @param i starting point from where to check
+     * @param j starting point from where to check
+     * @return Points based on the amount of equal type adjacent tiles
+     * @throws NoSuchElementException It throws this exception if the method Optional.get() is called on an empty Optional,
+     *                                  but checking if it is present, it may prevent from throwing this exception
+     * @author Guido Gonnella
+     */
+    private int adjacentPoints(Shelf pshelf, boolean[][] checked, int i, int j) throws NoSuchElementException {
+        int points = 0, adjacent = 1;
+        Optional<Tile> shelfie[][] = pshelf.getShelf();
+        Queue<coord> q = new ArrayDeque<>();
+
+        q.add(new coord(i, j));
+        checked[i][j] = true;
+
+        while(!q.isEmpty()){
+            int x = q.peek().x, y = q.peek().y;
+            q.poll();
+
+            // tile under the current tile
+            if((!shelfie[x+1][y].isPresent() || shelfie[x+1][y].get().getType().equals(shelfie[x][y].get().getType())) && x+1 >= 0 && x+1 < 6 && y >= 0 && y < 5 && !checked[x+1][y]){
+                checked[x+1][y] = true;
+                adjacent++;
+                q.add(new coord(x+1, y));
+            }
+
+            // tile over the current tile
+            if((!shelfie[x-1][y].isPresent() || shelfie[x-1][y].get().getType().equals(shelfie[x][y].get().getType())) && x-1 >= 0 && x-1 < 6 && y >= 0 && y < 5 && !checked[x-1][y]){
+                checked[x-1][y] = true;
+                adjacent++;
+                q.add(new coord(x-1, y));
+            }
+
+            // tile on the right of the current tile
+            if((!shelfie[x][y+1].isPresent() || shelfie[x][y+1].get().getType().equals(shelfie[x][y].get().getType())) && x >= 0 && x < 6 && y+1 >= 0 && y+1 < 5 && !checked[x][y+1]){
+                checked[x][y+1] = true;
+                adjacent++;
+                q.add(new coord(x, y+1));
+            }
+
+            // tile on the left of the current tile
+            if((!shelfie[x][y-1].isPresent() || shelfie[x][y-1].get().getType().equals(shelfie[x][y].get().getType())) && x >= 0 && x < 6 && y-1 >= 0 && y-1 < 5 && !checked[x][y-1]){
+                checked[x][y-1] = true;
+                adjacent++;
+                q.add(new coord(x, y-1));
+            }
+
+        }
 
 
+        //assignement to the point variable the points based on how many equal type adjacent tile there are
+        if(adjacent < 3) points = 0;
+        else if(adjacent == 3) points = 2;
+        else if(adjacent == 4) points = 3;
+        else if(adjacent == 5) points = 5;
+        else if(adjacent >  6) points = 8;
 
         return points;
     }
 
+
+    /**
+     * An array with the Points for the private objective of the player
+     */
+    private final int PRVPOINTS[] = {0, 1, 2, 4, 6, 9, 12};
+
+    /**
+     * <h1>CountPoints</h1>
+     *
+     * It uses the shelf variable to calculate the points, from the private objective and the number of the adjacent tiles.<br><br>
+     * The first part counts how many elements in the private objective is on the player's shelf, then using the counter as a
+     * index, from the {@link #PRVPOINTS PRVPOINTS} array get the corresponding points.<br><br>
+     * The {@link #adjacentPoints(Shelf, boolean[][], int, int) adjacentPoints} function returns the points based on how many equal adjacent tiles there are on the shelf.
+     *
+     * @author Guido Gonnella
+     */
     public void countPoints(){
         Shelf temp = shelf;
+        int points = 0;
+
         //Adding points from completion of the private object
+        int numTiles = 0;
+        for(ElementObjective e : privateObjective.getObjective()){
+            if(!shelf.getShelf()[e.getX()][e.getY()].isPresent() || shelf.getShelf()[e.getX()][e.getY()].get().getType().equals(e.getType())){
+                numTiles++;
+            }
+        }
+
+        points += PRVPOINTS[numTiles];
 
         //Adding points from the adjacent tiles
+        boolean checked[][] = new boolean[6][5];
+        Arrays.fill(checked, false);
 
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 5; j++){
+                if(!checked[i][j] && temp.getShelf()[i][j].isPresent()) points += adjacentPoints(temp, checked, i, j);
+            }
+        }
+
+        //adding the points to the player's points attribute
+        addPoints(points);
     }
 
 

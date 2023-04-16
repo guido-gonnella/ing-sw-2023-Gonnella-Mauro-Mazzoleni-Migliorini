@@ -79,4 +79,16 @@ public class Shelf {
             throw new OutOfShelfException("Out of column range\n");
         }
     }
+
+    /**
+     * @return Return the {@link #HEIGHT Height} attribute
+     * @author Guido Gonnella
+     */
+    public int getHEIGHT(){ return HEIGHT;}
+
+    /**
+     * @return Return the {@link #WIDTH Width} attribute
+     * @author Guido Gonnella
+     */
+    public int getWIDTH(){ return WIDTH;}
 }
