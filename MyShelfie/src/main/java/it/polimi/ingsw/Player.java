@@ -238,4 +238,8 @@ public class Player {
     public void setPubObjFlag(int index){
         this.pubObjFlag[index] = true;
     }
+
+    public void setPrivateObjective(PrivateObjective privateObjective){
+        this.privateObjective = privateObjective;
+    }
 }

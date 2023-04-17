@@ -30,7 +30,7 @@ public class Shelf {
      */
     public Shelf(){
         // Declaration of a 6x5 matrix of Optional
-        shelf = new Optional[HEIGHT][WIDTH];
+        this.shelf = new Optional[HEIGHT][WIDTH];
 
         // Initialization of the matrix
         // Every single spot of the shelf is an empty Optional object
@@ -48,9 +48,7 @@ public class Shelf {
      * @author Guido Gonnella
      * */
     public Optional<Tile>[][] getShelf(){
-        Optional<Tile> temp[][] = shelf;
-
-        return temp;
+        return this.shelf;
     }
 
     /**
@@ -68,8 +66,8 @@ public class Shelf {
         if(0 <= col && col < WIDTH){
             if(shelf[0][col].isPresent()) throw new ColumnAlreadyFullException("Column " + col + " is full\n");
             else{
-                for(int i = 1; i < HEIGHT; i++){
-                    if(shelf[i][col].isPresent()){
+                for(int i = HEIGHT-1; i >= 0; i--){
+                    if(shelf[i][col].isEmpty()){
                         shelf[i-1][col] = Optional.of(tile);
                         break;
                     }

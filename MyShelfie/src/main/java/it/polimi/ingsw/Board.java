@@ -33,7 +33,7 @@ public class Board {
             for(int col=0; col<9; col++) {
                 if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
                     //metodo per settare una random tile nella board dal sacchetto
-                    grid[row][col] = sackOfTiles.getRandomTile();
+                    grid[row][col].setTile(sackOfTiles.getRandomTile());
                 }
             }
         }

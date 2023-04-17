@@ -11,25 +11,22 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class SackOfTiles {
     private ArrayList<Tile> tiles;
-    public SackOfTiles (ArrayList<Tile> constrTiles) {
-        this.tiles = new ArrayList<Tile>(constrTiles);
+    public SackOfTiles () {
 
-        /*
         tiles = new ArrayList<Tile>(); //creates a new list of tiles with all of the 132 tiles of the 6 types inside it
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(CAT));}
+            tiles.add(new Tile(Type.CAT));}
         for (int i=0; i<22;i++) {
-            tiles.add( new Tile(FRAME));}
+            tiles.add( new Tile(Type.FRAME));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(GAME));}
+            tiles.add(new Tile(Type.GAME));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(PLANT));}
+            tiles.add(new Tile(Type.PLANT));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(TROPHY));}
+            tiles.add(new Tile(Type.TROPHY));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(BOOK));}
+            tiles.add(new Tile(Type.BOOK));}
 
-         */
     }
 
     /**
