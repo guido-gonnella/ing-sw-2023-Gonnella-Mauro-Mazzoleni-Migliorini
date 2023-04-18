@@ -130,8 +130,6 @@ public class Game {
      */
     public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
 
-
-
         ArrayList <PrivateObjective> temp;
         temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
         for(int i=0; i<this.players.size(); i++) {

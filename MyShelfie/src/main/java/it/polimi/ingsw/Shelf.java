@@ -48,7 +48,8 @@ public class Shelf {
      * @author Guido Gonnella
      * */
     public Optional<Tile>[][] getShelf(){
-        return this.shelf;
+        Optional<Tile>[][] temp = this.shelf;
+        return temp;
     }
 
     /**

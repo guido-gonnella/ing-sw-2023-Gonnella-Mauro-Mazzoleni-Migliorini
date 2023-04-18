@@ -28,19 +28,40 @@ public class PublicObjective {
 /*
 example of lambda
 
-CommonObj cross = (shelf) ->{
-    int i,j;
-    int contCross = 0;
-    Type tempShelf[6][5] = shelf.getShelf();
-    for(i=1; i<5 && contCross == 0; i++){
-        for(j=1; j<4 && contCross == 0; j++){
-        Type tempType = tempShelf[i][j];
-            if((tempType == tempShelf[i-1][j-1]) && (tempType == tempShelf[i+1][j+1]) &&
-             (tempType == tempShelf[i+1][j-1]) && (tempType == tempShelf[i-1][j+1]))
-                {contCross = 1;}
+CommonObj cross = (shelf) -> {
+        int i,j;
+        int contCross = 0;
+        Optional<Tile>[][] tempShelf = shelf.getShelf();
+        for(i=1; i<5 && contCross==0; i++){
+            for(j=0; j<4 && contCross==0; j++){
+                if(tempShelf[i][j].isPresent()){
+                    Type tempType = tempShelf[i][j].get().getType();
+                    if((tempType == tempShelf[i-1][j-1].get().getType()) &&
+                       (tempType == tempShelf[i+1][j+1].get().getType()) &&
+                       (tempType == tempShelf[i+1][j-1].get().getType()) &&
+                       (tempType == tempShelf[i-1][j+1].get().getType()))
+                    {contCross = 1;}
+                }
+            }
         }
-    }
-    return contCross;
-}
+        if(contCross==0)
+            return false;
+        else
+            return true;
+    };
 
+CommonObj eight = (shelf) -> {
+        int i,j;
+        int contCat = 0;
+        int contFrame = 0;
+        int contGame = 0;
+        int contPlant = 0;
+        int contTrophy = 0;
+        int contBook = 0;
+        Type tempShelf[6][5] = shelf.getShelf().orElse(null);
+
+        for(i=0; i<5;
+
+
+    }
  */
