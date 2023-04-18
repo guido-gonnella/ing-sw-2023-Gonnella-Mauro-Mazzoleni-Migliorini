@@ -53,8 +53,8 @@ public class Game {
      *
      * @implNote only one tile at time can be taken
      */
-    public void takeTiles() {
-        Scanner scanner = new Scanner(System.in);
+    public Tile takeTiles(int x, int y) {
+        /*Scanner scanner = new Scanner(System.in);
         int x, y, col;
         String stop;
         ArrayList<Optional<Tile>> temp = new ArrayList<>();
@@ -82,28 +82,34 @@ public class Game {
             }
             int tempTile = scanner.nextInt();
             currentPlayer.placeTile(temp.get(tempTile).orElse(null),col);
-            /*il .orElse(null) serve per passare come parametro una tile e non
-            un operational di tile */
+            il .orElse(null) serve per passare come parametro una tile e non
+            un operational di tile
             temp.remove(tempTile);
         }while(!temp.isEmpty());
+        */
+
+        // il .orElse(null) serve per trasformare un Optional<Tile> in Tile
+        return  this.board.takeTiles(x,y).orElse(null);
     }
 
     /**
      * @param x row
      * @param y column
-     * @return true if there is at least one adjacent tile, false otherwise
+     * @return true if there is at least one free side, false otherwise
      * @author Pierantonio Mauro
      */
     private boolean adjacent(int x, int y){
-        if(x!=0  && board.getGrid()[x-1][y].getTile().isEmpty())
-            return false;
-        if(x!=8 &&  board.getGrid()[x-1][y].getTile().isEmpty())
-            return false;
-        if(y!=0 &&  board.getGrid()[x-1][y].getTile().isEmpty())
-            return false;
-        if(y!=8 &&  board.getGrid()[x-1][y].getTile().isEmpty())
-            return false;
-        return true;
+        if(x==0 || x== 8 || y==0 || y==8)
+            return true;
+        if(board.getGrid()[x-1][y].getTile().isEmpty())
+            return true;
+        if(board.getGrid()[x+16][y].getTile().isEmpty())
+            return true;
+        if(board.getGrid()[x][y-1].getTile().isEmpty())
+            return true;
+        if(board.getGrid()[x][y+1].getTile().isEmpty())
+            return true;
+        return false;
     }
 
     /**

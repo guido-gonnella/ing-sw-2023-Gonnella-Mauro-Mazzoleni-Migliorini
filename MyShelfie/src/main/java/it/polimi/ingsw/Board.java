@@ -13,13 +13,13 @@ import java.util.Optional;
 
 public class Board {
     private Space[][] grid;
+    int ROW = 9;
+    int COL = 9;
 
     /**
      * Constructor of the board class
      */
     public Board() {
-        int ROW = 9;
-        int COL = 9;
         this.grid = new Space[ROW][COL];
     }
 
@@ -29,11 +29,11 @@ public class Board {
      * @param sackOfTiles sack of the remaining tiles used to extract random tiles to be placed
      */
     public void fill(SackOfTiles sackOfTiles) throws SackEmptyException {
-        for(int row=0; row<9; row++) {
-            for(int col=0; col<9; col++) {
+        for(int row=0; row<ROW; row++) {
+            for(int col=0; col<COL; col++) {
                 if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
                     //metodo per settare una random tile nella board dal sacchetto
-                    grid[row][col].setTile(sackOfTiles.getRandomTile());
+                    this.grid[row][col].setTile(sackOfTiles.getRandomTile());
                 }
             }
         }
@@ -71,5 +71,31 @@ public class Board {
      */
     public void setGrid(Space[][] grid) {
         this.grid = grid.clone();
+    }
+
+    /**
+     * @return true if there is at least a tile with a tile near, false otherwise
+     * @author Pierantonio Mauro
+     */
+    public boolean checkFill(){
+        int flagNotAlone = 0;
+        for(int i=0; i<ROW && flagNotAlone==0; i++){
+            for(int j=0; j<COL && flagNotAlone==0; j++){
+                if(this.grid[i][j].getTile().isPresent()){
+                  if(i!=0 && this.grid[i-1][j].getTile().isPresent())
+                      flagNotAlone = 1;
+                  if(i!=ROW-1 && this.grid[i+1][j].getTile().isPresent())
+                      flagNotAlone = 1;
+                  if(j!=0 && this.grid[i][j-1].getTile().isPresent())
+                      flagNotAlone = 1;
+                  if(j!=COL-1 && this.grid[i][j+1].getTile().isPresent())
+                      flagNotAlone = 1;
+                }
+            }
+        }
+        if(flagNotAlone==0)
+            return false;
+        else
+            return true;
     }
 }
