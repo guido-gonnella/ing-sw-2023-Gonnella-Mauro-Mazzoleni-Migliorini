@@ -8,18 +8,6 @@ import exceptions.PublicObjectiveAlreadyCompletedException;
 import java.util.*;
 
 /**
- * Support class for the method adjacent tiles
- * @author Guido Gonnella
- */
- class coord{
-    int x, y;
-    public coord(int a, int b){
-        this.x = a;
-        this.y = b;
-    }
-}
-
-/**
  * Class that describes the player, it contains the nickname, the player's point, the player's shelf, the player private objective
  * and two flags that points out whether the player has done the public objective
  * The class has the methods to put the tile in a certain column, to modify the flags, to add points to the actual points
@@ -190,7 +178,11 @@ public class Player {
 
         //Adding points from the adjacent tiles
         boolean checked[][] = new boolean[6][5];
-        Arrays.fill(checked, false);
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 5; j++){
+                checked[i][j] = false;
+            }
+        }
 
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 5; j++){
