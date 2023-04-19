@@ -1,9 +1,8 @@
 package it.polimi.ingsw;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Stack;
-import java.util.Random;
+import exceptions.SackEmptyException;
+
+import java.util.*;
 
 /**
  * Class that describes the game, all of its most important methods and attributes
@@ -41,22 +40,76 @@ public class Game {
     }
 
     /**
+     * when in the controller is sensed a new player its added to the game
+     *
+     * @author Pierantonio Mauro
+     */
+    public void addPlayer(Player player){
+        this.players.add(player);
+    }
+
+    /**
      * Class used when the current player take the tiles from the board
      *
      * @implNote only one tile at time can be taken
      */
-    public void takeTiles() {
+    public Tile takeTiles(int x, int y) {
+        /*Scanner scanner = new Scanner(System.in);
         int x, y, col;
-        Optional<Tile>[] temp;
-        //coordinate e colonna prese da input
-        for(int i=0; i<2; i++){
-            //verifica che si possano prendere altre tiles
-            if(){
-                temp[i] = this.board.takeTiles(x, y);
+        String stop;
+        ArrayList<Optional<Tile>> temp = new ArrayList<>();
+
+        do{
+            System.out.println("Vuoi continuare a pescare? s/n");
+            stop = scanner.next();
+            x = scanner.nextInt();
+            y = scanner.nextInt();
+            if(!adjacent(x,y) && x>=0){
+                temp.add(this.board.takeTiles(x, y));
             }
-        }
+        }while(Objects.equals(stop, "s") || Objects.equals(stop, "S"));
+
         //qualcosa in mezzo per decidere l'ordine o simile
-        currentPlayer.placeTile(temp[], col);
+        System.out.println("Seleziona la colonna della libreria:");
+        col = scanner.nextInt();
+        do {
+            System.out.println("Seleziona la tessera da inserire:");
+            for(int i=0; i<temp.size(); i++){
+                System.out.println(i+1);
+                System.out.println(" : ");
+                System.out.println(temp.get(i));
+                System.out.println("\n");
+            }
+            int tempTile = scanner.nextInt();
+            currentPlayer.placeTile(temp.get(tempTile).orElse(null),col);
+            il .orElse(null) serve per passare come parametro una tile e non
+            un operational di tile
+            temp.remove(tempTile);
+        }while(!temp.isEmpty());
+        */
+
+        // il .orElse(null) serve per trasformare un Optional<Tile> in Tile
+        return  this.board.takeTiles(x,y).orElse(null);
+    }
+
+    /**
+     * @param x row
+     * @param y column
+     * @return true if there is at least one free side, false otherwise
+     * @author Pierantonio Mauro
+     */
+    private boolean adjacent(int x, int y){
+        if(x==0 || x== 8 || y==0 || y==8)
+            return true;
+        if(board.getGrid()[x-1][y].getTile().isEmpty())
+            return true;
+        if(board.getGrid()[x+16][y].getTile().isEmpty())
+            return true;
+        if(board.getGrid()[x][y-1].getTile().isEmpty())
+            return true;
+        if(board.getGrid()[x][y+1].getTile().isEmpty())
+            return true;
+        return false;
     }
 
     /**
@@ -77,12 +130,10 @@ public class Game {
      */
     public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
 
-
-
         ArrayList <PrivateObjective> temp;
         temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
         for(int i=0; i<this.players.size(); i++) {
-            players.get(i).setPrivateObjective() = temp.get(i);
+            players.get(i).setPrivateObjective(temp.get(i));
         }
     }
 
@@ -91,7 +142,7 @@ public class Game {
      *
      * @param board empty and uninitialized board
      */
-    public void setBoard(Board board) {
+    public void setBoard(Board board) throws SackEmptyException {
         Space[][] grid = this.board.getGrid();
 
         if(this.players.size()>2) {

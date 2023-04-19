@@ -12,10 +12,12 @@ public class Space {
     }
 
     public Optional<Tile> getTile() {
-        Optional<Tile> temp = this.tile;
-        return temp;
+        return this.tile;
     }
 
+    /**
+     * changes the status of the availability of the space
+     **/
     public void setAvailable() {
         this.available = true;
     }
@@ -26,5 +28,9 @@ public class Space {
 
     public void setTile(Tile tile) {
         this.tile = Optional.of(tile);
+    }
+
+    public void removeTile(){
+        this.tile = Optional.empty();
     }
 }

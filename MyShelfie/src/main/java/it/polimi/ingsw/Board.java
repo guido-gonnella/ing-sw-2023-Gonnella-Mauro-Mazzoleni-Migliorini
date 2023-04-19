@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import exceptions.SackEmptyException;
+
 import java.util.Optional;
 
 /**
@@ -11,8 +13,8 @@ import java.util.Optional;
 
 public class Board {
     private Space[][] grid;
-    private final int ROW = 9;
-    private final int COL = 9;
+    int ROW = 9;
+    int COL = 9;
 
     /**
      * Constructor of the board class
@@ -26,12 +28,12 @@ public class Board {
      *
      * @param sackOfTiles sack of the remaining tiles used to extract random tiles to be placed
      */
-    public void fill(SackOfTiles sackOfTiles) {
-        for(int row=0; row<9; row++) {
-            for(int col=0; col<9; col++) {
+    public void fill(SackOfTiles sackOfTiles) throws SackEmptyException {
+        for(int row=0; row<ROW; row++) {
+            for(int col=0; col<COL; col++) {
                 if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
                     //metodo per settare una random tile nella board dal sacchetto
-                    grid[row][col].setTile();
+                    this.grid[row][col].setTile(sackOfTiles.getRandomTile());
                 }
             }
         }
@@ -46,9 +48,10 @@ public class Board {
      */
     public Optional<Tile> takeTiles(int row, int col) {
         //togliere la tile dalla board
-        this.grid[row][col].setTile();
+        Optional<Tile> temp = this.grid[row][col].getTile();
+        this.grid[row][col].removeTile();
 
-        return grid[row][col].getTile();
+        return temp;
     }
 
     /**
@@ -68,5 +71,31 @@ public class Board {
      */
     public void setGrid(Space[][] grid) {
         this.grid = grid.clone();
+    }
+
+    /**
+     * @return true if there is at least a tile with a tile near, false otherwise
+     * @author Pierantonio Mauro
+     */
+    public boolean checkFill(){
+        int flagNotAlone = 0;
+        for(int i=0; i<ROW && flagNotAlone==0; i++){
+            for(int j=0; j<COL && flagNotAlone==0; j++){
+                if(this.grid[i][j].getTile().isPresent()){
+                  if(i!=0 && this.grid[i-1][j].getTile().isPresent())
+                      flagNotAlone = 1;
+                  if(i!=ROW-1 && this.grid[i+1][j].getTile().isPresent())
+                      flagNotAlone = 1;
+                  if(j!=0 && this.grid[i][j-1].getTile().isPresent())
+                      flagNotAlone = 1;
+                  if(j!=COL-1 && this.grid[i][j+1].getTile().isPresent())
+                      flagNotAlone = 1;
+                }
+            }
+        }
+        if(flagNotAlone==0)
+            return false;
+        else
+            return true;
     }
 }

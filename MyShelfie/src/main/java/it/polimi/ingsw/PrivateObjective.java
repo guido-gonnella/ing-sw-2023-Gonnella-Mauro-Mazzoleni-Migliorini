@@ -3,15 +3,16 @@ import exceptions.ImpossiblePrivateObjException;
 
 import java.util.ArrayList;
 /**
- * the Private objective a solution to "hardcoding" the ElementObjectives inside the constructor it adds predefined elements according to an id
+ * the Private objective a solution to "hardcoding" the ElementObjectives inside the constructor it adds
+ * predefined elements according to an id
  *
  * @author Andrea Migliorini
  */
 public class PrivateObjective {
-    private ArrayList<ElementObjective> objective;
+    private final ArrayList<ElementObjective> objective;
 
     public PrivateObjective(ArrayList<ElementObjective> list) throws ImpossiblePrivateObjException {
-            this.objective = list;
+            this.objective = new ArrayList<ElementObjective>(list);
 
        /* objective=  new ArrayList<ElementObjective>;
         switch(id){
@@ -115,6 +116,9 @@ public class PrivateObjective {
                 throw new ImpossiblePrivateObjException();*/
         }
 
+    /**
+     * basic getter
+     */
     public ArrayList<ElementObjective> getObjective() {
         return this.objective;
     }

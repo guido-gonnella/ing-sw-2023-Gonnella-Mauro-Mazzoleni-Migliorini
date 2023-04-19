@@ -5,8 +5,8 @@ package it.polimi.ingsw;
 /**
  * Functional interface that implements the common objectives.
  * The interface takes a shelf and return a boolean:
- * 1 if the shelf have reached the common objective
- * 0 otherwise
+ * 1 (true) if the shelf have reached the common objective
+ * 0 (false) otherwise
  *
  * @author Pierantonio Mauro
  */
