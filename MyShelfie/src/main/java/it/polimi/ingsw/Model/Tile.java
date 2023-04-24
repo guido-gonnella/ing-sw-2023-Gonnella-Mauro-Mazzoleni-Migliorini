@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package main.java.it.polimi.ingsw.Model;
 
 /**
  * Class that represent the single tiles that can be placed on the

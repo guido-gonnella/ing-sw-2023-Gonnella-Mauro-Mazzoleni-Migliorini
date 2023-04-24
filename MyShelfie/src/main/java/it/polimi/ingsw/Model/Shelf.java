@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package main.java.it.polimi.ingsw.Model;
 
 import exceptions.ColumnAlreadyFullException;
 import exceptions.OutOfShelfException;

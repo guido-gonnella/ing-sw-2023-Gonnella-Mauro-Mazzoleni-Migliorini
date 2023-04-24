@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package main.java.it.polimi.ingsw.Model;
 /**
  * basic element of the private objective to assign points, it has the coordinates and type of the virtual tile of the shelf
  *
