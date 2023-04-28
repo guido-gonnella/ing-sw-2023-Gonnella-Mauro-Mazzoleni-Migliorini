@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Network;
 
 import java.io.*;
 import java.net.Socket;
@@ -37,7 +37,7 @@ public class Client {
      * This method send a object to the server
      *
      * @param socket
-     * @param object sent to the server
+     * @param obj sent to the server
      * @throws IOException
      * @author Pierantonio Mauro
      */

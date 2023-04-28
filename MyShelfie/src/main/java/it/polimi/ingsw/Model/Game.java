@@ -103,7 +103,7 @@ public class Game {
             return true;
         if(board.getGrid()[x-1][y].getTile().isEmpty())
             return true;
-        if(board.getGrid()[x+16][y].getTile().isEmpty())
+        if(board.getGrid()[x+1][y].getTile().isEmpty())
             return true;
         if(board.getGrid()[x][y-1].getTile().isEmpty())
             return true;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Network;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,7 +29,7 @@ public class Server {
      * This method send a object to the client
      *
      * @param socket
-     * @param object sent to the server
+     * @param obj sent to the server
      * @throws IOException
      * @author Pierantonio Mauro
      */

@@ -60,7 +60,6 @@ public class Board {
      * @return the board grid
      */
     public Space[][] getGrid() {
-
         return grid.clone();
     }
 
