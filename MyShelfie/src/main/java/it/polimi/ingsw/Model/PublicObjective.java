@@ -1,4 +1,4 @@
-package main.java.it.polimi.ingsw.Model;
+package it.polimi.ingsw.Model;
 
 /**
  * Class that contains a common objective and its realization

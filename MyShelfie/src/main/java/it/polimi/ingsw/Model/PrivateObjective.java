@@ -1,4 +1,4 @@
-package main.java.it.polimi.ingsw.Model;
+package it.polimi.ingsw.Model;
 import exceptions.ImpossiblePrivateObjException;
 
 import java.util.ArrayList;
