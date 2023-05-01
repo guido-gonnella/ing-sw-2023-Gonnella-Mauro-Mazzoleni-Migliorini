@@ -2,6 +2,12 @@ package it.polimi.ingsw.Network.Message;
 
 import java.io.Serializable;
 
+/**
+ * Message class
+ * It has two attributes: the type of the message and the username of the player involved
+ *
+ * @author Samuele Mazzoleni
+ */
 public class Message implements Serializable {
 
     private MsgType type;

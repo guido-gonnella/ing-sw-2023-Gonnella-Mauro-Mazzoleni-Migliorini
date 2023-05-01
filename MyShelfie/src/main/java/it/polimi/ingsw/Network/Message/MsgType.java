@@ -1,5 +1,10 @@
 package it.polimi.ingsw.Network.Message;
 
+/**
+ * Enumeration of all the messages' types
+ *
+ * @author Samuele Mazzoleni
+ */
 public enum MsgType {
     SELECT_TILE,
     SELECT_COL,
