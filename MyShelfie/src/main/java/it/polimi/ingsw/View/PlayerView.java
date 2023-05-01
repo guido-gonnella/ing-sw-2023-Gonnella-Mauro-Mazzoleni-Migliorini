@@ -1,11 +1,11 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Model.Shelf;
 import it.polimi.ingsw.Model.Tile;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Scanner;
 
 /**
  * Class used to print the outputs on the CLI
@@ -55,5 +55,20 @@ public class PlayerView {
             System.out.println("]");
         }
         System.out.println("%n");
+    }
+
+    public String takeAddress(){
+        Scanner scanner = new Scanner(System.in);
+        String address;
+        System.out.println("Select the address: ");
+        address = scanner.next();
+        return address;
+    }
+    public int takePort(){
+        Scanner scanner = new Scanner(System.in);
+        int port = 4999;
+        System.out.println("Select the port: ");
+        port = scanner.nextInt();
+        return port;
     }
 }

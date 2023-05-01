@@ -17,9 +17,8 @@ public class SocketServer {
      * @throws IOException
      * @author Pierantonio Mauro
      */
-    public static Socket serverConnection(int port) throws IOException {
-            ServerSocket serverSocket = new ServerSocket(port);
-            return serverSocket.accept();
+    public static ServerSocket serverConnection(int port) throws IOException {
+        return new ServerSocket(port);
     }
 
     /**

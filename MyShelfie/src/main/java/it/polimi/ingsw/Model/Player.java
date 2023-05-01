@@ -30,7 +30,8 @@ public class Player {
         this.shelf = new Shelf();
         this.playerPoints = 0;
         this.pubObjFlag = new boolean[2];
-        pubObjFlag[0] = pubObjFlag[1] = false;
+        pubObjFlag[0] =  false;
+        pubObjFlag[1] = false;
         this.privateObjective = null;
     }
 
