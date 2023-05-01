@@ -1,6 +1,11 @@
 package it.polimi.ingsw;
 
+import main.java.it.polimi.ingsw.View.Cli;
+
 public class ClientApp {
+    public static Cli gui;
+    public static it.polimi.ingsw.Network.SocketClient
+
     public static void main(String[] args){
 
         boolean cliView = false; //default value
@@ -13,6 +18,7 @@ public class ClientApp {
         }
 
         if(cliView){
+            gui= new Cli();
 
         }
 
