@@ -71,4 +71,10 @@ public class PlayerView {
         port = scanner.nextInt();
         return port;
     }
+
+    public static String takeNickname(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select your nickname: ");
+        return scanner.next();
+    }
 }

@@ -1,9 +1,13 @@
 package it.polimi.ingsw.Network;
 
+import it.polimi.ingsw.Model.Player;
+
 import java.io.*;
 import java.net.Socket;
 
 public class SocketClient {
+
+    private Player player;
 
         /* cose che il client manda al server:
         -nickaname (string)
@@ -26,7 +30,11 @@ public class SocketClient {
      * @throws IOException
      * @author Pierantonio Mauro
      */
-    public static Socket clientConnection(String address, int port) throws IOException {
+
+    public SocketClient(Player player){
+        this.player = player;
+    }
+    public Socket clientConnection(String address, int port) throws IOException {
         return new Socket(address, port);
     }
 
