@@ -20,7 +20,8 @@ public class Game {
     private final Player firstPlayer;
     private Player currentPlayer;
     private final Stack<Integer>[] pointsPubObj =  new Stack[2];
-
+    private ArrayList<Tile> tilesInCurrPlayerHand;
+    private ArrayList<coord> tempTiles;
     /**
      * Constructor of the game class
      */
@@ -37,6 +38,8 @@ public class Game {
         int index = rand.nextInt(this.players.size());
         this.firstPlayer = new Player(this.players.get(index).getNickname());
         this.currentPlayer = new Player(this.players.get(index).getNickname());
+        this.tilesInCurrPlayerHand = new ArrayList<Tile>();
+        this.tempTiles = new ArrayList<coord>();
     }
 
     /**
@@ -46,6 +49,120 @@ public class Game {
      */
     public void addPlayer(Player player){
         this.players.add(player);
+    }
+
+
+    /**
+     *
+     * @return return true if the tiles selected is valid, in line and with at least a side free
+     */
+    public boolean validSelection(){
+        if(tempTileSelSize() > 0 && tempTileSelSize() <= 3){
+            if(tempTileSelSize() == 1){
+                return adjacent(tempTiles.get(0).x, tempTiles.get(0).y);
+            } else if (tempTileSelSize() == 2) {
+                if(tempTiles.get(0).x == tempTiles.get(1).x){
+                    //swap for sorting the two element array
+                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                        coord t = tempTiles.get(1);
+                        tempTiles.set(1, tempTiles.get(0));
+                        tempTiles.set(0, t);
+                    }
+
+                    if(Math.abs(tempTiles.get(0).y - tempTiles.get(1).y) == 1){
+                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y);
+                    }
+                } else if (tempTiles.get(0).y == tempTiles.get(1).y) {
+                    //swap for sorting the two element array
+                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                        coord t = tempTiles.get(1);
+                        tempTiles.set(1, tempTiles.get(0));
+                        tempTiles.set(0, t);
+                    }
+
+                    if(Math.abs(tempTiles.get(0).x - tempTiles.get(1).x) == 1){
+                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y);
+                    }
+                }
+            } else if (tempTileSelSize() == 3) {
+                if(tempTiles.get(0).x == tempTiles.get(1).x && tempTiles.get(1).x == tempTiles.get(2).x){
+                    //sorting 3 element array
+                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                        coord t = tempTiles.get(1);
+                        tempTiles.set(1, tempTiles.get(0));
+                        tempTiles.set(0, t);
+                    }
+                    if(tempTiles.get(1).y > tempTiles.get(2).y){
+                        coord t = tempTiles.get(2);
+                        tempTiles.set(2, tempTiles.get(1));
+                        tempTiles.set(1, t);
+                    }
+                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                        coord t = tempTiles.get(1);
+                        tempTiles.set(1, tempTiles.get(0));
+                        tempTiles.set(0, t);
+                    }
+
+                    if((tempTiles.get(0).y - tempTiles.get(1).y == -1 && tempTiles.get(1).y - tempTiles.get(2).y == -1 )||
+                        (tempTiles.get(0).y - tempTiles.get(1).y == 1 && tempTiles.get(1).y - tempTiles.get(2).y == 1 )){
+                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y) && adjacent(tempTiles.get(2).x, tempTiles.get(2).y);
+                    }
+
+                }else if(tempTiles.get(0).y == tempTiles.get(1).y && tempTiles.get(1).y == tempTiles.get(2).y){
+                    //sorting 3 element array
+                    if(tempTiles.get(0).x > tempTiles.get(1).x){
+                        coord t = tempTiles.get(1);
+                        tempTiles.set(1, tempTiles.get(0));
+                        tempTiles.set(0, t);
+                    }
+                    if(tempTiles.get(1).x > tempTiles.get(2).x){
+                        coord t = tempTiles.get(2);
+                        tempTiles.set(2, tempTiles.get(1));
+                        tempTiles.set(1, t);
+                    }
+                    if(tempTiles.get(0).x > tempTiles.get(1).x){
+                        coord t = tempTiles.get(1);
+                        tempTiles.set(1, tempTiles.get(0));
+                        tempTiles.set(0, t);
+                    }
+
+                    if((tempTiles.get(0).x - tempTiles.get(1).x == -1 && tempTiles.get(1).x - tempTiles.get(2).x == -1 )||
+                        (tempTiles.get(0).x - tempTiles.get(1).x == 1 && tempTiles.get(1).x - tempTiles.get(2).x == 1 )){
+                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y) && adjacent(tempTiles.get(2).x, tempTiles.get(2).y);
+                    }
+
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * add to the arraylist, if its size is lower than 3, the coordinates of the tile the current player want to take from the board
+     * @param x x coordinate
+     * @param y y coordinate
+     */
+    public void selectTiles(int x, int y){
+        if(tempTiles.size() <= 3 && !tempTiles.contains(new coord(x, y)) && board.getGrid()[x][y].isAvailable()) {
+            this.tempTiles.add(new coord(x, y));
+        }
+    }
+
+    /**
+     * @return  the size of the arraylist containg the temporary selected tiles
+     * @author Guido Gonnella
+     */
+    public int tempTileSelSize(){ return this.tempTiles.size();}
+
+    /**
+     * It fills the arraylist TilesInCurrPlayerHand with the tiles at the coordinates stored in the tempTiles arraylist
+     * @author Guido Gonnella
+     */
+    public void fillTilesInHand(){
+        for(coord c: tempTiles){
+            tilesInCurrPlayerHand.add(this.board.takeTiles(c.x, c.y).orElse(null));
+        }
     }
 
     /**
@@ -240,7 +357,7 @@ public class Game {
     /**
      * Method that adds a player to the game
      *
-     * @param player's nickname
+     * @param name player's nickname
      * @author Pierantonio Mauro
      */
     public void addPlayer(String name){
