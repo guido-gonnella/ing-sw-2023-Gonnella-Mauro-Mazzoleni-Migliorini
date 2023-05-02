@@ -20,6 +20,11 @@ public class Board {
      * Constructor of the board class
      */
     public Board() {
+       /* for(int i=0; i<ROW; i++){
+            for(int j=0; j<COL; j++){
+                this.grid[i][j] = new Space();
+            }
+        }*/
         this.grid = new Space[ROW][COL];
     }
 
