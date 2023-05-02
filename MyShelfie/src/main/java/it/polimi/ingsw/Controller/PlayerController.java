@@ -14,8 +14,8 @@ public class PlayerController {
         this.nickaname = nickaname;
     }
 
-    public static Socket connectionToServer(String address, int port){
+    /*public static Socket connectionToServer(String address, int port){
         return
-    }
+    }*/
 
 }
