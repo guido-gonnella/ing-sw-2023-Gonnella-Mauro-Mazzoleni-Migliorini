@@ -1,15 +1,13 @@
 package it.polimi.ingsw;
-
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Network.SocketClient;
 import it.polimi.ingsw.View.PlayerView;
-import main.java.it.polimi.ingsw.View.Cli;
+//import it.polimi.ingsw.View.Cli;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class ClientApp {
-    public static Cli gui;
     //public static it.polimi.ingsw.Network.SocketClient;
 
     public static void main(String[] args) throws IOException {
