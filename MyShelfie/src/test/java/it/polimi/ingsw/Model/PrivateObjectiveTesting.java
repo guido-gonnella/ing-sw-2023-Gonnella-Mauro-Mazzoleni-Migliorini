@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-public class privateObjectiveTesting {
+public class PrivateObjectiveTesting {
     PrivateObjective objective = null;
     ArrayList<ElementObjective> TestingList = new ArrayList<>();
 
