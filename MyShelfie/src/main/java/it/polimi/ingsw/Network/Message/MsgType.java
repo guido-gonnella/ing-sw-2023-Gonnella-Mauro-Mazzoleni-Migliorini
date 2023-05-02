@@ -6,11 +6,14 @@ package it.polimi.ingsw.Network.Message;
  * @author Samuele Mazzoleni
  */
 public enum MsgType {
+    //Client to Server
     SELECT_TILE,
     SELECT_COL,
     END_SEL_TILES,
     HAND_TILE_SWAP,
     END_PL_TURN,
+
+    //Server to Client
     BOARD_UPDATE,
     SHELF_UPDATE,
     PLAYER_UPDATE,

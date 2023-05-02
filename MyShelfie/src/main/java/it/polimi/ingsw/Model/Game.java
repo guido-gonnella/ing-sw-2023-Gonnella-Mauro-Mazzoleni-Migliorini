@@ -357,7 +357,7 @@ public class Game {
     /**
      * Method that adds a player to the game
      *
-     * @param name player's nickname
+     * @param name playerp's nickname
      * @author Pierantonio Mauro
      */
     public void addPlayer(String name){
