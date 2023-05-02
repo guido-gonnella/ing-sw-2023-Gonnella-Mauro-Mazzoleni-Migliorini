@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Observer;
 
-import it.polimi.ingsw.Model.coord;
+import it.polimi.ingsw.Model.Coords;
 
 /**
  * Observer interface with the methods from the view
@@ -12,7 +12,7 @@ public interface ViewObserver {
      *
      * @param pos selected tile position
      */
-    public void onSelectTile(coord pos);
+    public void onSelectTile(Coords pos);
 
     /**
      * Sends a message to the server when the user select a column of the shelf

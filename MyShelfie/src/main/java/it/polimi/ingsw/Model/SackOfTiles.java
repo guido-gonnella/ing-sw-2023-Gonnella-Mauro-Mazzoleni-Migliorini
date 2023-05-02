@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 /**
- * Class that contains all of the tiles to insert on the board
+ * Class that contains all the tiles to insert on the board
  *
  * @author Andrea Migliorini
  */
@@ -13,7 +13,7 @@ public class SackOfTiles {
     private ArrayList<Tile> tiles;
     public SackOfTiles () {
 
-        tiles = new ArrayList<Tile>(); //creates a new list of tiles with all of the 132 tiles of the 6 types inside it
+        tiles = new ArrayList<Tile>(); //creates a new list of tiles with all the 132 tiles of the 6 types inside it
         for (int i=0; i<22;i++) {
             tiles.add(new Tile(Type.CAT));}
         for (int i=0; i<22;i++) {

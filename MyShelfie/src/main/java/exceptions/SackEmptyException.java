@@ -7,6 +7,7 @@ public class SackEmptyException extends Exception{
     * @author Andrea Migliorini
     * **/
 
-    public SackEmptyException(){
+    public SackEmptyException() {
+
     }
 }
