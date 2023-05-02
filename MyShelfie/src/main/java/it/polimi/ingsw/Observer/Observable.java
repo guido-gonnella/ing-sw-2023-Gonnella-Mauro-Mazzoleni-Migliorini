@@ -9,7 +9,7 @@ import java.util.List;
  * Class use for notifying the class that implements the observer interface<br>
  * @author Guido Gonnella
  */
-public class Observable {
+public abstract class Observable {
     private final List<Observer> observers = new ArrayList<Observer>();
 
     /**
