@@ -1,9 +1,11 @@
 package it.polimi.ingsw.Network;
 
+import it.polimi.ingsw.Observer.Observable;
+
 import java.io.*;
 import java.net.Socket;
 
-public class SocketClient {
+public class SocketClient extends Observable {
 
         /* cose che il client manda al server:
         -nickaname (string)

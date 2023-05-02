@@ -4,20 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="Added the lambda functions for the Public Objectives">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/C2S/EndPlTurnMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/C2S/EndSelectTilesMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/C2S/SelectTileMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/C2S/ShelfColumnMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/C2S/SwapTileInHandMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/C2S/UpdatePlInfoMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/MsgType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/S2C/EndStatsMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/S2C/UpdateBoardMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/S2C/UpdateShelfMessage.java" afterDir="false" />
+    <list default="true" id="07a47483-f48c-46b0-a0ec-5d278a34b0cd" name="Changes" comment="Added Messages' types and classes. Added to the Game class, the methods for select a tile from the board, validation of the selections made and fill the tileInCurrPlayerHand arraylist with the tile at the coordinates present in tempTiles">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Controller/ClientController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/S2C/HandUpdate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Observer/Observable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Observer/Observer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/MsgType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/Message/MsgType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/Network/SocketClient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +22,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -105,7 +100,8 @@
       <workItem from="1682697579842" duration="3112000" />
       <workItem from="1682837875105" duration="2398000" />
       <workItem from="1682880786738" duration="2462000" />
-      <workItem from="1682925919963" duration="6513000" />
+      <workItem from="1682925919963" duration="7716000" />
+      <workItem from="1682949205657" duration="4375000" />
     </task>
     <task id="LOCAL-00001" summary="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)">
       <created>1679740343837</created>
@@ -128,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679837965094</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added Messages' types and classes. Added to the Game class, the methods for select a tile from the board, validation of the selections made and fill the tileInCurrPlayerHand arraylist with the tile at the coordinates present in tempTiles">
+      <created>1682933366593</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682933366593</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,7 +153,8 @@
     <MESSAGE value="Added: &#10;2 Exceptions: ColumnAlreadyFull and OutOfShelf&#10;2 Classes: Shelf and Player(not complete)" />
     <MESSAGE value="ciliegia 1" />
     <MESSAGE value="ciliegia 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="ciliegia 2" />
+    <MESSAGE value="Added Messages' types and classes. Added to the Game class, the methods for select a tile from the board, validation of the selections made and fill the tileInCurrPlayerHand arraylist with the tile at the coordinates present in tempTiles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Messages' types and classes. Added to the Game class, the methods for select a tile from the board, validation of the selections made and fill the tileInCurrPlayerHand arraylist with the tile at the coordinates present in tempTiles" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
