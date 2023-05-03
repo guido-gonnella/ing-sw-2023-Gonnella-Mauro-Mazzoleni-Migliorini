@@ -36,7 +36,7 @@ public class Shelf {
         // Every single spot of the shelf is an empty Optional object
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
-                shelf[i][j] = Optional.empty();
+                this.shelf[i][j] = Optional.empty();
             }
         }
     }
@@ -92,4 +92,15 @@ public class Shelf {
      * @author Guido Gonnella
      */
     public int getWIDTH(){ return WIDTH;}
+
+    /**
+     * Method that cleans the shelf
+     */
+    public void cleanShelf(){
+        for(int i = 0; i < HEIGHT; i++){
+            for(int j = 0; j < WIDTH; j++){
+                this.shelf[i][j] = Optional.empty();
+            }
+        }
+    }
 }
