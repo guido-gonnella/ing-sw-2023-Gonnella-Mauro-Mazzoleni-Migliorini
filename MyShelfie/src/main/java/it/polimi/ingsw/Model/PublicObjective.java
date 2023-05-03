@@ -49,8 +49,9 @@ CommonObj cross = (shelf) ->{
 
         if (temp[0][0].isPresent() && temp[6][0].isPresent() && temp[0][5].isPresent() && temp[6][5].isPresent()) {
             if (temp[0][0].get().getType().equals(temp[6][0].get().getType()) &&
-                    temp[6][0].get().getType().equals(temp[0][5].get().getType()) &&
-                    temp[0][5].get().getType().equals(temp[6][5].get().getType())) return true;
+                    temp[0][0].get().getType().equals(temp[0][5].get().getType()) &&
+                    temp[0][0].get().getType().equals(temp[6][5].get().getType()))
+            return true;
         }
         return false;
     };

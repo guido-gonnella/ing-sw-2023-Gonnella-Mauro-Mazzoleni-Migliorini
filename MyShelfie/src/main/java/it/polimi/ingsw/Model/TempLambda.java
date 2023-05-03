@@ -5,6 +5,11 @@ import java.util.Optional;
 public class TempLambda {
     CommonObj lambda;
 
+    int HEIGHT = 6;
+    int WIDTH = 5;
+
+
+
     public TempLambda(CommonObj lam){
         this.lambda = lam;
     }
@@ -174,5 +179,19 @@ public class TempLambda {
             return true;
         else
             return false;
+    };
+
+    CommonObj angles = (shelf) -> {
+        Optional<Tile>[][] temp = shelf.getShelf();
+
+        if (temp[0][0].isPresent() && temp[HEIGHT-1][0].isPresent() &&
+                temp[0][WIDTH-1].isPresent() & temp[HEIGHT-1][WIDTH-1].isPresent()){
+            if     (temp[0][0].get().getType().equals(temp[HEIGHT-1][0].get().getType()) &&
+                    temp[0][0].get().getType().equals(temp[0][WIDTH-1].get().getType()) &&
+                    temp[0][0].get().getType().equals(temp[HEIGHT-1][WIDTH-1].get().getType())){
+                return true;
+            }
+        }
+        return false;
     };
 }
