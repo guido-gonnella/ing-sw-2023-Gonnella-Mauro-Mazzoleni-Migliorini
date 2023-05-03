@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 

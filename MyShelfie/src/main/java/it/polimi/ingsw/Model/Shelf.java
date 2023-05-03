@@ -65,11 +65,13 @@ public class Shelf {
      */
     public void putTile(Tile tile, int col) throws ColumnAlreadyFullException, OutOfShelfException {
         if(0 <= col && col < WIDTH){
-            if(shelf[0][col].isPresent()) throw new ColumnAlreadyFullException("Column " + col + " is full\n");
+            if(this.shelf[0][col].isPresent()) {
+                throw new ColumnAlreadyFullException("Column " + col + " is full\n");
+            }
             else{
                 for(int i = HEIGHT-1; i >= 0; i--){
-                    if(shelf[i][col].isEmpty()){
-                        shelf[i-1][col] = Optional.of(tile);
+                    if(this.shelf[i][col].isEmpty()){
+                        this.shelf[i][col] = Optional.of(tile);
                         break;
                     }
                 }
