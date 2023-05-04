@@ -1,9 +1,10 @@
 package it.polimi.ingsw.Model;
 import exceptions.SackEmptyException;
+import it.polimi.ingsw.Model.Enumeration.Type;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Class that contains all of the tiles to insert on the board
  *

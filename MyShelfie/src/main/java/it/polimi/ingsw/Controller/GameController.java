@@ -1,40 +1,34 @@
 package it.polimi.ingsw.Controller;
 
+
 import it.polimi.ingsw.Model.Game;
-import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Network.SocketServer;
-import it.polimi.ingsw.View.GameView;
+import it.polimi.ingsw.Model.Tile;
+import it.polimi.ingsw.Network.Message.C2S.SelectColumnMessage;
+import it.polimi.ingsw.Network.Message.C2S.SelectTileMessage;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Observer.Observer;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
+public class GameController implements Observer {
+    private Game game;
 
-public class GameController {
 
-    private ArrayList<Player> players;
-    private ArrayList<Socket> sockets;
-    ServerSocket socketServer;
-    public Game createGame(){
-        this.players = new ArrayList<Player>();
-        return new Game();
+    @Override
+    public void update(Message msg) {
+        switch (msg.getMsgType()){
+            case SELECT_TILE -> {
+                game.selectTiles(((SelectTileMessage) msg).getX(), ((SelectTileMessage) msg).getY());
+            }
+            case END_SEL_TILES -> {
+                if (game.validSelection()) game.fillTilesInHand();
+            }
+            case SELECT_COL -> {
+                for(Tile t : game.getTilesInCurrPlayerHand()){
+                    game.getPlayerByNick(((SelectColumnMessage) msg).getUsername()).placeTile(t, ((SelectColumnMessage)msg).getCol());
+                }
+            }
+            case END_PL_TURN -> {
+                // DA capire cosa scrivere
+            }
+        }
     }
-
-    public void createServer() throws IOException {
-        int port = GameView.takePort();
-        this.socketServer = SocketServer.serverConnection(port);
-    }
-
-    public Player addPlayer(int port) throws IOException, ClassNotFoundException {
-        Socket temp = socketServer.accept();
-        String nick = String.valueOf(SocketServer.recieveData(temp, port));
-        Player pl = new Player(nick);
-        this.sockets.add(temp);
-        this.players.add(pl);
-        return pl;
-    }
-
-
-
-
 }
