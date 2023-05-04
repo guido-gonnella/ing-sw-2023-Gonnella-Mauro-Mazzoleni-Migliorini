@@ -34,8 +34,103 @@ public class PublicObjectiveTest {
         this.commObj = null;
     }
 
+    /**
+     * Testing of the labda function that see if there's a "cross"
+     * @author Pierantonio Mauro
+     */
     @Test
-    public void lambda_cross(){
+    public void lambda_cross() throws ColumnAlreadyFullException, OutOfShelfException {
+        Shelf shelf1 = new Shelf(); // true, elementary
+        Shelf shelf2 = new Shelf(); // true, not elementary
+        Shelf shelf3 = new Shelf(); // false, not elementary
+        Shelf shelf4 = new Shelf(); // false, no tiles
+        Tile tileC = new Tile(Type.CAT);
+        Tile tileP = new Tile(Type.PLANT);
+        Tile tileT = new Tile(Type.TROPHY);
+        CommonObj cross = (shelf) -> {
+            int i,j;
+            int contCross = 0;
+            Optional<Tile>[][] tempShelf = shelf.getShelf();
+
+            for(i=1; i<5 && contCross==0; i++){
+                for(j=1; j<4 && contCross==0; j++){
+                    if(tempShelf[i][j].isPresent()){
+                        Type tempType = tempShelf[i][j].get().getType();
+                        if(tempShelf[i-1][j-1].isPresent() &&
+                           tempShelf[i+1][j+1].isPresent() &&
+                           tempShelf[i+1][j-1].isPresent() &&
+                           tempShelf[i-1][j+1].isPresent()){
+                            if(tempType.equals(tempShelf[i-1][j-1].get().getType()) &&
+                               tempType.equals(tempShelf[i+1][j+1].get().getType()) &&
+                               tempType.equals(tempShelf[i+1][j-1].get().getType()) &&
+                               tempType.equals(tempShelf[i-1][j+1].get().getType())){contCross = 1;}
+                        }
+                    }
+                }
+            }
+            if(contCross==0)
+                return false;
+            else
+                return true;
+        };
+        PublicObjective pubObj_cross = new PublicObjective(cross);
+
+        //shelf1
+        shelf1.putTile(tileC, 0);
+        shelf1.putTile(tileP, 0);
+        shelf1.putTile(tileC, 0);
+        shelf1.putTile(tileP, 1);
+        shelf1.putTile(tileC, 1);
+        shelf1.putTile(tileP, 1);
+        shelf1.putTile(tileC, 2);
+        shelf1.putTile(tileP, 2);
+        shelf1.putTile(tileC, 2);
+        assertTrue(pubObj_cross.getResultObjective(shelf1));
+
+        //shelf2
+        for(int i=0; i<HEIGHT; i++){
+            shelf2.putTile(tileC, 0);
+            shelf2.putTile(tileC, WIDTH-1);
+        }
+        shelf2.putTile(tileP, 1);
+        shelf2.putTile(tileP, 2);
+        shelf2.putTile(tileP, 3);
+        shelf2.putTile(tileT, 1);
+        shelf2.putTile(tileP, 2);
+        shelf2.putTile(tileT, 3);
+        shelf2.putTile(tileP, 1);
+        shelf2.putTile(tileT, 2);
+        shelf2.putTile(tileP, 3);
+        shelf2.putTile(tileT, 1);
+        shelf2.putTile(tileP, 2);
+        shelf2.putTile(tileT, 3);
+        for(int i=0; i<2; i++){
+            shelf2.putTile(tileP, 1);
+            shelf2.putTile(tileP, 2);
+            shelf2.putTile(tileP, 3);
+        }
+        assertTrue(pubObj_cross.getResultObjective(shelf2));
+
+        //shelf3
+        for(int i=0; i<HEIGHT; i++){
+            shelf3.putTile(tileC, 0);
+            shelf3.putTile(tileC, WIDTH-1);
+        }
+        shelf3.putTile(tileP, 1);
+        shelf3.putTile(tileP, 2);
+        shelf3.putTile(tileP, 3);
+        shelf3.putTile(tileT, 1);
+        shelf3.putTile(tileT, 2);
+        shelf3.putTile(tileT, 3);
+        shelf3.putTile(tileP, 1);
+        shelf3.putTile(tileP, 2);
+        shelf3.putTile(tileP, 3);
+        shelf3.putTile(tileT, 1);
+        shelf3.putTile(tileT, 2);
+        shelf3.putTile(tileT, 3);
+        assertFalse(pubObj_cross.getResultObjective(shelf3));
+
+        assertFalse(pubObj_cross.getResultObjective(shelf4));
 
     }
 
@@ -55,7 +150,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Testing of the lambda function that assures that all four angles have the same type of tile
+     * Lambda function that assures that all four angles have the same type of tile
      * @author Pierantonio Mauro
      * STATE: DONE, WORKING
      */

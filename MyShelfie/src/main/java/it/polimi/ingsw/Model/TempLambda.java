@@ -14,19 +14,25 @@ public class TempLambda {
         this.lambda = lam;
     }
 
+    //tested, working
     CommonObj cross = (shelf) -> {
         int i,j;
         int contCross = 0;
         Optional<Tile>[][] tempShelf = shelf.getShelf();
+
         for(i=1; i<5 && contCross==0; i++){
             for(j=1; j<4 && contCross==0; j++){
                 if(tempShelf[i][j].isPresent()){
                     Type tempType = tempShelf[i][j].get().getType();
-                    if((tempShelf[i-1][j-1].isPresent() && tempType == tempShelf[i-1][j-1].get().getType()) &&
-                       (tempShelf[i+1][j+1].isPresent() && tempType == tempShelf[i+1][j+1].get().getType()) &&
-                       (tempShelf[i+1][j-1].isPresent() && tempType == tempShelf[i+1][j-1].get().getType()) &&
-                       (tempShelf[i-1][j+1].isPresent() && tempType == tempShelf[i-1][j+1].get().getType()))
-                    {contCross = 1;}
+                    if(tempShelf[i-1][j-1].isPresent() &&
+                            tempShelf[i+1][j+1].isPresent() &&
+                            tempShelf[i+1][j-1].isPresent() &&
+                            tempShelf[i-1][j+1].isPresent()){
+                        if(tempType.equals(tempShelf[i-1][j-1].get().getType()) &&
+                                tempType.equals(tempShelf[i+1][j+1].get().getType()) &&
+                                tempType.equals(tempShelf[i+1][j-1].get().getType()) &&
+                                tempType.equals(tempShelf[i-1][j+1].get().getType())){contCross = 1;}
+                    }
                 }
             }
         }
@@ -181,6 +187,7 @@ public class TempLambda {
             return false;
     };
 
+    //tested, working
     CommonObj angles = (shelf) -> {
         Optional<Tile>[][] temp = shelf.getShelf();
 
