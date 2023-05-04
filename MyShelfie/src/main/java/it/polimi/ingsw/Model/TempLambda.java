@@ -7,23 +7,34 @@ import java.util.Optional;
 public class TempLambda {
     CommonObj lambda;
 
+    int HEIGHT = 6;
+    int WIDTH = 5;
+
+
+
     public TempLambda(CommonObj lam){
         this.lambda = lam;
     }
 
+    //tested, working
     CommonObj cross = (shelf) -> {
         int i,j;
         int contCross = 0;
         Optional<Tile>[][] tempShelf = shelf.getShelf();
+
         for(i=1; i<5 && contCross==0; i++){
             for(j=1; j<4 && contCross==0; j++){
                 if(tempShelf[i][j].isPresent()){
                     Type tempType = tempShelf[i][j].get().getType();
-                    if((tempShelf[i-1][j-1].isPresent() && tempType == tempShelf[i-1][j-1].get().getType()) &&
-                       (tempShelf[i+1][j+1].isPresent() && tempType == tempShelf[i+1][j+1].get().getType()) &&
-                       (tempShelf[i+1][j-1].isPresent() && tempType == tempShelf[i+1][j-1].get().getType()) &&
-                       (tempShelf[i-1][j+1].isPresent() && tempType == tempShelf[i-1][j+1].get().getType()))
-                    {contCross = 1;}
+                    if(tempShelf[i-1][j-1].isPresent() &&
+                            tempShelf[i+1][j+1].isPresent() &&
+                            tempShelf[i+1][j-1].isPresent() &&
+                            tempShelf[i-1][j+1].isPresent()){
+                        if(tempType.equals(tempShelf[i-1][j-1].get().getType()) &&
+                                tempType.equals(tempShelf[i+1][j+1].get().getType()) &&
+                                tempType.equals(tempShelf[i+1][j-1].get().getType()) &&
+                                tempType.equals(tempShelf[i-1][j+1].get().getType())){contCross = 1;}
+                    }
                 }
             }
         }
@@ -33,6 +44,7 @@ public class TempLambda {
             return true;
     };
 
+    //tesed, working
     CommonObj eight = (shelf) -> {
         int i,j;
         int contCat = 0;
@@ -46,39 +58,28 @@ public class TempLambda {
         for(i=0; i<6; i++){
             for(j=0; j<5; j++){
                 if(tempShelf[i][j].isPresent()){
-                    switch(tempShelf[i][j].get().getType()){
-                        case CAT:
-                            contCat++;
-                            break;
-                        case BOOK:
-                            contBook++;
-                            break;
-                        case GAME:
-                            contGame++;
-                            break;
-                        case FRAME:
-                            contFrame++;
-                            break;
-                        case PLANT:
-                            contPlant++;
-                            break;
-                        case TROPHY:
-                            contTrophy++;
-                            break;
-                        default:
-                            break;
+                    switch (tempShelf[i][j].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
                     }
                 }
             }
         }
 
-        if(contCat>=8 || contBook>=8 || contGame>=8 || contFrame>=8 ||
-           contPlant>=8 || contTrophy>=8)
+        if(contCat>=8 || contBook>=8 || contGame>=8 ||
+           contFrame>=8 || contPlant>=8 || contTrophy>=8)
             return true;
         else
             return false;
     };
 
+    //tested, working
     CommonObj diag = (shelf) -> {
         int i=0;
         int contDiag = 0;
@@ -86,7 +87,7 @@ public class TempLambda {
         Optional<Tile>[][] tempShelf = shelf.getShelf();
 
         while(i<2 && contDiag==0){
-            if (tempShelf[i][0].isPresent()) {
+            if (tempShelf[i][0].isPresent()){
                 Type tempType = tempShelf[i][0].get().getType();
                 int flag = 1;
                 for (k = 1; k < 5 && flag == 1; k++) {
@@ -143,27 +144,15 @@ public class TempLambda {
                 if(tempShelf[rig][col].isEmpty())
                     flag = 0;
                 else{
-                    switch(tempShelf[rig][col].get().getType()){
-                        case CAT:
-                            contCat++;
-                            break;
-                        case BOOK:
-                            contBook++;
-                            break;
-                        case GAME:
-                            contGame++;
-                            break;
-                        case FRAME:
-                            contFrame++;
-                            break;
-                        case PLANT:
-                            contPlant++;
-                            break;
-                        case TROPHY:
-                            contTrophy++;
-                            break;
-                        default:
-                            break;
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
                     }
                 }
             }
@@ -176,5 +165,20 @@ public class TempLambda {
             return true;
         else
             return false;
+    };
+
+    //tested, working
+    CommonObj angles = (shelf) -> {
+        Optional<Tile>[][] temp = shelf.getShelf();
+
+        if (temp[0][0].isPresent() && temp[HEIGHT-1][0].isPresent() &&
+                temp[0][WIDTH-1].isPresent() & temp[HEIGHT-1][WIDTH-1].isPresent()){
+            if     (temp[0][0].get().getType().equals(temp[HEIGHT-1][0].get().getType()) &&
+                    temp[0][0].get().getType().equals(temp[0][WIDTH-1].get().getType()) &&
+                    temp[0][0].get().getType().equals(temp[HEIGHT-1][WIDTH-1].get().getType())){
+                return true;
+            }
+        }
+        return false;
     };
 }

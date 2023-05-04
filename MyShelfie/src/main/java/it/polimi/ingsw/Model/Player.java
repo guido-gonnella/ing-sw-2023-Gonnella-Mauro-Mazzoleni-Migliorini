@@ -97,9 +97,9 @@ public class Player {
     private int adjacentPoints(Shelf pshelf, boolean[][] checked, int i, int j) throws NoSuchElementException {
         int points = 0, adjacent = 1;
         Optional<Tile> shelfie[][] = pshelf.getShelf();
-        Queue<coord> q = new ArrayDeque<>();
+        Queue<Coords> q = new ArrayDeque<>();
 
-        q.add(new coord(i, j));
+        q.add(new Coords(i, j));
         checked[i][j] = true;
 
         while(!q.isEmpty()){
@@ -110,28 +110,28 @@ public class Player {
             if((!shelfie[x+1][y].isPresent() || shelfie[x+1][y].get().getType().equals(shelfie[x][y].get().getType())) && x+1 >= 0 && x+1 < 6 && y >= 0 && y < 5 && !checked[x+1][y]){
                 checked[x+1][y] = true;
                 adjacent++;
-                q.add(new coord(x+1, y));
+                q.add(new Coords(x+1, y));
             }
 
             // tile over the current tile
             if((!shelfie[x-1][y].isPresent() || shelfie[x-1][y].get().getType().equals(shelfie[x][y].get().getType())) && x-1 >= 0 && x-1 < 6 && y >= 0 && y < 5 && !checked[x-1][y]){
                 checked[x-1][y] = true;
                 adjacent++;
-                q.add(new coord(x-1, y));
+                q.add(new Coords(x-1, y));
             }
 
             // tile on the right of the current tile
             if((!shelfie[x][y+1].isPresent() || shelfie[x][y+1].get().getType().equals(shelfie[x][y].get().getType())) && x >= 0 && x < 6 && y+1 >= 0 && y+1 < 5 && !checked[x][y+1]){
                 checked[x][y+1] = true;
                 adjacent++;
-                q.add(new coord(x, y+1));
+                q.add(new Coords(x, y+1));
             }
 
             // tile on the left of the current tile
             if((!shelfie[x][y-1].isPresent() || shelfie[x][y-1].get().getType().equals(shelfie[x][y].get().getType())) && x >= 0 && x < 6 && y-1 >= 0 && y-1 < 5 && !checked[x][y-1]){
                 checked[x][y-1] = true;
                 adjacent++;
-                q.add(new coord(x, y-1));
+                q.add(new Coords(x, y-1));
             }
 
         }

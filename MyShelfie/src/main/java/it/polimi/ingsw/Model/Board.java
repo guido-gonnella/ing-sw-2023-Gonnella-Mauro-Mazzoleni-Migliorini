@@ -13,14 +13,20 @@ import java.util.Optional;
 
 public class Board {
     private Space[][] grid;
-    int ROW = 9;
-    int COL = 9;
+    final int ROW = 9;
+    final int COL = 9;
 
     /**
      * Constructor of the board class
      */
     public Board() {
         this.grid = new Space[ROW][COL];
+
+        for(int i=0; i<ROW; i++){
+            for(int j=0; j<COL; j++){
+                this.grid[i][j] = new Space();
+            }
+        }
     }
 
     /**

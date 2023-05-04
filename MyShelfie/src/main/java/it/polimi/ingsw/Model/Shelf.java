@@ -36,7 +36,7 @@ public class Shelf {
         // Every single spot of the shelf is an empty Optional object
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
-                shelf[i][j] = Optional.empty();
+                this.shelf[i][j] = Optional.empty();
             }
         }
     }
@@ -65,11 +65,13 @@ public class Shelf {
      */
     public void putTile(Tile tile, int col) throws ColumnAlreadyFullException, OutOfShelfException {
         if(0 <= col && col < WIDTH){
-            if(shelf[0][col].isPresent()) throw new ColumnAlreadyFullException("Column " + col + " is full\n");
+            if(this.shelf[0][col].isPresent()) {
+                throw new ColumnAlreadyFullException("Column " + col + " is full\n");
+            }
             else{
                 for(int i = HEIGHT-1; i >= 0; i--){
-                    if(shelf[i][col].isEmpty()){
-                        shelf[i-1][col] = Optional.of(tile);
+                    if(this.shelf[i][col].isEmpty()){
+                        this.shelf[i][col] = Optional.of(tile);
                         break;
                     }
                 }
@@ -90,4 +92,15 @@ public class Shelf {
      * @author Guido Gonnella
      */
     public int getWIDTH(){ return WIDTH;}
+
+    /**
+     * Method that cleans the shelf
+     */
+    public void cleanShelf(){
+        for(int i = 0; i < HEIGHT; i++){
+            for(int j = 0; j < WIDTH; j++){
+                this.shelf[i][j] = Optional.empty();
+            }
+        }
+    }
 }
