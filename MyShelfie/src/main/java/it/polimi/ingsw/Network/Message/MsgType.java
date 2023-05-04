@@ -18,5 +18,6 @@ public enum MsgType {
     SHELF_UPDATE,
     PLAYER_UPDATE,
     END_STATS,
-    HAND_UPDATE
+    HAND_UPDATE,
+    ERROR
 }

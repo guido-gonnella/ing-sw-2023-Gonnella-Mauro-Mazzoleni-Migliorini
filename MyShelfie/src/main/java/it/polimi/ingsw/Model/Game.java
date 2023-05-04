@@ -51,7 +51,16 @@ public class Game {
         this.players.add(player);
     }
 
+    public Player getPlayerByNick(String nick){
+        for(Player p : players){
+            if(p.getNickname().equals(nick)) return p;
+        }
+        return null;
+    }
 
+    public ArrayList<Tile> getTilesInCurrPlayerHand(){
+        return (ArrayList<Tile>) this.tilesInCurrPlayerHand.clone();
+    }
     /**
      *
      * @return return true if the tiles selected is valid, in line and with at least a side free

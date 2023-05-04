@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Enumeration.Type;
+
 import java.util.Optional;
 
 public class TempLambda {

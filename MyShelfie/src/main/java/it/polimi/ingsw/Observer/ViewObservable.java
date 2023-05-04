@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class ViewObservable     {
-    List<ViewObserver> observers = new ArrayList<ViewObserver>();
+    private static List<ViewObserver> observers = new ArrayList<ViewObserver>();
 
     /**
      * Add an observer to the list
@@ -30,7 +30,7 @@ public abstract class ViewObservable     {
      * @param lambda consumer that accept an observer. <br>
      *               (obs) -> obs.onSelectTile(...)
      */
-    public void notifyObservers(Consumer<ViewObserver> lambda){
+    public static void notifyObservers(Consumer<ViewObserver> lambda){
         for(ViewObserver obs : observers){
             lambda.accept(obs);
         }

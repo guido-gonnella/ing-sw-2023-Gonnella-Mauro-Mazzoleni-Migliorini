@@ -9,10 +9,10 @@ import it.polimi.ingsw.Network.Message.MsgType;
  *
  * @author Samuele Mazzoleni
  */
-public class ShelfColumnMessage extends Message {
+public class SelectColumnMessage extends Message {
     private final int col;
 
-    public ShelfColumnMessage(String u, int col) {
+    public SelectColumnMessage(String u, int col) {
         super(MsgType.SELECT_COL, u);
         this.col = col;
     }

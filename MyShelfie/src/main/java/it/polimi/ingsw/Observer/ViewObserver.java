@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Observer;
 
-import it.polimi.ingsw.Model.Coords;
+import it.polimi.ingsw.Model.coord;
+
+import java.io.IOException;
 
 /**
  * Observer interface with the methods from the view
@@ -10,9 +12,10 @@ public interface ViewObserver {
     /**
      * Sends a message to the server when the user select a tile from the board<br>
      *
-     * @param pos selected tile position
+     * @param x x coordinate
+     * @param y y coordinate
      */
-    public void onSelectTile(Coords pos);
+    public void onSelectTile(int x, int y);
 
     /**
      * Sends a message to the server when the user select a column of the shelf
@@ -37,4 +40,9 @@ public interface ViewObserver {
      * Sends a message to the server when the user wants to end their turn
      */
     public void onEndTurn();
+
+    /**
+     * When the user wants to connect to a server
+     */
+    public void onConnection(String serverAddr, int port) throws IOException;
 }

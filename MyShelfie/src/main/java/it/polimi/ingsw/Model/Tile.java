@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Enumeration.Type;
+
 /**
  * Class that represent the single tiles that can be placed on the
  * board and on the players shelves
