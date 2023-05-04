@@ -154,7 +154,6 @@ public class PublicObjectiveTest {
     /**
      * Lambda function that assures that all four angles have the same type of tile
      * @author Pierantonio Mauro
-     * STATE: DONE, WORKING
      */
     @Test
     public void lambda_four_angles() throws ColumnAlreadyFullException, OutOfShelfException {
@@ -211,12 +210,12 @@ public class PublicObjectiveTest {
     }
 
     @Test
-    public void lambda_three_diff_columns(){
+    public void lambda_three_similar_columns(){
 
     }
 
     @Test
-    public void lambda_four_diff_rows(){
+    public void lambda_four_similar_rows(){
 
     }
 
@@ -441,13 +440,232 @@ public class PublicObjectiveTest {
 
     }
 
+    /**
+     * Lambda function that see if there are at least two columns made of six different
+     * type of tiles
+     * @author Pierantonio Mauro
+     */
     @Test
-    public void lambda_two_same_columns(){
+    public void lambda_two_diff_columns() throws ColumnAlreadyFullException, OutOfShelfException {
+        Shelf shelf1 = new Shelf(); // true, easy
+        Shelf shelf2 = new Shelf(); // true, hard
+        Shelf shelf3 = new Shelf(); // false, easy
+        Shelf shelf4 = new Shelf(); // false, hard
+        Tile tileA = new Tile(Type.CAT);
+        Tile tileB = new Tile(Type.PLANT);
+        Tile tileC = new Tile(Type.TROPHY);
+        Tile tileD = new Tile(Type.FRAME);
+        Tile tileE = new Tile(Type.GAME);
+        Tile tileF = new Tile(Type.BOOK);
+        CommonObj diffCol = (shelf) -> {
+            int col,rig;
+            Optional<Tile>[][] tempShelf = shelf.getShelf();
+            int contCol = 0;
+
+            for(col=0; col<5; col++){
+                int flag = 1;
+                int contCat = 0;
+                int contFrame = 0;
+                int contGame = 0;
+                int contPlant = 0;
+                int contTrophy = 0;
+                int contBook = 0;
+                for(rig=0; rig<6 && flag==1; rig++){
+                    if(tempShelf[rig][col].isEmpty())
+                        flag = 0;
+                    else{
+                        switch (tempShelf[rig][col].get().getType()) {
+                            case CAT -> contCat++;
+                            case BOOK -> contBook++;
+                            case GAME -> contGame++;
+                            case FRAME -> contFrame++;
+                            case PLANT -> contPlant++;
+                            case TROPHY -> contTrophy++;
+                            default -> {
+                            }
+                        }
+                    }
+                }
+                if(flag==1 && contCat<=1 && contBook<=1 && contFrame<=1 &&
+                              contGame<=1 && contPlant<=1 && contTrophy<=1)
+                    contCol++;
+            }
+
+            if(contCol>=2)
+                return true;
+            else
+                return false;
+        };
+        PublicObjective pubObj_diffCol = new PublicObjective(diffCol);
+
+        //shelf1
+        shelf1.putTile(tileA,0);
+        shelf1.putTile(tileB,0);
+        shelf1.putTile(tileC,0);
+        shelf1.putTile(tileD,0);
+        shelf1.putTile(tileE,0);
+        shelf1.putTile(tileF,0);
+        shelf1.putTile(tileA,1);
+        shelf1.putTile(tileB,1);
+        shelf1.putTile(tileC,1);
+        shelf1.putTile(tileD,1);
+        shelf1.putTile(tileE,1);
+        shelf1.putTile(tileF,1);
+        assertTrue(pubObj_diffCol.getResultObjective(shelf1));
+
+        //shelf2
+        shelf2.putTile(tileA,0);
+        shelf2.putTile(tileB,0);
+        shelf2.putTile(tileC,0);
+        shelf2.putTile(tileD,0);
+        shelf2.putTile(tileE,0);
+        shelf2.putTile(tileF,0);
+        shelf2.putTile(tileA,1);
+        shelf2.putTile(tileB,1);
+        shelf2.putTile(tileC,1);
+        shelf2.putTile(tileD,1);
+        shelf2.putTile(tileE,1);
+        shelf2.putTile(tileF,1);
+        for(int i=0; i<HEIGHT; i++){
+            shelf2.putTile(tileA, 2);
+            shelf2.putTile(tileB, 3);
+            shelf2.putTile(tileC, 4);
+        }
+        assertTrue(pubObj_diffCol.getResultObjective(shelf2));
+
+        //shelf3
+        for(int i=0; i<HEIGHT-1; i++){
+            shelf3.putTile(tileA, 0);
+            shelf3.putTile(tileB, 1);
+            shelf3.putTile(tileC, 2);
+        }
+        assertFalse(pubObj_diffCol.getResultObjective(shelf3));
+
+        //shelf4
+        shelf4.putTile(tileA,0);
+        shelf4.putTile(tileB,0);
+        shelf4.putTile(tileC,0);
+        shelf4.putTile(tileD,0);
+        shelf4.putTile(tileE,0);
+        shelf4.putTile(tileE,0);
+        shelf4.putTile(tileA,1);
+        shelf4.putTile(tileB,1);
+        shelf4.putTile(tileC,1);
+        shelf4.putTile(tileD,1);
+        shelf4.putTile(tileE,1);
+        shelf4.putTile(tileE,1);
+        assertFalse(pubObj_diffCol.getResultObjective(shelf4));
 
     }
 
+    /**
+     * Lambda function that see if there are at least two rows made of five different
+     * type of tile
+     * @author Pierantonio Mauro
+     */
     @Test
-    public void lambda_two_same_rows(){
+    public void lambda_two_diff_rows() throws ColumnAlreadyFullException, OutOfShelfException {
+        Shelf shelf1 = new Shelf(); // true, easy
+        Shelf shelf2 = new Shelf(); // true, hard
+        Shelf shelf3 = new Shelf(); // false, easy
+        Shelf shelf4 = new Shelf(); // false, hard
+        Tile tileA = new Tile(Type.CAT);
+        Tile tileB = new Tile(Type.PLANT);
+        Tile tileC = new Tile(Type.TROPHY);
+        Tile tileD = new Tile(Type.FRAME);
+        Tile tileE = new Tile(Type.GAME);
+        Tile tileF = new Tile(Type.BOOK);
+        CommonObj diffRow = (shelf) -> {
+            int col,rig;
+            Optional<Tile>[][] tempShelf = shelf.getShelf();
+            int contRow = 0;
+
+            for(rig=0; rig<6; rig++){
+                int flag = 1;
+                int contCat = 0;
+                int contFrame = 0;
+                int contGame = 0;
+                int contPlant = 0;
+                int contTrophy = 0;
+                int contBook = 0;
+                for(col=0; col<5 && flag==1; col++){
+                    if(tempShelf[rig][col].isEmpty())
+                        flag = 0;
+                    else{
+                        switch (tempShelf[rig][col].get().getType()) {
+                            case CAT -> contCat++;
+                            case BOOK -> contBook++;
+                            case GAME -> contGame++;
+                            case FRAME -> contFrame++;
+                            case PLANT -> contPlant++;
+                            case TROPHY -> contTrophy++;
+                            default -> {
+                            }
+                        }
+                    }
+                }
+                if(flag==1 && contCat<=1 && contBook<=1 && contFrame<=1
+                        && contGame<=1 && contPlant<=1 && contTrophy<=1)
+                    contRow++;
+            }
+
+            if(contRow>=2)
+                return true;
+            else
+                return false;
+        };
+        PublicObjective pubObj_diffRow = new PublicObjective(diffRow);
+
+        //shelf1
+        for(int i=0; i<2; i++){
+            shelf1.putTile(tileA, 0);
+            shelf1.putTile(tileB, 1);
+            shelf1.putTile(tileC, 2);
+            shelf1.putTile(tileD, 3);
+            shelf1.putTile(tileE, 4);
+        }
+        assertTrue(pubObj_diffRow.getResultObjective(shelf1));
+
+        //shelf2
+        for(int i=0; i<2; i++) {
+            shelf2.putTile(tileA, 0);
+            shelf2.putTile(tileB, 1);
+            shelf2.putTile(tileC, 2);
+            shelf2.putTile(tileD, 3);
+            shelf2.putTile(tileE, 4);
+        }
+        for(int i=0; i<3; i++){
+            shelf2.putTile(tileA, 0);
+            shelf2.putTile(tileA, 1);
+            shelf2.putTile(tileA, 2);
+            shelf2.putTile(tileA, 3);
+            shelf2.putTile(tileA, 4);
+        }
+        assertTrue(pubObj_diffRow.getResultObjective(shelf2));
+
+        //shelf3
+        for(int i=0; i<3; i++){
+            shelf3.putTile(tileA, 0);
+            shelf3.putTile(tileB, 1);
+            shelf3.putTile(tileC, 2);
+            shelf3.putTile(tileD, 3);
+            shelf3.putTile(tileA, 4);
+        }
+        assertFalse(pubObj_diffRow.getResultObjective(shelf3));
+
+        //shelf4
+        for(int i=0; i<3; i++){
+            shelf4.putTile(tileA, 0);
+            shelf4.putTile(tileB, 1);
+            shelf4.putTile(tileC, 2);
+            shelf4.putTile(tileD, 3);
+            shelf4.putTile(tileA, 4);
+        }
+        shelf4.putTile(tileA, 0);
+        shelf4.putTile(tileB, 1);
+        shelf4.putTile(tileC, 2);
+        shelf4.putTile(tileD, 3);
+        assertFalse(pubObj_diffRow.getResultObjective(shelf4));
 
     }
 

@@ -127,6 +127,7 @@ public class TempLambda {
             return false;
     };
 
+    //tested, working
     CommonObj diffCol = (shelf) -> {
         int col,rig;
         Optional<Tile>[][] tempShelf = shelf.getShelf();
@@ -140,7 +141,7 @@ public class TempLambda {
             int contPlant = 0;
             int contTrophy = 0;
             int contBook = 0;
-            for(rig=0; rig<4 && flag==1; rig++){
+            for(rig=0; rig<6 && flag==1; rig++){
                 if(tempShelf[rig][col].isEmpty())
                     flag = 0;
                 else{
@@ -156,12 +157,53 @@ public class TempLambda {
                     }
                 }
             }
-            if(flag==1 && contCat<=1 & contBook<=1 && contFrame<=1 && contGame<=1 &&
-               contPlant<=1 && contTrophy<=1)
-               contCol++;
+            if(flag==1 && contCat<=1 && contBook<=1 && contFrame<=1 &&
+                         contGame<=1 && contPlant<=1 && contTrophy<=1)
+                contCol++;
         }
 
         if(contCol>=2)
+            return true;
+        else
+            return false;
+    };
+
+    //tested, working
+    CommonObj diffRow = (shelf) -> {
+        int col,rig;
+        Optional<Tile>[][] tempShelf = shelf.getShelf();
+        int contRow = 0;
+
+        for(rig=0; rig<6; rig++){
+            int flag = 1;
+            int contCat = 0;
+            int contFrame = 0;
+            int contGame = 0;
+            int contPlant = 0;
+            int contTrophy = 0;
+            int contBook = 0;
+            for(col=0; col<5 && flag==1; col++){
+                if(tempShelf[rig][col].isEmpty())
+                    flag = 0;
+                else{
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
+                    }
+                }
+            }
+            if(flag==1 && contCat<=1 && contBook<=1 && contFrame<=1
+                       && contGame<=1 && contPlant<=1 && contTrophy<=1)
+                contRow++;
+        }
+
+        if(contRow>=2)
             return true;
         else
             return false;
