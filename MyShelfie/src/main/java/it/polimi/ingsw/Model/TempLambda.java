@@ -42,6 +42,7 @@ public class TempLambda {
             return true;
     };
 
+    //tesed, working
     CommonObj eight = (shelf) -> {
         int i,j;
         int contCat = 0;
@@ -55,39 +56,28 @@ public class TempLambda {
         for(i=0; i<6; i++){
             for(j=0; j<5; j++){
                 if(tempShelf[i][j].isPresent()){
-                    switch(tempShelf[i][j].get().getType()){
-                        case CAT:
-                            contCat++;
-                            break;
-                        case BOOK:
-                            contBook++;
-                            break;
-                        case GAME:
-                            contGame++;
-                            break;
-                        case FRAME:
-                            contFrame++;
-                            break;
-                        case PLANT:
-                            contPlant++;
-                            break;
-                        case TROPHY:
-                            contTrophy++;
-                            break;
-                        default:
-                            break;
+                    switch (tempShelf[i][j].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
                     }
                 }
             }
         }
 
-        if(contCat>=8 || contBook>=8 || contGame>=8 || contFrame>=8 ||
-           contPlant>=8 || contTrophy>=8)
+        if(contCat>=8 || contBook>=8 || contGame>=8 ||
+           contFrame>=8 || contPlant>=8 || contTrophy>=8)
             return true;
         else
             return false;
     };
 
+    //tested, working
     CommonObj diag = (shelf) -> {
         int i=0;
         int contDiag = 0;
@@ -95,7 +85,7 @@ public class TempLambda {
         Optional<Tile>[][] tempShelf = shelf.getShelf();
 
         while(i<2 && contDiag==0){
-            if (tempShelf[i][0].isPresent()) {
+            if (tempShelf[i][0].isPresent()){
                 Type tempType = tempShelf[i][0].get().getType();
                 int flag = 1;
                 for (k = 1; k < 5 && flag == 1; k++) {
@@ -152,27 +142,15 @@ public class TempLambda {
                 if(tempShelf[rig][col].isEmpty())
                     flag = 0;
                 else{
-                    switch(tempShelf[rig][col].get().getType()){
-                        case CAT:
-                            contCat++;
-                            break;
-                        case BOOK:
-                            contBook++;
-                            break;
-                        case GAME:
-                            contGame++;
-                            break;
-                        case FRAME:
-                            contFrame++;
-                            break;
-                        case PLANT:
-                            contPlant++;
-                            break;
-                        case TROPHY:
-                            contTrophy++;
-                            break;
-                        default:
-                            break;
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
                     }
                 }
             }
