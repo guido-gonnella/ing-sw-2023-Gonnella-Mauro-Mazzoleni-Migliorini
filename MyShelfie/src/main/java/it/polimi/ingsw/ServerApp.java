@@ -24,11 +24,11 @@ public class ServerApp {
                 }
             }
         }*/
-
+/*
         GameController gc = new GameController();
         Game game = new Game();
         game = gc.createGame();
-
+*/
 
 
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Observer;
 
-import it.polimi.ingsw.Model.coord;
+import it.polimi.ingsw.Model.Coords;
 
 import java.io.IOException;
 

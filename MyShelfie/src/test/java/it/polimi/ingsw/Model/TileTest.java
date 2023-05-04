@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import java.util.*;
+
+import it.polimi.ingsw.Model.Enumeration.Type;
 import org.junit.*;
 import static org.junit.Assert.*;
 

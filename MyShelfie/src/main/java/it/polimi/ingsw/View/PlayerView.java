@@ -42,8 +42,8 @@ public class PlayerView {
                 else{
                     System.out.print(" ");
                 }
-                System.out.print("\n");
             }
+            System.out.print("\n");
         }
     }
 

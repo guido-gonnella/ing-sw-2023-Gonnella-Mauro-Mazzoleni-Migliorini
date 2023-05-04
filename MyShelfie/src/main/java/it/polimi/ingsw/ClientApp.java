@@ -33,7 +33,7 @@ public class ClientApp {
         /*else{
 
         }*/
-
+/*
         Player pl = new Player(PlayerView.takeNickname());
         PlayerView plv = new PlayerView(pl);
         String address = plv.takeAddress();
@@ -41,6 +41,6 @@ public class ClientApp {
         SocketClient socketC = new SocketClient(pl);
         Socket socket = socketC.clientConnection(address, port);
 
-
+*/
     }
 }
