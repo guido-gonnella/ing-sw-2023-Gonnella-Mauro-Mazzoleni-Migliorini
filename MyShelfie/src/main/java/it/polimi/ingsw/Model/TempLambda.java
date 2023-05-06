@@ -320,58 +320,6 @@ public class TempLambda {
         return false;
     };
 
-    CommonObj SixTwoEqual = (shelf) -> {
-        Optional<Tile>[][] temp = shelf.getShelf();
-        boolean[][] check = new boolean[6][5];
-        for(int i=0; i<6; i++){
-            for(int j=0; j<5; j++){
-                check[i][j] = false;
-            }
-        }
-        int count = 0;  //counter for the groups of four adjacent equal tiles
-
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (!check[i][j] && temp[i][j].isPresent()) {
-                    Queue<Coords> q = new ArrayDeque<Coords>();
-                    int nEqualTiles = 1;
-
-                    q.add(new Coords(i, j));
-                    check[i][j] = true;
-
-                    while (!q.isEmpty() && nEqualTiles < 2) {
-                        int x = q.peek().x, y = q.peek().y;
-                        q.poll();
-
-                        if ((temp[x + 1][y].isEmpty() || temp[x + 1][j].get().getType().equals(temp[x][y].get().getType())) && !check[x + 1][y] && x + 1 >= 0 && x + 1 < 6) {
-                            q.add(new Coords(x + 1, y));
-                            nEqualTiles++;
-                            check[x + 1][j] = true;
-                        }
-                        if ((temp[x - 1][y].isEmpty() || temp[x - 1][j].get().getType().equals(temp[x][y].get().getType())) && !check[x - 1][y] && x - 1 >= 0 && x - 1 < 6) {
-                            q.add(new Coords(x - 1, y));
-                            nEqualTiles++;
-                            check[x - 1][y] = true;
-                        }
-                        if ((temp[x][y + 1].isEmpty() || temp[x][j + 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y + 1] && y + 1 >= 0 && y + 1 < 5) {
-                            q.add(new Coords(x, y + 1));
-                            nEqualTiles++;
-                            check[x][y + 1] = true;
-                        }
-                        if ((temp[x][y - 1].isEmpty() || temp[x][j - 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y - 1] && y - 1 >= 0 && y - 1 < 5) {
-                            q.add(new Coords(x, y - 1));
-                            nEqualTiles++;
-                            check[x][y - 1] = true;
-                        }
-                    }
-                    if (nEqualTiles == 2) count++;
-                }
-            }
-        }
-        if (count >= 6) return true;
-        return false;
-    };
-
     //tested, working
     CommonObj twoSquares = (shelf) -> {
         Optional<Tile>[][] temp = shelf.getShelf();
@@ -449,4 +397,114 @@ public class TempLambda {
 
         return stairRL || stairLR;
     };
+
+    //non funziona
+    CommonObj SixTwoEqual = (shelf) -> {
+        Optional<Tile>[][] temp = shelf.getShelf();
+        boolean[][] check = new boolean[6][5];
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                check[i][j] = false;
+            }
+        }
+        int count = 0;  //counter for the groups of four adjacent equal tiles
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (!check[i][j] && temp[i][j].isPresent()) {
+                    Queue<Coords> q = new ArrayDeque<Coords>();
+                    int nEqualTiles = 1;
+
+                    q.add(new Coords(i, j));
+                    check[i][j] = true;
+
+                    while (!q.isEmpty() && nEqualTiles < 2) {
+                        int x = q.peek().x, y = q.peek().y;
+                        q.poll();
+
+                        if ((temp[x + 1][y].isEmpty() || temp[x + 1][y].get().getType().equals(temp[x][y].get().getType())) && !check[x + 1][y] && x + 1 >= 0 && x + 1 < 6) {
+                            q.add(new Coords(x + 1, y));
+                            nEqualTiles++;
+                            check[x + 1][j] = true;
+                        }
+                        if ((temp[x - 1][y].isEmpty() || temp[x - 1][y].get().getType().equals(temp[x][y].get().getType())) && !check[x - 1][y] && x - 1 >= 0 && x - 1 < 6) {
+                            q.add(new Coords(x - 1, y));
+                            nEqualTiles++;
+                            check[x - 1][y] = true;
+                        }
+                        if ((temp[x][y + 1].isEmpty() || temp[x][y + 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y + 1] && y + 1 >= 0 && y + 1 < 5) {
+                            q.add(new Coords(x, y + 1));
+                            nEqualTiles++;
+                            check[x][y + 1] = true;
+                        }
+                        if ((temp[x][y - 1].isEmpty() || temp[x][y - 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y - 1] && y - 1 >= 0 && y - 1 < 5) {
+                            q.add(new Coords(x, y - 1));
+                            nEqualTiles++;
+                            check[x][y - 1] = true;
+                        }
+                    }
+                    if (nEqualTiles == 2) count++;
+                }
+            }
+        }
+        if (count >= 6) return true;
+        return false;
+    };
+
+    //non funziona
+    CommonObj checkClustersFour = (shelf) -> {
+    Optional<Tile>[][] temp = shelf.getShelf();
+    int count = 0;
+    boolean[][] visited = new boolean[6][5];
+
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (!visited[i][j] && temp[i][j].isPresent()) {
+                Tile value = temp[i][j].get();
+                visited[i][j] = true;
+
+                boolean top = false;
+                boolean bottom = false;
+                boolean left = false;
+                boolean right = false;
+                if(temp[i-1][j].isPresent())
+                    top = (i > 0 && temp[i-1][j].get().equals(value) && !visited[i-1][j]);
+                if(temp[i+1][j].isPresent())
+                    bottom = (i < 6-1 && temp[i+1][j].get().equals(value) && !visited[i+1][j]);
+                if(temp[i][j-1].isPresent())
+                    left = (j > 0 && temp[i][j-1].get().equals(value) && !visited[i][j-1]);
+                if(temp[i][j+1].isPresent())
+                    right = (j < 5-1 && temp[i][j+1].get().equals(value) && !visited[i][j+1]);
+
+                if (top || bottom || left || right) {
+                    count++;
+                    checkAdjacent(temp, visited, i, j, value);
+                }
+            }
+        }
+    }
+
+    return count >= 4;
+};
+
+private static void checkAdjacent(Optional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
+    visited[i][j] = true;
+
+    if (i > 0 && matrix[i-1][j].isPresent() && matrix[i-1][j].get().equals(value) && !visited[i-1][j]) {
+        checkAdjacent(matrix, visited, i-1, j, value);
+    }
+
+    if (i < 6-1 && matrix[i-1][j].isPresent() && matrix[i+1][j].get().equals(value) && !visited[i+1][j]) {
+        checkAdjacent(matrix, visited, i+1, j, value);
+    }
+
+    if (j > 0 && matrix[i-1][j].isPresent() && matrix[i][j-1].get().equals(value) && !visited[i][j-1]) {
+        checkAdjacent(matrix, visited, i, j-1, value);
+    }
+
+    if (j < 5-1 && matrix[i-1][j].isPresent() && matrix[i][j+1].get().equals(value) && !visited[i][j+1]) {
+        checkAdjacent(matrix, visited, i, j+1, value);
+    }
+}
+
 }
