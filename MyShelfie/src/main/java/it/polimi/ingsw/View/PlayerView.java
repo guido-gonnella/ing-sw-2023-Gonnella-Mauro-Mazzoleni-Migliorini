@@ -29,17 +29,21 @@ public class PlayerView {
         for(int i=0; i<6; i++){
             for(int j=0; j<7; j++){
                 if(shelf[i][j].isPresent()){
-                    System.out.println("[");
-                    System.out.println(shelf[i][j].get());
-                    System.out.println("]");
+                    switch (shelf[i][j].get().getType()) {
+                        case TROPHY -> System.out.print("\u001B[36m" + "T" + "\u001B[0m");
+                        case FRAME -> System.out.print("\u001B[34m" + "F" + "\u001B[0m");
+                        case PLANT -> System.out.print("\u001B[35m" + "P" + "\u001B[0m");
+                        case GAME -> System.out.print("\u001B[33m" + "G" + "\u001B[0m");
+                        case BOOK -> System.out.print("\u001B[37m" + "B" + "\u001B[0m");
+                        case CAT -> System.out.print("\u001B[32m" + "C" + "\u001B[0m");
+                        default -> System.out.print(" ");
+                    }
                 }
                 else{
-                    System.out.println("[");
-                    System.out.println(" ");
-                    System.out.println("]");
+                    System.out.print(" ");
                 }
-                System.out.println("%n");
             }
+            System.out.print("\n");
         }
     }
 
@@ -50,31 +54,29 @@ public class PlayerView {
      */
     public void printTilesInHand(ArrayList<Tile> tiles){
         for(Tile t : tiles){
-            System.out.println("[");
-            System.out.println(t.getType());
-            System.out.println("]");
+            System.out.print("[" + t.getType() + "]");
         }
-        System.out.println("%n");
+        System.out.print("\n");
     }
 
     public String takeAddress(){
         Scanner scanner = new Scanner(System.in);
         String address;
-        System.out.println("Select the address: ");
+        System.out.print("Select the address: ");
         address = scanner.next();
         return address;
     }
     public int takePort(){
         Scanner scanner = new Scanner(System.in);
         int port = 4999;
-        System.out.println("Select the port: ");
+        System.out.print("Select the port: ");
         port = scanner.nextInt();
         return port;
     }
 
     public static String takeNickname(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Select your nickname: ");
+        System.out.print("Select your nickname: ");
         return scanner.next();
     }
 }

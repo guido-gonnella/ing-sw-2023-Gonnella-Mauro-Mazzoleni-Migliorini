@@ -4,6 +4,7 @@ import exceptions.ColumnAlreadyFullException;
 import exceptions.OutOfShelfException;
 import it.polimi.ingsw.Model.*;
 
+import it.polimi.ingsw.Model.Enumeration.Type;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

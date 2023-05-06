@@ -1,6 +1,10 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Enumeration.Type;
+
+import java.util.ArrayDeque;
 import java.util.Optional;
+import java.util.Queue;
 
 public class TempLambda {
     CommonObj lambda;
@@ -42,6 +46,7 @@ public class TempLambda {
             return true;
     };
 
+    //tesed, working
     CommonObj eight = (shelf) -> {
         int i,j;
         int contCat = 0;
@@ -55,39 +60,28 @@ public class TempLambda {
         for(i=0; i<6; i++){
             for(j=0; j<5; j++){
                 if(tempShelf[i][j].isPresent()){
-                    switch(tempShelf[i][j].get().getType()){
-                        case CAT:
-                            contCat++;
-                            break;
-                        case BOOK:
-                            contBook++;
-                            break;
-                        case GAME:
-                            contGame++;
-                            break;
-                        case FRAME:
-                            contFrame++;
-                            break;
-                        case PLANT:
-                            contPlant++;
-                            break;
-                        case TROPHY:
-                            contTrophy++;
-                            break;
-                        default:
-                            break;
+                    switch (tempShelf[i][j].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
                     }
                 }
             }
         }
 
-        if(contCat>=8 || contBook>=8 || contGame>=8 || contFrame>=8 ||
-           contPlant>=8 || contTrophy>=8)
+        if(contCat>=8 || contBook>=8 || contGame>=8 ||
+           contFrame>=8 || contPlant>=8 || contTrophy>=8)
             return true;
         else
             return false;
     };
 
+    //tested, working
     CommonObj diag = (shelf) -> {
         int i=0;
         int contDiag = 0;
@@ -95,7 +89,7 @@ public class TempLambda {
         Optional<Tile>[][] tempShelf = shelf.getShelf();
 
         while(i<2 && contDiag==0){
-            if (tempShelf[i][0].isPresent()) {
+            if (tempShelf[i][0].isPresent()){
                 Type tempType = tempShelf[i][0].get().getType();
                 int flag = 1;
                 for (k = 1; k < 5 && flag == 1; k++) {
@@ -135,6 +129,7 @@ public class TempLambda {
             return false;
     };
 
+    //tested, working
     CommonObj diffCol = (shelf) -> {
         int col,rig;
         Optional<Tile>[][] tempShelf = shelf.getShelf();
@@ -148,40 +143,163 @@ public class TempLambda {
             int contPlant = 0;
             int contTrophy = 0;
             int contBook = 0;
-            for(rig=0; rig<4 && flag==1; rig++){
+            for(rig=0; rig<6 && flag==1; rig++){
                 if(tempShelf[rig][col].isEmpty())
                     flag = 0;
                 else{
-                    switch(tempShelf[rig][col].get().getType()){
-                        case CAT:
-                            contCat++;
-                            break;
-                        case BOOK:
-                            contBook++;
-                            break;
-                        case GAME:
-                            contGame++;
-                            break;
-                        case FRAME:
-                            contFrame++;
-                            break;
-                        case PLANT:
-                            contPlant++;
-                            break;
-                        case TROPHY:
-                            contTrophy++;
-                            break;
-                        default:
-                            break;
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
                     }
                 }
             }
-            if(flag==1 && contCat<=1 & contBook<=1 && contFrame<=1 && contGame<=1 &&
-               contPlant<=1 && contTrophy<=1)
-               contCol++;
+            if(flag==1 && contCat<=1 && contBook<=1 && contFrame<=1 &&
+                    contGame<=1 && contPlant<=1 && contTrophy<=1)
+                contCol++;
         }
 
         if(contCol>=2)
+            return true;
+        else
+            return false;
+    };
+
+    //tested, working
+    CommonObj diffRow = (shelf) -> {
+        int col,rig;
+        Optional<Tile>[][] tempShelf = shelf.getShelf();
+        int contRow = 0;
+
+        for(rig=0; rig<6; rig++){
+            int flag = 1;
+            int contCat = 0;
+            int contFrame = 0;
+            int contGame = 0;
+            int contPlant = 0;
+            int contTrophy = 0;
+            int contBook = 0;
+            for(col=0; col<5 && flag==1; col++){
+                if(tempShelf[rig][col].isEmpty())
+                    flag = 0;
+                else{
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contCat++;
+                        case BOOK -> contBook++;
+                        case GAME -> contGame++;
+                        case FRAME -> contFrame++;
+                        case PLANT -> contPlant++;
+                        case TROPHY -> contTrophy++;
+                        default -> {
+                        }
+                    }
+                }
+            }
+            if(flag==1 && contCat<=1 && contBook<=1 && contFrame<=1
+                       && contGame<=1 && contPlant<=1 && contTrophy<=1)
+                contRow++;
+        }
+
+        if(contRow>=2)
+            return true;
+        else
+            return false;
+    };
+
+    //tested, working
+    CommonObj colThreeTypes = (shelf) -> {
+        int col,rig;
+        int flag;
+        Optional<Tile>[][] tempShelf = shelf.getShelf();
+        int contCol = 0;
+        int[] contType = new int[6];
+        int contDiffTypes;
+
+        for(col=0; col<5; col++){
+            flag = 1;
+            contDiffTypes = 0;
+            for(int i=0; i<6; i++)
+                contType[i] = 0;
+
+            for(rig=0; rig<6 && flag==1; rig++){
+                if(tempShelf[rig][col].isEmpty())
+                    flag = 0;
+                else{
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contType[0]++;
+                        case BOOK -> contType[1]++;
+                        case GAME -> contType[2]++;
+                        case FRAME -> contType[3]++;
+                        case PLANT -> contType[4]++;
+                        case TROPHY -> contType[5]++;
+                        default -> {
+                        }
+                    }
+                }
+            }
+            if(flag == 1){
+                for(int i=0; i<6; i++){
+                    if(contType[i]>0)
+                        contDiffTypes++;
+                }
+                if(contDiffTypes > 0 && contDiffTypes <= 3)
+                    contCol++;
+
+            }
+        }
+        if(contCol>=3)
+            return true;
+        else
+            return false;
+    };
+
+    //tested working
+    CommonObj rowThreeTypes = (shelf) -> {
+        int col,rig;
+        int flag;
+        Optional<Tile>[][] tempShelf = shelf.getShelf();
+        int contRow = 0;
+        int[] contType = new int[6];
+        int contDiffTypes;
+
+        for(rig=0; rig<6; rig++){
+            flag = 1;
+            contDiffTypes = 0;
+            for(int i=0; i<6; i++)
+                contType[i] = 0;
+
+            for(col=0; col<5 && flag==1; col++){
+                if(tempShelf[rig][col].isEmpty())
+                    flag = 0;
+                else{
+                    switch (tempShelf[rig][col].get().getType()) {
+                        case CAT -> contType[0]++;
+                        case BOOK -> contType[1]++;
+                        case GAME -> contType[2]++;
+                        case FRAME -> contType[3]++;
+                        case PLANT -> contType[4]++;
+                        case TROPHY -> contType[5]++;
+                        default -> {
+                        }
+                    }
+                }
+            }
+            if(flag == 1){
+                for(int i=0; i<6; i++){
+                    if(contType[i]>0)
+                        contDiffTypes++;
+                }
+                if(contDiffTypes > 0 && contDiffTypes <= 3)
+                    contRow++;
+
+            }
+        }
+        if(contRow>=4)
             return true;
         else
             return false;
@@ -200,5 +318,135 @@ public class TempLambda {
             }
         }
         return false;
+    };
+
+    CommonObj SixTwoEqual = (shelf) -> {
+        Optional<Tile>[][] temp = shelf.getShelf();
+        boolean[][] check = new boolean[6][5];
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                check[i][j] = false;
+            }
+        }
+        int count = 0;  //counter for the groups of four adjacent equal tiles
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (!check[i][j] && temp[i][j].isPresent()) {
+                    Queue<Coords> q = new ArrayDeque<Coords>();
+                    int nEqualTiles = 1;
+
+                    q.add(new Coords(i, j));
+                    check[i][j] = true;
+
+                    while (!q.isEmpty() && nEqualTiles < 2) {
+                        int x = q.peek().x, y = q.peek().y;
+                        q.poll();
+
+                        if ((temp[x + 1][y].isEmpty() || temp[x + 1][j].get().getType().equals(temp[x][y].get().getType())) && !check[x + 1][y] && x + 1 >= 0 && x + 1 < 6) {
+                            q.add(new Coords(x + 1, y));
+                            nEqualTiles++;
+                            check[x + 1][j] = true;
+                        }
+                        if ((temp[x - 1][y].isEmpty() || temp[x - 1][j].get().getType().equals(temp[x][y].get().getType())) && !check[x - 1][y] && x - 1 >= 0 && x - 1 < 6) {
+                            q.add(new Coords(x - 1, y));
+                            nEqualTiles++;
+                            check[x - 1][y] = true;
+                        }
+                        if ((temp[x][y + 1].isEmpty() || temp[x][j + 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y + 1] && y + 1 >= 0 && y + 1 < 5) {
+                            q.add(new Coords(x, y + 1));
+                            nEqualTiles++;
+                            check[x][y + 1] = true;
+                        }
+                        if ((temp[x][y - 1].isEmpty() || temp[x][j - 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y - 1] && y - 1 >= 0 && y - 1 < 5) {
+                            q.add(new Coords(x, y - 1));
+                            nEqualTiles++;
+                            check[x][y - 1] = true;
+                        }
+                    }
+                    if (nEqualTiles == 2) count++;
+                }
+            }
+        }
+        if (count >= 6) return true;
+        return false;
+    };
+
+    //tested, working
+    CommonObj twoSquares = (shelf) -> {
+        Optional<Tile>[][] temp = shelf.getShelf();
+        boolean[][] check = new boolean[6][5];
+        int countSquaresCat = 0;
+        int countSquaresPlant = 0;
+        int countSquaresTrophy = 0;
+        int countSquaresFrame = 0;
+        int countSquaresGame = 0;
+        int countSquaresBook = 0;
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                check[i][j] = false;
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (temp[i][j].isPresent() && temp[i+1][j].isPresent() &&
+                        temp[i][j+1].isPresent() && temp[i+1][j+1].isPresent()) {
+                    if (temp[i][j].get().getType().equals(temp[i+1][j].get().getType()) &&
+                            temp[i][j].get().getType().equals(temp[i+1][j+1].get().getType()) &&
+                            temp[i][j].get().getType().equals(temp[i][j+1].get().getType()) &&
+                            !check[i][j] && !check[i+1][j] && !check[i][j+1] && !check[i+1][j+1]) {
+                        switch (temp[i][j].get().getType()) {
+                            case CAT -> countSquaresCat++;
+                            case BOOK -> countSquaresBook++;
+                            case GAME -> countSquaresGame++;
+                            case FRAME -> countSquaresFrame++;
+                            case PLANT -> countSquaresPlant++;
+                            case TROPHY -> countSquaresTrophy++;
+                            default -> {
+                            }
+                        }
+                        check[i][j] = true;
+                        check[i+1][j] = true;
+                        check[i][j+1] = true;
+                        check[i+1][j+1] = true;
+                    }
+                }
+            }
+        }
+
+        if (countSquaresCat >= 2 || countSquaresBook >= 2 || countSquaresFrame >= 2 ||
+                countSquaresPlant >= 2 || countSquaresGame >= 2 || countSquaresTrophy >= 2) return true;
+        return false;
+    };
+
+    //tested, working
+    CommonObj stair = (shelf) -> {
+        Optional<Tile>[][] temp = shelf.getShelf();
+        int heights[] = new int[5];
+
+        for(int i=0; i<5; i++){
+            heights[i] = 0;
+            for(int j=5; j>=0; j--){
+                if(temp[j][i].isPresent())
+                    heights[i]++;
+            }
+        }
+
+        boolean stairLR = true;
+        boolean stairRL = true;
+        for(int i=0; i<4; i++){
+            if(heights[0] >= 1 && heights[4] >= 1) {
+                if(heights[i] + 1 != heights[i+1])
+                    stairLR = false;
+                if(heights[i] != heights[i+1] + 1)
+                    stairRL = false;
+            }
+            else
+                return false;
+        }
+
+        return stairRL || stairLR;
     };
 }

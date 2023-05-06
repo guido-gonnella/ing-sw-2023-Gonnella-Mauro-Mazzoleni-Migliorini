@@ -10,7 +10,7 @@ import java.util.List;
  * @author Guido Gonnella
  */
 public abstract class Observable {
-    private final List<Observer> observers = new ArrayList<Observer>();
+    private static final List<Observer> observers = new ArrayList<Observer>();
 
     /**
      * Add to the list an observer
@@ -32,7 +32,7 @@ public abstract class Observable {
      * Notify all the added observers with the passed message
      * @param msg the message
      */
-    public void notifyAllObservers(Message msg){
+    public static void notifyAllObservers(Message msg){
         for(Observer o : observers){
             o.update(msg);
         }
