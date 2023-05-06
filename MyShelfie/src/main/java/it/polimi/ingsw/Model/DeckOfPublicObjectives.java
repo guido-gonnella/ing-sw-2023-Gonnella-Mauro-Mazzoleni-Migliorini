@@ -12,8 +12,20 @@ import java.util.Random;
 public class DeckOfPublicObjectives {
     private final ArrayList<PublicObjective> publicObjective;
 
-    public DeckOfPublicObjectives(ArrayList<PublicObjective> pubObj){
-        this.publicObjective = new ArrayList<PublicObjective>(pubObj);
+    public DeckOfPublicObjectives(){
+        this.publicObjective = new ArrayList<>();
+        this.publicObjective.add(new PublicObjective("cross"));
+        this.publicObjective.add(new PublicObjective("eight"));
+        this.publicObjective.add(new PublicObjective("diag"));
+        this.publicObjective.add(new PublicObjective("diffCol"));
+        this.publicObjective.add(new PublicObjective("diffRow"));
+        this.publicObjective.add(new PublicObjective("colThreeTypes"));
+        this.publicObjective.add(new PublicObjective("rowThreeTypes"));
+        this.publicObjective.add(new PublicObjective("angles"));
+        this.publicObjective.add(new PublicObjective("twoSquares"));
+        this.publicObjective.add(new PublicObjective("stair"));
+      //this.publicObjective.add(new PublicObjective("sixCouples"));
+      //this.publicObjective.add(new PublicObjective("fourQuadrupple"));
     }
 
     /**
