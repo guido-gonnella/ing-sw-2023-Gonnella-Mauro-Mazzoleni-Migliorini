@@ -37,7 +37,7 @@ public class PlayerTestingcount {
         tested.setPrivateObjective(objective);
         for (int j = 0; j < 5; j++) {
             try {
-                tile=new Tile(Type.CAT);
+                tile=new Tile(Type.TROPHY);
                 testshelf.putTile(tile, 0);
             } catch (ColumnAlreadyFullException e) {
                 throw new RuntimeException(e);
@@ -59,7 +59,7 @@ public class PlayerTestingcount {
         }
         for (int j = 0; j < 5; j++) {
             try {
-                tile=new Tile(Type.CAT);
+                tile=new Tile(Type.TROPHY);
                 testshelf.putTile(tile, 2);
             } catch (ColumnAlreadyFullException e) {
                 throw new RuntimeException(e);
@@ -86,6 +86,7 @@ public class PlayerTestingcount {
     public void testing(){
         assertArrayEquals(tested.getShelf().getShelf(),testshelf.getShelf()); //[0][0].get().getType())
         tested.countPoints();
+
         int i =tested.getPlayerPoints();
         assertEquals(20,i);
 
