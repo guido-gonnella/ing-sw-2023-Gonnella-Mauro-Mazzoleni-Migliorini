@@ -107,28 +107,28 @@ public class Player {
             q.poll();
 
             // tile under the current tile
-            if((!shelfie[x+1][y].isPresent() || shelfie[x+1][y].get().getType().equals(shelfie[x][y].get().getType())) && x+1 >= 0 && x+1 < 6 && y >= 0 && y < 5 && !checked[x+1][y]){
+            if(x+1 >= 0 && x+1 < 6 && y >= 0 && y < 5 && !checked[x+1][y] && (shelfie[x+1][y].isPresent() && shelfie[x+1][y].get().getType().equals(shelfie[x][y].get().getType())) ){
                 checked[x+1][y] = true;
                 adjacent++;
                 q.add(new Coords(x+1, y));
             }
 
             // tile over the current tile
-            if((!shelfie[x-1][y].isPresent() || shelfie[x-1][y].get().getType().equals(shelfie[x][y].get().getType())) && x-1 >= 0 && x-1 < 6 && y >= 0 && y < 5 && !checked[x-1][y]){
+            if( x-1 >= 0 && x-1 < 6 && y >= 0 && y < 5 && !checked[x-1][y] &&(shelfie[x-1][y].isPresent() && shelfie[x-1][y].get().getType().equals(shelfie[x][y].get().getType())) ){
                 checked[x-1][y] = true;
                 adjacent++;
                 q.add(new Coords(x-1, y));
             }
 
             // tile on the right of the current tile
-            if((!shelfie[x][y+1].isPresent() || shelfie[x][y+1].get().getType().equals(shelfie[x][y].get().getType())) && x >= 0 && x < 6 && y+1 >= 0 && y+1 < 5 && !checked[x][y+1]){
+            if(x >= 0 && x < 6 && y+1 >= 0 && y+1 < 5 && !checked[x][y+1] && (shelfie[x][y+1].isPresent() && shelfie[x][y+1].get().getType().equals(shelfie[x][y].get().getType())) ){
                 checked[x][y+1] = true;
                 adjacent++;
                 q.add(new Coords(x, y+1));
             }
 
             // tile on the left of the current tile
-            if((!shelfie[x][y-1].isPresent() || shelfie[x][y-1].get().getType().equals(shelfie[x][y].get().getType())) && x >= 0 && x < 6 && y-1 >= 0 && y-1 < 5 && !checked[x][y-1]){
+            if(x >= 0 && x < 6 && y-1 >= 0 && y-1 < 5 && !checked[x][y-1] &&(shelfie[x][y-1].isPresent() && shelfie[x][y-1].get().getType().equals(shelfie[x][y].get().getType()))){
                 checked[x][y-1] = true;
                 adjacent++;
                 q.add(new Coords(x, y-1));
@@ -142,7 +142,7 @@ public class Player {
         else if(adjacent == 3) points = 2;
         else if(adjacent == 4) points = 3;
         else if(adjacent == 5) points = 5;
-        else if(adjacent >  6) points = 8;
+        else if(adjacent >  5) points = 8;
 
         return points;
     }
@@ -170,7 +170,7 @@ public class Player {
         //Adding points from completion of the private object
         int numTiles = 0;
         for(ElementObjective e : privateObjective.getObjective()){
-            if(!shelf.getShelf()[e.getX()][e.getY()].isPresent() || shelf.getShelf()[e.getX()][e.getY()].get().getType().equals(e.getType())){
+            if(shelf.getShelf()[e.getX()][e.getY()].isPresent() && shelf.getShelf()[e.getX()][e.getY()].get().getType().equals(e.getType())){
                 numTiles++;
             }
         }
@@ -235,4 +235,5 @@ public class Player {
     public void setPrivateObjective(PrivateObjective privateObjective){
         this.privateObjective = privateObjective;
     }
+    public int getPlayerPoints(){return(this.playerPoints);}
 }

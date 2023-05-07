@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 import exceptions.ImpossiblePrivateObjException;
+import it.polimi.ingsw.Model.Enumeration.Type;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
