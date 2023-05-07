@@ -236,4 +236,19 @@ public class Player {
         this.privateObjective = privateObjective;
     }
     public int getPlayerPoints(){return(this.playerPoints);}
+
+    /**
+     * Return the number of free spaces in the shelf given a column index
+     * @param col the column
+     * @return the number of free spaces
+     */
+    public int getFreeSpaceInCol(int col){
+        int free = 0;
+
+        for(int i = 0; i < 6 && shelf.getShelf()[i][col].isEmpty(); i ++){
+            if(shelf.getShelf()[i][col].isEmpty()) free++;
+        }
+
+        return free;
+    }
 }
