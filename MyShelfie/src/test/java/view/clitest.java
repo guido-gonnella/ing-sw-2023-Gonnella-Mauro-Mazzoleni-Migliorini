@@ -1,6 +1,6 @@
 package view;
 
-import it.polimi.ingsw.View.Cli;
+import it.polimi.ingsw.View.Clidepecrated;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,11 +9,11 @@ import static org.junit.Assert.assertEquals;
 
 
 public class clitest {
- Cli cli;
+ Clidepecrated clidepecrated;
 
  @Before
  public void red() {
-  cli = new Cli();
+  clidepecrated = new Clidepecrated();
  }
 
  @Test
@@ -23,7 +23,7 @@ public class clitest {
  @After
  public void destroy()
  {
-  cli=null;
+  clidepecrated =null;
 }
 
 
