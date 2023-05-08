@@ -17,7 +17,7 @@ public class Game {
     private SackOfTiles sackOfTiles;
     private final PublicObjective[] publicObjectives;
     private final ArrayList<Player> players;
-    private final Player firstPlayer;
+    private Player firstPlayer;
     private Player currentPlayer;
     private final Stack<Integer>[] pointsPubObj =  new Stack[2];
     private ArrayList<Tile> tilesInCurrPlayerHand;
@@ -34,10 +34,11 @@ public class Game {
         this.pointsPubObj[0] = new Stack<Integer>();
         this.pointsPubObj[1] = new Stack<Integer>();
 
-        Random rand = new Random();
-        int index = rand.nextInt(this.players.size());
-        this.firstPlayer = new Player(this.players.get(index).getNickname());
-        this.currentPlayer = new Player(this.players.get(index).getNickname());
+        //Random rand = new Random();
+        //int index = rand.nextInt(this.players.size());
+        //this.firstPlayer = new Player(this.players.get(index).getNickname());
+        //this.currentPlayer = new Player(this.players.get(index).getNickname());
+
         this.tilesInCurrPlayerHand = new ArrayList<Tile>();
         this.tempTiles = new ArrayList<Coords>();
     }
@@ -371,5 +372,41 @@ public class Game {
      */
     public void addPlayer(String name){
         this.players.add(new Player(name));
+    }
+
+    /**
+     * Return the list of nicknames of all player
+     * @return an ArrayList of strings containing the nicknames
+     * @author Guido Gonnella
+     */
+    public ArrayList<String> getPlayerList(){
+        ArrayList<String> nicks = new ArrayList<String>();
+        for(Player p : players) nicks.add(p.getNickname());
+
+        return nicks;
+    }
+
+    public void setFirstPlayer(String nickname){
+        this.firstPlayer = getPlayerByNick(nickname);
+    };
+
+    /**
+     * Getter for the firstPlayer
+     * @return the nickname of the firstPlayer
+     */
+    public String getFirstPlayer(){
+        return firstPlayer.getNickname();
+    }
+
+    /**
+     * Swap tiles in hand to change the order.<br>
+     * It swaps t1 and t2 element in the tilesInCurrPlayerHand arrayList
+     * @param t1 first tile index
+     * @param t2 second tile index
+     */
+    public void swapInHand(int t1, int t2){
+        Tile temp = tilesInCurrPlayerHand.get(t1);
+        tilesInCurrPlayerHand.add(t1, tilesInCurrPlayerHand.get(t2));
+        tilesInCurrPlayerHand.add(t2, temp);
     }
 }
