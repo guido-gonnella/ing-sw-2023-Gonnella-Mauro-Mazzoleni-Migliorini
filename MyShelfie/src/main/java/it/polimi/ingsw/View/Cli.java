@@ -55,12 +55,23 @@ public class Cli extends ViewObservable implements View{
     }
     @Override
     public void askselecttile(){
-            Integer y = -1, x = -1;
-            boolean valid =true;
-            Scanner in = new Scanner(System.in);
-            out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\"");
-            do {
-                try{ y =in.nextInt();
+        Integer y = -1, x = -1;
+        boolean valid =true;
+        Scanner in = new Scanner(System.in);
+        out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\"");
+        do {
+            try{ y =in.nextInt();
+            }catch(InputMismatchException e){
+                out.print("please input valid coordinates: like 1,2 or 0,3");
+                valid=false;
+            }catch(NoSuchElementException e){
+                out.print("please input valid coordinates: like 1,2 or 0,3");
+                valid=false;
+            }
+
+            if( valid){
+                try{
+                    x =in.nextInt();
                 }catch(InputMismatchException e){
                     out.print("please input valid coordinates: like 1,2 or 0,3");
                     valid=false;
@@ -68,19 +79,8 @@ public class Cli extends ViewObservable implements View{
                     out.print("please input valid coordinates: like 1,2 or 0,3");
                     valid=false;
                 }
-
-                if( valid){
-                    try{
-                        x =in.nextInt();
-                    }catch(InputMismatchException e){
-                        out.print("please input valid coordinates: like 1,2 or 0,3");
-                        valid=false;
-                    }catch(NoSuchElementException e){
-                        out.print("please input valid coordinates: like 1,2 or 0,3");
-                        valid=false;
-                    }
-                }
-            } while (!valid);
+            }
+        } while (!valid);
         Integer finalX = x;
         notifyObservers(obs -> obs.onSelectTile(finalX, y));
 
@@ -128,6 +128,6 @@ public class Cli extends ViewObservable implements View{
     private String Readin(){
         input=new Scanner(System.in);
         return(input.next());
- }
+    }
 
 }
