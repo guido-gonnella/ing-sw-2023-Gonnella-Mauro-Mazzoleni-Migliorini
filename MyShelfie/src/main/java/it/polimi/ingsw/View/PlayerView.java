@@ -46,7 +46,6 @@ public class PlayerView {
             System.out.print("\n");
         }
     }
-
     /**
      * Method to print the tiles that a player have in hand
      * @param tiles

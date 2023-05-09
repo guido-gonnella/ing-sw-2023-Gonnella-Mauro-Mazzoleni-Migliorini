@@ -45,4 +45,5 @@ public interface ViewObserver {
      * When the user wants to connect to a server
      */
     public void onConnection(String serverAddr, int port) throws IOException;
+
 }

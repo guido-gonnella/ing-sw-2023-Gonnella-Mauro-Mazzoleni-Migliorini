@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-public class PlayerTestingcount {
+public class PlayerTesting {
     Tile tile =null;
     Player tested;
     Shelf testshelf= new Shelf();
