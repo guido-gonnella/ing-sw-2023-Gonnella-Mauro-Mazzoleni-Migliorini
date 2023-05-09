@@ -251,6 +251,15 @@ public class Game {
     }
 
     /**
+     * Getter class of the attribute publicObjectives of the object Game
+     *
+     * @return the publicObjectives of the game
+     */
+    public PublicObjective[] getPublicObjectives() {
+        return this.publicObjectives;
+    }
+
+    /**
      * It takes the random private objectives for every player from the deck, and it gives them to the players
      *
      * @param deckOfPrivateObjectives deck that contains all the possible private objectives
@@ -266,10 +275,8 @@ public class Game {
 
     /**
      * It sets the board ready to be used by the specific number of players in this game
-     *
-     * @param board empty and uninitialized board
      */
-    public void setBoard(Board board) throws SackEmptyException {
+    public void setBoard() throws SackEmptyException {
         Space[][] grid = this.board.getGrid();
 
         if(this.players.size()>2) {
@@ -299,41 +306,62 @@ public class Game {
                 case 1: {
                     grid[row][3].setAvailable();
                     grid[row][4].setAvailable();
+                    break;
                 }
-                case 2: {
+                case 2, 6: {
                     grid[row][3].setAvailable();
                     grid[row][4].setAvailable();
                     grid[row][5].setAvailable();
+                    break;
                 }
                 case 3: {
                     for (int col = 2; col < 8; col++) {
                         grid[row][col].setAvailable();
                     }
+                    break;
                 }
                 case 4: {
                     for (int col = 1; col < 8; col++) {
                         grid[row][col].setAvailable();
                     }
+                    break;
                 }
                 case 5: {
                     for (int col = 1; col < 7; col++) {
                         grid[row][col].setAvailable();
                     }
-                }
-                case 6: {
-                    grid[row][3].setAvailable();
-                    grid[row][4].setAvailable();
-                    grid[row][5].setAvailable();
+                    break;
                 }
                 case 7: {
                     grid[row][4].setAvailable();
                     grid[row][5].setAvailable();
+                    break;
                 }
+
+                default: break;
             }
         }
 
         this.board.setGrid(grid);
         this.board.fill(this.sackOfTiles);
+    }
+
+    /**
+     * Getter class of the attribute board of the object Game
+     *
+     * @return the board of the game
+     */
+    public Board getBoard() {
+        return this.board;
+    }
+
+    /**
+     * Getter class of the attribute sackOfTiles of the object Game
+     *
+     * @return the sackOfTiles of the game
+     */
+    public SackOfTiles getSackOfTiles() {
+        return this.sackOfTiles;
     }
 
     /**

@@ -75,7 +75,7 @@ public class Board {
      * @param grid updated grid to use
      */
     public void setGrid(Space[][] grid) {
-        this.grid = grid.clone();
+        this.grid = grid;
     }
 
     /**

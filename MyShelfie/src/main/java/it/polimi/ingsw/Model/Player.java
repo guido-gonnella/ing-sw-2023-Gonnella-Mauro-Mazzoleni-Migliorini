@@ -151,7 +151,7 @@ public class Player {
     /**
      * An array with the Points for the private objective of the player
      */
-    private final int PRVPOINTS[] = {0, 1, 2, 4, 6, 9, 12};
+    private final int[] PRVPOINTS = {0, 1, 2, 4, 6, 9, 12};
 
     /**
      * <h1>CountPoints</h1>

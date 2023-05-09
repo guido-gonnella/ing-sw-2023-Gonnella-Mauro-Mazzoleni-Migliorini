@@ -25,7 +25,7 @@ public class DeckOfPublicObjectives {
         this.publicObjective.add(new PublicObjective("twoSquares"));
         this.publicObjective.add(new PublicObjective("stair"));
       //this.publicObjective.add(new PublicObjective("sixCouples"));
-      //this.publicObjective.add(new PublicObjective("fourQuadrupple"));
+      //this.publicObjective.add(new PublicObjective("fourQuadruple"));
     }
 
     /**

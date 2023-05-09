@@ -12,10 +12,9 @@ public class DeckOfPrivateObjectives {
 
     public DeckOfPrivateObjectives(ArrayList<PrivateObjective> privObj) {
         this.privateObjectives = new ArrayList<PrivateObjective>(privObj);
-        }
+    }
 
-
-        //this probably won't be used since the constructor already will include all the private objectives
+    //this probably won't be used since the constructor already will include all the private objectives
     public void setPrivateObjectives(PrivateObjective privObj) { //adds the private objectives previously generated in main
         this.privateObjectives.add(privObj);
     }
