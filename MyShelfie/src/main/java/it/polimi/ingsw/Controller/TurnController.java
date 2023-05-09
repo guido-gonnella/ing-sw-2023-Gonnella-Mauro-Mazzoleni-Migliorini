@@ -4,6 +4,7 @@ import com.sun.nio.sctp.PeerAddressChangeNotification;
 import it.polimi.ingsw.FA.Persistence;
 import it.polimi.ingsw.Model.Enumeration.Phase;
 import it.polimi.ingsw.Model.Game;
+import it.polimi.ingsw.Network.Message.Message;
 
 import java.io.Serializable;
 import java.util.*;
@@ -88,5 +89,9 @@ public class TurnController implements Serializable {
      */
     public Phase getPhase() {
         return phase;
+    }
+
+    public void broadcastMessaege(Message msg){
+        //sends message for all clientHandler...
     }
 }
