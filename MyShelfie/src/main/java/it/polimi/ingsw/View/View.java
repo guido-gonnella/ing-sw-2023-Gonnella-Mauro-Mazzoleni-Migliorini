@@ -12,6 +12,6 @@ public interface View {
     void askselecttile();
     void askswap();
     void askinsert();
-    void boardshow(Space board[][]);
-    void shelfshow(Optional<Tile> shelf);
+    void boardshow(Space[][] board);
+    void shelfshow(Optional<Tile>[][] shelf);
 }
