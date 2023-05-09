@@ -124,6 +124,7 @@ public class Cli extends ViewObservable implements View{
 
 
 
+
     private String Readin(){
         input=new Scanner(System.in);
         return(input.next());
