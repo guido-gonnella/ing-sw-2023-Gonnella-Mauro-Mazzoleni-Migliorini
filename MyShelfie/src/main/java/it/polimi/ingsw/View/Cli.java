@@ -42,7 +42,7 @@ public class Cli extends ViewObservable implements View{
                 valid=false;
             }
 
-        } while (valid==false);
+        } while (!valid);
         notifyObservers(obs -> obs.onConnection(serverAddr,port));
 
     }
@@ -69,7 +69,7 @@ public class Cli extends ViewObservable implements View{
                     valid=false;
                 }
 
-                if( valid==true){
+                if( valid){
                     try{
                         x =in.nextInt();
                     }catch(InputMismatchException e){
@@ -80,15 +80,48 @@ public class Cli extends ViewObservable implements View{
                         valid=false;
                     }
                 }
-            } while (valid==false);
+            } while (!valid);
         Integer finalX = x;
         notifyObservers(obs -> obs.onSelectTile(finalX, y));
 
     }
     @Override
     public void askswap(){
-//wip
+        int to=4, from=4;
+        boolean valid =true;
+        Scanner in = new Scanner(System.in);
+        out.print("input \"x,y\" the first tile and to which position to move it in, to confirm the order of the tiles type \"-1,-1\"");
+        do {
+            try{from =in.nextInt();}
+            catch(InputMismatchException e){
+                out.print("please input valid positions: like 1,2 or 0,2");
+                valid=false;
+            }catch(NoSuchElementException e){
+                out.print("please input valid positions: like 1,2 or 0,2");
+                valid=false;
+            }
+            if (from >2){valid= false;
+                out.print("please input valid positions: like 1,2 or 0,2");
+            }
+            if(valid){
+                try{
+                    to =in.nextInt();
+                    if (to > 3){valid= false;}
+                }catch(InputMismatchException e){
+                    out.print("please input valid coordinates: like 1,2 or 0,2");
+                    valid=false;
+                }catch(NoSuchElementException e){
+                    out.print("please input valid coordinates: like 1,2 or 0,3");
+                    valid=false;
+                }
+                if (to >2|| from==to){valid= false;
+                    out.print("please input valid positions: like 1,2 or 0,2");
+                }
+            }
+        } while (!valid);
+        notifyObservers(obs -> obs.onSwap(to, from));
     }
+
 
 
     private String Readin(){
