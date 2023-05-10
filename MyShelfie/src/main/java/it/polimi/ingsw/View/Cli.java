@@ -345,10 +345,30 @@ public class Cli extends ViewObservable implements View{
     }
     @Override
     public void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective){ //Map<String, int>, Map<String, boolean[]>
-
         //player1 -> points: 20 | obj1 = tick | obj2 = cross
-
-        out.print("Congratulations! You Scored:  ");
-        out.print("\u001B[32m"+points+"!\n"+"\u001B[0m");
+        boolean flag;
+        for (String player: mappoints.keySet())
+        {
+            flag= false;
+            out.print(player+ "scored:  ");
+            out.print("\u001B[33m" + mappoints.get(player)+"!\n"+"\u001B[0m");
+            out.print("and completed: ");
+            if (mapobjective.get(player)[0])
+            {
+                flag=true;
+                out.print("\u001B[32m"+"the first objective ✔"+"\u001B[0m");
+            }
+            if (flag) {
+                if (mapobjective.get(player)[1]) {
+                    flag = true;
+                    out.print("\u001B[32m"+"and the second ✔ "+"\u001B[0m");
+                }
+            } else if (mapobjective.get(player)[1]) {
+                flag=true;
+                out.print("\u001B[32m"+"the second objective ✔"+"\u001B[0m");
+            } else {
+                out.print("completed no objectives");
+            }
+        }
     }
 }
