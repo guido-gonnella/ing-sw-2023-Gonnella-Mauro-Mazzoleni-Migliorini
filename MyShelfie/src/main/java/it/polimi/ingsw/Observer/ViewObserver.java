@@ -45,5 +45,12 @@ public interface ViewObserver {
      * When the user wants to connect to a server
      */
     public void onConnection(String serverAddr, int port) throws IOException;
-    public void onPlayerNumber(int numplayers);
+
+    /**
+     * When the user reply to the server to the request of the maximum number of player for the game
+     *
+     * @param numPlayers the max number of players allowed in the game
+     * @author Guido Gonnella
+     */
+    public void onPlayerNumberReply(int numPlayers);
 }

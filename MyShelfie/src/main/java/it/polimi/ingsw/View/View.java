@@ -11,9 +11,10 @@ public interface View {
     void asknickname();
     void askselecttile();
     void askswap();
-    void askinsert();
+    void askinsertcol();
     void boardshow(Space[][] board);
     void shelfshow(Optional<Tile>[][] shelf);
     void showtilesinhand(ArrayList<Tile> hand);
     void askplayernumber();
+    void showpoints(int points);
 }

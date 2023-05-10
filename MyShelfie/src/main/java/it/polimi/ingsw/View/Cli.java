@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Controller.ClientController;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -16,7 +17,7 @@ public class Cli extends ViewObservable implements View{
     private final PrintStream out;
     private Scanner input;
     private String temp;
-    Cli(){out= System.out;
+    public Cli(){out= System.out;
         out.print("""
                  __          __  _                            _______                         _____ _          _ ______      \s
                  \\ \\        / / | |                          |__   __|                       / ____| |        | |  ____(_)    \s
@@ -36,40 +37,70 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public  void init(){
-        String serverAddr;
-        int port=8080;
-        out.print("please input the ip address of the server");
-        Scanner in=new Scanner(System.in);
-        serverAddr=Readin();
-        Boolean valid;
+        String serverAddr = "localhost"; //default value
+        int port = 8080; //default value
+        out.print("Please input the ip address of the server");
+        Scanner in = new Scanner(System.in);
+        Boolean valid = false;
         do {
-            out.print("please input the port of the server");
-            try{valid=true;
-                port =in.nextInt();
+            out.print("Please input the address of the server");
+            try{
+                serverAddr = ReadText();
+                if(serverAddr.equals("")){
+                    valid = false;
+                }
+                else if(ClientController.isValidIpAddress(serverAddr)){
+                    valid = true;
+                }
+                else{
+                    valid = false;
+                }
             }catch(InputMismatchException e){
-                out.print("please input a valid port ");
-                valid=false;
+                out.print("Please input a valid port ");
+                valid = false;
             }catch(NoSuchElementException e1){
-                out.print("please input a valid port");
-                valid=false;
+                out.print("Please input a valid port");
+                valid = false;
             }
-
         } while (!valid);
-        int finalPort = port;
-        notifyObservers(obs -> {
-            try {
-                obs.onConnection(serverAddr, finalPort);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
+        valid = false;
+
+        do {
+            out.print("Please input the port of the server");
+            try{
+                port = ReadInt();
+                if(ClientController.isValidPort(port)) {
+                    valid = true;
+                }
+                else{
+                    valid = false;
+                }
+            }catch(InputMismatchException e){
+                out.print("Please input a valid port ");
+                valid = false;
+            }catch(NoSuchElementException e1){
+                out.print("Please input a valid port");
+                valid = false;
+            }
+        } while (!valid);
+
+        int finalPort = port;
+        String Finalserveraddr = serverAddr;
+
+        notifyObservers(obs -> { try {
+             obs.onConnection(Finalserveraddr, finalPort);
+                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                 }
+            }
+         );
     }
 
     @Override
     public void asknickname() {
         out.print("First Insert your Username: ");
-        temp=Readin();
+        temp= ReadText();
         //notifyObservers(obs->obs.UpdateNickname(temp));
     }
 
@@ -160,7 +191,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      */
     @Override
-    public void askinsert(){
+    public void askinsertcol(){
         int col=9;
         boolean valid;
         Scanner in = new Scanner(System.in);
@@ -278,9 +309,46 @@ public class Cli extends ViewObservable implements View{
     }
 
 
-    private String Readin(){
-        input=new Scanner(System.in);
+    private String ReadText(){
+        input = new Scanner(System.in);
         return(input.next());
     }
 
+    private int ReadInt(){
+        input = new Scanner(System.in);
+        return(input.nextInt());
+    }
+
+    @Override
+    public void askplayernumber() {
+        int playernumber =10;
+        boolean valid;
+        Scanner in = new Scanner(System.in);
+        out.print("input \"x\" number of total players in the game");
+        do {
+            try{valid=true;
+                playernumber =in.nextInt();}
+            catch(InputMismatchException e){
+                out.print("please input a number of players (a number from 2 to 4)");
+                valid=false;
+            }catch(NoSuchElementException e1){
+                out.print("please input a number of players (a number from 2 to 4)");
+                valid=false;
+            }
+            if(playernumber>4||playernumber<2){
+                out.print("please input a number of players (a number from 2 to 4)");
+                valid=false;
+            }
+        } while(!valid);
+        int finalNum = playernumber;
+        notifyObservers(obs ->obs.onPlayerNumberReply(finalNum));
+    }
+    @Override
+    public void showpoints(int points){ //Map<String, int>, Map<String, boolean[]>
+
+        //player1 -> points: 20 | obj1 = tick | obj2 = cross
+
+        out.print("Congratulations! You Scored:  ");
+        out.print("\u001B[32m"+points+"!\n"+"\u001B[0m");
+    }
 }

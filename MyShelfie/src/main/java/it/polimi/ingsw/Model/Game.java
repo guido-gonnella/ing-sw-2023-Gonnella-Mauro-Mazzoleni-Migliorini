@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 import exceptions.SackEmptyException;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  * @author Samuele Mazzoleni
  */
 
-public class Game {
+public class Game implements Serializable {
     private Board board;
     private SackOfTiles sackOfTiles;
     private final PublicObjective[] publicObjectives;

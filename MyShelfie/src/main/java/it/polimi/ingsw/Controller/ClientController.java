@@ -6,13 +6,17 @@ import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Network.Message.C2S.*;
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.S2C.EndStatsMessage;
 import it.polimi.ingsw.Network.SocketClient;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
+import it.polimi.ingsw.View.Cli;
 import it.polimi.ingsw.View.View;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Controller class for the client
@@ -20,12 +24,16 @@ import java.util.Optional;
  */
 public class ClientController implements Observer, ViewObserver {
 
-    View view;
+    private View view;
     Optional<Tile>[][] shelf;
     Space[][] board;
     private SocketClient client;
     private String nick;
 
+    public ClientController(View view){
+        this.view = view;
+
+    }
     @Override
     public void onConnection(String serverAddr, int port) {
         try {
@@ -43,11 +51,37 @@ public class ClientController implements Observer, ViewObserver {
     @Override
     public void update(Message msg) {
         switch (msg.getMsgType()){
-            //case END_STATS ->
-            case BOARD_UPDATE -> view.boardshow(board);
-            case SHELF_UPDATE -> view.shelfshow(shelf);
-            //case PLAYER_UPDATE ->
-            //case HAND_UPDATE ->
+            case BOARD_UPDATE :
+                view.boardshow(board);
+                break;
+            case SHELF_UPDATE :
+                view.shelfshow(shelf);
+                break;
+            case NUMBER_PLAYER_REQUEST:
+                view.askplayernumber();
+                break;
+            case SELECT_TILE_REQUEST:
+                view.askselecttile();
+                break;
+            case  HAND_TILE_SWAP_REQUEST:
+                view.askswap();
+                break;
+            case SELECT_COL_REQUEST:
+                view.askinsertcol();
+                break;
+            case ERROR:
+                //view.showError();
+                break;
+            case END_STATS:
+                view.showpoints(((EndStatsMessage) msg).getPlayer_points().get(nick));
+                break;
+            case LOGIN_REPLY:
+                //view.showLoginReply();
+                break;
+            /*case END_TURN_REQUEST:
+                view.updateShelf(Shelf);
+                onEndTurn();
+                break;*/
         }
     }
 
@@ -59,6 +93,7 @@ public class ClientController implements Observer, ViewObserver {
     @Override
     public void onSelectCol(int col) {
         client.sendData(new SelectColumnMessage(nick, col));
+
     }
 
     @Override
@@ -66,13 +101,51 @@ public class ClientController implements Observer, ViewObserver {
         client.sendData(new SwapTileInHandMessage(nick, to, from));
     }
 
+    /**
+     * Sends to the server when they want to end the tile selection phase
+     */
     @Override
     public void onEndSelection() {
         client.sendData(new EndSelectTilesMessage(nick));
     }
 
+    /**
+     * Sends to the server when they want to end the turn
+     */
     @Override
     public void onEndTurn() {
         client.sendData(new EndPlTurnMessage(nick));
+    }
+
+    /**
+     * Sends to the server the chosen number of player
+     * @param numPlayers the max number of players allowed in the game
+     */
+    @Override
+    public void onPlayerNumberReply(int numPlayers){ client.sendData(new NumberOfPlayerMessage(nick, numPlayers));}
+
+    /**
+     * This method validates the given IP4v
+     * @param ip address
+     */
+    public static boolean isValidIpAddress(String ip) {
+        String regex = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+        return ip.matches(regex);
+    }
+
+    /**
+     * Check if a port is valid
+     * @param portStr
+     * @return
+     */
+    public static boolean isValidPort(int portStr) {
+        try {
+            return portStr >= 1 && portStr <= 65535;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

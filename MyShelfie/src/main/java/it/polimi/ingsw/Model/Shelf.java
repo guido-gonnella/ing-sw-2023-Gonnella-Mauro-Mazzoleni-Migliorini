@@ -2,6 +2,8 @@ package it.polimi.ingsw.Model;
 
 import exceptions.ColumnAlreadyFullException;
 import exceptions.OutOfShelfException;
+
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Optional;
  *
  * @author Guido Gonnella
  */
-public class Shelf {
+public class Shelf implements Serializable {
 
     private final int WIDTH = 5;
     private final int HEIGHT = 6;
