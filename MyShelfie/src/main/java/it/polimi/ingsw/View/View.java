@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 public interface View {
@@ -16,5 +17,5 @@ public interface View {
     void shelfshow(Optional<Tile>[][] shelf);
     void showtilesinhand(ArrayList<Tile> hand);
     void askplayernumber();
-    void showpoints(int points);
+    public void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
 }

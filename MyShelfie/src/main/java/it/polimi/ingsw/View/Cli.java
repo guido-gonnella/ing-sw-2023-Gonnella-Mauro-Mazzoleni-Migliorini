@@ -344,7 +344,7 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs ->obs.onPlayerNumberReply(finalNum));
     }
     @Override
-    public void showpoints(int points){ //Map<String, int>, Map<String, boolean[]>
+    public void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective){ //Map<String, int>, Map<String, boolean[]>
 
         //player1 -> points: 20 | obj1 = tick | obj2 = cross
 
