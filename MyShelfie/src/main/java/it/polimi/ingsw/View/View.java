@@ -14,4 +14,6 @@ public interface View {
     void askinsert();
     void boardshow(Space[][] board);
     void shelfshow(Optional<Tile>[][] shelf);
+    void showtilesinhand(ArrayList<Tile> hand);
+    void askplayernumber();
 }

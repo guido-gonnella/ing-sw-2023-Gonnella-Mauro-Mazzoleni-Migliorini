@@ -230,10 +230,10 @@ public class Cli extends ViewObservable implements View{
      **/
     public void shelfshow(Optional<Tile>[][] shelf) {
         out.print("- 0  1  2  3  4  5\n");
-        for(int i = 0; i < shelf.length; i++) {
+        for (int i = 0; i < shelf.length; i++) {
             out.print(i);
-            for(int j = 0; j < shelf[0].length; j++) {
-                if(shelf[i][j].isPresent()) {
+            for (int j = 0; j < shelf[0].length; j++) {
+                if (shelf[i][j].isPresent()) {
                     switch (shelf[i][j].get().getType()) {
                         case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
                         case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
@@ -243,14 +243,40 @@ public class Cli extends ViewObservable implements View{
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
                         default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                     }
-                }
-                else {
+                } else {
                     System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                 }
             }
             System.out.print("\n");
         }
     }
+
+    /**
+     * show tiles in player hand
+     * @param hand ArrayList<Tile>
+     * @author Andrea Migliorini
+     */
+    @Override
+    public void showtilesinhand(ArrayList<Tile> hand) {
+        out.println("0 is the tile placed at the bottom of the column");
+        for(int i=0;i<hand.size(); i++){
+            out.print(" "+i+" ");
+        }
+        out.print("\n");
+        for (Tile tile : hand) {
+            switch (tile.getType()) {
+                case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                case PLANT -> out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+            }
+        }
+
+    }
+
 
     private String Readin(){
         input=new Scanner(System.in);
