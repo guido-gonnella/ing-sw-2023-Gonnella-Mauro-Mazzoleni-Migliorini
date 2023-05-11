@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Enumeration.Type;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Optional;
  *
  * @author Pierantonio Mauro
  */
-public class PublicObjective implements {
+public class PublicObjective implements Serializable {
     private final CommonObj obj;
 
     private final int HEIGHT = 6;
