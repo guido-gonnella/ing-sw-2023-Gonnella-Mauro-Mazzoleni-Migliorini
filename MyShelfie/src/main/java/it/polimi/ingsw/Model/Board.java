@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 import exceptions.SackEmptyException;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Optional;
  * @author Samuele Mazzoleni
  */
 
-public class Board {
+public class Board implements Serializable {
     private Space[][] grid;
     final int ROW = 9;
     final int COL = 9;

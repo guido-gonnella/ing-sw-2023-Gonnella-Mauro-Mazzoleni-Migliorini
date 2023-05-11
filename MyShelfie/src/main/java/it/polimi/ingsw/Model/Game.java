@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model;
 
 import exceptions.SackEmptyException;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,11 +13,12 @@ import java.util.*;
  * @author Samuele Mazzoleni
  */
 
-public class Game {
+public class Game implements Serializable {
     private Board board;
     private SackOfTiles sackOfTiles;
     private final PublicObjective[] publicObjectives;
     private final ArrayList<Player> players;
+    private int numPlayers, maxNumPlayer;
     private Player firstPlayer;
     private Player currentPlayer;
     private final Stack<Integer>[] pointsPubObj =  new Stack[2];
@@ -30,6 +32,7 @@ public class Game {
         this.sackOfTiles = new SackOfTiles();
         this.publicObjectives = new PublicObjective[2];
         this.players = new ArrayList<Player>();
+
         //non so cosa che mi dice quanti giocatori ci sono
         this.pointsPubObj[0] = new Stack<Integer>();
         this.pointsPubObj[1] = new Stack<Integer>();
@@ -43,13 +46,8 @@ public class Game {
         this.tempTiles = new ArrayList<Coords>();
     }
 
-    /**
-     * when in the controller is sensed a new player its added to the game
-     *
-     * @author Pierantonio Mauro
-     */
-    public void addPlayer(Player player){
-        this.players.add(player);
+    public int getNumPlayers() {
+        return numPlayers;
     }
 
     public Player getPlayerByNick(String nick){
@@ -436,5 +434,21 @@ public class Game {
         Tile temp = tilesInCurrPlayerHand.get(t1);
         tilesInCurrPlayerHand.add(t1, tilesInCurrPlayerHand.get(t2));
         tilesInCurrPlayerHand.add(t2, temp);
+    }
+
+    /**
+     * return the maximum number of player allowed in this game
+     * @return
+     */
+    public int getMaxNumPlayer() {
+        return maxNumPlayer;
+    }
+
+    /**
+     * Sets the max number of player of this game
+     * @param maxNumPlayer
+     */
+    public void setMaxNumPlayer(int maxNumPlayer) {
+        this.maxNumPlayer = maxNumPlayer;
     }
 }

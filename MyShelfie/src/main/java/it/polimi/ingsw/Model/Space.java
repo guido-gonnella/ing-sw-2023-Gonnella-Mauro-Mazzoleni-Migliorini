@@ -1,8 +1,9 @@
 package it.polimi.ingsw.Model;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class Space {
+public class Space implements Serializable {
     private Optional<Tile> tile;
     private Boolean available;
 

@@ -2,12 +2,14 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Enumeration.Type;
 
+import java.io.Serializable;
+
 /**
  * basic element of the private objective to assign points, it has the coordinates and type of the virtual tile of the shelf
  *
  * @author Andrea Migliorini
  */
-public class ElementObjective {
+public class ElementObjective implements Serializable {
     private final int x;
     private final int y;
     private final Type type;

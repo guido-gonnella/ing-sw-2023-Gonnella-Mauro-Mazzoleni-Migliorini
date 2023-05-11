@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model;
 import exceptions.ImpossiblePrivateObjException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * the Private objective a solution to "hardcoding" the ElementObjectives inside the constructor it adds
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author Andrea Migliorini
  */
-public class PrivateObjective {
+public class PrivateObjective implements Serializable {
     private final ArrayList<ElementObjective> objective;
 
     public PrivateObjective(ArrayList<ElementObjective> list) throws ImpossiblePrivateObjException {
