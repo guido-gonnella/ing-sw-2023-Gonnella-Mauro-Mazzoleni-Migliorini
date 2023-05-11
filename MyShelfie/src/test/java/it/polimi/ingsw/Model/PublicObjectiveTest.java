@@ -258,7 +258,7 @@ public class PublicObjectiveTest {
             if (count >= 6) return true;
             return false;
         };
-        PublicObjective pubObj_sixCouples = new PublicObjective("SixTwoEqual");
+        PublicObjective pubObj_sixCouples = new PublicObjective("sixCouples");
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -273,8 +273,29 @@ public class PublicObjectiveTest {
         shelf1.putTile(tileC, 1);
         shelf1.putTile(tileD, 3);
         shelf1.putTile(tileD, 4);
-        assertTrue(pubObj_sixCouples.getResultObjective(shelf1));
 
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 5; j++) {
+                if(shelf1.getShelf()[i][j].isPresent()) {
+                    switch (shelf1.getShelf()[i][j].get().getType()) {
+                        case TROPHY -> System.out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> System.out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> System.out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> System.out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> System.out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> System.out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                }
+                else {
+                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
+
+        assertTrue(pubObj_sixCouples.getResultObjective(shelf1));
     }
 
     //lambda da rivedere

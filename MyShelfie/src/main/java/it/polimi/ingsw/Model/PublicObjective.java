@@ -2,6 +2,8 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Enumeration.Type;
 
+import javax.lang.model.type.NullType;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -379,8 +381,36 @@ public class PublicObjective {
 
                 return stairRL || stairLR;
             };
-            //case "sixCouples" ->
-            //case "fourQuadrupple" ->
+            case "sixCouples" -> this.obj = (shelf) -> {
+                int couples = 0;
+                boolean checked[][] = new boolean[6][5];
+                for(int i = 0; i < 6; i++) {
+                    for(int j = 0; j < 5; j++) {
+                        checked[i][j] = false;
+                    }
+                }
+
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        if (shelf.getShelf()[i][j].isPresent() && !checked[i][j]) {
+                            if (i<5 && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i+1][j].get().getType() && !checked[i+1][j]) {
+                                checked[i][j] = true;
+                                checked[i+1][j] = true;
+                                couples++;
+                            } else if (j<4 && shelf.getShelf()[i][j+1].isPresent() && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i][j+1].get().getType() && !checked[i][j+1]) {
+                                checked[i][j] = true;
+                                checked[i][j+1] = true;
+                                couples++;
+                            } else {
+                                checked[i][j] = true;
+                            }
+                        }
+                    }
+                }
+
+                return couples >= 6;
+            };
+            //case "fourQuadruple" ->
             default -> this.obj = null;
         }
     }
