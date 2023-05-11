@@ -2,8 +2,6 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Enumeration.Type;
 
-import javax.lang.model.type.NullType;
-import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -11,7 +9,7 @@ import java.util.Optional;
  *
  * @author Pierantonio Mauro
  */
-public class PublicObjective {
+public class PublicObjective implements {
     private final CommonObj obj;
 
     private final int HEIGHT = 6;
