@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 
@@ -17,5 +18,7 @@ public interface View {
     void shelfshow(Optional<Tile>[][] shelf);
     void showtilesinhand(ArrayList<Tile> hand);
     void askplayernumber();
-    public void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
+    void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
+    void showpublicobjective(String code);
+    void showprivateobjective(PrivateObjective objective);
 }

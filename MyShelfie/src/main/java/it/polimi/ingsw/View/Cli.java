@@ -1,6 +1,8 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.ClientController;
+import it.polimi.ingsw.Model.ElementObjective;
+import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -369,6 +371,52 @@ public class Cli extends ViewObservable implements View{
             } else {
                 out.print("completed no objectives");
             }
+        }
+    }
+
+    @Override
+    public void showpublicobjective(String code) {
+        switch (code)
+        {
+            case "4corners" -> out.print("place four of the same tiles on the corner of the shelf\n [=][■][=]\n[■][■][■]\n[=][■][=]\n");
+            case "6groupsof2"-> out.print("place six groups of at least 2 tiles of the same type \n [=][=]x6\n");
+            case "4groupsof4"-> out.print("place four groups of at least 4 tiles of the same type\n [=][=][=][=]x4\n");
+            case "squareoftiles"-> out.print("place 2 groups of 4 tiles in a square of 2x2 tiles\n [=][=]\n[=][=]x2\n");
+            case "3columns"-> out.print("place 3 groups of 6 tiles in a column, it can have at most 3 different types of tiles" );
+            case "xtiles"->out.print("place a group of 5 tiles in a X pattern\n [=][■][=]\n[■][=][■]\n[=][■][=]\n");
+            case "8equaltiles" ->out.print("place 8 tiles of the same type\n[=]x8");
+            case "2columns" ->out.print("place 2 groups of 6 tiles of different types in a column\n [≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
+            case "2lines" -> out.print("place 2 groups of 5 tiles of different types in a line\n [≠][≠][≠][≠][≠]");
+            case "diagonal"-> out.print("place 5 tiles in a diagonal");
+            case "4lines"-> out.print("place 4 groups of 5 tiles in a line, it can have at most 3 different types of tiles");
+            case "stairs"-> out.print("place 5 columns of increasing height from left to right or right to left, starting from a height of 1");
+            default ->out.print("invalid objective");
+
+        }
+    }
+
+    @Override
+    public void showprivateobjective(PrivateObjective objective) {
+        int z=0;
+        for (int i = 0; i <6; i++) {
+            for (int j=0;j<5;j++){
+                if (objective.getObjective().get(z).getX()==i && objective.getObjective().get(z).getY()==j){
+                    switch (objective.getObjective().get(z).getType()) {
+                        case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                    z++;
+                }else {
+                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+
+            }
+            out.print("\n");
         }
     }
 }
