@@ -19,7 +19,8 @@ public class Cli extends ViewObservable implements View{
     private final PrintStream out;
     private Scanner input;
     private String temp;
-    public Cli(){out= System.out;
+    public Cli(){
+        out= System.out;
         out.print("""
                  __          __  _                            _______                         _____ _          _ ______      \s
                  \\ \\        / / | |                          |__   __|                       / ____| |        | |  ____(_)    \s
@@ -218,13 +219,13 @@ public class Cli extends ViewObservable implements View{
     }
 
 
-    @Override
     /**
      * *prints the board to the player in color
      @param Space[][] the game Board
       * @author Samuele Mazzoleni
      * @author Andrea Migliorini
      **/
+    @Override
     public void boardshow (Space[][] board){
         out.print("-");
         for (int i=0;i<board.length;i++) {
@@ -254,13 +255,13 @@ public class Cli extends ViewObservable implements View{
     }
 
 
-    @Override
     /**
      * *prints the board to the player in color
      @param Optional[][]<Tile> shelf
       * @author Pier Antonio Mauro
      * @author Andrea Migliorini
      **/
+    @Override
     public void shelfshow(Optional<Tile>[][] shelf) {
         out.print("- 0  1  2  3  4  5\n");
         for (int i = 0; i < shelf.length; i++) {

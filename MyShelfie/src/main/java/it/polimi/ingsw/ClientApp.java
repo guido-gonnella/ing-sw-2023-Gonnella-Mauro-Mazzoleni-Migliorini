@@ -20,6 +20,11 @@ public class ClientApp {
                 cliView = true;
                 break;
             }
+            /*
+            if (arg.equals("--rmi")){
+                //set connection to rmi
+            }
+            */
         }
 
         if(cliView){
