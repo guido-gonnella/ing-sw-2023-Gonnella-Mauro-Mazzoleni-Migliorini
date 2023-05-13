@@ -1,11 +1,12 @@
 package it.polimi.ingsw.Network;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.Set;
 
-public class ServerHandler {
+public class ServerHandler implements Runnable {
 
     Set<String> usernames;
     Map<Set<String>, Server> mapPlayerServer;
@@ -19,6 +20,43 @@ public class ServerHandler {
         usernames = null;
     }
 
+    /**
+     * Method that opens a socket to the port indicated in the constructor. The handler will then wait
+     * for the connection of new clients. Sets a timer that will expire if the handler does not receive
+     * messages from a certain client, causing it to disconnect
+     */
+    @Override
+    public void run(){
+        ServerSocket serverSocket;
+
+        try {
+            serverSocket = new ServerSocket(port);
+            System.out.println("Socket server started on port " + port + ".");
+        } catch (IOException e) {
+            System.err.println("Server could not start!");
+            return;
+        }
+
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Socket client = serverSocket.accept();
+                client.setSoTimeout(5000);
+
+                ClientHandler clientHandler = new ClientHandler(socketServer, client);
+                Thread thread = new Thread(clientHandler);
+                thread.start();
+                /*Socket client = serverSocket.accept();
+                client.setSoTimeout(5000);
+
+                ClientHandler clientHandler = new ClientHandler(this, client);
+                Thread thread = new Thread(clientHandler);
+                thread.start();*/
+            } catch (IOException e) {
+                System.err.println("Connection dropped");
+
+            }
+        }
+    }
     public void init(){
         usernames = null;
         mapPlayerServer = null;

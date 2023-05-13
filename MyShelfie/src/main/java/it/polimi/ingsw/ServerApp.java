@@ -29,7 +29,8 @@ public class ServerApp {
         }
 
         ServerHandler serverHandler = new ServerHandler(serverPort);
-        serverHandler.init();
+        Thread thread = new Thread(serverHandler, "serverhandler_");
+        thread.start();
 
         /*  questa roba servirà quando avremo implementato anche la GUI
 

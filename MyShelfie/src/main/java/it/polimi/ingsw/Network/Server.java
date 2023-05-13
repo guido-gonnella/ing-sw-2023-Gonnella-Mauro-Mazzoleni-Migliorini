@@ -4,6 +4,8 @@ import it.polimi.ingsw.Controller.GameController;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Server {
@@ -52,5 +54,15 @@ public class Server {
 
     public void setMaxPlayer(int maxPlayer){
         this.maxPlayer = maxPlayer;
+    }
+
+    /**
+     * Manages the disconnection of a client by notifying the associated client of the error.
+     * Create a new clientHandler map to handle subsequent reconnection.
+     *
+     * @param clientHandler the clientHandler of the player who disconnected
+     */
+    public void onDisconnection(ClientHandler clientHandler) {
+
     }
 }

@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SocketServer {
+
+    Server server;
     ServerSocket socket;
     OutputStream out;
     InputStream in;
@@ -60,6 +62,15 @@ public class SocketServer {
             System.exit(1);
             return null;
         }
+    }
+
+    /**
+     * Notify to the server that a client disconnected.
+     *
+     * @param clientHandler the clientHandler associated to the client disconnected
+     */
+    public void onDisconnection(ClientHandler clientHandler) {
+        server.onDisconnection(clientHandler);
     }
 
 }
