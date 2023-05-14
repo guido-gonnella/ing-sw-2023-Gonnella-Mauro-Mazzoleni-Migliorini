@@ -27,5 +27,6 @@ public enum MsgType {
     PLAYER_UPDATE,
     END_STATS,
     HAND_UPDATE,
-    ERROR
+    ERROR,
+    PING
 }

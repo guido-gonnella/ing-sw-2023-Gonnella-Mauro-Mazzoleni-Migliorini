@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Network;
 
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MsgType;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,21 +18,22 @@ public class ClientHandler implements Runnable{
     private transient ObjectInputStream input;
     private transient int timer;
     private transient boolean enableTimer;
-    private transient final Object lock;
-    private transient String nickname;
+    private transient final Object inputLock;
+    private transient final Object outputLock;
 
     public ClientHandler(SocketServer socketServer, Socket client) {
         this.socketServer = socketServer;
         this.client = client;
         this.connected = true;
 
-        this.lock = new Object();
+        this.inputLock = new Object();
+        this.outputLock = new Object();
 
         try {
             this.output = new ObjectOutputStream(client.getOutputStream());
             this.input = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            Server.LOGGER.severe(e.getMessage());
         }
     }
 
@@ -41,8 +45,8 @@ public class ClientHandler implements Runnable{
     public void run() {
         try {
             handleClientConnection();
-        } catch (IOException | ClassCastException | ClassNotFoundException e) {
-            System.err.println("Client " + client.getInetAddress() + " connection dropped, client handler");
+        } catch (IOException | ClassNotFoundException e) {
+            Server.LOGGER.severe("Client " + client.getInetAddress() + " connection dropped, client handler");
             disconnect();
         }
     }
@@ -55,6 +59,27 @@ public class ClientHandler implements Runnable{
      */
     //da adattare al nostro codice
     private void handleClientConnection() throws IOException, ClassNotFoundException {
+        Server.LOGGER.info("Client connected from " + client.getInetAddress());
+
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
+                synchronized (inputLock) {
+                    Message message = (Message) input.readObject();
+
+                    if (message != null && message.getMsgType() != MsgType.PING) {
+                        if (message.getMsgType() == MsgType.LOGIN_REQUEST) {
+                            socketServer.addClient(message.getNickname(), this);
+                        } else {
+                            Server.LOGGER.info(() -> "Received: " + message);
+                            socketServer.onMessageReceived(message);
+                        }
+                    }
+                }
+            }
+        } catch (ClassCastException | ClassNotFoundException e) {
+            Server.LOGGER.severe("Invalid stream from client");
+        }
+        client.close();
         /*System.err.println("Client connected from " + client.getInetAddress());
 
         try {

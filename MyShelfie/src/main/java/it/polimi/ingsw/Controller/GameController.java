@@ -136,6 +136,8 @@ public class GameController implements Observer {
         this.gameState = state;
     }
 
+    public GameState getGameState(){ return this.gameState; }
+
     public void loginHandler(String nick) {
         if (game.getPlayerList().size() == 1) {
             //first player to be added

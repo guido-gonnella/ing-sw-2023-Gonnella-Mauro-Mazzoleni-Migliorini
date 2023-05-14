@@ -4,24 +4,59 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SocketServer {
+public class SocketServer implements Runnable {
 
-    Server server;
-    ServerSocket socket;
-    OutputStream out;
-    InputStream in;
+    private final Server server;
+    private final int port;
+    private ServerSocket serverSocket;
+    private OutputStream out;
+    private InputStream in;
 
     /**
      * Contructor of the class, given the port creates a SocketServer connected to that port
      * @param port
      */
-    public SocketServer(int port){
+    public SocketServer(Server server ,int port){
+        this.server = server;
+        this.port = port;
         try {
-            this.socket = new ServerSocket(port);
+            this.serverSocket = new ServerSocket(port);
         }catch (IOException e){
             System.err.println("Error in server creation");
             System.exit(1);
         }
+    }
+
+    public void run(){
+        try {
+            serverSocket = new ServerSocket(port);
+            Server.LOGGER.info(() -> "Socket server: ON \n Connected to: " + port + " port.");
+        } catch (IOException e) {
+            Server.LOGGER.severe("Error in starting server");
+            return;
+        }
+
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Socket client = serverSocket.accept();
+                client.setSoTimeout(6000);
+
+                ClientHandler clientHandler = new ClientHandler(this, client);
+                Thread thread = new Thread(clientHandler, "ss_handler" + client.getInetAddress());
+                thread.start();
+            } catch (IOException e) {
+                Server.LOGGER.severe("Connection lost");
+            }
+        }
+    }
+
+    /**
+     * Method that handles the adding of a new client to the game
+     * @param username client's username
+     * @param clientHandler client's clientHandles class
+     */
+    public void addClient(String username, ClientHandler clientHandler){
+        server.addClient(username, clientHandler);
     }
 
     public ServerSocket getServerSocket(){

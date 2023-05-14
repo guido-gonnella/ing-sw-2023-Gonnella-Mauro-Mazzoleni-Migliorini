@@ -113,4 +113,13 @@ public class ServerHandler implements Runnable {
     public boolean validNumberPlayers(int max){
         return max >= 2 && max <= 4;
     }
+
+    /**
+     * Check that the username is not already in use
+     * @param username users's username
+     * @return if it's used or not
+     */
+    public boolean checkLoginName(String username){
+        return usernames.contains(username);
+    }
 }

@@ -28,9 +28,16 @@ public class ServerApp {
             }
         }
 
-        ServerHandler serverHandler = new ServerHandler(serverPort);
-        Thread thread = new Thread(serverHandler, "serverhandler_");
+        GameController gameController = new GameController();
+        Server server = new Server(gameController);
+
+        SocketServer socketServer = new SocketServer(server, serverPort);
+        Thread thread = new Thread(socketServer, "socketserver_");
         thread.start();
+
+        /*ServerHandler serverHandler = new ServerHandler(serverPort);
+        Thread thread = new Thread(serverHandler, "serverhandler_");
+        thread.start();*/
 
         /*  questa roba servirà quando avremo implementato anche la GUI
 
