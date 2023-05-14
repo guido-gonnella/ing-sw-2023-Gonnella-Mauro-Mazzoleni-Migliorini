@@ -5,12 +5,32 @@ import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Network.*;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 
 public class ServerApp {
     public static void main(String[] args){
 
-        int serverPort = 4999; //default value
+        int serverPort = 8080; //default value
+        boolean socket = true;
+
+        for (int i = 0; i < args.length; i++) {
+            if (args.length >= 2 && (args[i].equals("--port") || args[i].equals("-p"))) {
+                try {
+                    serverPort = Integer.parseInt(args[i + 1]);
+                } catch (NumberFormatException e) {
+                    PrintStream out = new PrintStream(System.out);
+                    out.print("Error in the number format of the port");
+                }
+            }
+            if (args[i].equals("--rmi")) {
+                socket = false;
+            }
+        }
+
+        ServerHandler serverHandler = new ServerHandler(serverPort);
+        Thread thread = new Thread(serverHandler, "serverhandler_");
+        thread.start();
 
         /*  questa roba servirà quando avremo implementato anche la GUI
 

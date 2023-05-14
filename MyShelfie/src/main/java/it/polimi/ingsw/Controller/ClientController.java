@@ -40,7 +40,8 @@ public class ClientController implements Observer, ViewObserver {
             client = new SocketClient(serverAddr, port);
             client.addObserver(this);
         } catch (IOException e) {
-            // show on screen an error
+            System.err.println("Error while connecting");
+            System.exit(1);
         }
     }
 
@@ -73,7 +74,8 @@ public class ClientController implements Observer, ViewObserver {
                 //view.showError();
                 break;
             case END_STATS:
-                //view.showpoints(((EndStatsMessage) msg).getPlayer_points().get(nick));
+                //view.showpoints(); <- dove si trova la map?
+                //view.showpoints(((EndStatsMessage) msg).getPlayer_points().get(nick)); <- ???
                 break;
             case LOGIN_REPLY:
                 //view.showLoginReply();
