@@ -18,7 +18,7 @@ public class BoardTestEmoji {
     }
 
     @Test
-    public void boardTestWithEmoji() {
+    public void test1() {
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
                 board.getGrid()[i][j].setAvailable();

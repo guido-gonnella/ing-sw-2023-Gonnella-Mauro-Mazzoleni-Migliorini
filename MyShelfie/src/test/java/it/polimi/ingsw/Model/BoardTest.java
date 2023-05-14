@@ -10,14 +10,14 @@ public class BoardTest {
     Board board = new Board();
     SackOfTiles sack = new SackOfTiles();
 
-    @After
+    @Before
     public void reset() {
         board = new Board();
         sack = new SackOfTiles();
     }
 
     @Test
-    public void fill_allBoardSetAvailable_checkFill_PreFillAndPostFill() {
+    public void test1() {
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
                 board.getGrid()[i][j].setAvailable();
@@ -60,7 +60,7 @@ public class BoardTest {
     }
 
     @Test
-    public void fill_5x5BoardSetAvailable_checkFill_PreFillAndPostFill() {
+    public void test2() {
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 5; j++) {
                 board.getGrid()[i][j].setAvailable();
@@ -102,7 +102,7 @@ public class BoardTest {
     }
 
     @Test
-    public void fill_TwoSpacesSetAvailable_fillWithThirdSpaceSetAvailable_checkFillOnBoth() {
+    public void test3() {
         System.out.println("Test3:");
 
         board.getGrid()[0][0].setAvailable();
@@ -170,7 +170,7 @@ public class BoardTest {
     }
 
     @Test
-    public void fill_AllBoardSetAvailable_takeTilesOnCenterTile_checkFillOnBoth() {
+    public void test4() {
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
                 board.getGrid()[i][j].setAvailable();

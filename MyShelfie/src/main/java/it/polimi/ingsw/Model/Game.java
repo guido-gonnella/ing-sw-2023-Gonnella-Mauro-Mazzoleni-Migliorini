@@ -58,7 +58,7 @@ public class Game implements Serializable {
     }
 
     public ArrayList<Tile> getTilesInCurrPlayerHand(){
-        return this.tilesInCurrPlayerHand;
+        return (ArrayList<Tile>) this.tilesInCurrPlayerHand.clone();
     }
     /**
      *
@@ -398,7 +398,6 @@ public class Game implements Serializable {
      */
     public void addPlayer(String name){
         this.players.add(new Player(name));
-        numPlayers++;
     }
 
     /**

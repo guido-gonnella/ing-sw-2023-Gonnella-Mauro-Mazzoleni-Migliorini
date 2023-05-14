@@ -392,13 +392,16 @@ public class PublicObjective implements Serializable {
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 5; j++) {
                         if (shelf.getShelf()[i][j].isPresent() && !checked[i][j]) {
-                            int vert = 0;
-                            int oriz = 0;
-                            while (j+oriz<4 && shelf.getShelf()[i][j+1+oriz].isPresent() && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i][j+1+oriz].get().getType() && !checked[i][j+1+oriz]) {
-                                oriz++;
-                            }
-                            while (i+vert<5 && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i+1+vert][j].get().getType() && !checked[i+1+vert][j]) {
-                                vert++;
+                            if (i<5 && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i+1][j].get().getType() && !checked[i+1][j]) {
+                                checked[i][j] = true;
+                                checked[i+1][j] = true;
+                                couples++;
+                            } else if (j<4 && shelf.getShelf()[i][j+1].isPresent() && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i][j+1].get().getType() && !checked[i][j+1]) {
+                                checked[i][j] = true;
+                                checked[i][j+1] = true;
+                                couples++;
+                            } else {
+                                checked[i][j] = true;
                             }
                         }
                     }
@@ -406,20 +409,7 @@ public class PublicObjective implements Serializable {
 
                 return couples >= 6;
             };
-            case "fourQuadruple" -> this.obj = (shelf) -> {
-                int quadruples = 0;
-                int counted_cell = 0;
-                boolean checked[][] = new boolean[6][5];
-                for(int i = 0; i < 6; i++) {
-                    for(int j = 0; j < 5; j++) {
-                        checked[i][j] = false;
-                    }
-                }
-
-
-
-                return quadruples >= 4;
-            };
+            //case "fourQuadruple" ->
             default -> this.obj = null;
         }
     }
