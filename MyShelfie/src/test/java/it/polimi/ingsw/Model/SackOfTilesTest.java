@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class SackOfTilesTest {
     @Test
-    public void test1() {
+    public void getRandomTilesUntilThrown_SackEmptyException_countAllTilesTaken() {
         SackOfTiles sack = new SackOfTiles();
         int cat = 0;
         int book = 0;

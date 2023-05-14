@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class TileTest {
     @Test
-    public void test() {
+    public void createTiles_assureTheyHaveSameTypeFromCreation() {
         Tile tile1 = new Tile(Type.BOOK);
         Tile tile2 = new Tile(Type.CAT);
         Tile tile3 = new Tile(Type.TROPHY);

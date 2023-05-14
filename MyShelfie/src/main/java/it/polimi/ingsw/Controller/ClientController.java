@@ -73,7 +73,7 @@ public class ClientController implements Observer, ViewObserver {
                 //view.showError();
                 break;
             case END_STATS:
-                view.showpoints(((EndStatsMessage) msg).getPlayer_points().get(nick));
+                //view.showpoints(((EndStatsMessage) msg).getPlayer_points().get(nick));
                 break;
             case LOGIN_REPLY:
                 //view.showLoginReply();
