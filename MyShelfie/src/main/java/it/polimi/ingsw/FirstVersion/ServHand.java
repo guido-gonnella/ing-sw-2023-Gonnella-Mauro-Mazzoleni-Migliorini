@@ -49,21 +49,28 @@ public class ServHand implements Runnable{
         while(!Thread.currentThread().isInterrupted()){
             try{
                 Socket client = serverSocket.accept();
-                client.setSoTimeout(6000);
-                Clien clien = new Clien(client);
+                client.setSoTimeout(5000);
+                Clien clien = new Clien(client, port);
 
-                getUsername(clien);
+                String user = getUsername(clien);
+                clien.setUsername(user);
+                boolean avaible = false;
 
                 if(!serverList.isEmpty()){
                     for(Serv s:serverList){
                         if(s.getNumPlayer() < s.getMaxNumPlayer()) {
                             s.addClient(clien);
-                            return;
+                            avaible = true;
                         }
                     }
+                    if(!avaible){
+                        Serv serv = new Serv(clien, port);
+                        serverList.add(serv);
+                    }
+                }else{
+                    Serv serv = new Serv(clien, port);
+                    serverList.add(serv);
                 }
-                Serv serv = new Serv(clien, port);
-                serverList.add(serv);
 
 
             }catch (IOException e){
@@ -76,7 +83,7 @@ public class ServHand implements Runnable{
      * Check if the username is valid (not "" and not already in use)
      * @param client
      */
-    private void getUsername(Clien client){
+    private String getUsername(Clien client){
         Socket clientSocket = client.getSocket();
         socketServ.sendMessage(clientSocket, MessagesAAA.GET_USERNAME);
         String user = socketServ.readUsername(clientSocket);
@@ -86,5 +93,7 @@ public class ServHand implements Runnable{
             user = socketServ.readUsername(clientSocket);
         }
         socketServ.sendAck(clientSocket); /* ack */
+        usernamesList.add(user);
+        return user;
     }
 }
