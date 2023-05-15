@@ -8,7 +8,6 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # Ignore game assets
-assets/*
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -86,4 +85,10 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
-assets/
+/MyShelfie/src/main/resources/boards/
+/MyShelfie/src/main/resources/common goal cards/
+/MyShelfie/src/main/resources/item tiles/
+/MyShelfie/src/main/resources/misc/
+/MyShelfie/src/main/resources/personal goal cards/
+/MyShelfie/src/main/resources/Publisher material/
+/MyShelfie/src/main/resources/scoring tokens/
