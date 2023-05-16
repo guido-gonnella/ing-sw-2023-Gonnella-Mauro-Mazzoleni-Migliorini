@@ -398,7 +398,6 @@ public class Game implements Serializable {
      */
     public void addPlayer(String name){
         this.players.add(new Player(name));
-        numPlayers++;
     }
 
     /**

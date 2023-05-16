@@ -22,18 +22,18 @@ public class Serv implements Runnable{
     private int port;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
-    public Serv(Clien client, int port){
+    /*public Serv(Clien client, int port){
         this.socketServ = new SocketServ(client.getSocket(), port);
         clients.add(client);
         readNumPlayers(client.getSocket());
         numPlayer = 1;
-    }
+    }*/
 
     /**
      * Read the max number of players and ensures that is valid
      * @param socket of the client
      */
-    private void readNumPlayers(Socket socket){
+    /*private void readNumPlayers(Socket socket){
         socketServ.sendMessage(socket, GET_NUM_PLAYERS);
         maxNumPlayer = socketServ.readInt(socket);
         while(maxNumPlayer <= 1 || maxNumPlayer > 4){
@@ -41,7 +41,7 @@ public class Serv implements Runnable{
             maxNumPlayer = socketServ.readInt(socket);
         }
         socketServ.sendNack(socket);
-    }
+    }*/
 
     @Override
     public void run() {

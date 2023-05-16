@@ -23,7 +23,7 @@ public class SocketClien {
             System.exit(1);
         }
     }
-
+/*
     public void receiveMessage(){
         try{
             in = socket.getInputStream();
@@ -66,5 +66,5 @@ public class SocketClien {
             System.err.println("Error in sending int");
             System.exit(1);
         }
-    }
+    }*/
 }

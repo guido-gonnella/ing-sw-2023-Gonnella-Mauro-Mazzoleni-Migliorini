@@ -24,10 +24,10 @@ public class CApp {
         }
         if(cliView){
             Cli view = new Cli();
-            String address = view.askAddress();
+            /*String address = view.askAddress();
             SocketClien socketClien = new SocketClien(address, port);
             Thread thread = new Thread(Cli, "cli_");
-            thread.start();
+            thread.start();*/
         }
     }
 }

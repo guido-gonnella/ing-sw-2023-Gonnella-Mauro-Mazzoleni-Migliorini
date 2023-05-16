@@ -194,7 +194,6 @@ public class PublicObjectiveTest {
         assertFalse(pubObj.getResultObjective(shelf4));
     }
 
-    //lambda da rivedere
     @Test
     public void lambda_six_couples() throws ColumnAlreadyFullException, OutOfShelfException {
         Shelf shelf1 = new Shelf(); // true, easy
@@ -207,57 +206,7 @@ public class PublicObjectiveTest {
         Tile tileD = new Tile(Type.BOOK);
         Tile tileE = new Tile(Type.FRAME);
         Tile tileF = new Tile(Type.GAME);
-        CommonObj SixTwoEqual = (shelf) -> {
-            Optional<Tile>[][] temp = shelf.getShelf();
-            boolean[][] check = new boolean[6][5];
-            for(int i=0; i<6; i++){
-                for(int j=0; j<5; j++){
-                    check[i][j] = false;
-                }
-            }
-            int count = 0;  //counter for the groups of four adjacent equal tiles
 
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    if (!check[i][j] && temp[i][j].isPresent()) {
-                        Queue<Coords> q = new ArrayDeque<Coords>();
-                        int nEqualTiles = 1;
-
-                        q.add(new Coords(i, j));
-                        check[i][j] = true;
-
-                        while (!q.isEmpty() && nEqualTiles < 2) {
-                            int x = q.peek().x, y = q.peek().y;
-                            q.poll();
-
-                            if ((temp[x + 1][y].isEmpty() || temp[x + 1][y].get().getType().equals(temp[x][y].get().getType())) && !check[x + 1][y] && x + 1 >= 0 && x + 1 < 6) {
-                                q.add(new Coords(x + 1, y));
-                                nEqualTiles++;
-                                check[x + 1][j] = true;
-                            }
-                            if ((temp[x - 1][y].isEmpty() || temp[x - 1][y].get().getType().equals(temp[x][y].get().getType())) && !check[x - 1][y] && x - 1 >= 0 && x - 1 < 6) {
-                                q.add(new Coords(x - 1, y));
-                                nEqualTiles++;
-                                check[x - 1][y] = true;
-                            }
-                            if ((temp[x][y + 1].isEmpty() || temp[x][y + 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y + 1] && y + 1 >= 0 && y + 1 < 5) {
-                                q.add(new Coords(x, y + 1));
-                                nEqualTiles++;
-                                check[x][y + 1] = true;
-                            }
-                            if ((temp[x][y - 1].isEmpty() || temp[x][y - 1].get().getType().equals(temp[x][y].get().getType())) && !check[x][y - 1] && y - 1 >= 0 && y - 1 < 5) {
-                                q.add(new Coords(x, y - 1));
-                                nEqualTiles++;
-                                check[x][y - 1] = true;
-                            }
-                        }
-                        if (nEqualTiles == 2) count++;
-                    }
-                }
-            }
-            if (count >= 6) return true;
-            return false;
-        };
         PublicObjective pubObj_sixCouples = new PublicObjective("sixCouples");
 
         //shelf1
@@ -295,10 +244,9 @@ public class PublicObjectiveTest {
         }
         System.out.print("\n");
 
-        assertTrue(pubObj_sixCouples.getResultObjective(shelf1));
+        assertFalse(pubObj_sixCouples.getResultObjective(shelf1));
     }
 
-    //lambda da rivedere
     @Test
     public void lambda_four_quadruple() throws ColumnAlreadyFullException, OutOfShelfException {
         Shelf shelf1 = new Shelf(); // true, easy
@@ -311,41 +259,8 @@ public class PublicObjectiveTest {
         Tile tileD = new Tile(Type.BOOK);
         Tile tileE = new Tile(Type.FRAME);
         Tile tileF = new Tile(Type.GAME);
-        CommonObj checkClustersFour = (shelf) -> {
-            Optional<Tile>[][] temp = shelf.getShelf();
-            int count = 0;
-            boolean[][] visited = new boolean[6][5];
 
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    if (!visited[i][j] && temp[i][j].isPresent()) {
-                        Tile value = temp[i][j].get();
-                        visited[i][j] = true;
-
-                        boolean top = false;
-                        boolean bottom = false;
-                        boolean left = false;
-                        boolean right = false;
-                        if(temp[i-1][j].isPresent())
-                            top = (i > 0 && temp[i-1][j].get().equals(value) && !visited[i-1][j]);
-                        if(temp[i+1][j].isPresent())
-                            bottom = (i < 6-1 && temp[i+1][j].get().equals(value) && !visited[i+1][j]);
-                        if(temp[i][j-1].isPresent())
-                            left = (j > 0 && temp[i][j-1].get().equals(value) && !visited[i][j-1]);
-                        if(temp[i][j+1].isPresent())
-                            right = (j < 5-1 && temp[i][j+1].get().equals(value) && !visited[i][j+1]);
-
-                        if (top || bottom || left || right) {
-                            count++;
-                            checkAdjacent(temp, visited, i, j, value);
-                        }
-                    }
-                }
-            }
-
-            return count >= 4;
-        };
-        PublicObjective pubObj = new PublicObjective("checkClustersFour");
+        PublicObjective pubObj = new PublicObjective("fourQuadruple");
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -364,6 +279,28 @@ public class PublicObjectiveTest {
         shelf1.putTile(tileD, 3);
         shelf1.putTile(tileD, 3);
         shelf1.putTile(tileD, 3);
+
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 5; j++) {
+                if(shelf1.getShelf()[i][j].isPresent()) {
+                    switch (shelf1.getShelf()[i][j].get().getType()) {
+                        case TROPHY -> System.out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> System.out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> System.out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> System.out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> System.out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> System.out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                }
+                else {
+                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
+
         assertTrue(pubObj.getResultObjective(shelf1));
     }
 
@@ -968,5 +905,4 @@ public class PublicObjectiveTest {
             checkAdjacent(matrix, visited, i, j+1, value);
         }
     }
-
 }

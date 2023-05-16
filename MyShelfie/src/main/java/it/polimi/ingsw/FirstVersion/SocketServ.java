@@ -109,8 +109,8 @@ public class SocketServ {
             return null;
         }
     }
-
+/*
     public int readInt(Socket socket){
 
-    }
+    }*/
 }

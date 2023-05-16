@@ -27,14 +27,14 @@ public class ServerApp {
                 socket = false;
             }
         }
-
+/*
         GameController gameController = new GameController();
         Server server = new Server(gameController);
 
         SocketServer socketServer = new SocketServer(server, serverPort);
         Thread thread = new Thread(socketServer, "socketserver_");
         thread.start();
-
+*/
         /*ServerHandler serverHandler = new ServerHandler(serverPort);
         Thread thread = new Thread(serverHandler, "serverhandler_");
         thread.start();*/

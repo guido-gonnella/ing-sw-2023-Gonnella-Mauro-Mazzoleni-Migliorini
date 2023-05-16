@@ -51,7 +51,7 @@ public class Server {
     public void addClient(String username, ClientHandler clientHandler){
         //andrà modificato con una virtualview quando ci sarà la gui
         VirtualView vv = new VirtualView(clientHandler);
-
+/*
         if(gameController.getGameState() == GameState.LOGIN){
             if(gameController.checkLoginName(username, vv)){
 
@@ -59,7 +59,7 @@ public class Server {
         }
 
         Client client = new Client(clientSocket);
-        mapPlayerClient.put(username, client);
+        mapPlayerClient.put(username, client);*/
         numPlayer++;
     }
 

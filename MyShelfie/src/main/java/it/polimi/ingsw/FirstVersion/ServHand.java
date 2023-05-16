@@ -55,7 +55,7 @@ public class ServHand implements Runnable{
                 String user = getUsername(clien);
                 clien.setUsername(user);
                 boolean avaible = false;
-
+/*
                 if(!serverList.isEmpty()){
                     for(Serv s:serverList){
                         if(s.getNumPlayer() < s.getMaxNumPlayer()) {
@@ -71,7 +71,7 @@ public class ServHand implements Runnable{
                     Serv serv = new Serv(clien, port);
                     serverList.add(serv);
                 }
-
+*/
 
             }catch (IOException e){
                 LOGGER.severe("Connection lost");
