@@ -118,6 +118,12 @@ public class PrivateObjective implements Serializable {
                 throw new ImpossiblePrivateObjException();*/
         }
 
+
+    /**
+     * Initialize the private objective with one of the twelve cases.
+     * @param index choose the "card"
+     * @author Guido Gonnella
+     */
     public PrivateObjective(int index) {
         //initializing an array list of six element objectives
         objective = new ArrayList<ElementObjective>(6);

@@ -43,8 +43,14 @@ public class GameController implements Observer {
             case LOGIN -> {
                 onLogin(msg);
             }
-            case GOING -> {
-                goingState(msg);
+            case INIT -> {
+
+            }
+            case IN_GAME -> {
+                inGameState(msg);
+            }
+            case END -> {
+
             }
         }
     }
@@ -66,7 +72,7 @@ public class GameController implements Observer {
      *
      * @param msg
      */
-    private void goingState(Message msg) {
+    private void inGameState(Message msg) {
         switch (msg.getMsgType()) {
             case SELECT_TILE -> {
                 turnController.setCurrPlayer(msg.getUsername());

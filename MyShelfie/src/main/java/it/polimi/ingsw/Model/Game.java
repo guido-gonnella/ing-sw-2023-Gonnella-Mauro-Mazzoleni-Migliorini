@@ -20,7 +20,7 @@ public class Game implements Serializable {
     private final DeckOfPublicObjectives pubObjDeck;
     private final DeckOfPrivateObjectives prvObjDeck;
     private final ArrayList<Player> players;
-    private int numPlayers, maxNumPlayer;
+    private int maxNumPlayer;
     private Player firstPlayer;
     private Player currentPlayer;
     private final Stack<Integer>[] pointsPubObj =  new Stack[2];
@@ -65,13 +65,18 @@ public class Game implements Serializable {
         publicObjectives = (PublicObjective[]) pubObjDeck.getPublicObjective().toArray();
 
         //get private objectives and give to player
-        for(Player p : players){
+        //Fill a temporary list with the private objectives
+        ArrayList<PrivateObjective> chosenObj = prvObjDeck.getObjectives(players.size());
 
+        for(Player p : players){
+            //give the player the first public objective in the list
+            //it resembles the First Out logic
+            p.setPrivateObjective(chosenObj.get(0));
         }
     }
 
     public int getNumPlayers() {
-        return numPlayers;
+        return this.players.size();
     }
 
     /**
