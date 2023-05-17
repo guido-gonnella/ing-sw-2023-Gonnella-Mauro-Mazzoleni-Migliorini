@@ -16,7 +16,9 @@ import java.util.*;
 public class Game implements Serializable {
     private Board board;
     private SackOfTiles sackOfTiles;
-    private final PublicObjective[] publicObjectives;
+    private PublicObjective[] publicObjectives;
+    private final DeckOfPublicObjectives pubObjDeck;
+    private final DeckOfPrivateObjectives prvObjDeck;
     private final ArrayList<Player> players;
     private int numPlayers, maxNumPlayer;
     private Player firstPlayer;
@@ -30,12 +32,15 @@ public class Game implements Serializable {
     public Game() {
         this.board = new Board();
         this.sackOfTiles = new SackOfTiles();
-        this.publicObjectives = new PublicObjective[2];
+        //this.publicObjectives = new PublicObjective[2];
         this.players = new ArrayList<Player>();
 
         //non so cosa che mi dice quanti giocatori ci sono
         this.pointsPubObj[0] = new Stack<Integer>();
         this.pointsPubObj[1] = new Stack<Integer>();
+
+        pubObjDeck = new DeckOfPublicObjectives();
+        prvObjDeck = new DeckOfPrivateObjectives();
 
         //Random rand = new Random();
         //int index = rand.nextInt(this.players.size());
@@ -46,10 +51,35 @@ public class Game implements Serializable {
         this.tempTiles = new ArrayList<Coords>();
     }
 
+
+    /**
+     * Initialize method, for filling the board, choosing the common objectives and assigning private objectives to players
+     * @throws SackEmptyException if the sack of tiles is empty
+     * @author Guido Gonnella
+     */
+    public void init() throws SackEmptyException{
+        //fills the board picking tiles from the sack
+        this.board.fill(sackOfTiles);
+
+        // adding public/common objective
+        publicObjectives = (PublicObjective[]) pubObjDeck.getPublicObjective().toArray();
+
+        //get private objectives and give to player
+        for(Player p : players){
+
+        }
+    }
+
     public int getNumPlayers() {
         return numPlayers;
     }
 
+    /**
+     * return the player object by the nickname
+     * @param nick the nickname of the chosen player
+     * @return the player object
+     * @author Guido Gonnella
+     */
     public Player getPlayerByNick(String nick){
         for(Player p : players){
             if(p.getNickname().equals(nick)) return p;
