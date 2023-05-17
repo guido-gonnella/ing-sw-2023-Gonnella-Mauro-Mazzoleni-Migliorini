@@ -64,7 +64,7 @@ public class ClientController implements Observer, ViewObserver {
             case SELECT_TILE_REQUEST:
                 view.askselecttile();
                 break;
-            case  HAND_TILE_SWAP_REQUEST:
+            case HAND_TILE_SWAP_REQUEST:
                 view.askswap();
                 break;
             case SELECT_COL_REQUEST:
@@ -127,7 +127,7 @@ public class ClientController implements Observer, ViewObserver {
     public void onPlayerNumberReply(int numPlayers){ client.sendData(new NumberOfPlayerMessage(nick, numPlayers));}
 
     /**
-     * This method validates the given IP4v
+     * This method validates the given IPv4
      * @param ip address
      */
     public static boolean isValidIpAddress(String ip) {

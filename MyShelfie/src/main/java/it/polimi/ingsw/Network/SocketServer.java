@@ -58,10 +58,10 @@ public class SocketServer implements Runnable {
     public void addClient(String username, ClientHandler clientHandler){
         server.addClient(username, clientHandler);
     }
-
+/*
     public ServerSocket getServerSocket(){
         return this.socket;
-    }
+    }*/
     public void sendAck(Socket socket){
         try{
         out = socket.getOutputStream();

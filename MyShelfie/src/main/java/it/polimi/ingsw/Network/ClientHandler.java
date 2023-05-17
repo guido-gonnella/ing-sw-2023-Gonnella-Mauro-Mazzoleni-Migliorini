@@ -60,7 +60,7 @@ public class ClientHandler implements Runnable{
     //da adattare al nostro codice
     private void handleClientConnection() throws IOException, ClassNotFoundException {
         Server.LOGGER.info("Client connected from " + client.getInetAddress());
-
+/*
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 synchronized (inputLock) {
@@ -78,7 +78,7 @@ public class ClientHandler implements Runnable{
             }
         } catch (ClassCastException | ClassNotFoundException e) {
             Server.LOGGER.severe("Invalid stream from client");
-        }
+        }*/
         client.close();
         /*System.err.println("Client connected from " + client.getInetAddress());
 

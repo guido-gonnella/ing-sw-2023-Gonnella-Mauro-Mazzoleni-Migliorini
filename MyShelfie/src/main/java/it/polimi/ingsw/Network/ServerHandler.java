@@ -56,14 +56,14 @@ public class ServerHandler implements Runnable {
 
             }
         }
-    }
+    }/*
     public void init(){
         usernames = null;
         mapPlayerServer = null;
         Server server = new Server(port);
         this.socketServer = new SocketServer(port);
     }
-
+*/
 
     public void clientConnect(Socket socket){
 
@@ -72,7 +72,7 @@ public class ServerHandler implements Runnable {
     /**
      * Check the username used by the client isn't already in use
      * @param socket of the client
-     */
+     *//*
     public void collectUsername(Socket socket){
         String username = socketServer.readUsername(socket);
         if(!usernames.isEmpty()){
@@ -84,14 +84,14 @@ public class ServerHandler implements Runnable {
         socketServer.sendAck(socket);
         usernames.add(username);
         addClientToGame(username, socket);
-    }
+    }*/
 
     /**
      * Adds the client to a game where isn't already reached the max number or players,
      * otherwise creates a new game
      * @param username
      * @param socket
-     */
+     *//*
     public void addClientToGame(String username, Socket socket){
         if(!mapPlayerServer.isEmpty()){
             for(Server s : mapPlayerServer.values()){
@@ -103,7 +103,7 @@ public class ServerHandler implements Runnable {
         }
         Server server = new Server(port);
         server.addClient(username, socket);
-    }
+    }*/
 
     /**
      * Check if the max number of players is valid

@@ -3,7 +3,10 @@ package it.polimi.ingsw.Model;
 import it.polimi.ingsw.Model.Enumeration.Type;
 
 import java.io.Serializable;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Queue;
 
 /**
  * Class that contains a common objective and its realization
@@ -381,44 +384,78 @@ public class PublicObjective implements Serializable {
                 return stairRL || stairLR;
             };
             case "sixCouples" -> this.obj = (shelf) -> {
-                int couples = 0;
-                boolean checked[][] = new boolean[6][5];
+                int[][] gruppi = new int[6][5];
                 for(int i = 0; i < 6; i++) {
                     for(int j = 0; j < 5; j++) {
-                        checked[i][j] = false;
+                        gruppi[i][j] = -1;
                     }
                 }
+                int couples = 0;
+                ArrayList<Integer> count = new ArrayList<Integer>();
 
-                for (int i = 0; i < 6; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        if (shelf.getShelf()[i][j].isPresent() && !checked[i][j]) {
-                            int vert = 0;
-                            int oriz = 0;
-                            while (j+oriz<4 && shelf.getShelf()[i][j+1+oriz].isPresent() && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i][j+1+oriz].get().getType() && !checked[i][j+1+oriz]) {
-                                oriz++;
+                for(int i = 0; i < 6; i++) {
+                    for(int j = 0; j < 5; j++) {
+                        if(shelf.getShelf()[i][j].isPresent() && gruppi[i][j]==-1) {
+                            if(j-1>=0 && shelf.getShelf()[i][j-1].isPresent() && shelf.getShelf()[i][j-1].get().getType().equals(shelf.getShelf()[i][j].get().getType())) {
+                                gruppi[i][j]=gruppi[i][j-1];
+                                count.set(gruppi[i][j], count.get(gruppi[i][j])+1);
                             }
-                            while (i+vert<5 && shelf.getShelf()[i][j].get().getType()==shelf.getShelf()[i+1+vert][j].get().getType() && !checked[i+1+vert][j]) {
-                                vert++;
+                            else if(i-1>=0 && shelf.getShelf()[i-1][j].isPresent() && shelf.getShelf()[i-1][j].get().getType().equals(shelf.getShelf()[i][j].get().getType())) {
+                                gruppi[i][j]=gruppi[i-1][j];
+                                count.set(gruppi[i][j], count.get(gruppi[i][j])+1);
+                            }
+                            else {
+                                gruppi[i][j]= count.size();
+                                count.add(1);
                             }
                         }
                     }
                 }
 
-                return couples >= 6;
-            };
-            case "fourQuadruple" -> this.obj = (shelf) -> {
-                int quadruples = 0;
-                int counted_cell = 0;
-                boolean checked[][] = new boolean[6][5];
-                for(int i = 0; i < 6; i++) {
-                    for(int j = 0; j < 5; j++) {
-                        checked[i][j] = false;
+                for (Integer integer : count) {
+                    if (integer >= 2) {
+                        couples++;
                     }
                 }
 
+                return couples>=6;
+            };
+            case "fourQuadruple" -> this.obj = (shelf) -> {
+                int[][] gruppi = new int[6][5];
+                for(int i = 0; i < 6; i++) {
+                    for(int j = 0; j < 5; j++) {
+                        gruppi[i][j] = -1;
+                    }
+                }
+                int quadruples = 0;
+                ArrayList<Integer> count = new ArrayList<Integer>();
 
+                for(int i = 0; i < 6; i++) {
+                    for(int j = 0; j < 5; j++) {
+                        if(shelf.getShelf()[i][j].isPresent() && gruppi[i][j]==-1) {
+                            if(j-1>=0 && shelf.getShelf()[i][j-1].isPresent() && shelf.getShelf()[i][j-1].get().getType().equals(shelf.getShelf()[i][j].get().getType())) {
+                                gruppi[i][j]=gruppi[i][j-1];
+                                count.set(gruppi[i][j], count.get(gruppi[i][j])+1);
+                            }
+                            else if(i-1>=0 && shelf.getShelf()[i-1][j].isPresent() && shelf.getShelf()[i-1][j].get().getType().equals(shelf.getShelf()[i][j].get().getType())) {
+                                gruppi[i][j]=gruppi[i-1][j];
+                                count.set(gruppi[i][j], count.get(gruppi[i][j])+1);
+                            }
+                            else {
+                                gruppi[i][j]= count.size();
+                                count.add(1);
+                            }
+                        }
+                    }
+                }
 
-                return quadruples >= 4;
+                for (Integer integer : count) {
+                    if (integer >= 4) {
+                        quadruples++;
+                    }
+                }
+
+                return quadruples>=4;
             };
             default -> this.obj = null;
         }
@@ -434,6 +471,26 @@ public class PublicObjective implements Serializable {
      */
     public boolean getResultObjective(Shelf shelf){
         return this.obj.reach(shelf);
+    }
+
+    private static void checkAdjacent(Optional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
+        visited[i][j] = true;
+
+        if (i > 0 && matrix[i - 1][j].isPresent() && matrix[i - 1][j].get().equals(value) && !visited[i - 1][j]) {
+            checkAdjacent(matrix, visited, i - 1, j, value);
+        }
+
+        if (i < 6 - 1 && matrix[i - 1][j].isPresent() && matrix[i + 1][j].get().equals(value) && !visited[i + 1][j]) {
+            checkAdjacent(matrix, visited, i + 1, j, value);
+        }
+
+        if (j > 0 && matrix[i - 1][j].isPresent() && matrix[i][j - 1].get().equals(value) && !visited[i][j - 1]) {
+            checkAdjacent(matrix, visited, i, j - 1, value);
+        }
+
+        if (j < 5 - 1 && matrix[i - 1][j].isPresent() && matrix[i][j + 1].get().equals(value) && !visited[i][j + 1]) {
+            checkAdjacent(matrix, visited, i, j + 1, value);
+        }
     }
 }
 

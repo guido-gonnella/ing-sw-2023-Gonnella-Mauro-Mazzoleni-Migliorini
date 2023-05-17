@@ -13,20 +13,15 @@ import java.util.logging.Logger;
 public class SocketServ {
 
     private final int port;
-    private ServerSocket serverSocket;
+    private Socket socket;
     private OutputStream out;
     private InputStream in;
     private final Serv server;
 
-    public SocketServ(int port){
+    public SocketServ(Socket socket, int port){
         this.port = port;
+        this.socket = socket;
         server = null;
-        try {
-            this.serverSocket = new ServerSocket(port);
-        }catch (IOException e){
-            System.err.println("Error in server creation");
-            System.exit(1);
-        }
     }
 
     /**
@@ -114,4 +109,8 @@ public class SocketServ {
             return null;
         }
     }
+/*
+    public int readInt(Socket socket){
+
+    }*/
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.ClientController;
+import it.polimi.ingsw.FirstVersion.SocketClien;
 import it.polimi.ingsw.Model.ElementObjective;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
@@ -103,7 +104,7 @@ public class Cli extends ViewObservable implements View{
     @Override
     public void asknickname() {
         out.print("First Insert your Username: ");
-        temp= ReadText();
+        temp = ReadText();
         //notifyObservers(obs->obs.UpdateNickname(temp));
     }
 
