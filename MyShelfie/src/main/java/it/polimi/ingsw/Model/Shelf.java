@@ -105,4 +105,19 @@ public class Shelf implements Serializable {
             }
         }
     }
+
+    /**
+     * Method to check if the shelf is full.
+     * @return true if there aren't any empty spaces int the matrix, false if there are at least one
+     * @author Guido Gonnella
+     */
+    public boolean isFull(){
+        for(int i = 0; i < 6; i ++){
+            for(int j = 0; j < 5; j++){
+                if(shelf[i][j].isEmpty()) return false;
+            }
+        }
+
+        return true;
+    }
 }

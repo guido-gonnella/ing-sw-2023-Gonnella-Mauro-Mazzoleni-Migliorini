@@ -39,20 +39,26 @@ public class GameController implements Observer {
      * @author Guido Gonnella
      */
     public void onMessageReceived(Message msg) {
+
         switch (gameState) {
-            case LOGIN -> {
+            case LOGIN :
                 onLogin(msg);
-            }
-            case INIT -> {
-
-            }
-            case IN_GAME -> {
-                inGameState(msg);
-            }
-            case END -> {
-
-            }
+                break;
+            case INIT :
+                //maybe it's useless
+                break;
+            case IN_GAME :
+                if(msg.getUsername().equals(turnController.getCurrPlayer())) {
+                    inGameState(msg);
+                }
+                break;
+            case END:
+                if(msg.getUsername().equals(turnController.getCurrPlayer())){
+                    onEnd(msg);
+                }
+                break;
         }
+
     }
 
     private void onLogin(Message msg) {
@@ -78,44 +84,54 @@ public class GameController implements Observer {
                 turnController.setCurrPlayer(msg.getUsername());
                 turnController.setPhase(Phase.PICK_TILES);
                 game.selectTiles(((SelectTileMessage) msg).getX(), ((SelectTileMessage) msg).getY());
+
+                //send to client the updated list and board
             }
             case END_SEL_TILES -> {
-                if (turnController.getCurrPlayer().equals(msg.getUsername())) {
-                    turnController.setPhase(Phase.SELECT_ORDER);
-                    game.fillTilesInHand();
-                } else {
-                    //error
-                }
+                turnController.setPhase(Phase.SELECT_ORDER);
+                game.fillTilesInHand();
             }
             case SELECT_COL -> {
-                if (turnController.getCurrPlayer().equals(msg.getUsername())) {
-                    turnController.setPhase(Phase.PICK_COLUMN);
+                turnController.setPhase(Phase.PICK_COLUMN);
 
-                    Player player = game.getPlayerByNick(turnController.getCurrPlayer());
+                Player player = game.getPlayerByNick(turnController.getCurrPlayer());
 
-                    //it put the tiles in the shelf only there are enough spaces in the chosen column
-                    if (game.getTilesInCurrPlayerHand().size() <= player.getFreeSpaceInCol(((SelectColumnMessage) msg).getCol())) {
-                        for (Tile t : game.getTilesInCurrPlayerHand()) {
-                            player.placeTile(t, ((SelectColumnMessage) msg).getCol());
-                        }
+                //it put the tiles in the shelf only there are enough spaces in the chosen column
+                if (game.getTilesInCurrPlayerHand().size() <= player.getFreeSpaceInCol(((SelectColumnMessage) msg).getCol())) {
+                    for (Tile t : game.getTilesInCurrPlayerHand()) {
+                        player.placeTile(t, ((SelectColumnMessage) msg).getCol());
                     }
-                } else {
-                    //error
                 }
+
+                //send to client the updated shelf
+
             }
             case HAND_TILE_SWAP -> {
-                if (turnController.getCurrPlayer().equals(msg.getUsername())) {
-                    turnController.setPhase(Phase.SELECT_ORDER);
-                    game.swapInHand(((SwapTileInHandMessage) msg).getTo(), ((SwapTileInHandMessage) msg).getFrom());
-                } else {
-                    //error
-                }
+                turnController.setPhase(Phase.SELECT_ORDER);
+                game.swapInHand(((SwapTileInHandMessage) msg).getTo(), ((SwapTileInHandMessage) msg).getFrom());
+
             }
             case END_PL_TURN -> {
+                if(game.getPlayerByNick(msg.getUsername()).getShelf().isFull()){
+                    //the game enters the end state
+                    gameState = GameState.END;
+                }
 
+                turnController.nextTurn();
+                turnController.nextPlayer();
             }
         }
 
+    }
+
+    private void onEnd(Message msg){
+        if(!turnController.sameTurn()){
+            //not the same turn, some players have to finish the turn
+            //it redirects tp the inGameState method
+            inGameState(msg);
+        }else{
+
+        }
     }
 
     @Override
