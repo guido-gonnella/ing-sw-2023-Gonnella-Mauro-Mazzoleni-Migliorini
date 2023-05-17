@@ -17,6 +17,7 @@ public class TurnController implements Serializable {
     private Game game;
     private String currPlayer;
     private List<String> playerQueue;
+    private Map<String, Integer> playerturn;
 
     private GameController gameController;
     private Phase phase;
@@ -34,6 +35,13 @@ public class TurnController implements Serializable {
 
         this.playerQueue = new ArrayList<String>(game.getPlayerList());
 
+        //initializing the map with all the player nickname as the keys with the value 0
+        //every new turn, the corresponding value gets increased by 1
+        playerturn = new HashMap<>();
+        for(String p : playerQueue){
+            playerturn.put(p, 0);
+        }
+
         game.setFirstPlayer(playerQueue.get(0));
         currPlayer = playerQueue.get(0);
 
@@ -41,9 +49,22 @@ public class TurnController implements Serializable {
     }
 
     /**
+     * To check if all the players are at the same turn<br>
+     * It checks if the distinct values out of the stream of the values inside the hashmap playerturn, which contains the players' nicknames and
+     * their turn numbers, are only one distinct value.
+     * @return true if the player are at the same turn, false otherwise
+     */
+    public boolean sameTurn(){
+        return this.playerturn.values().stream().distinct().count() == 1;
+    }
+
+    /**
      * Picks the next player from the queue
      */
     public void nextPlayer(){
+        //add 1 to the turn value of the current player
+        playerturn.merge(currPlayer, 1, Integer::sum);
+
         phase = Phase.PICK_TILES;
 
         if(playerQueue.indexOf(currPlayer) + 1 < playerQueue.size()){
