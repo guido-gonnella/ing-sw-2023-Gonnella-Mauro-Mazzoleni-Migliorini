@@ -43,7 +43,7 @@ public class NewServerSocket {
             }
         }catch(IOException | ClassNotFoundException e){
             disconnect();
-            return new ErrorMessage("SERVER", "Error in receiving the message");
+            return new ErrorMessage("CLIENT", "Error in receiving the message");
         }
         //serve altrimenti il metodo si lamenta che manca il ritorno
         return null;
