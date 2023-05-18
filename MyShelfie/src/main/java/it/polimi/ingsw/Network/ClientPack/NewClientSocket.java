@@ -71,12 +71,18 @@ public class NewClientSocket {
     }
 
 
-    /*public ArrayList<Tile> selectOrderTile(ArrayList<Tile> tiles){
-        ArrayList<Tile> temp;
-        for(int i=0; i<tiles.size(); i++){
-        //printa le tiles in ordine
-        //printa di selezionare un numero tra 1 e tiles.size(), ripeti fino a quando non è valido
-        //aggiungi tile
-        }
-    }*/
+    //TODO finisci e metti al posto giusto
+    /*
+    public ArrayList<Tile> selectOrderTile(ArrayList<Tile> tiles){
+      ArrayList<Tile> temp;
+      for(int i=0; i<tiles.size(); i++){
+          do{
+              //printa le tiles in ordine
+              //printa di selezionare un numero tra 1 e tiles.size()
+          while(numero non è valido);
+      //aggiungi tile a temp e rimuovila da tiles
+      }
+      return temp;
+    }
+    */
 }
