@@ -70,4 +70,21 @@ public class VirtualView {
             socketMap.get(user).disconnect();
         }
     }
+
+    /**
+     * Sends a message in broadcast to all clients
+     * @param message that is sent in broadcast
+     */
+    public void writeBroadcast(Message message){
+        try{
+            for(String user : socketMap.keySet()){
+                socketMap.get(user).sendMessage(message);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            for(String user : socketMap.keySet()){
+                socketMap.get(user).disconnect();
+            }
+        }
+    }
 }
