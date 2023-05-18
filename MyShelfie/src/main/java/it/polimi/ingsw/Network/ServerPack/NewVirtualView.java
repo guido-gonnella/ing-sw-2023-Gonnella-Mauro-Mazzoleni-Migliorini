@@ -1,7 +1,6 @@
-package it.polimi.ingsw.Network.Message.Server;
+package it.polimi.ingsw.Network.ServerPack;
 
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,14 +9,14 @@ import java.util.Map;
  * Class that acts like a view for the server, it handles the "unpackaging"
  * and "packaging" of the messages from and to the client
  */
-public class VirtualView {
+public class NewVirtualView {
 
     private Map<String, NewServerSocket> socketMap;
 
     /**
      * Constructor of the class
      */
-    public VirtualView(){
+    public NewVirtualView(){
         this.socketMap = null;
     }
 
@@ -51,6 +50,9 @@ public class VirtualView {
             case SELECT_COL -> {
                 return received.getColumn();
             }
+            case DISCONNECT -> {
+                return received.getMessage();
+            }
         }*/
     //TODO da rimuovere questo return, è temporaneo per non far dare errore
         return null;
@@ -77,14 +79,15 @@ public class VirtualView {
      */
     public void writeBroadcast(Message message){
         try{
-            for(String user : socketMap.keySet()){
-                socketMap.get(user).sendMessage(message);
+            for(NewServerSocket server : socketMap.values()){
+                server.sendMessage(message);
             }
         }catch (IOException e){
             e.printStackTrace();
-            for(String user : socketMap.keySet()){
-                socketMap.get(user).disconnect();
+            for(NewServerSocket server : socketMap.values()){
+                server.disconnect();
             }
         }
     }
+
 }
