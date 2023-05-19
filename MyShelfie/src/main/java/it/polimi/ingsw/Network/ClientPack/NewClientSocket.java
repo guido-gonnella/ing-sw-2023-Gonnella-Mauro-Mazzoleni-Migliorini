@@ -71,7 +71,7 @@ public class NewClientSocket {
     }
 
 
-    //TODO finisci e metti al posto giusto
+    //TODO finire e mettere al posto giusto
     /*
     public ArrayList<Tile> selectOrderTile(ArrayList<Tile> tiles){
       ArrayList<Tile> temp;

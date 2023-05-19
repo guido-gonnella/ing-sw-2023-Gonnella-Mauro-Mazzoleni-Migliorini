@@ -28,6 +28,7 @@ public enum MsgType {
     END_STATS,
     HAND_UPDATE,
     ERROR,
+    DISCONNECTION,
 
     END_GAME,
 }

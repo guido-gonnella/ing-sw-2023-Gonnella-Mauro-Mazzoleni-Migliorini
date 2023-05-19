@@ -1,7 +1,13 @@
 package it.polimi.ingsw.Network.ServerPack;
 
+import it.polimi.ingsw.Model.Board;
+import it.polimi.ingsw.Model.Shelf;
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
+import it.polimi.ingsw.Network.Message.S2C.UpdateShelfMessage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Map;
 
@@ -31,27 +37,28 @@ public class NewVirtualView {
 
     /**
      * Takes an input from the client, the possible types are:
-     * SELECT_TILE
-     * HAND_TILE_SWAP
-     * SELECT_COL
+     * SELECT_TILE_REQUEST
+     * SELECT_COL_REQUEST
+     * When the object is read by the gameController a cast type is necessary
      * @param user that have to send the input
      * @return the input of the client
      */
-    public Object read(String user){
-        Message received = socketMap.get(user).readMessage();
+    /*TODO nel gameController inserire un try catch ogni volta che viene chiamato read per
+    *  catchare ClassNotFoundException */
+    public Object read(String user, MsgType message){
+        NewServerSocket destinationClient = socketMap.get(user);
         //TODO aggiustare gli attributi e i metodi dei messaggi in modo che restituiscano i dati voluti
         /*switch(received.getMsgType()){
-            case SELECT_TILE -> {
-                return received.getTiles();
+            case SELECT_TILE_REQUEST -> {
+                destinationClient.sendMessage(new AskTileSelectMsg());
+                Message received = destinationClient.readMessage();
+                //TODO modifcare il messaggio che invia il client al server quando sceglie le tiles in modo che ci sia un ArrayList di coordinate come attributo e un metodo che lo restituisca
+                return received.getCoordinates();
             }
-            case HAND_TILE_SWAP -> {
-                return received.getTiles();
-            }
-            case SELECT_COL -> {
-                return received.getColumn();
-            }
-            case DISCONNECT -> {
-                return received.getMessage();
+            case SELECT_COL_REQUEST -> {
+                destinationClient.sendMessage(new AskColumnSelectMsg());
+                Message received = destinationClient.readMessage();
+                return received.getCol();
             }
         }*/
     //TODO da rimuovere questo return, è temporaneo per non far dare errore
@@ -64,13 +71,28 @@ public class NewVirtualView {
      * @param user that will read the output
      * @param message that the client will receive
      */
-    public void write(String user, Message message){
-        try {
-            socketMap.get(user).sendMessage(message);
-        }catch (IOException e){
-            e.printStackTrace();
-            socketMap.get(user).disconnect();
+    //TODO rimuovere lo username tra i parametri dei messaggi, sono temporanei per non dare erorri
+    public void write(String user, MsgType message, Object sendObject){
+        NewServerSocket destinationClient = socketMap.get(user);
+        switch(message){
+            case BOARD_UPDATE -> {
+                try {
+                    destinationClient.sendMessage(new UpdateBoardMessage(user, (Board) sendObject));
+                }catch (IOException e){
+                    e.printStackTrace();
+                    destinationClient.disconnect();
+                }
+            }
+            case SHELF_UPDATE -> {
+                try {
+                    destinationClient.sendMessage(new UpdateShelfMessage(user, (Shelf) sendObject));
+                }catch (IOException e){
+                    e.printStackTrace();
+                    destinationClient.disconnect();
+                }
+            }
         }
+
     }
 
     /**
