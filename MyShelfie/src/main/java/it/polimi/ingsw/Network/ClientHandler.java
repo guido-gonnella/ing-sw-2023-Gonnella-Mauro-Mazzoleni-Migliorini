@@ -42,13 +42,13 @@ public class ClientHandler implements Runnable{
      * the method for handling messages.
      */
     @Override
-    public void run() {
+    public void run() {/*
         try {
-            handleClientConnection();
+            //handleClientConnection();
         } catch (IOException | ClassNotFoundException e) {
             Server.LOGGER.severe("Client " + client.getInetAddress() + " connection dropped, client handler");
             disconnect();
-        }
+        }*/
     }
 
     /**
@@ -58,6 +58,7 @@ public class ClientHandler implements Runnable{
      * @throws IOException any of the usual Input/Output related exceptions.
      */
     //da adattare al nostro codice
+    /* /*
     private void handleClientConnection() throws IOException, ClassNotFoundException {
         Server.LOGGER.info("Client connected from " + client.getInetAddress());
 /*
@@ -125,7 +126,7 @@ public class ClientHandler implements Runnable{
             throw e;
         }
         client.close();*/
-    }
+    //}
 
     /**
      * Disconnect the socket.

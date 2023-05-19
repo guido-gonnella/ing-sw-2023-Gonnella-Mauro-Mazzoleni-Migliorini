@@ -1,29 +1,17 @@
-package it.polimi.ingsw.View;
+package it.polimi.ingsw.View.Gui;
+
 
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
-import it.polimi.ingsw.Network.ClientHandler;
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Observer.Observer;
-
+import it.polimi.ingsw.Observer.ViewObservable;
+import it.polimi.ingsw.View.View;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public class VirtualView implements View, Observer {
+public class Gui extends ViewObservable implements View {
 
-    private final ClientHandler clientHandler;
-
-    /**
-     * Constructor of the class
-     */
-    public VirtualView(ClientHandler clientHandler){ this.clientHandler = clientHandler; }
-
-    @Override
-    public void update(Message msg) {
-
-    }
 
     @Override
     public void init() {

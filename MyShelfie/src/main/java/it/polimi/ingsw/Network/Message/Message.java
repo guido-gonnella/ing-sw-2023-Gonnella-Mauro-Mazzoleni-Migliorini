@@ -17,9 +17,8 @@ public class Message implements Serializable {
     private MsgType type;
     private String username;
 
-    public Message(MsgType t, String u){
+    public Message(MsgType t){
         this.type = t;
-        this.username = u;
     }
 
     /**

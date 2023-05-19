@@ -1,7 +1,8 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.ClientController;
-import it.polimi.ingsw.FirstVersion.SocketClien;
+//import it.polimi.ingsw.FirstVersion.SocketClien;
+import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Model.ElementObjective;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
@@ -53,7 +54,7 @@ public class Cli extends ViewObservable implements View{
                 if(serverAddr.equals("")){
                     valid = false;
                 }
-                else if(ClientController.isValidIpAddress(serverAddr)){
+                else if(NetworkHandler.isValidIpAddress(serverAddr)){
                     valid = true;
                 }
                 else{
@@ -74,7 +75,7 @@ public class Cli extends ViewObservable implements View{
             out.print("Please input the port of the server");
             try{
                 port = ReadInt();
-                if(ClientController.isValidPort(port)) {
+                if(NetworkHandler.isValidPort(port)) {
                     valid = true;
                 }
                 else{
@@ -105,7 +106,7 @@ public class Cli extends ViewObservable implements View{
     public void asknickname() {
         out.print("First Insert your Username: ");
         temp = ReadText();
-        //notifyObservers(obs->obs.UpdateNickname(temp));
+      notifyObservers(obs->obs.onNicknameUpdate(temp));
     }
 
     /**
@@ -151,43 +152,34 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      */
     @Override
-    public void askswap(){
-        int to=4, from=4;
+    public void askswap(int num){
+        Integer x=4;
         boolean valid;
+        ArrayList<Integer> positions= new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        out.print("input \"x,y\" the first tile and to which position to move it in, to confirm the order of the tiles type \"-1,-1\"");
-        do {
-            try{valid=true;
-                from =in.nextInt();}
-            catch(InputMismatchException e){
-                out.print("please input valid positions: like 1,2 or 0,2");
-                valid=false;
-            }catch(NoSuchElementException e1){
-                out.print("please input valid positions: like 1,2 or 0,2");
-                valid=false;
-            }
-            if (from >2){valid= false;
-                out.print("please input valid positions: like 1,2 or 0,2");
-            }
-            if(valid){
-                try{
-                    to =in.nextInt();
-                    if (to > 3){valid= false;}
-                }catch(InputMismatchException e){
-                    out.print("please input valid coordinates: like 1,2 or 0,2");
-                    valid=false;
-                }catch(NoSuchElementException e1){
-                    out.print("please input valid coordinates: like 1,2 or 0,3");
-                    valid=false;
-                }
-                if (to >2|| from==to){valid= false;
+        out.print("input for each Tile input the order you want to insert them: for example \"2,1,0\" if you want to put the 0 tile last and the first tile");
+        for (int i=0; i<num;i++){
+            do {
+                try {
+                    valid = true;
+                    x = in.nextInt();
+                } catch (InputMismatchException e) {
+                    out.print("please input valid positions");
+                    valid = false;
+                } catch (NoSuchElementException e1) {
                     out.print("please input valid positions: like 1,2 or 0,2");
+                    valid = false;
                 }
-            }
-        } while (!valid);
-        int finalTo = to;
-        int finalFrom = from;
-        notifyObservers(obs -> obs.onSwap(finalTo, finalFrom));
+                if (x > 2) {
+                    valid = false;
+                    out.print("please input valid positions");
+                }
+
+                } while (!valid);
+            positions.add(x);
+        }
+
+        notifyObservers(obs -> obs.onSwap(positions));
     }
 
     /**
@@ -222,7 +214,7 @@ public class Cli extends ViewObservable implements View{
 
     /**
      * *prints the board to the player in color
-     @param Space[][] the game Board
+     @param board the game Board
       * @author Samuele Mazzoleni
      * @author Andrea Migliorini
      **/
@@ -258,7 +250,7 @@ public class Cli extends ViewObservable implements View{
 
     /**
      * *prints the board to the player in color
-     @param Optional[][]<Tile> shelf
+     @param shelf<Tile>[][] shelf
       * @author Pier Antonio Mauro
      * @author Andrea Migliorini
      **/

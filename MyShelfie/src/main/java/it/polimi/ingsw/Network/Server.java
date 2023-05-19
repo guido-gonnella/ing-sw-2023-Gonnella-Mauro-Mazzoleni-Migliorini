@@ -48,7 +48,7 @@ public class Server {
      * @param username client's username
      * @param clientHandler client's clientHandler class
      */
-    public void addClient(String username, ClientHandler clientHandler){
+   /* public void addClient(String username, ClientHandler clientHandler){
         //andrà modificato con una virtualview quando ci sarà la gui
         VirtualView vv = new VirtualView(clientHandler);
 /*
@@ -62,7 +62,7 @@ public class Server {
         mapPlayerClient.put(username, client);*/
         numPlayer++;
     }
-
+*/
     /**
      * Getter of numPlayer
      * @return

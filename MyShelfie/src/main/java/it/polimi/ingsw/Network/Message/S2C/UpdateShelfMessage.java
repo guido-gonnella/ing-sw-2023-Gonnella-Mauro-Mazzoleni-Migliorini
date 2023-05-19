@@ -12,7 +12,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class UpdateShelfMessage extends Message {
     private final Shelf shelf;
     public UpdateShelfMessage(String u, Shelf shelf) {
-        super(MsgType.SHELF_UPDATE, u);
+        super(MsgType.SHELF_UPDATE);
         this.shelf = shelf;
     }
 

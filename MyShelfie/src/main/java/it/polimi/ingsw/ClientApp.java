@@ -1,9 +1,12 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.Controller.ClientController;
+import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Network.SocketClient;
+import it.polimi.ingsw.View.Gui.JavaFXGui;
 import it.polimi.ingsw.View.PlayerView;
 import it.polimi.ingsw.View.Cli;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -29,9 +32,11 @@ public class ClientApp {
 
         if(cliView){
             Cli view = new Cli();
-            ClientController clientController = new ClientController(view);
-            view.addObserver(clientController);
+            NetworkHandler networkHandler = new NetworkHandler(view);
+            view.addObserver(networkHandler);
             view.init();
+        }else{
+            Application.launch(JavaFXGui.class);
         }
 
         /*  questa roba servirà quando avremo implementato anche la GUI

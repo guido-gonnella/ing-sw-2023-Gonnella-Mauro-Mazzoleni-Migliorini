@@ -10,26 +10,36 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 public class PrivateObjectiveTesting {
     PrivateObjective objective = null;
-    ArrayList<ElementObjective> TestingList = new ArrayList<>();
-
+    ArrayList<ElementObjective> TestingList;
     @Before
     public void setup(){
-        for (int i=0; i<3;i++) {
-            for (int j = 0; j < 3; j++) {
-                TestingList.add(new ElementObjective(i, j, Type.TROPHY));
-            }
-        }
-            try {
-                objective= new PrivateObjective(TestingList);
-            } catch (ImpossiblePrivateObjException e) {
-                throw new RuntimeException(e);
-            }
 
+        TestingList= new ArrayList<>();
     }
 
     @Test
-    public void correct_out(){
+    public void List_inserted_is_equal_to_output(){
+            for (int j = 0; j < 5; j++) {
+                TestingList.add(new ElementObjective(1, j, Type.TROPHY));
+            }
+        try {
+            objective= new PrivateObjective(TestingList);
+        } catch (ImpossiblePrivateObjException e) {
+            throw new RuntimeException(e);
+        }
         assertEquals(TestingList,objective.getObjective());
+    }
+    @Test
+    public void every_element_inserted_is_equal_to_output(){
+        for (int j = 0; j < 5; j++) {
+            TestingList.add(new ElementObjective(1, j, Type.TROPHY));
+        }
+        try {
+            objective= new PrivateObjective(TestingList);
+        } catch (ImpossiblePrivateObjException e) {
+            throw new RuntimeException(e);
+        }
+        for(int j=0;j<5;j++) assertEquals(TestingList.get(j).getY(),objective.getObjective().get(j).getY());
     }
     @After
     public void Teardown()

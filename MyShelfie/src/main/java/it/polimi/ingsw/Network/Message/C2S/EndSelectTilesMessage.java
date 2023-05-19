@@ -12,7 +12,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
  */
 public class EndSelectTilesMessage extends Message {
 
-    public EndSelectTilesMessage(String u) {
-        super(MsgType.END_SEL_TILES, u);
+    public EndSelectTilesMessage() {
+        super(MsgType.END_SEL_TILES);
     }
 }

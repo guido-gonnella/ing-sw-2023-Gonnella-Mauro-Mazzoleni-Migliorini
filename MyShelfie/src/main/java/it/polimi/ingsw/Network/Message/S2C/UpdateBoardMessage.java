@@ -13,7 +13,7 @@ public class UpdateBoardMessage extends Message {
     private final Board board;
 
     public UpdateBoardMessage(String u, Board board) {
-        super(MsgType.BOARD_UPDATE, u);
+        super(MsgType.BOARD_UPDATE);
         this.board = board;
     }
 

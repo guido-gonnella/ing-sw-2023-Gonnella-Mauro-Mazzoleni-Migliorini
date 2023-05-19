@@ -11,8 +11,8 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class UpdatePlInfoMessage extends Message {
     private final String user;
 
-    public UpdatePlInfoMessage(String u, String user) {
-        super(MsgType.PLAYER_UPDATE, u);
+    public UpdatePlInfoMessage(MsgType msg,String user) {
+        super(MsgType.PLAYER_UPDATE);
         this.user = user;
     }
 }

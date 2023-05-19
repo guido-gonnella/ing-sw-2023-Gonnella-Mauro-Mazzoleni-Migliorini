@@ -3,7 +3,8 @@ package it.polimi.ingsw.Observer;
 import it.polimi.ingsw.Model.Coords;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
+//TODO rewrite the observers javadocs
 /**
  * Observer interface with the methods from the view
  * @author Guido Gonnella
@@ -22,14 +23,14 @@ public interface ViewObserver {
      * @param col - the selected column
      */
     public void onSelectCol(int col);
+    public void onNicknameUpdate(String name);
 
     /**
      * Sends a message to the server with the position in the tiles in hand array, to swap
      *
-     * @param to position 1
-     * @param from position 2
-     */
-    public void onSwap(int to, int from);
+     * @param order
+     * */
+    public void onSwap(ArrayList<Integer> order);
 
     /**
      * Send a message to the server when the user wants to end the selection of tiles

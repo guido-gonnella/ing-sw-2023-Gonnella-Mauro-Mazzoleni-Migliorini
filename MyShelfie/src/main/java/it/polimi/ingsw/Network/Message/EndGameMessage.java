@@ -6,6 +6,6 @@ package it.polimi.ingsw.Network.Message;
 public class EndGameMessage extends Message{
 
     public EndGameMessage(){
-        super(MsgType.END_GAME, "SERVER");
+        super(MsgType.END_GAME);
     }
 }

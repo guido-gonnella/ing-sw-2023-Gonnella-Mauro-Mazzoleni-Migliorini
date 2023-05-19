@@ -2,6 +2,7 @@ package it.polimi.ingsw.Network.ClientPack;
 
 import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MsgType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -41,7 +42,7 @@ public class NewClientSocket {
             }
         }catch(IOException | ClassNotFoundException e){
             disconnect();
-            return new ErrorMessage("SERVER", "Error in receiving the message");
+            return(new Message(MsgType.ERROR) );
         }
         //serve altrimenti il metodo si lamenta che manca il ritorno
         return null;

@@ -12,7 +12,7 @@ public class NumberOfPlayerMessage extends Message {
     private final int num;
 
     public NumberOfPlayerMessage(String u, int num) {
-        super(MsgType.NUMBER_PLAYER_REPLY, u);
+        super(MsgType.NUMBER_PLAYER_REPLY);
         this.num = num;
     }
 

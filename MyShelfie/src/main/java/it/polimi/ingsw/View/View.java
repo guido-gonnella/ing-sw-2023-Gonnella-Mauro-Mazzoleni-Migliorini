@@ -12,7 +12,7 @@ public interface View {
     void init();
     void asknickname();
     void askselecttile();
-    void askswap();
+    void askswap(int num);
     void askinsertcol();
     void boardshow(Space[][] board);
     void shelfshow(Optional<Tile>[][] shelf);

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.Network.Message.C2S;
 
+import it.polimi.ingsw.Model.Coords;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MsgType;
+
+import java.util.ArrayList;
 
 /**
  * Message from client to server<br>
@@ -10,13 +13,20 @@ import it.polimi.ingsw.Network.Message.MsgType;
  *
  * @author Samuele Mazzoleni
  */
+//TODO gli attributi x e y possono essere rimossi
 public class SelectTileMessage extends Message {
     private final int x, y;
+    private final ArrayList<Coords> coords;
 
     public SelectTileMessage(String u, int x, int y) {
-        super(MsgType.SELECT_TILE, u);
+        super(MsgType.SELECT_TILE);
         this.x = x;
         this.y = y;
+        coords = new ArrayList<>();
+    }
+
+    public void addCoord(int x, int y){
+        coords.add(new Coords(x,y));
     }
 
     // GETTER
@@ -27,4 +37,6 @@ public class SelectTileMessage extends Message {
     public int getY() {
         return y;
     }
+
+    public ArrayList<Coords> getCoordinates(){ return coords;}
 }

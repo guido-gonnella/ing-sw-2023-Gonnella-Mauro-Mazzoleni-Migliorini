@@ -14,6 +14,7 @@ import it.polimi.ingsw.View.Cli;
 import it.polimi.ingsw.View.View;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -65,7 +66,7 @@ public class ClientController implements Observer, ViewObserver {
                 view.askselecttile();
                 break;
             case HAND_TILE_SWAP_REQUEST:
-                view.askswap();
+                view.askswap(0);
                 break;
             case SELECT_COL_REQUEST:
                 view.askinsertcol();
@@ -99,8 +100,8 @@ public class ClientController implements Observer, ViewObserver {
     }
 
     @Override
-    public void onSwap(int to, int from) {
-        client.sendData(new SwapTileInHandMessage(nick, to, from));
+    public void onSwap(ArrayList<Integer> hand) {
+        client.sendData(new SwapTileInHandMessage(nick, 0,0));
     }
 
     /**
@@ -108,7 +109,7 @@ public class ClientController implements Observer, ViewObserver {
      */
     @Override
     public void onEndSelection() {
-        client.sendData(new EndSelectTilesMessage(nick));
+        client.sendData(new EndSelectTilesMessage());
     }
 
     /**

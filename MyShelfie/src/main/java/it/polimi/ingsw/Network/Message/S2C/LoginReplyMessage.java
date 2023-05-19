@@ -13,7 +13,7 @@ public class LoginReplyMessage extends Message {
     private final boolean accepted;
 
     public LoginReplyMessage(String u, boolean accepted) {
-        super(MsgType.LOGIN_REPLY, u);
+        super(MsgType.LOGIN_REPLY);
         this.accepted = accepted;
     }
 

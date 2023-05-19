@@ -13,7 +13,7 @@ public class SelectColumnMessage extends Message {
     private final int col;
 
     public SelectColumnMessage(String u, int col) {
-        super(MsgType.SELECT_COL, u);
+        super(MsgType.SELECT_COL);
         this.col = col;
     }
 
