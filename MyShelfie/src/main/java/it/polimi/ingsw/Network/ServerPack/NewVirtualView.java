@@ -9,6 +9,7 @@ import it.polimi.ingsw.Network.Message.S2C.UpdateShelfMessage;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -110,6 +111,14 @@ public class NewVirtualView {
                 server.disconnect();
             }
         }
+    }
+
+    /**
+     * To return the list of usernames
+     * @return
+     */
+    public ArrayList<String> getUsernames(){
+        return new ArrayList<>(socketMap.keySet());
     }
 
 }
