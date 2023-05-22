@@ -80,7 +80,7 @@ public class ClientHandler implements Runnable{
         } catch (ClassCastException | ClassNotFoundException e) {
             Server.LOGGER.severe("Invalid stream from client");
         }*/
-        client.close();
+        //client.close();
         /*System.err.println("Client connected from " + client.getInetAddress());
 
         try {

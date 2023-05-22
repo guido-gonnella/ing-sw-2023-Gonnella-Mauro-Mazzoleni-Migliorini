@@ -9,6 +9,6 @@ import it.polimi.ingsw.Network.Message.MsgType;
  */
 public class MaxNumPlayerRequestMsg extends Message {
     public MaxNumPlayerRequestMsg() {
-        super(MsgType.NUMBER_PLAYER_REQUEST, "SERVER");
+        super(MsgType.NUMBER_PLAYER_REQUEST);
     }
 }

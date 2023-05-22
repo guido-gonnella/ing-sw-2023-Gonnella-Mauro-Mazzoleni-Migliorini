@@ -5,9 +5,7 @@ import it.polimi.ingsw.Network.Message.C2S.*;
 import it.polimi.ingsw.Network.ClientPack.NewClientSocket;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MsgType;
-import it.polimi.ingsw.Network.Message.S2C.EndStatsMessage;
-import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
-import it.polimi.ingsw.Network.Message.S2C.UpdateShelfMessage;
+import it.polimi.ingsw.Network.Message.S2C.*;
 import it.polimi.ingsw.Network.SocketClient;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
@@ -53,9 +51,9 @@ public class NetworkHandler implements Observer, ViewObserver {
         @Override
         public void update(Message msg) {
             switch (msg.getMsgType()) {
-                /* TODO case NICKNAME_REQUEST:
+                case ASK_NICKNAME:
                     view.asknickname();
-                    break;*/
+                    break;
                 case BOARD_UPDATE:
                     this.board= ((UpdateBoardMessage)msg).getBoard();
                     view.boardshow(board.getGrid());
@@ -79,10 +77,21 @@ public class NetworkHandler implements Observer, ViewObserver {
                     view.showtilesinhand(hand);
                     view.askswap(hand.size());
                     view.askinsertcol();
-                    //TODO client.sendMessage(new FullTileSelection(hand,order,column));
+                    try {
+                        client.sendMessage(new FullTileSelectionMessage(tempTiles,order,column));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     onEndTurn();
                     break;
                 case HAND_TILE:
+                    break;
+                case PUBLIC_OBJECTIVE:
+                    view.showpublicobjective(((PublicObjectiveMessage)msg).getPublicObjectives()[0]);
+                    view.showpublicobjective(((PublicObjectiveMessage)msg).getPublicObjectives()[1]);
+                    break;
+                case PRIVATE_OBJECTIVE:
+                    view.showprivateobjective(((PrivateObjectiveMessage)msg).getPrivateObjective());
                     break;
                 case SELECT_COL_REQUEST:
                     view.askinsertcol();
@@ -95,7 +104,6 @@ public class NetworkHandler implements Observer, ViewObserver {
                     break;
                 case LOGIN_REQUEST:
                     break;
-
             }
             update(client.readMessage());
         }
@@ -106,7 +114,7 @@ public class NetworkHandler implements Observer, ViewObserver {
                     tempTiles.add(new Coords(x,y));
             }
             else {
-                loop=3;
+                loop=4;
             }
 
         }
