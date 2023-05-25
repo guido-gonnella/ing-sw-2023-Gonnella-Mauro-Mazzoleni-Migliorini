@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 public class PrivateObjectiveTesting {
@@ -22,11 +23,8 @@ public class PrivateObjectiveTesting {
             for (int j = 0; j < 5; j++) {
                 TestingList.add(new ElementObjective(1, j, Type.TROPHY));
             }
-        try {
-            objective= new PrivateObjective(TestingList);
-        } catch (ImpossiblePrivateObjException e) {
-            throw new RuntimeException(e);
-        }
+        objective= new PrivateObjective(1);
+
         assertEquals(TestingList,objective.getObjective());
     }
     @Test
@@ -34,11 +32,8 @@ public class PrivateObjectiveTesting {
         for (int j = 0; j < 5; j++) {
             TestingList.add(new ElementObjective(1, j, Type.TROPHY));
         }
-        try {
-            objective= new PrivateObjective(TestingList);
-        } catch (ImpossiblePrivateObjException e) {
-            throw new RuntimeException(e);
-        }
+          objective =new PrivateObjective(1);
+
         for(int j=0;j<5;j++) assertEquals(TestingList.get(j).getY(),objective.getObjective().get(j).getY());
     }
     @After

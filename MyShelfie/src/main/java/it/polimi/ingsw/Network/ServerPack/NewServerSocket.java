@@ -32,7 +32,7 @@ public class NewServerSocket {
 
     /**
      * Reads a message from the client and returns it to
-     * the virtual view
+     * the virtual it.polimi.ingsw.view
      * @return
      */
     public Message readMessage(){

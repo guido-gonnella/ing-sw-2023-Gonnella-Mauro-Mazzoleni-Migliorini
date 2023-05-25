@@ -84,4 +84,9 @@ public class VirtualView implements View, Observer {
     public void showprivateobjective(PrivateObjective objective) {
 
     }
+
+    @Override
+    public void invalidTile(int x, int y) {
+
+    }
 }

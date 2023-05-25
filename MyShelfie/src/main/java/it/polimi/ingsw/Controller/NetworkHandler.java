@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Controller;
 
+import exceptions.ColumnAlreadyFullException;
+import exceptions.OutOfShelfException;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.Message.C2S.*;
 import it.polimi.ingsw.Network.ClientPack.NewClientSocket;
@@ -32,6 +34,8 @@ public class NetworkHandler implements Observer, ViewObserver {
 
     public NetworkHandler(View view){
             this.view = view;
+            tempTiles=new ArrayList<>();
+            hand=new ArrayList<>();
         }
         @Override
         public void onConnection(String serverAddr, int port) {
@@ -50,6 +54,7 @@ public class NetworkHandler implements Observer, ViewObserver {
          */
         @Override
         public void update(Message msg) {
+            boolean valid;
             switch (msg.getMsgType()) {
                 case ASK_NICKNAME:
                     view.asknickname();
@@ -70,9 +75,15 @@ public class NetworkHandler implements Observer, ViewObserver {
                         for (loop = 0; loop < 3; loop++) {
                             view.askselecttile();
                         }
-                    } while (!validSelection());
-                    for(int i=0;i< tempTiles.size();i++) {
-                        hand.add((board.takeTiles(tempTiles.get(i).x,tempTiles.get(i).y)).get());
+                        valid =!validSelection();
+                        if(valid){
+                            {
+                                tempTiles.clear();
+                            }
+                        }
+                    } while(valid);
+                    for (Coords tempTile : tempTiles) {
+                        hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
                     }
                     view.showtilesinhand(hand);
                     view.askswap(hand.size());
@@ -81,7 +92,17 @@ public class NetworkHandler implements Observer, ViewObserver {
                         client.sendMessage(new FullTileSelectionMessage(tempTiles,order,column));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
+                    }for (int i = 0; i < hand.size();i++ ){
+                    try {
+                        shelf.putTile(hand.get(order.get(i)),column);
+                    } catch (ColumnAlreadyFullException e) {
+                        throw new RuntimeException(e);
+                    } catch (OutOfShelfException e) {
+                        throw new RuntimeException(e);
                     }
+                }
+                    hand.clear();
+                    view.shelfshow(shelf.getShelf());
                     onEndTurn();
                     break;
                 case HAND_TILE:
@@ -97,7 +118,7 @@ public class NetworkHandler implements Observer, ViewObserver {
                     view.askinsertcol();
                     break;
                 case ERROR:
-                    //view.showError();
+                    //it.polimi.ingsw.view.showError();
                     break;
                 case END_STATS:
                     view.showpoints(((EndStatsMessage)msg).getPlayer_points(),((EndStatsMessage)msg).getPlayer_ComObj());
@@ -111,9 +132,20 @@ public class NetworkHandler implements Observer, ViewObserver {
         @Override
         public void onSelectTile(int x, int y) {
             if (x>-1 && y>-1) {
-                    tempTiles.add(new Coords(x,y));
-            }
-            else {
+                if(x>10||y>10) {
+                    tempTiles.clear();
+                    loop=-1;
+                    view.invalidTile(10,10);
+                }else{
+                    if (!(board.getGrid()[x][y].getTile().isEmpty())) {
+                        tempTiles.add(new Coords(x, y));
+                    } else {
+                        view.invalidTile(x, y);
+                        view.askselecttile();
+                    }
+                }
+
+            }else {
                 loop=4;
             }
 

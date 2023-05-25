@@ -72,4 +72,9 @@ public class Gui extends ViewObservable implements View {
     public void showprivateobjective(PrivateObjective objective) {
 
     }
+
+    @Override
+    public void invalidTile(int x, int y) {
+
+    }
 }

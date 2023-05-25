@@ -60,9 +60,9 @@ public class Server {
 
         Client client = new Client(clientSocket);
         mapPlayerClient.put(username, client);*/
-        numPlayer++;
-    }
-*/
+        //numPlayer++;
+    //}
+
     /**
      * Getter of numPlayer
      * @return

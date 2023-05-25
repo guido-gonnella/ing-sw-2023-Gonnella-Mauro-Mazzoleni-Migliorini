@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 //TODO rewrite the observers javadocs
 /**
- * Observer interface with the methods from the view
+ * Observer interface with the methods from the it.polimi.ingsw.view
  * @author Guido Gonnella
  */
 public interface ViewObserver {
@@ -45,7 +45,7 @@ public interface ViewObserver {
     /**
      * When the user wants to connect to a server
      */
-    public void onConnection(String serverAddr, int port) throws IOException;
+    public void onConnection(String serverAddr, int port);
 
     /**
      * When the user reply to the server to the request of the maximum number of player for the game

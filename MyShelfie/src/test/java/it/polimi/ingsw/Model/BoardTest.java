@@ -10,7 +10,7 @@ public class BoardTest {
     Board board = new Board();
     SackOfTiles sack = new SackOfTiles();
 
-    @After
+    @Before
     public void reset() {
         board = new Board();
         sack = new SackOfTiles();

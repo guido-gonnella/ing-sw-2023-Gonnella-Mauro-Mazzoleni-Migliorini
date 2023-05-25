@@ -1,5 +1,4 @@
 package it.polimi.ingsw.View.Gui;
-import it.polimi.ingsw.Controller.ClientController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +15,9 @@ public class JavaFXGui extends Application {
 
     @Override
     public void start(Stage stage) {
-        //Gui view = new Gui();
-        //ClientController clientController = new ClientController(view);
-        //view.addObserver(clientController);
+        //Gui it.polimi.ingsw.view = new Gui();
+        //ClientController clientController = new ClientController(it.polimi.ingsw.view);
+        //it.polimi.ingsw.view.addObserver(clientController);
 
         // Load root layout from fxml file.
         FXMLLoader loader = new FXMLLoader();
