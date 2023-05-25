@@ -11,7 +11,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class UpdatePlInfoMessage extends Message {
     public final String user;
 
-    public UpdatePlInfoMessage(MsgType msg,String user) {
+    public UpdatePlInfoMessage(String user) {
         super(MsgType.SEND_NICKNAME);
         this.user = user;
     }

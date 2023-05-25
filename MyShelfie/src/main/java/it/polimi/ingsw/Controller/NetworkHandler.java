@@ -3,20 +3,16 @@ package it.polimi.ingsw.Controller;
 import exceptions.ColumnAlreadyFullException;
 import exceptions.OutOfShelfException;
 import it.polimi.ingsw.Model.*;
+import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.*;
-import it.polimi.ingsw.Network.ClientPack.NewClientSocket;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
 import it.polimi.ingsw.Network.Message.S2C.*;
-import it.polimi.ingsw.Network.SocketClient;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
-import it.polimi.ingsw.View.Cli;
 import it.polimi.ingsw.View.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class NetworkHandler implements Observer, ViewObserver {
 
@@ -28,7 +24,7 @@ public class NetworkHandler implements Observer, ViewObserver {
 
          Shelf shelf;
         Board board;
-        private NewClientSocket client;
+        private ClientSocket client;
         private String nick;
         private int loop;
 
@@ -39,12 +35,7 @@ public class NetworkHandler implements Observer, ViewObserver {
         }
         @Override
         public void onConnection(String serverAddr, int port) {
-            try {
-                client = new NewClientSocket(serverAddr, port);
-            } catch (IOException e) {
-                System.err.println("Error while connecting");
-                System.exit(1);
-            }
+            client = new ClientSocket(serverAddr, port);
             update(client.readMessage());
         }
 
@@ -105,8 +96,6 @@ public class NetworkHandler implements Observer, ViewObserver {
                     view.shelfshow(shelf.getShelf());
                     onEndTurn();
                     break;
-                case HAND_TILE:
-                    break;
                 case PUBLIC_OBJECTIVE:
                     view.showpublicobjective(((PublicObjectiveMessage)msg).getPublicObjectives()[0]);
                     view.showpublicobjective(((PublicObjectiveMessage)msg).getPublicObjectives()[1]);
@@ -122,8 +111,6 @@ public class NetworkHandler implements Observer, ViewObserver {
                     break;
                 case END_STATS:
                     view.showpoints(((EndStatsMessage)msg).getPlayer_points(),((EndStatsMessage)msg).getPlayer_ComObj());
-                    break;
-                case LOGIN_REQUEST:
                     break;
             }
             update(client.readMessage());
@@ -203,7 +190,7 @@ public class NetworkHandler implements Observer, ViewObserver {
         public void onNicknameUpdate (String Nick){
             this.nick=Nick;
             try {
-                client.sendMessage(new UpdatePlInfoMessage(MsgType.PLAYER_UPDATE, nick)); //TODO updateplinfo is this correct?
+                client.sendMessage(new UpdatePlInfoMessage(nick));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

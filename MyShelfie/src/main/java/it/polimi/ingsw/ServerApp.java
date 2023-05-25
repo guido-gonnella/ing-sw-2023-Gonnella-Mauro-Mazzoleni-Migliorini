@@ -1,13 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Controller.InputController;
-import it.polimi.ingsw.Network.Server;
-import it.polimi.ingsw.View.Cli;
+import it.polimi.ingsw.Network.ServerPack.Server;
 import it.polimi.ingsw.View.View;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.Socket;
 import java.util.Scanner;
 
 /**

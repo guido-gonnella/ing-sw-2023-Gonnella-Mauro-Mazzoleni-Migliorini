@@ -12,7 +12,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class SelectColumnMessage extends Message {
     private final int col;
 
-    public SelectColumnMessage(String u, int col) {
+    public SelectColumnMessage(int col) {
         super(MsgType.SELECT_COL);
         this.col = col;
     }

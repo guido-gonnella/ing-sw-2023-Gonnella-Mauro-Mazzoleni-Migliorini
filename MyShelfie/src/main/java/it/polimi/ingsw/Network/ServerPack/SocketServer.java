@@ -1,62 +1,66 @@
 package it.polimi.ingsw.Network.ServerPack;
 
-import it.polimi.ingsw.Network.Message.ErrorMessage;
-import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
  * Class that handles the communication between server and client,
- * it communicates with one clinet only, each client will have its
+ * it communicates with one client only, each client will have its
  * own realization of this class
  */
-public class NewServerSocket {
+public class SocketServer {
 
     private final Socket socket;
-    private final ObjectInputStream input;
-    private final ObjectOutputStream output;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
 
     /**
      * Constructor of the class
-     * @param socket of the client
+     * @param serverSocket of the server
      * @throws IOException
      */
-    public NewServerSocket(Socket socket) throws IOException {
-        this.socket = socket;
-        this.input = new ObjectInputStream(socket.getInputStream());
+    public SocketServer(ServerSocket serverSocket) throws IOException {
+        this.socket = serverSocket.accept();
         this.output = new ObjectOutputStream(socket.getOutputStream());
+        this.input = new ObjectInputStream(socket.getInputStream());
     }
 
     /**
      * Reads a message from the client and returns it to
-     * the virtual it.polimi.ingsw.view
+     * the virtual view
      * @return
      */
-    public Message readMessage(){
+    public synchronized Message readMessage(){
         try{
             Message messageArrived = (Message) input.readObject();
             if(messageArrived != null) {
                 return messageArrived;
             }
         }catch(IOException | ClassNotFoundException e){
-            disconnect();
+            e.printStackTrace();
             return new ErrorMessage("Error in receiving the message");
         }
-        //serve altrimenti il metodo si lamenta che manca il ritorno
-        return null;
+        return new ErrorMessage("Error in receiving the message");
     }
 
-    public void sendMessage(Message message) throws IOException{
-        output.writeObject(message);
+    public synchronized void sendMessage(Message message){
+        try {
+            output.writeObject(message);
+            output.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Disconnect the socket
      */
-    public void disconnect(){
+    public synchronized void disconnect(){
         try {
             output.close();
             input.close();
@@ -66,4 +70,6 @@ public class NewServerSocket {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -10,6 +10,7 @@ import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Network.Message.C2S.NumberOfPlayerMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectColumnMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectTileMessage;
+import it.polimi.ingsw.Network.ServerPack.VirtualView;
 import it.polimi.ingsw.Observer.Observer;
 
 /**
@@ -17,14 +18,16 @@ import it.polimi.ingsw.Observer.Observer;
  * It is used server-side.
  * @author Guido Gonnella
  */
-public class GameController implements Observer {
+public class GameController implements Observer, Runnable {
     private Game game;
     private GameState gameState;
     private TurnController turnController;
+    private VirtualView view;
 
     //private Map<String, ClientHandler>
 
-    public GameController() {
+    public GameController(VirtualView virtualView) {
+        view = virtualView;
         this.game = new Game();
 
         setGameState(GameState.LOGIN);
@@ -105,11 +108,6 @@ public class GameController implements Observer {
                 //send to client the updated shelf
 
             }
-            case HAND_TILE_SWAP -> {
-                turnController.setPhase(Phase.SELECT_ORDER);
-                game.swapInHand(((SwapTileInHandMessage) msg).getTo(), ((SwapTileInHandMessage) msg).getFrom());
-
-            }
             case END_PL_TURN -> {
                 if(game.getPlayerByNick(msg.getUsername()).getShelf().isFull()){
                     //the game enters the end state
@@ -137,14 +135,14 @@ public class GameController implements Observer {
     public void update(Message msg) {
         switch (msg.getMsgType()) {
             case SELECT_TILE -> {
-                game.selectTiles(((SelectTileMessage) msg).getX(), ((SelectTileMessage) msg).getY());
+                //game.selectTiles(((SelectTileMessage) msg).getX(), ((SelectTileMessage) msg).getY());
             }
             case END_SEL_TILES -> {
                 if (game.validSelection()) game.fillTilesInHand();
             }
             case SELECT_COL -> {
                 for (Tile t : game.getTilesInCurrPlayerHand()) {
-                    game.getPlayerByNick(((SelectColumnMessage) msg).getUsername()).placeTile(t, ((SelectColumnMessage) msg).getCol());
+                    //game.getPlayerByNick(((SelectColumnMessage) msg).getUsername()).placeTile(t, ((SelectColumnMessage) msg).getCol());
                 }
             }
             case END_PL_TURN -> {
@@ -192,4 +190,8 @@ public class GameController implements Observer {
     }
 
 
+    @Override
+    public void run() {
+
+    }
 }
