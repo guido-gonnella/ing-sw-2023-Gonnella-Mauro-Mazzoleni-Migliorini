@@ -57,10 +57,9 @@ public class Game implements Serializable {
      * @throws SackEmptyException if the sack of tiles is empty
      * @author Guido Gonnella
      */
-    public void init() throws SackEmptyException{
+    public void init(){
         //fills the board picking tiles from the sack
         setBoard();
-        this.board.fill(sackOfTiles);
 
         // adding public/common objective
         publicObjectives = (PublicObjective[]) pubObjDeck.getPublicObjective().toArray();
@@ -73,6 +72,37 @@ public class Game implements Serializable {
             //give the player the first public objective in the list
             //it resembles the First Out logic
             p.setPrivateObjective(chosenObj.get(0));
+        }
+
+        //initialize stacks for the common goal(public objectives)
+        switch (players.size()){
+            case 2 -> {
+                pointsPubObj[0].push(4);
+                pointsPubObj[0].push(8);
+
+                pointsPubObj[1].push(4);
+                pointsPubObj[1].push(8);
+            }
+            case 3 -> {
+                pointsPubObj[0].push(4);
+                pointsPubObj[0].push(6);
+                pointsPubObj[0].push(8);
+
+                pointsPubObj[1].push(4);
+                pointsPubObj[1].push(6);
+                pointsPubObj[1].push(8);
+            }
+            case 4 -> {
+                pointsPubObj[0].push(2);
+                pointsPubObj[0].push(4);
+                pointsPubObj[0].push(6);
+                pointsPubObj[0].push(8);
+
+                pointsPubObj[1].push(2);
+                pointsPubObj[1].push(4);
+                pointsPubObj[1].push(6);
+                pointsPubObj[1].push(8);
+            }
         }
     }
 
@@ -318,7 +348,7 @@ public class Game implements Serializable {
     /**
      * It sets the board ready to be used by the specific number of players in this game
      */
-    public void setBoard() throws SackEmptyException {
+    public void setBoard() {
         Space[][] grid = this.board.getGrid();
 
         if(this.players.size()>2) {

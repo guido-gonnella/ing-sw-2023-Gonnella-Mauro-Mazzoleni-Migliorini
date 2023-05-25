@@ -7,6 +7,6 @@ package it.polimi.ingsw.Model.Enumeration;
  */
 public enum Phase   {
     PICK_TILES,
-    SELECT_ORDER,
-    PICK_COLUMN
+    SELCT_COLUMN,
+    END
 }

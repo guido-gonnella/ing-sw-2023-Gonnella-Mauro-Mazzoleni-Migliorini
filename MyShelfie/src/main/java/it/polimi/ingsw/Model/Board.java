@@ -35,7 +35,7 @@ public class Board implements Serializable {
      *
      * @param sackOfTiles sack of the remaining tiles used to extract random tiles to be placed
      */
-    public void fill(SackOfTiles sackOfTiles) throws SackEmptyException {
+    public void fill(SackOfTiles sackOfTiles){
         for(int row=0; row<ROW; row++) {
             for(int col=0; col<COL; col++) {
                 if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
@@ -45,7 +45,6 @@ public class Board implements Serializable {
             }
         }
     }
-
     /**
      * Method used by the game class to take the tile the player clicked
      *

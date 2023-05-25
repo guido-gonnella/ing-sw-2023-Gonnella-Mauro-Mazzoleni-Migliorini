@@ -1,12 +1,9 @@
 package it.polimi.ingsw.Model.Enumeration;
 
+/**
+ * States in where the game can be
+ */
 public enum GameState {
-
-    /**
-     * where player connects to the server and log in
-     */
-    LOGIN,
-
     /**
      * where the gamecontroller initialized the board and picks the objectives
      */

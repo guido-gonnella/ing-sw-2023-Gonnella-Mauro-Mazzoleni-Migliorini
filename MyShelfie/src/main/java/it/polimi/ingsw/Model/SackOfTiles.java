@@ -43,8 +43,8 @@ public class SackOfTiles {
     /**
      * @return a random tile of the one still available
      */
-    public Tile getRandomTile() throws SackEmptyException { //gets a random tile from the ordered sack of tiles
-        if (this.tiles.isEmpty()) throw new SackEmptyException();
+    public Tile getRandomTile() { //gets a random tile from the ordered sack of tiles
+        if (this.tiles.isEmpty()) return null;
         else {
             Random rand = new Random();
             Tile temp;

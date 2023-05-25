@@ -100,6 +100,11 @@ public class ClientController implements Observer, ViewObserver {
     }
 
     @Override
+    public void onNicknameUpdate(String name) {
+
+    }
+
+    @Override
     public void onSwap(ArrayList<Integer> hand) {
         client.sendData(new SwapTileInHandMessage(nick, 0,0));
     }
