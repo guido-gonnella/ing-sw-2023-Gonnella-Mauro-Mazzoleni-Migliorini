@@ -8,7 +8,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
  * @author Guido Gonnella
  */
 public class AskTileSelectMsg extends Message {
-    public AskTileSelectMsg(String u) {
+    public AskTileSelectMsg() {
         super(MsgType.SELECT_TILE_REQUEST);
     }
 }

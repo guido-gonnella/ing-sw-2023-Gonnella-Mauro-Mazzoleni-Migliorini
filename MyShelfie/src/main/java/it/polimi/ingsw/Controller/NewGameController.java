@@ -16,6 +16,7 @@ public class NewGameController implements Runnable {
     private NewGameState gameState;
     private NewTurnState turnState;
     private String currentPlayer;
+    private boolean gameEnded;
 
     /**
      * Constructor of the game controller
@@ -27,6 +28,7 @@ public class NewGameController implements Runnable {
         this.game = new Game();
         this.gameState = NewGameState.START;
         this.turnState = null;
+        this.gameEnded = false;
     }
 
     /**
@@ -34,8 +36,20 @@ public class NewGameController implements Runnable {
      */
     @Override
     public void run() {
-       /* switch (gameState){
-            case START ->
-        }*/
+        while(!gameEnded){
+            switch (gameState){
+                case START -> {/*inizializza game */}
+                case PLAYING -> {
+                    switch(turnState){
+                        // esegue le diverse azioni del turno
+                        case START_TURN -> {}
+                        case PICK_TILES -> {}
+                        case SELECT_COLUMN -> {}
+                        case END_TURN -> {}
+                    }
+                }
+                case END -> {/*mostra a tutti i punti, dice il vincitore, chiude la partita, disconnette i client*/}
+            }
+        }
     }
 }

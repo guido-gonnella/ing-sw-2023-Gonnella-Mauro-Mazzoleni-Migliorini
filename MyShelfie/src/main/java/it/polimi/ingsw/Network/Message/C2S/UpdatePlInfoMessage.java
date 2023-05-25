@@ -12,7 +12,11 @@ public class UpdatePlInfoMessage extends Message {
     public final String user;
 
     public UpdatePlInfoMessage(MsgType msg,String user) {
-        super(MsgType.PLAYER_UPDATE);
+        super(MsgType.SEND_NICKNAME);
         this.user = user;
+    }
+
+    public String getNickname(){
+        return user;
     }
 }

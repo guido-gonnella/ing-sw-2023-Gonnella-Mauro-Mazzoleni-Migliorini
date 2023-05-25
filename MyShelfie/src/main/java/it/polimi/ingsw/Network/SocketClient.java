@@ -55,7 +55,7 @@ public class SocketClient extends Observable {
         try{
             msg = (Message) in.readObject();
         }catch (IOException | ClassNotFoundException e){
-            msg = new ErrorMessage(null, "Connection lost\n" );
+            msg = new ErrorMessage("Connection lost\n" );
         }
 
         notifyAllObservers(msg);
@@ -70,7 +70,7 @@ public class SocketClient extends Observable {
         try{
             out.writeObject(msg);
         } catch (IOException e) {
-            notifyAllObservers(new ErrorMessage(null, "Cannot send the message\n"));
+            notifyAllObservers(new ErrorMessage("Cannot send the message\n"));
         }
     }
 
@@ -83,7 +83,7 @@ public class SocketClient extends Observable {
         try{
             socket.close();
         } catch (IOException e) {
-            notifyAllObservers(new ErrorMessage(null, "Cannot disconnect\n"));
+            notifyAllObservers(new ErrorMessage("Cannot disconnect\n"));
         }
 
     }

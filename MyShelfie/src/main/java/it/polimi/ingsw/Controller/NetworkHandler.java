@@ -180,7 +180,8 @@ public class NetworkHandler implements Observer, ViewObserver {
         @Override
         public void onEndTurn() {
             try {
-                client.sendMessage(new EndPlTurnMessage(nick));
+                //client.sendMessage(new EndPlTurnMessage(nick)); // vecchio, nick è inutile (?)
+                client.sendMessage(new EndPlTurnMessage());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -193,7 +194,7 @@ public class NetworkHandler implements Observer, ViewObserver {
         @Override
         public void onPlayerNumberReply(int numPlayers){
             try {
-                client.sendMessage(new NumberOfPlayerMessage(nick, numPlayers));
+                client.sendMessage(new NumberOfPlayerMessage(numPlayers));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

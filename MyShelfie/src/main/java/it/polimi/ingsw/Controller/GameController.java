@@ -10,7 +10,6 @@ import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Network.Message.C2S.NumberOfPlayerMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectColumnMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectTileMessage;
-import it.polimi.ingsw.Network.Message.C2S.SwapTileInHandMessage;
 import it.polimi.ingsw.Observer.Observer;
 
 /**

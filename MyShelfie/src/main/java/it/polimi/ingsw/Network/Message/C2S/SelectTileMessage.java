@@ -18,7 +18,7 @@ public class SelectTileMessage extends Message {
     private final int x, y;
     private final ArrayList<Coords> coords;
 
-    public SelectTileMessage(String u, int x, int y) {
+    public SelectTileMessage(int x, int y) {
         super(MsgType.SELECT_TILE);
         this.x = x;
         this.y = y;

@@ -11,7 +11,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class NumberOfPlayerMessage extends Message {
     private final int num;
 
-    public NumberOfPlayerMessage(String u, int num) {
+    public NumberOfPlayerMessage(int num) {
         super(MsgType.NUMBER_PLAYER_REPLY);
         this.num = num;
     }

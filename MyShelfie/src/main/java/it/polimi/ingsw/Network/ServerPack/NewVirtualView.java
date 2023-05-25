@@ -72,13 +72,12 @@ public class NewVirtualView {
      * @param user that will read the output
      * @param message that the client will receive
      */
-    //TODO rimuovere lo username tra i parametri dei messaggi, sono temporanei per non dare erorri
     public void write(String user, MsgType message, Object sendObject){
         NewServerSocket destinationClient = socketMap.get(user);
         switch(message){
             case BOARD_UPDATE -> {
                 try {
-                    destinationClient.sendMessage(new UpdateBoardMessage(user, (Board) sendObject));
+                    destinationClient.sendMessage(new UpdateBoardMessage((Board) sendObject));
                 }catch (IOException e){
                     e.printStackTrace();
                     destinationClient.disconnect();
@@ -86,7 +85,7 @@ public class NewVirtualView {
             }
             case SHELF_UPDATE -> {
                 try {
-                    destinationClient.sendMessage(new UpdateShelfMessage(user, (Shelf) sendObject));
+                    destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
                 }catch (IOException e){
                     e.printStackTrace();
                     destinationClient.disconnect();

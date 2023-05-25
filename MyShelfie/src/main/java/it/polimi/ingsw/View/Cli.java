@@ -39,7 +39,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      */
     @Override
-    public  void init(){
+    public void init(){
         String serverAddr = "localhost"; //default value
         int port = 8081; //default value
         Scanner in = new Scanner(System.in);

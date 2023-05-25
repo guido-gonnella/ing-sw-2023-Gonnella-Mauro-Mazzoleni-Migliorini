@@ -5,7 +5,7 @@ package it.polimi.ingsw.Network.Message;
  */
 public class ErrorMessage extends Message{
     private final String error;
-    public ErrorMessage(String u, String error) {
+    public ErrorMessage(String error) {
         super(MsgType.ERROR);
         this.error = error;
     }

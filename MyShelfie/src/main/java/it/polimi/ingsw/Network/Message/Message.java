@@ -15,7 +15,6 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
     private MsgType type;
-    private String username;
 
     public Message(MsgType t){
         this.type = t;
@@ -33,15 +32,15 @@ public class Message implements Serializable {
      * getter of the message's user
      * @return the nickname of the user
      */
-    public String getUsername() {
+    /*public String getUsername() {
         return username;
-    }
+    }*/
 
     @Override
     public String toString() {
         return "Message{" +
                 "type=" + type +
-                ", username='" + username + '\'' +
+                //", username='" + username + '\'' +
                 '}';
     }
 }
