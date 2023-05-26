@@ -9,7 +9,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
  * @author Guido Gonnella
  */
 public class UpdatePlInfoMessage extends Message {
-    private final String user;
+    public final String user;
 
     public UpdatePlInfoMessage(MsgType msg,String user) {
         super(MsgType.PLAYER_UPDATE);

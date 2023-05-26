@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class SackOfTiles {
     private ArrayList<Tile> tiles;
-    public SackOfTiles () {
+    public SackOfTiles() {
 
         tiles = new ArrayList<Tile>(); //creates a new list of tiles with all the 132 tiles of the 6 types inside it
         for (int i=0; i<22;i++) {

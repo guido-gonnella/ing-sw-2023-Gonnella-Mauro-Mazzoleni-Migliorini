@@ -56,7 +56,7 @@ public class SocketServer implements Runnable {
      * @param clientHandler client's clientHandles class
      */
     public void addClient(String username, ClientHandler clientHandler){
-        server.addClient(username, clientHandler);
+        //server.addClient(username, clientHandler);
     }
 /*
     public ServerSocket getServerSocket(){

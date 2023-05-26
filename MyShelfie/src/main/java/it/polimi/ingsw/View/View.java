@@ -21,4 +21,6 @@ public interface View {
     void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
     void showpublicobjective(String code);
     void showprivateobjective(PrivateObjective objective);
+
+    void invalidTile(int x, int y);
 }

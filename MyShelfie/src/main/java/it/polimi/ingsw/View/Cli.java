@@ -1,9 +1,7 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Controller.ClientController;
 //import it.polimi.ingsw.FirstVersion.SocketClien;
 import it.polimi.ingsw.Controller.NetworkHandler;
-import it.polimi.ingsw.Model.ElementObjective;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
@@ -18,11 +16,11 @@ import java.util.*;
  * @author Andrea Migliorini
  */
 public class Cli extends ViewObservable implements View{
-    private final PrintStream out;
+    private  PrintStream out;
     private Scanner input;
     private String temp;
     public Cli(){
-        out= System.out;
+        out= new PrintStream(System.out);
         out.print("""
                  __          __  _                            _______                         _____ _          _ ______      \s
                  \\ \\        / / | |                          |__   __|                       / ____| |        | |  ____(_)    \s
@@ -43,12 +41,11 @@ public class Cli extends ViewObservable implements View{
     @Override
     public  void init(){
         String serverAddr = "localhost"; //default value
-        int port = 8080; //default value
-        out.print("Please input the ip address of the server");
+        int port = 8081; //default value
         Scanner in = new Scanner(System.in);
         Boolean valid = false;
         do {
-            out.print("Please input the address of the server");
+            out.print("\nPlease input the address of the server");
             try{
                 serverAddr = ReadText();
                 if(serverAddr.equals("")){
@@ -93,13 +90,9 @@ public class Cli extends ViewObservable implements View{
         int finalPort = port;
         String Finalserveraddr = serverAddr;
 
-        notifyObservers(obs -> { try {
-             obs.onConnection(Finalserveraddr, finalPort);
-                 } catch (IOException e) {
-                    throw new RuntimeException(e);
-                 }
-            }
-         );
+        notifyObservers(obs -> {
+            obs.onConnection(Finalserveraddr, finalPort);
+        });
     }
 
     @Override
@@ -115,35 +108,37 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void askselecttile(){
-        Integer y = -1, x = -1;
+        int y = -1, x = -1;
         boolean valid;
         Scanner in = new Scanner(System.in);
         out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\"");
         do {
             try{valid=true;
+
                 y =in.nextInt();
             }catch(InputMismatchException e){
-                out.print("please input valid coordinates: like 1,2 or 0,3");
+                out.print("mismatch please input valid coordinates: like 1,2 or 0,3");
                 valid=false;
+                in.next();
             }catch(NoSuchElementException e1){
-                out.print("please input valid coordinates: like 1,2 or 0,3");
+                out.print("no element please input valid coordinates: like 1,2 or 0,3");
                 valid=false;
             }
 
             if( valid){
                 try{ x =in.nextInt();}
                 catch(InputMismatchException e){
-                    out.print("please input valid coordinates: like 1,2 or 0,3");
+                    out.print("2ND MISMATCH please input valid coordinates: like 1,2 or 0,3");
                     valid=false;
                 }catch(NoSuchElementException e1){
-                    out.print("please input valid coordinates: like 1,2 or 0,3");
+                    out.print("2nd NOELE please input valid coordinates: like 1,2 or 0,3");
                     valid=false;
                 }
             }
         } while (!valid);
         Integer finalX = x;
         Integer finalY = y;
-        notifyObservers(obs -> obs.onSelectTile(finalX, finalY));
+        notifyObservers(obs -> obs.onSelectTile(finalX,finalY));
 
     }
 
@@ -157,29 +152,37 @@ public class Cli extends ViewObservable implements View{
         boolean valid;
         ArrayList<Integer> positions= new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        out.print("input for each Tile input the order you want to insert them: for example \"2,1,0\" if you want to put the 0 tile last and the first tile");
+        out.print("input for each Tile input the order you want to insert them: for example \"2 1 0 \"  if you want to put the 0 tile last and the first tile");
         for (int i=0; i<num;i++){
             do {
                 try {
                     valid = true;
                     x = in.nextInt();
+
                 } catch (InputMismatchException e) {
                     out.print("please input valid positions");
                     valid = false;
                 } catch (NoSuchElementException e1) {
-                    out.print("please input valid positions: like 1,2 or 0,2");
+                    out.print("please input valid positions");
                     valid = false;
                 }
-                if (x > 2) {
+                if (valid && x > 2) {
                     valid = false;
                     out.print("please input valid positions");
                 }
+                if (valid && positions.contains(x)) {
+                    out.print("please input valid positions");
+                    valid=false;}
 
                 } while (!valid);
             positions.add(x);
         }
 
         notifyObservers(obs -> obs.onSwap(positions));
+    }
+    @Override
+    public void invalidTile(int x,int y){
+        out.print("tile in "+x+","+y+"doesnt exist\n");
     }
 
     /**
@@ -222,7 +225,7 @@ public class Cli extends ViewObservable implements View{
     public void boardshow (Space[][] board){
         out.print("-");
         for (int i=0;i<board.length;i++) {
-            out.print("  "+i);
+            out.print("\u001B[30m" + "-" + "\u001B[0m"+i+"\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print("\n");
         for(int i = 0; i < board.length; i++) {
@@ -256,7 +259,11 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void shelfshow(Optional<Tile>[][] shelf) {
-        out.print("- 0  1  2  3  4  5\n");
+        out.print("-");
+        for (int i=0;i<5;i++) {
+            out.print("\u001B[30m" + "-" + "\u001B[0m"+i+"\u001B[30m" + "-" + "\u001B[0m");
+        }
+        out.print ("\n");
         for (int i = 0; i < shelf.length; i++) {
             out.print(i);
             for (int j = 0; j < shelf[0].length; j++) {
@@ -372,19 +379,19 @@ public class Cli extends ViewObservable implements View{
     public void showpublicobjective(String code) {
         switch (code)
         {
-            case "4corners" -> out.print("place four of the same tiles on the corner of the shelf\n [=][■][=]\n[■][■][■]\n[=][■][=]\n");
-            case "6groupsof2"-> out.print("place six groups of at least 2 tiles of the same type \n [=][=]x6\n");
-            case "4groupsof4"-> out.print("place four groups of at least 4 tiles of the same type\n [=][=][=][=]x4\n");
-            case "squareoftiles"-> out.print("place 2 groups of 4 tiles in a square of 2x2 tiles\n [=][=]\n[=][=]x2\n");
-            case "3columns"-> out.print("place 3 groups of 6 tiles in a column, it can have at most 3 different types of tiles" );
-            case "xtiles"->out.print("place a group of 5 tiles in a X pattern\n [=][■][=]\n[■][=][■]\n[=][■][=]\n");
-            case "8equaltiles" ->out.print("place 8 tiles of the same type\n[=]x8");
-            case "2columns" ->out.print("place 2 groups of 6 tiles of different types in a column\n [≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
-            case "2lines" -> out.print("place 2 groups of 5 tiles of different types in a line\n [≠][≠][≠][≠][≠]");
-            case "diagonal"-> out.print("place 5 tiles in a diagonal");
-            case "4lines"-> out.print("place 4 groups of 5 tiles in a line, it can have at most 3 different types of tiles");
-            case "stairs"-> out.print("place 5 columns of increasing height from left to right or right to left, starting from a height of 1");
-            default ->out.print("invalid objective");
+            case "angles" -> out.print("place four of the same tiles on the corner of the shelf\n [=][■][=]\n[■][■][■]\n[=][■][=]\n");
+            case "sixCouples"-> out.print("place six groups of at least 2 tiles of the same type \n [=][=]x6\n");
+            case "fourQuadruple"-> out.print("place four groups of at least 4 tiles of the same type\n [=][=][=][=]x4\n");
+            case "twoSquares"-> out.print("place 2 groups of 4 tiles in a square of 2x2 tiles\n [=][=]\n[=][=]x2\n");
+            case "colThreeTypes"-> out.print("place 3 groups of 6 tiles in a column, it can have at most 3 different types of tiles\n" );
+            case "cross"->out.print("place a group of 5 tiles in a X pattern\n[=][■][=]\n[■][=][■]\n[=][■][=]\n");
+            case "eight" ->out.print("place 8 tiles of the same type\n[=]x8\n");
+            case "diffCol" ->out.print("place 2 groups of 6 tiles of different types in a column\n [≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
+            case "diffRow" -> out.print("place 2 groups of 5 tiles of different types in a line\n [≠][≠][≠][≠][≠]\n");
+            case "diag"-> out.print("place 5 tiles in a diagonal\n");
+            case "rowThreeTypes"-> out.print("place 4 groups of 5 tiles in a line, it can have at most 3 different types of tiles\n");
+            case "stair"-> out.print("place 5 columns of increasing height from left to right or right to left, starting from a height of 1\n");
+            default ->out.print("invalid objective\n");
 
         }
     }
@@ -405,6 +412,7 @@ public class Cli extends ViewObservable implements View{
                         default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                     }
                     z++;
+                    if(z==6){z=0;}
                 }else {
                     out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                 }

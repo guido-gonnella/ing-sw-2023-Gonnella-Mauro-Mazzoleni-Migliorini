@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Class that acts like a view for the server, it handles the "unpackaging"
+ * Class that acts like a it.polimi.ingsw.view for the server, it handles the "unpackaging"
  * and "packaging" of the messages from and to the client
  */
 public class NewVirtualView {
