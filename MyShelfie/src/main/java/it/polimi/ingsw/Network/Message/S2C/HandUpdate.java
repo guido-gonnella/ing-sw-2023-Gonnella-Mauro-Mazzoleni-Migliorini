@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class HandUpdate extends Message {
     private final ArrayList<MsgType> tilesInHand;
 
-    public HandUpdate(String u, ArrayList<MsgType> hand) {
+    public HandUpdate(ArrayList<MsgType> hand) {
         super(MsgType.HAND_UPDATE);
         this.tilesInHand = hand;
     }

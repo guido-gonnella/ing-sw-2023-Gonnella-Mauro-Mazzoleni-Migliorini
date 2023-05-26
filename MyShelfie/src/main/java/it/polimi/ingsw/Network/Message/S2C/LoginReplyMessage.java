@@ -12,7 +12,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class LoginReplyMessage extends Message {
     private final boolean accepted;
 
-    public LoginReplyMessage(String u, boolean accepted) {
+    public LoginReplyMessage(boolean accepted) {
         super(MsgType.LOGIN_REPLY);
         this.accepted = accepted;
     }

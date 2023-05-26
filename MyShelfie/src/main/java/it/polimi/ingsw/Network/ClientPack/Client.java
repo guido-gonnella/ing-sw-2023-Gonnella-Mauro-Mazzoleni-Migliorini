@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Network;
+package it.polimi.ingsw.Network.ClientPack;
 
 import java.net.Socket;
 

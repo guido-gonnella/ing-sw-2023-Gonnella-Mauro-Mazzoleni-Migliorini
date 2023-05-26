@@ -10,7 +10,8 @@ import it.polimi.ingsw.Network.Message.MsgType;
  * @author Samuele Mazzoleni
  */
 public class EndPlTurnMessage extends Message {
-    public EndPlTurnMessage(String u) {
+
+    public EndPlTurnMessage() {
         super(MsgType.END_PL_TURN);
     }
 }

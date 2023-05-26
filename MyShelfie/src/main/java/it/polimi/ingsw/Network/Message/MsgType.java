@@ -9,15 +9,15 @@ public enum MsgType {
     //Client to Server
     SELECT_TILE,
     SELECT_COL,
+    SEND_NICKNAME,
     END_SEL_TILES,
-    HAND_TILE_SWAP,
-    HAND_TILE,
     END_PL_TURN,
-    LOGIN_REQUEST,
     NUMBER_PLAYER_REPLY,
     FULL_TILE_SELECTION,
     PUBLIC_OBJECTIVE,
     PRIVATE_OBJECTIVE,
+
+
     //Server to Client
     SELECT_TILE_REQUEST,
     SELECT_COL_REQUEST,
@@ -27,7 +27,6 @@ public enum MsgType {
     ASK_NICKNAME,
     BOARD_UPDATE,
     SHELF_UPDATE,
-    PLAYER_UPDATE,
     END_STATS,
     HAND_UPDATE,
     ERROR,

@@ -10,7 +10,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
  * @author Guido Gonnella
  */
 public class LoginRequestMessage extends Message {
-    public LoginRequestMessage(String u) {
+    public LoginRequestMessage() {
         super(MsgType.LOGIN_REQUEST);
     }
 }

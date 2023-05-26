@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Network.ClientPack;
 
-import it.polimi.ingsw.Network.Message.ErrorMessage;
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Network.Message.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,19 +11,17 @@ import java.net.Socket;
  * This class is used to communicate with the server, is purpose is to act as a blackbox
  * for the NetworkHandler which receives and sends messages
  */
-public class NewClientSocket {
-    private final Socket socket;
-    private final ObjectInputStream input;
-    private final ObjectOutputStream output;
+public class ClientSocket {
+    private Socket socket;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
 
-    public NewClientSocket(String address, int port) throws IOException {
-        this.socket = new Socket(address, port);
-
-        //sets a timeout for the socket on the client
-        socket.setSoTimeout(10000);
-
-        this.input = new ObjectInputStream(socket.getInputStream());
-        this.output = new ObjectOutputStream(socket.getOutputStream());
+    public ClientSocket(String address, int port) {
+        try {
+            this.socket = new Socket(address, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -33,19 +29,21 @@ public class NewClientSocket {
      * Read a message from the server and returns it to the NetworkHandler
      * @return the message received
      */
-    public Message readMessage(){
+    public synchronized Message readMessage(){
 
         try{
+            this.input = new ObjectInputStream(socket.getInputStream());
             Message messageArrived = (Message) input.readObject();
             if(messageArrived != null) {
                 return messageArrived;
             }
+            this.input.close();
         }catch(IOException | ClassNotFoundException e){
             disconnect();
-            return(new Message(MsgType.ERROR) );
+            return(new ErrorMessage("Errore nella lettura di un messaggio") );
         }
         //serve altrimenti il metodo si lamenta che manca il ritorno
-        return null;
+        return (new ErrorMessage("Errore nella lettura di un messaggio") );
     }
 
     /**
@@ -53,14 +51,16 @@ public class NewClientSocket {
      * disconnect the client and end the game
      * @param message sent to the server
      */
-    public void sendMessage(Message message) throws IOException{
+    public synchronized void sendMessage(Message message) throws IOException{
+        this.output = new ObjectOutputStream(socket.getOutputStream());
         output.writeObject(message);
+        this.output.close();
     }
 
     /**
      * Disconnect the socket from the server
      */
-    public void disconnect(){
+    public synchronized void disconnect(){
         try {
             output.close();
             input.close();
@@ -70,20 +70,4 @@ public class NewClientSocket {
             e.printStackTrace();
         }
     }
-
-
-    //TODO finire e mettere al posto giusto
-    /*
-    public ArrayList<Tile> selectOrderTile(ArrayList<Tile> tiles){
-      ArrayList<Tile> temp;
-      for(int i=0; i<tiles.size(); i++){
-          do{
-              //printa le tiles in ordine
-              //printa di selezionare un numero tra 1 e tiles.size()
-          while(numero non è valido);
-      //aggiungi tile a temp e rimuovila da tiles
-      }
-      return temp;
-    }
-    */
 }

@@ -15,28 +15,14 @@ import java.util.ArrayList;
  */
 //TODO gli attributi x e y possono essere rimossi
 public class SelectTileMessage extends Message {
-    private final int x, y;
     private final ArrayList<Coords> coords;
 
-    public SelectTileMessage(String u, int x, int y) {
+    public SelectTileMessage(ArrayList<Coords> coords) {
         super(MsgType.SELECT_TILE);
-        this.x = x;
-        this.y = y;
-        coords = new ArrayList<>();
+        this.coords = new ArrayList<>(coords);
     }
 
-    public void addCoord(int x, int y){
-        coords.add(new Coords(x,y));
-    }
 
     // GETTER
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public ArrayList<Coords> getCoordinates(){ return coords;}
 }

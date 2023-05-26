@@ -12,7 +12,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
 public class UpdateBoardMessage extends Message {
     private final Board board;
 
-    public UpdateBoardMessage(String u, Board board) {
+    public UpdateBoardMessage(Board board) {
         super(MsgType.BOARD_UPDATE);
         this.board = board;
     }
@@ -20,7 +20,7 @@ public class UpdateBoardMessage extends Message {
     @Override
     public String toString() {
         return "UpdateBoardMessage{" +
-                "username" + this.getUsername() +
+               // "username" + this.getUsername() +
                 "Type"+ this.getMsgType() +
                 "board=" + board +
                 '}';

@@ -15,7 +15,7 @@ public class EndStatsMessage extends Message {
     private final Map<String, Integer> player_points;
     private final Map<String, boolean[]> player_ComObj;
 
-    public EndStatsMessage(String u, Map<String, Integer> player_points, Map<String, boolean[]> player_ComObj) {
+    public EndStatsMessage(Map<String, Integer> player_points, Map<String, boolean[]> player_ComObj) {
         super(MsgType.END_STATS);
         this.player_points = player_points;
         this.player_ComObj = player_ComObj;
