@@ -23,11 +23,13 @@ public class ServerApp {
         gui = (s.next()).equals("s");
 
         do {
-            System.out.println("Select port [8080 default]");
+            System.out.println("Select port [8080 default]\n");
             serverPort = s.nextInt();
         }while(!InputController.isValidPort(serverPort));
+            System.out.println("Using socket connection? [y/n]\n");
+            socket = !s.next().equals("n");
 
-        Server server = new Server(serverPort);
+        Server server = new Server(serverPort, socket);
         Thread thread = new Thread(server, "server_");
         thread.start();
     }

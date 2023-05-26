@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.ServerPack;
 import it.polimi.ingsw.Network.Message.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -13,7 +14,7 @@ import java.net.Socket;
  * it communicates with one client only, each client will have its
  * own realization of this class
  */
-public class SocketServer {
+public class SocketServer extends ServerConnection {
 
     private final Socket socket;
     private ObjectInputStream input;
@@ -27,7 +28,7 @@ public class SocketServer {
     public SocketServer(ServerSocket serverSocket) throws IOException {
         this.socket = serverSocket.accept();
         this.output = new ObjectOutputStream(socket.getOutputStream());
-        this.input = new ObjectInputStream(socket.getInputStream());
+        System.out.println("Client connected\n");
     }
 
     /**
@@ -37,11 +38,15 @@ public class SocketServer {
      */
     public synchronized Message readMessage(){
         try{
+            InputStream is = socket.getInputStream();
+            ObjectInputStream input = new ObjectInputStream(is);
             Message messageArrived = (Message) input.readObject();
             if(messageArrived != null) {
                 return messageArrived;
             }
+            input.close();
         }catch(IOException | ClassNotFoundException e){
+            //disconnect();
             e.printStackTrace();
             return new ErrorMessage("Error in receiving the message");
         }
@@ -63,7 +68,6 @@ public class SocketServer {
     public synchronized void disconnect(){
         try {
             output.close();
-            input.close();
             if (socket != null && !socket.isClosed())
                 socket.close();
         }catch(IOException e){

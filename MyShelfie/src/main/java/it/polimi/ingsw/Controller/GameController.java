@@ -3,7 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.Enumeration.GameState;
 import it.polimi.ingsw.Model.Enumeration.Phase;
 import it.polimi.ingsw.Model.Game;
-import it.polimi.ingsw.View.VirtualView;
+import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;

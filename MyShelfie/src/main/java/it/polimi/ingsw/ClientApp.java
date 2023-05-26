@@ -4,24 +4,18 @@ import it.polimi.ingsw.View.Gui.JavaFXGui;
 import it.polimi.ingsw.View.Cli;
 import javafx.application.Application;
 
+import java.util.Scanner;
+
 public class ClientApp {
     //public static it.polimi.ingsw.Network.SocketClient;
 
     public static void main(String[] args) {
 
         boolean cliView = false;
+        Scanner s = new Scanner(System.in);
 
-        for (String arg : args) {
-            if (arg.equals("--cli") || arg.equals("-c")) {
-                cliView = true;
-                break;
-            }
-            /*
-            if (arg.equals("--rmi")){
-                //set connection to rmi
-            }
-            */
-        }
+        System.out.println("Cli or gui? [c/g]");
+        cliView = !s.next().equals("g");
 
         if(cliView){
             Cli view = new Cli();
@@ -31,35 +25,5 @@ public class ClientApp {
         }else{
             Application.launch(JavaFXGui.class);
         }
-
-        /*  questa roba servirà quando avremo implementato anche la GUI
-
-        boolean cliView = false; //default value
-
-        for(String arg : args){
-            if (arg.equals("--cli")) {
-                cliView = true;
-                break;
-            }
-        }
-
-        if(cliView){
-            gui= new Cli();
-
-        }*/
-
-        //da aggiungere per la GUI
-        /*else{
-
-        }*/
-/*
-        Player pl = new Player(PlayerView.takeNickname());
-        PlayerView plv = new PlayerView(pl);
-        String address = plv.takeAddress();
-        int port = plv.takePort();
-        SocketClient socketC = new SocketClient(pl);
-        Socket socket = socketC.clientConnection(address, port);
-
-*/
     }
 }

@@ -14,7 +14,6 @@ import java.util.*;
 
 public class Server implements Runnable {
 
-    private int port;
     private Set<String> usernames;
     private ServerSocket ss;
     private Set<GameController> gameControllerSet;
@@ -22,19 +21,25 @@ public class Server implements Runnable {
     private final Object lock;
     private int maxPlayer;
     private int numPlayer;
+    private boolean socketConnection;
 
-    public Server(int port){
-        this.port = port;
+    public Server(int port, boolean socket){
         usernames = new HashSet<>();
         tempVirtualView = new VirtualView();
+        gameControllerSet = new HashSet<>();
         numPlayer = 0;
         maxPlayer = 0;
         lock = new Object();
-        try{
-            ss = new ServerSocket(port);
-            System.out.println("Socket server: ON, port: " + port);
-        }catch (IOException e){
-            e.printStackTrace();
+        socketConnection = socket;
+        if(socket){
+            try {
+                ss = new ServerSocket(port);
+                System.out.println("Socket server: ON, port: " + port);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            //rmi
         }
     }
 
@@ -69,11 +74,15 @@ public class Server implements Runnable {
             usernames.add(username);
 
             if(maxPlayer == 0){
+                int tempNumPl = 0;
                 do {
-                    socketServer.sendMessage(new MaxNumPlayerRequestMsg());
-                    arrivedMessage = socketServer.readMessage();
-                } while (arrivedMessage.getMsgType() != MsgType.NUMBER_PLAYER_REPLY);
-                maxPlayer = ((NumberOfPlayerMessage) arrivedMessage).getNum();
+                    do {
+                        socketServer.sendMessage(new MaxNumPlayerRequestMsg());
+                        arrivedMessage = socketServer.readMessage();
+                    } while (arrivedMessage.getMsgType() != MsgType.NUMBER_PLAYER_REPLY);
+                    tempNumPl = ((NumberOfPlayerMessage) arrivedMessage).getNum();
+                }while(tempNumPl <= 1 && tempNumPl > 4);
+                maxPlayer = tempNumPl;
                 numPlayer = 1;
                 tempVirtualView.addClient(username, socketServer);
             }else{
@@ -85,6 +94,8 @@ public class Server implements Runnable {
                    GameController gc = new GameController(tempVirtualView);
                    Thread thread = new Thread(gc, "gameController_");
                    thread.start();
+                   gameControllerSet.add(gc);
+                   tempVirtualView = new VirtualView();
                }
             }
 

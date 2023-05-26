@@ -11,7 +11,7 @@ import java.net.Socket;
  * This class is used to communicate with the server, is purpose is to act as a blackbox
  * for the NetworkHandler which receives and sends messages
  */
-public class ClientSocket {
+public class ClientSocket extends ClientConnection {
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
@@ -19,6 +19,8 @@ public class ClientSocket {
     public ClientSocket(String address, int port) {
         try {
             this.socket = new Socket(address, port);
+            this.output = new ObjectOutputStream(socket.getOutputStream());
+            this.input = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,21 +31,20 @@ public class ClientSocket {
      * Read a message from the server and returns it to the NetworkHandler
      * @return the message received
      */
-    public synchronized Message readMessage(){
+    public Message readMessage(){
 
-        try{
-            this.input = new ObjectInputStream(socket.getInputStream());
-            Message messageArrived = (Message) input.readObject();
-            if(messageArrived != null) {
-                return messageArrived;
+        try {
+            synchronized (input) {
+                Message messageArrived = (Message) input.readObject();
+                if (messageArrived != null) {
+                    return messageArrived;
+                }
             }
-            this.input.close();
-        }catch(IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             disconnect();
-            return(new ErrorMessage("Errore nella lettura di un messaggio") );
+            return new ErrorMessage("Error in reading message");
         }
-        //serve altrimenti il metodo si lamenta che manca il ritorno
-        return (new ErrorMessage("Errore nella lettura di un messaggio") );
+        return new ErrorMessage("Error in reading message");
     }
 
     /**
@@ -51,23 +52,29 @@ public class ClientSocket {
      * disconnect the client and end the game
      * @param message sent to the server
      */
-    public synchronized void sendMessage(Message message) throws IOException{
-        this.output = new ObjectOutputStream(socket.getOutputStream());
-        output.writeObject(message);
-        this.output.close();
+    public void sendMessage(Message message) {
+        synchronized (output) {
+            try {
+                output.writeObject(message);
+                output.flush();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
      * Disconnect the socket from the server
      */
-    public synchronized void disconnect(){
-        try {
-            output.close();
+    public synchronized void disconnect(){try {
+        if (input != null)
             input.close();
-            if (socket != null && !socket.isClosed())
-                socket.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        if (output != null)
+            output.close();
+        if (socket != null && !socket.isClosed())
+            socket.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 }

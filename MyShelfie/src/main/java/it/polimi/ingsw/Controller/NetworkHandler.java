@@ -30,8 +30,8 @@ public class NetworkHandler implements Observer, ViewObserver {
 
     public NetworkHandler(View view){
             this.view = view;
-            tempTiles=new ArrayList<>();
-            hand=new ArrayList<>();
+            tempTiles = new ArrayList<>();
+            hand = new ArrayList<>();
         }
         @Override
         public void onConnection(String serverAddr, int port) {
@@ -79,11 +79,8 @@ public class NetworkHandler implements Observer, ViewObserver {
                     view.showtilesinhand(hand);
                     view.askswap(hand.size());
                     view.askinsertcol();
-                    try {
-                        client.sendMessage(new FullTileSelectionMessage(tempTiles,order,column));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }for (int i = 0; i < hand.size();i++ ){
+                    client.sendMessage(new FullTileSelectionMessage(tempTiles,order,column));
+                    for (int i = 0; i < hand.size();i++ ){
                     try {
                         shelf.putTile(hand.get(order.get(i)),column);
                     } catch (ColumnAlreadyFullException e) {
@@ -154,11 +151,7 @@ public class NetworkHandler implements Observer, ViewObserver {
          */
         @Override
         public void onEndSelection() {
-            try {
-                client.sendMessage(new EndSelectTilesMessage());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            client.sendMessage(new EndSelectTilesMessage());
         }
 
         /**
@@ -166,12 +159,8 @@ public class NetworkHandler implements Observer, ViewObserver {
          */
         @Override
         public void onEndTurn() {
-            try {
-                //client.sendMessage(new EndPlTurnMessage(nick)); // vecchio, nick è inutile (?)
-                client.sendMessage(new EndPlTurnMessage());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            //client.sendMessage(new EndPlTurnMessage(nick)); // vecchio, nick è inutile (?)
+            client.sendMessage(new EndPlTurnMessage());
         }
 
         /**
@@ -180,20 +169,12 @@ public class NetworkHandler implements Observer, ViewObserver {
          */
         @Override
         public void onPlayerNumberReply(int numPlayers){
-            try {
-                client.sendMessage(new NumberOfPlayerMessage(numPlayers));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            client.sendMessage(new NumberOfPlayerMessage(numPlayers));
         }
         @Override
         public void onNicknameUpdate (String Nick){
             this.nick=Nick;
-            try {
-                client.sendMessage(new UpdatePlInfoMessage(nick));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            client.sendMessage(new UpdatePlInfoMessage(nick));
         }
 
         /**
