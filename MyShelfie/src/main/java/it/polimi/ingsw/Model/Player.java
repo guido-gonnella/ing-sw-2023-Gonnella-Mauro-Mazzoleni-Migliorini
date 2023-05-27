@@ -14,7 +14,7 @@ import java.util.*;
  * @author Guido Gonnella
  */
 public class Player {
-    private String nickname;
+    private final String nickname;
     private int playerPoints;
     private Shelf shelf;
     private PrivateObjective privateObjective;
@@ -44,10 +44,8 @@ public class Player {
     public void placeTile(Tile tile, int col){
         try{
             shelf.putTile(tile, col);
-        }catch(ColumnAlreadyFullException e1) {
-            System.out.println(e1);
-        }catch(OutOfShelfException e2){
-            System.out.println(e2);
+        }catch(ColumnAlreadyFullException | OutOfShelfException e) {
+            System.out.println(e);
         }
     }
 
@@ -68,9 +66,8 @@ public class Player {
      * @implNote The method does not return the actual player's shelf, because then can be modified by anyone and cause some error
      * @author Guido Gonnella
      */
-    public Shelf getShelf(){
-        Shelf temp = this.shelf;
-        return temp;
+    public Shelf getShelf() {
+        return this.shelf;
     }
 
     /**
@@ -96,7 +93,7 @@ public class Player {
      */
     private int adjacentPoints(Shelf pshelf, boolean[][] checked, int i, int j) throws NoSuchElementException {
         int points = 0, adjacent = 1;
-        Optional<Tile> shelfie[][] = pshelf.getShelf();
+        Optional<Tile>[][] shelf = pshelf.getShelf();
         Queue<Coords> q = new ArrayDeque<>();
 
         q.add(new Coords(i, j));
@@ -107,28 +104,28 @@ public class Player {
             q.poll();
 
             // tile under the current tile
-            if(x+1 >= 0 && x+1 < 6 && y >= 0 && y < 5 && !checked[x+1][y] && (shelfie[x+1][y].isPresent() && shelfie[x+1][y].get().getType().equals(shelfie[x][y].get().getType())) ){
+            if(x+1 >= 0 && x+1 < 6 && y >= 0 && y < 5 && !checked[x+1][y] && (shelf[x+1][y].isPresent() && shelf[x+1][y].get().getType().equals(shelf[x][y].get().getType())) ){
                 checked[x+1][y] = true;
                 adjacent++;
                 q.add(new Coords(x+1, y));
             }
 
             // tile over the current tile
-            if( x-1 >= 0 && x-1 < 6 && y >= 0 && y < 5 && !checked[x-1][y] &&(shelfie[x-1][y].isPresent() && shelfie[x-1][y].get().getType().equals(shelfie[x][y].get().getType())) ){
+            if( x-1 >= 0 && x-1 < 6 && y >= 0 && y < 5 && !checked[x-1][y] &&(shelf[x-1][y].isPresent() && shelf[x-1][y].get().getType().equals(shelf[x][y].get().getType())) ){
                 checked[x-1][y] = true;
                 adjacent++;
                 q.add(new Coords(x-1, y));
             }
 
             // tile on the right of the current tile
-            if(x >= 0 && x < 6 && y+1 >= 0 && y+1 < 5 && !checked[x][y+1] && (shelfie[x][y+1].isPresent() && shelfie[x][y+1].get().getType().equals(shelfie[x][y].get().getType())) ){
+            if(x >= 0 && x < 6 && y+1 >= 0 && y+1 < 5 && !checked[x][y+1] && (shelf[x][y+1].isPresent() && shelf[x][y+1].get().getType().equals(shelf[x][y].get().getType())) ){
                 checked[x][y+1] = true;
                 adjacent++;
                 q.add(new Coords(x, y+1));
             }
 
             // tile on the left of the current tile
-            if(x >= 0 && x < 6 && y-1 >= 0 && y-1 < 5 && !checked[x][y-1] &&(shelfie[x][y-1].isPresent() && shelfie[x][y-1].get().getType().equals(shelfie[x][y].get().getType()))){
+            if(x >= 0 && x < 6 && y-1 >= 0 && y-1 < 5 && !checked[x][y-1] &&(shelf[x][y-1].isPresent() && shelf[x][y-1].get().getType().equals(shelf[x][y].get().getType()))){
                 checked[x][y-1] = true;
                 adjacent++;
                 q.add(new Coords(x, y-1));
@@ -222,20 +219,16 @@ public class Player {
         return this.pubObjFlag;
     }
 
-    /**
-     * temporary method, will be replaced by updatePubOnjFlag
-     * when the exception will be handled
-     * @param index of the public objective
-     * @author Pierantonio Mauro
-     */
-    public void setPubObjFlag(int index){
-        this.pubObjFlag[index] = true;
-    }
-
     public void setPrivateObjective(PrivateObjective privateObjective){
         this.privateObjective = privateObjective;
     }
-    public int getPlayerPoints(){return(this.playerPoints);}
+
+    public PrivateObjective getPrivateObjective() {
+        return this.privateObjective;
+    }
+    public int getPlayerPoints() {
+        return(this.playerPoints);
+    }
 
     /**
      * Return the number of free spaces in the shelf given a column index

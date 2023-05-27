@@ -28,14 +28,9 @@ public class BoardTest {
 
         System.out.println("Test1:");
 
-        try {
-            board.fill(sack);
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-        System.out.print("- 0  1  2  3  4  5  6  7  8\n");
+        System.out.print("-  0  1  2  3  4  5  6  7  8\n");
         for(int i = 0; i < board.ROW; i++) {
-            System.out.print(i);
+            System.out.print(i + " ");
             for(int j = 0; j < board.COL; j++) {
                 if(board.getGrid()[i][j].getTile().isPresent()) {
                     switch (board.getGrid()[i][j].getTile().get().getType()) {
@@ -71,12 +66,6 @@ public class BoardTest {
 
         System.out.println("Test2:");
 
-        try {
-            board.fill(sack);
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
                 if(board.getGrid()[i][j].getTile().isPresent()) {
@@ -108,12 +97,6 @@ public class BoardTest {
         board.getGrid()[0][0].setAvailable();
         board.getGrid()[1][1].setAvailable();
 
-        try {
-            board.fill(sack);
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-
         assertFalse(board.checkFill());
 
         for(int i = 0; i < board.ROW; i++) {
@@ -138,12 +121,6 @@ public class BoardTest {
         System.out.print("\n");
 
         board.getGrid()[0][1].setAvailable();
-
-        try {
-            board.fill(sack);
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
 
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
@@ -180,12 +157,6 @@ public class BoardTest {
         assertFalse(board.checkFill());
 
         System.out.println("Test4:");
-
-        try {
-            board.fill(sack);
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
 
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {

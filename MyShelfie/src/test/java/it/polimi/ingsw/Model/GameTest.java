@@ -40,12 +40,6 @@ public class GameTest {
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
 
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-
         for(int i = 0; i < game.getBoard().ROW; i++) {
             for(int j = 0; j < game.getBoard().COL; j++) {
                 if(game.getBoard().getGrid()[i][j].getTile().isPresent()) {
@@ -91,12 +85,6 @@ public class GameTest {
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
 
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-
         for(int i = 0; i < game.getBoard().ROW; i++) {
             for(int j = 0; j < game.getBoard().COL; j++) {
                 if(game.getBoard().getGrid()[i][j].getTile().isPresent()) {
@@ -121,16 +109,14 @@ public class GameTest {
         int tiles = game.getSackOfTiles().getLeftTiles().size();
         System.out.println(tiles + "\n");
 
-        try{
-            while(true) {
-                Tile tile = sack.getRandomTile();
-                game.setSackOfTiles(sack);
-                System.out.println(game.getSackOfTiles().getLeftTiles().size() + "\n");
-            }
-        } catch (SackEmptyException e) {
+        while(!game.getSackOfTiles().getLeftTiles().isEmpty()) {
+            Tile tile = sack.getRandomTile();
             game.setSackOfTiles(sack);
             System.out.println(game.getSackOfTiles().getLeftTiles().size() + "\n");
         }
+
+        game.setSackOfTiles(sack);
+        System.out.println(game.getSackOfTiles().getLeftTiles().size() + "\n");
     }
 
     @Test
@@ -139,12 +125,6 @@ public class GameTest {
         game.addPlayer("San");
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
-
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
 
         for(int i = 0; i < game.getBoard().ROW; i++) {
             for(int j = 0; j < game.getBoard().COL; j++) {
@@ -199,12 +179,6 @@ public class GameTest {
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
 
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-
         game.selectTiles(0,3);
         game.selectTiles(0,4);
 
@@ -217,12 +191,6 @@ public class GameTest {
         game.addPlayer("San");
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
-
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
 
         game.selectTiles(0,3);
         game.selectTiles(1,4);
@@ -237,12 +205,6 @@ public class GameTest {
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
 
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
-
         game.selectTiles(0,3);
         game.selectTiles(0,4);
 
@@ -255,12 +217,6 @@ public class GameTest {
         game.addPlayer("San");
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
-
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
 
         Tile tile1 = game.getBoard().getGrid()[0][3].getTile().get();
         Tile tile2 = game.getBoard().getGrid()[0][4].getTile().get();
@@ -285,12 +241,6 @@ public class GameTest {
         game.addPlayer("San");
         game.addPlayer("Tua Madre");
         game.addPlayer("lol");
-
-        try {
-            game.setBoard();
-        } catch (SackEmptyException e) {
-            System.out.println("Something's wrong...");
-        }
 
         game.setPublicObjectives(deckOfPublicObjectives);
         assertNotEquals(game.getPublicObjectives()[0], game.getPublicObjectives()[1]);

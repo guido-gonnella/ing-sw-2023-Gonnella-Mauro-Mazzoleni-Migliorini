@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import exceptions.PublicObjectiveAlreadyCompletedException;
 import exceptions.SackEmptyException;
 
 import java.io.Serializable;
@@ -66,7 +67,7 @@ public class Game implements Serializable {
 
         //get private objectives and give to player
         //Fill a temporary list with the private objectives
-        ArrayList<PrivateObjective> chosenObj = prvObjDeck.getObjectives(players.size());
+        ArrayList<PrivateObjective> chosenObj = prvObjDeck.getPrivateObjectives(players.size());
 
         for(Player p : players){
             //give the player the first public objective in the list
@@ -457,7 +458,11 @@ public class Game implements Serializable {
             if(!this.currentPlayer.getPubObjFlag()[i]) {
                 if(this.publicObjectives[i].getResultObjective(this.currentPlayer.getShelf())){
                     //setPubObjFlag will be replaced by updatePubObjFlag
-                    this.currentPlayer.setPubObjFlag(i);
+                    try {
+                        this.currentPlayer.updatePubObjFlag(i);
+                    } catch (PublicObjectiveAlreadyCompletedException e) {
+                        System.out.println(e);
+                    }
                     this.currentPlayer.addPoints(pointsPubObj[i].pop());
                 }
             }

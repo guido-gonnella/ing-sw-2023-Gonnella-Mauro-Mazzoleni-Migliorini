@@ -83,9 +83,7 @@ public class NetworkHandler implements Observer, ViewObserver {
                     for (int i = 0; i < hand.size();i++ ){
                     try {
                         shelf.putTile(hand.get(order.get(i)),column);
-                    } catch (ColumnAlreadyFullException e) {
-                        throw new RuntimeException(e);
-                    } catch (OutOfShelfException e) {
+                    } catch (ColumnAlreadyFullException | OutOfShelfException e) {
                         throw new RuntimeException(e);
                     }
                 }

@@ -10,10 +10,6 @@ import java.util.Random;
 public class DeckOfPrivateObjectives {
     private final ArrayList<PrivateObjective> privateObjectives;
 
-    public DeckOfPrivateObjectives(ArrayList<PrivateObjective> privObj) {
-        this.privateObjectives = new ArrayList<PrivateObjective>(privObj);
-    }
-
     /**
      * initialize the array list with one of each {@link PrivateObjective private objective}
      * @author Guido Gonnella
@@ -25,11 +21,6 @@ public class DeckOfPrivateObjectives {
             //add a new private objective in the arraylist, one of each kind
             privateObjectives.add(new PrivateObjective(i));
         }
-    }
-
-    //this probably won't be used since the constructor already will include all the private objectives
-    public void setPrivateObjectives(PrivateObjective privObj) { //adds the private objectives previously generated in main
-        this.privateObjectives.add(privObj);
     }
 
     public ArrayList<PrivateObjective> getPrivateObjectives(int numPlayers) {

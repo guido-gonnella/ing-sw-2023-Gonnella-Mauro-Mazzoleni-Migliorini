@@ -19,28 +19,26 @@ public class SackOfTilesTest {
         int frame = 0;
         int tiles = 0;
 
-        try{
-            while(true) {
-                Tile tile = sack.getRandomTile();
-                tiles++;
-                switch (tile.getType()) {
-                    case CAT -> cat++;
-                    case BOOK -> book++;
-                    case GAME -> game++;
-                    case PLANT -> plant++;
-                    case FRAME -> frame++;
-                    case TROPHY -> trophy++;
-                    default -> System.out.println("Something's wrong...");
-                }
+        while(!sack.getLeftTiles().isEmpty()) {
+            Tile tile = sack.getRandomTile();
+            tiles++;
+            switch (tile.getType()) {
+                case CAT -> cat++;
+                case BOOK -> book++;
+                case GAME -> game++;
+                case PLANT -> plant++;
+                case FRAME -> frame++;
+                case TROPHY -> trophy++;
+                default -> System.out.println("Something's wrong...");
             }
-        } catch (SackEmptyException e) {
-            System.out.println("Cat: " + cat);
-            System.out.println("Book: " + book);
-            System.out.println("Game: " + game);
-            System.out.println("Plant: " + plant);
-            System.out.println("Frame: " + frame);
-            System.out.println("Trophy: " + trophy);
-            System.out.println("Tiles: " + tiles);
         }
+
+        System.out.println("Cat: " + cat);
+        System.out.println("Book: " + book);
+        System.out.println("Game: " + game);
+        System.out.println("Plant: " + plant);
+        System.out.println("Frame: " + frame);
+        System.out.println("Trophy: " + trophy);
+        System.out.println("Tiles: " + tiles);
     }
 }
