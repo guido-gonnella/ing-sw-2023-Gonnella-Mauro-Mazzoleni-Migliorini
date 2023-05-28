@@ -9,6 +9,7 @@ import it.polimi.ingsw.Network.Message.MsgType;
  *
  * @author Samuele Mazzoleni
  */
+//TODO rimuovere questo messaggio, è inutile
 public class EndPlTurnMessage extends Message {
 
     public EndPlTurnMessage() {

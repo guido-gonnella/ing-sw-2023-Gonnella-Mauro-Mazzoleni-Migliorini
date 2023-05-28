@@ -61,7 +61,8 @@ public class GameController implements Runnable{
         endGamePhase = false;
 
         //TODO modificare la virtualview
-        /*for(String username: virtualView.getMap().getKeys()) {
+        //così dovrebbe andare
+        /*for(String username: virtualView.getUsernames()) {
             game.addPlayer(username);
             players.add(username);
         }*/
@@ -95,6 +96,9 @@ public class GameController implements Runnable{
     private void inGame(){
         switch (turnState){
             case PICK_TILES -> {
+                //broadcast the updated board to all players
+                virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
+
                 selectedTiles = new ArrayList<Tile>();
                 ArrayList<Coords> tilesCoords = (ArrayList<Coords>) virtualView.read(currPlayer, MsgType.SELECT_TILE_REQUEST);
 
@@ -104,13 +108,11 @@ public class GameController implements Runnable{
                         selectedTiles.add(game.getBoard().takeTiles(c.x, c.y).get());
 
 
-                //broadcast the updated board to all players
-                virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
-
                 //change the turn phase
                 turnState = Phase.SELCT_COLUMN;
             }
             case SELCT_COLUMN -> {
+                virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
                 int column = (int) virtualView.read(currPlayer, MsgType.SELECT_COL_REQUEST);
 
                 //inserting the tiles in the current player's shelf
@@ -118,9 +120,7 @@ public class GameController implements Runnable{
                     try{
                         //todo -> capire per le eccezioni
                         game.getPlayerByNick(currPlayer).getShelf().putTile(t, column);
-                    }catch (ColumnAlreadyFullException e){
-                        e.printStackTrace();
-                    } catch (OutOfShelfException e) {
+                    }catch (ColumnAlreadyFullException | OutOfShelfException e){
                         e.printStackTrace();
                     }
 

@@ -13,7 +13,6 @@ import java.util.ArrayList;
  *
  * @author Samuele Mazzoleni
  */
-//TODO gli attributi x e y possono essere rimossi
 public class SelectTileMessage extends Message {
     private final ArrayList<Coords> coords;
 
