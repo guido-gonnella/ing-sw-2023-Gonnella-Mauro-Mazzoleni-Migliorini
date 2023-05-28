@@ -470,6 +470,27 @@ public class Game implements Serializable {
     }
 
     /**
+     * Overload of the previous method, instead of using the current player attribute,
+     * which is stored in the {@link it.polimi.ingsw.Controller.GameController gameController class}
+     * it use the player passed as a parameter.
+     * @param player the player to check
+     */
+    public void reachPubObj(Player player) {
+        for(int i=0; i<2; i++) {
+            if(!player.getPubObjFlag()[i]) {
+                if(this.publicObjectives[i].getResultObjective(player.getShelf())){
+                    try {
+                        player.updatePubObjFlag(i);
+                    } catch (PublicObjectiveAlreadyCompletedException e) {
+                        System.out.println(e);
+                    }
+                    player.addPoints(pointsPubObj[i].pop());
+                }
+            }
+        }
+    }
+
+    /**
      * Method that adds a player to the game
      *
      * @param name playerp's nickname
