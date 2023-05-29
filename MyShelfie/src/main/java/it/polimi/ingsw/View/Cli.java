@@ -45,7 +45,7 @@ public class Cli extends ViewObservable implements View{
         Scanner in = new Scanner(System.in);
         Boolean valid = false;
         do {
-            out.print("\nPlease input the address of the server");
+            out.print("\nPlease input the address of the server: ");
             try{
                 serverAddr = ReadText();
                 if(serverAddr.equals("")){
@@ -58,10 +58,10 @@ public class Cli extends ViewObservable implements View{
                     valid = false;
                 }
             }catch(InputMismatchException e){
-                out.print("Please input a valid port ");
+                out.print("Please input a valid address: ");
                 valid = false;
             }catch(NoSuchElementException e1){
-                out.print("Please input a valid port");
+                out.print("Please input a valid adress: ");
                 valid = false;
             }
         } while (!valid);
@@ -69,7 +69,7 @@ public class Cli extends ViewObservable implements View{
         valid = false;
 
         do {
-            out.print("Please input the port of the server");
+            out.print("Please input the port of the server: ");
             try{
                 port = ReadInt();
                 if(NetworkHandler.isValidPort(port)) {
@@ -78,11 +78,8 @@ public class Cli extends ViewObservable implements View{
                 else{
                     valid = false;
                 }
-            }catch(InputMismatchException e){
-                out.print("Please input a valid port ");
-                valid = false;
-            }catch(NoSuchElementException e1){
-                out.print("Please input a valid port");
+            } catch(NoSuchElementException e1){
+                out.print("Please input a valid port: ");
                 valid = false;
             }
         } while (!valid);
@@ -108,36 +105,29 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void askselecttile(){
-        int y = -1, x = -1;
+        int[] coords= new int[2];
         boolean valid;
+        String temp=null;
         Scanner in = new Scanner(System.in);
-        out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\"");
+        out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\": ");
         do {
-            try{valid=true;
+            try{ valid= true;
+                temp=in.nextLine();
+                coords=extractIntegers(temp);
 
-                y =in.nextInt();
             }catch(InputMismatchException e){
-                out.print("mismatch please input valid coordinates: like 1,2 or 0,3");
+                out.print("Mismatch please input valid coordinates: like \"1,2\" or \"0,3\": "); //TODO cleanup
                 valid=false;
-                in.next();
             }catch(NoSuchElementException e1){
-                out.print("no element please input valid coordinates: like 1,2 or 0,3");
+                out.print("no element please input valid coordinates: like \"1,2\" or \"0,3\": ");
                 valid=false;
             }
 
-            if( valid){
-                try{ x =in.nextInt();}
-                catch(InputMismatchException e){
-                    out.print("2ND MISMATCH please input valid coordinates: like 1,2 or 0,3");
-                    valid=false;
-                }catch(NoSuchElementException e1){
-                    out.print("2nd NOELE please input valid coordinates: like 1,2 or 0,3");
-                    valid=false;
-                }
-            }
+
+
         } while (!valid);
-        Integer finalX = x;
-        Integer finalY = y;
+        Integer finalX = coords[1];
+        Integer finalY = coords[0];
         notifyObservers(obs -> obs.onSelectTile(finalX,finalY));
 
     }
@@ -151,8 +141,8 @@ public class Cli extends ViewObservable implements View{
         Integer x=4;
         boolean valid;
         ArrayList<Integer> positions= new ArrayList<>();
-        Scanner in = new Scanner(System.in);
-        out.print("input for each Tile input the order you want to insert them: for example \"2 1 0 \"  if you want to put the 0 tile last and the first tile");
+        Scanner in = new Scanner(System.in).useDelimiter("\\s*,\\s*");
+        out.print("input for each Tile input the order you want to insert them: for example \"2,1,0 \"  if you want to put the first tile last and the last tile first: ");
         for (int i=0; i<num;i++){
             do {
                 try {
@@ -185,6 +175,11 @@ public class Cli extends ViewObservable implements View{
         out.print("tile in "+x+","+y+"doesnt exist\n");
     }
 
+    @Override
+    public void invalidcombo() {
+        out.print("iinvalid Tile combination selected, please select exposed and adjacent tiles\n");
+    }
+
     /**
      * asks player to select in which column of their shelf to insert the tiles in hand
      * @author Andrea Migliorini
@@ -194,15 +189,15 @@ public class Cli extends ViewObservable implements View{
         int col=9;
         boolean valid;
         Scanner in = new Scanner(System.in);
-        out.print("input \"x\" the column in which to insert the tiles in your hand, they will be inserted with the rightmost as the one at the bottom");
+        out.print("Input \"x\" the column in which to insert the tiles in your hand, they will be inserted with the leftmost as the one at the bottom: ");
         do {
             try{valid=true;
                 col =in.nextInt();}
             catch(InputMismatchException e){
-                out.print("please input a valid column (a number from 0 to 4)");
+                out.print("please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }catch(NoSuchElementException e1){
-                out.print("please input a valid column (a number from 0 to 4)");
+                out.print("please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }
             if(col>4||col<0){
@@ -292,7 +287,7 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void showtilesinhand(ArrayList<Tile> hand) {
-        out.println("0 is the tile placed at the bottom of the column");
+        out.println("0 is the tile placed at the bottom of the column \n");
         for(int i=0;i<hand.size(); i++){
             out.print(" "+i+" ");
         }
@@ -327,19 +322,19 @@ public class Cli extends ViewObservable implements View{
         int playernumber =10;
         boolean valid;
         Scanner in = new Scanner(System.in);
-        out.print("input \"x\" number of total players in the game");
+        out.print("input \"x\" number of total players in the game: ");
         do {
             try{valid=true;
                 playernumber =in.nextInt();}
             catch(InputMismatchException e){
-                out.print("please input a number of players (a number from 2 to 4)");
+                out.print("please input a number of players (a number from 2 to 4) :");
                 valid=false;
             }catch(NoSuchElementException e1){
-                out.print("please input a number of players (a number from 2 to 4)");
+                out.print("please input a number of players (a number from 2 to 4): ");
                 valid=false;
             }
             if(playernumber>4||playernumber<2){
-                out.print("please input a number of players (a number from 2 to 4)");
+                out.print("please input a number of players (a number from 2 to 4): ");
                 valid=false;
             }
         } while(!valid);
@@ -356,8 +351,7 @@ public class Cli extends ViewObservable implements View{
             out.print(player+ "scored:  ");
             out.print("\u001B[33m" + mappoints.get(player)+"!\n"+"\u001B[0m");
             out.print("and completed: ");
-            if (mapobjective.get(player)[0])
-            {
+            if (mapobjective.get(player)[0]){
                 flag=true;
                 out.print("\u001B[32m"+"the first objective ✔"+"\u001B[0m");
             }
@@ -372,6 +366,7 @@ public class Cli extends ViewObservable implements View{
             } else {
                 out.print("completed no objectives");
             }
+        out.print("\n");
         }
     }
 
@@ -411,8 +406,7 @@ public class Cli extends ViewObservable implements View{
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
                         default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                     }
-                    z++;
-                    if(z==6){z=0;}
+                    if(z<5){z++;}
                 }else {
                     out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                 }
@@ -421,4 +415,22 @@ public class Cli extends ViewObservable implements View{
             out.print("\n");
         }
     }
+
+    public static int[] extractIntegers(String input) {
+        String[] parts = input.split(",");
+        if (parts.length != 2) {
+            return null; // Invalid input
+        }
+
+        int[] values = new int[2];
+        try {
+            values[0] = Integer.parseInt(parts[0].trim());
+            values[1] = Integer.parseInt(parts[1].trim());
+        } catch (NumberFormatException e) {
+            return null; // Invalid input
+        }
+
+        return values;
+    }
+
 }

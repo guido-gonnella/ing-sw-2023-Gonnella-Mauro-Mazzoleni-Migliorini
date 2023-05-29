@@ -70,6 +70,7 @@ public class NetworkHandler implements Observer, ViewObserver {
                         if(valid){
                             {
                                 tempTiles.clear();
+                                view.invalidcombo();
                             }
                         }
                     } while(valid);
@@ -199,6 +200,21 @@ public class NetworkHandler implements Observer, ViewObserver {
                 return false;
             }
         }
+    /**
+     *
+     * @return return true if the tiles selected is valid, in line and with at least a side free
+     * The method return a boolean value, based on the coordinates of the selected tiles from the game Board.<br>
+     * It checks firstly if the number of the selected tiles is not greater than three, than based on the number (one, two or three).<br><br>
+     * If the tiles are only one, it checks if the tile have at least one free side. <br>
+     * If the tiles are two, it checks if the x coordinates or the y coordinates are the same, then it sorts the array containing the coordinates
+     * (sorting on the y if the selection is horizontal, or on the x if the selection is vertical), then checks if the absolute value of the difference of the y values
+     * (x values) is 1, meaning the tiles are one next to the other, then checks if the selected tiles have one free side.<br>
+     * For the the selection of three elements, it first checks if the x values or the y values are the same (same row or column), then order the arraylilst by the x or the y values,
+     * then checks if the difference between the coordinates (x or y values) are -1, meaning the values (x or y) are consecutive, then it checks if the coordinates
+     * have at least on free side.
+     * @return return true if the selection is valid, false otherwise
+     * @author Guido Gonnella
+     */
     public boolean validSelection(){
         if(tempTiles.size() > 0 && tempTiles.size() <= 3){
             if(tempTiles.size() == 1){

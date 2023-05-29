@@ -139,7 +139,8 @@ public class Game implements Serializable {
      * For the the selection of three elements, it first checks if the x values or the y values are the same (same row or column), then order the arraylilst by the x or the y values,
      * then checks if the difference between the coordinates (x or y values) are -1, meaning the values (x or y) are consecutive, then it checks if the coordinates
      * have at least on free side.
-     * @return return true if the selection is valid, false otherwise
+     * @return return true if the selection is , false otherwise
+     * @author Guido Gonnella
      */
     public boolean validSelection(){
         if(tempTileSelSize() > 0 && tempTileSelSize() <= 3){

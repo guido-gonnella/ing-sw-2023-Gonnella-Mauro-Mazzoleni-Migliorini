@@ -23,4 +23,5 @@ public interface View {
     void showprivateobjective(PrivateObjective objective);
 
     void invalidTile(int x, int y);
+    void invalidcombo();
 }

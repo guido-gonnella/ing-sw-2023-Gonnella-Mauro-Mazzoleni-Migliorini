@@ -77,4 +77,9 @@ public class Gui extends ViewObservable implements View {
     public void invalidTile(int x, int y) {
 
     }
+
+    @Override
+    public void invalidcombo() {
+
+    }
 }
