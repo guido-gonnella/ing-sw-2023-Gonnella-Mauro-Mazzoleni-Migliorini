@@ -13,11 +13,14 @@ import java.io.Serializable;
 public class Tile implements Serializable {
 
     private Type type;
-
-    public Tile(Type type){
+    private int id;
+    public Tile(Type type, int id){
         this.type = type;
+        this.id=id;
     }
     public Type getType(){
         return this.type;
     }
+
+    public int getId() {return id; }
 }

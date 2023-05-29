@@ -16,17 +16,17 @@ public class SackOfTiles {
 
         tiles = new ArrayList<Tile>(); //creates a new list of tiles with all the 132 tiles of the 6 types inside it
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(Type.CAT));}
+            tiles.add(new Tile(Type.CAT,(i%3)+1));}
         for (int i=0; i<22;i++) {
-            tiles.add( new Tile(Type.FRAME));}
+            tiles.add( new Tile(Type.FRAME,(i%3)+1));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(Type.GAME));}
+            tiles.add(new Tile(Type.GAME,(i%3)+1));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(Type.PLANT));}
+            tiles.add(new Tile(Type.PLANT,(i%3)+1));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(Type.TROPHY));}
+            tiles.add(new Tile(Type.TROPHY,(i%3)+1));}
         for (int i=0; i<22;i++) {
-            tiles.add(new Tile(Type.BOOK));}
+            tiles.add(new Tile(Type.BOOK,(i%3)+1));}
 
     }
 
@@ -48,7 +48,7 @@ public class SackOfTiles {
         else {
             Random rand = new Random();
             Tile temp;
-            int a = rand.nextInt(tiles.size());;
+            int a = rand.nextInt(tiles.size());
             temp = tiles.remove(a);
             return (temp);
         }
