@@ -9,12 +9,12 @@ import static org.junit.Assert.*;
 public class TileTest {
     @Test
     public void createTiles_assureTheyHaveSameTypeFromCreation() {
-        Tile tile1 = new Tile(Type.BOOK);
-        Tile tile2 = new Tile(Type.CAT);
-        Tile tile3 = new Tile(Type.TROPHY);
-        Tile tile4 = new Tile(Type.PLANT);
-        Tile tile5 = new Tile(Type.FRAME);
-        Tile tile6 = new Tile(Type.GAME);
+        Tile tile1 = new Tile(Type.BOOK,1);
+        Tile tile2 = new Tile(Type.CAT,1);
+        Tile tile3 = new Tile(Type.TROPHY,1);
+        Tile tile4 = new Tile(Type.PLANT,1);
+        Tile tile5 = new Tile(Type.FRAME,1);
+        Tile tile6 = new Tile(Type.GAME,1);
 
         assertTrue(tile1.getType()==Type.BOOK);
         assertTrue(tile2.getType()==Type.CAT);

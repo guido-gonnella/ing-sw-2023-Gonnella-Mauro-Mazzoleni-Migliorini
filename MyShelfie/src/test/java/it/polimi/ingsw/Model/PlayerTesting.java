@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Model;
 
-
-import exceptions.PublicObjectiveAlreadyCompletedException;
 import it.polimi.ingsw.Model.Enumeration.Type;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,12 +17,12 @@ public class PlayerTesting {
 
     @Test
     public void placeTile_test() {
-        Tile t1 = new Tile(Type.CAT);
-        Tile t2 = new Tile(Type.BOOK);
-        Tile t3 = new Tile(Type.PLANT);
-        Tile t4 = new Tile(Type.GAME);
-        Tile t5 = new Tile(Type.FRAME);
-        Tile t6 = new Tile(Type.TROPHY);
+        Tile t1 = new Tile(Type.CAT,1);
+        Tile t2 = new Tile(Type.BOOK,1);
+        Tile t3 = new Tile(Type.PLANT,1);
+        Tile t4 = new Tile(Type.GAME,1);
+        Tile t5 = new Tile(Type.FRAME,1);
+        Tile t6 = new Tile(Type.TROPHY,1);
 
         player.placeTile(t1, 0);
         player.placeTile(t2, 0);
@@ -77,12 +75,12 @@ public class PlayerTesting {
 
         player.setPrivateObjective(privateObjective);
 
-        Tile t1 = new Tile(Type.CAT);
-        Tile t2 = new Tile(Type.BOOK);
-        Tile t3 = new Tile(Type.PLANT);
-        Tile t4 = new Tile(Type.GAME);
-        Tile t5 = new Tile(Type.FRAME);
-        Tile t6 = new Tile(Type.TROPHY);
+        Tile t1 = new Tile(Type.CAT,1);
+        Tile t2 = new Tile(Type.BOOK,1);
+        Tile t3 = new Tile(Type.PLANT,1);
+        Tile t4 = new Tile(Type.GAME,1);
+        Tile t5 = new Tile(Type.FRAME,1);
+        Tile t6 = new Tile(Type.TROPHY,1);
 
         player.placeTile(t1, 0);
         player.placeTile(t2, 0);
@@ -143,20 +141,11 @@ public class PlayerTesting {
     public void updatePubObjFlag_and_getPubObjFlag_test() {
         assertFalse(player.getPubObjFlag()[0]);
         assertFalse(player.getPubObjFlag()[1]);
+        player.updatePubObjFlag(0);
 
-        try {
-            player.updatePubObjFlag(0);
-        } catch (PublicObjectiveAlreadyCompletedException e) {
-            System.out.println(e);
-        }
 
         assertTrue(player.getPubObjFlag()[0]);
-
-        try {
-            player.updatePubObjFlag(0);
-        } catch (PublicObjectiveAlreadyCompletedException e) {
-            System.out.println(e);
-        }
+        player.updatePubObjFlag(0);
     }
 
     @Test
@@ -175,12 +164,12 @@ public class PlayerTesting {
 
     @Test
     public void getFreeSpaceInCol_withShelfNotEmpty() {
-        Tile t1 = new Tile(Type.CAT);
-        Tile t2 = new Tile(Type.BOOK);
-        Tile t3 = new Tile(Type.PLANT);
-        Tile t4 = new Tile(Type.GAME);
-        Tile t5 = new Tile(Type.FRAME);
-        Tile t6 = new Tile(Type.TROPHY);
+        Tile t1 = new Tile(Type.CAT,1);
+        Tile t2 = new Tile(Type.BOOK,1);
+        Tile t3 = new Tile(Type.PLANT,1);
+        Tile t4 = new Tile(Type.GAME,1);
+        Tile t5 = new Tile(Type.FRAME,1);
+        Tile t6 = new Tile(Type.TROPHY,1);
 
         player.placeTile(t1, 0);
         player.placeTile(t2, 0);
