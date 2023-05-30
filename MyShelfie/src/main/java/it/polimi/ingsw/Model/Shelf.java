@@ -120,4 +120,24 @@ public class Shelf implements Serializable {
 
         return true;
     }
+
+    /**
+     * Method to check how many more tiles you can insert in a column
+     *  @param column is the column of the shelf you want to check
+     * @returns tilesleft is how many more tiles can fit in that column of the shelf
+     * @author Andrea Migliorini
+     */
+    public int tilesLeftColumn(int column){
+        int tilesleft=0;
+        int i=HEIGHT-1;
+        for (;i>-1;i--){
+                    if(shelf[i][column].isEmpty()){
+                        break;
+                    }
+        }
+        for (;i>-1;i--){
+            tilesleft++;
+        }
+        return(tilesleft);
+    }
 }

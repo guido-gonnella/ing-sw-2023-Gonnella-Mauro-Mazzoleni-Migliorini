@@ -10,10 +10,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1800.0" styleClass="Sfondo" stylesheets="@../css/menu_scene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="Sfondo" stylesheets="@../css/menu_scene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox fx:id="ConfirmIpPort" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="796.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="ConfirmIpPort" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="796.0" BorderPane.alignment="CENTER">
          <children>
+            <ImageView fitHeight="231.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true" translateY="-20.0">
+               <image>
+                  <Image url="@../Publisher%20material/Tile%20Cut.png" />
+               </image>
+            </ImageView>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ip Address" wrappingWidth="197.86657893657684">
                <font>
                   <Font name="Comic Sans MS" size="30.0" />
@@ -48,11 +53,4 @@
          </image>
       </ImageView>
    </bottom>
-   <top>
-      <ImageView fitHeight="316.0" fitWidth="471.0" pickOnBounds="true" preserveRatio="true" translateY="200.0" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="@../Publisher%20material/Tile%20Cut.png" />
-         </image>
-      </ImageView>
-   </top>
 </BorderPane>

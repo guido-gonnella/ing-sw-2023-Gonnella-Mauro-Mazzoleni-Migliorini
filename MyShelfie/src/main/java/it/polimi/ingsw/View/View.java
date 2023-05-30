@@ -24,4 +24,6 @@ public interface View {
 
     void invalidTile(int x, int y);
     void invalidcombo();
+
+    void invalidColumn(int column);
 }
