@@ -24,12 +24,14 @@ import java.util.Map;
 public class VirtualView {
 
     private Map<String, SocketServer> socketMap;
+    private Server server;
 
     /**
      * Constructor of the class
      */
-    public VirtualView(){
+    public VirtualView(Server server){
         this.socketMap = new HashMap<>();
+        this.server = server;
     }
 
     /**
@@ -49,8 +51,6 @@ public class VirtualView {
      * @param user that have to send the input
      * @return the input of the client
      */
-    /*TODO nel gameController inserire un try catch ogni volta che viene chiamato read per
-     *  catchare ClassNotFoundException */
     public Object read(String user, MsgType message){
         SocketServer destinationClient = socketMap.get(user);
         switch(message){
@@ -117,6 +117,10 @@ public class VirtualView {
         destinationClient.sendMessage(new AskTileSelectMsg());
         Message received = destinationClient.readMessage();
         return ((SelectTileMessage)received).getCoordinates();
+    }
+
+    public void removeUsername(String username){
+        server.removeUsername(username);
     }
 
 }

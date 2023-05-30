@@ -19,11 +19,11 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     private View view;
     private int column;
 
-         Shelf shelf;
-        Board board;
-        private ClientSocket client;
-        private String nick;
-        private int loop;
+    Shelf shelf;
+    Board board;
+    private ClientSocket client;
+    private String nick;
+    private int loop;
 
     public NetworkHandler(View view){
             this.view = view;
@@ -200,6 +200,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                 return false;
             }
         }
+
     /**
      *
      * @return return true if the tiles selected is valid, in line and with at least a side free

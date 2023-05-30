@@ -18,9 +18,7 @@ public class Game implements Serializable {
     private final DeckOfPublicObjectives pubObjDeck;
     private final DeckOfPrivateObjectives prvObjDeck;
     private final ArrayList<Player> players;
-    private int maxNumPlayer;
     private Player firstPlayer;
-    private Player currentPlayer;
     private final Stack<Integer>[] pointsPubObj =  new Stack[2];
     private ArrayList<Tile> tilesInCurrPlayerHand;
     private ArrayList<Coords> tempTiles;
@@ -39,11 +37,6 @@ public class Game implements Serializable {
 
         pubObjDeck = new DeckOfPublicObjectives();
         prvObjDeck = new DeckOfPrivateObjectives();
-
-        //Random rand = new Random();
-        //int index = rand.nextInt(this.players.size());
-        //this.firstPlayer = new Player(this.players.get(index).getNickname());
-        //this.currentPlayer = new Player(this.players.get(index).getNickname());
 
         this.tilesInCurrPlayerHand = new ArrayList<Tile>();
         this.tempTiles = new ArrayList<Coords>();
@@ -101,6 +94,79 @@ public class Game implements Serializable {
                 pointsPubObj[1].push(8);
             }
         }
+    }
+
+    /**
+     * It sets the board ready to be used by the specific number of players in this game
+     */
+    public void setBoard() {
+        Space[][] grid = this.board.getGrid();
+
+        if(this.players.size()>2) {
+            grid[0][3].setAvailable();
+            grid[2][2].setAvailable();
+            grid[2][6].setAvailable();
+            grid[3][8].setAvailable();
+            grid[5][0].setAvailable();
+            grid[6][2].setAvailable();
+            grid[6][6].setAvailable();
+            grid[8][5].setAvailable();
+
+            if(this.players.size()>3) {
+                grid[0][4].setAvailable();
+                grid[1][5].setAvailable();
+                grid[3][1].setAvailable();
+                grid[4][0].setAvailable();
+                grid[4][8].setAvailable();
+                grid[5][7].setAvailable();
+                grid[7][3].setAvailable();
+                grid[8][4].setAvailable();
+            }
+        }
+
+        for(int row=1; row<8; row++) {
+            switch (row) {
+                case 1: {
+                    grid[row][3].setAvailable();
+                    grid[row][4].setAvailable();
+                    break;
+                }
+                case 2, 6: {
+                    grid[row][3].setAvailable();
+                    grid[row][4].setAvailable();
+                    grid[row][5].setAvailable();
+                    break;
+                }
+                case 3: {
+                    for (int col = 2; col < 8; col++) {
+                        grid[row][col].setAvailable();
+                    }
+                    break;
+                }
+                case 4: {
+                    for (int col = 1; col < 8; col++) {
+                        grid[row][col].setAvailable();
+                    }
+                    break;
+                }
+                case 5: {
+                    for (int col = 1; col < 7; col++) {
+                        grid[row][col].setAvailable();
+                    }
+                    break;
+                }
+                case 7: {
+                    grid[row][4].setAvailable();
+                    grid[row][5].setAvailable();
+                    break;
+                }
+
+                default: break;
+            }
+        }
+
+        this.board.setGrid(grid);
+        this.board.fill(this.sackOfTiles);
     }
 
     public int getNumPlayers() {
@@ -251,41 +317,6 @@ public class Game implements Serializable {
      * @implNote only one tile at time can be taken
      */
     public Tile takeTiles(int x, int y) {
-        /*Scanner scanner = new Scanner(System.in);
-        int x, y, col;
-        String stop;
-        ArrayList<Optional<Tile>> temp = new ArrayList<>();
-
-        do{
-            System.out.println("Vuoi continuare a pescare? s/n");
-            stop = scanner.next();
-            x = scanner.nextInt();
-            y = scanner.nextInt();
-            if(!adjacent(x,y) && x>=0){
-                temp.add(this.board.takeTiles(x, y));
-            }
-        }while(Objects.equals(stop, "s") || Objects.equals(stop, "S"));
-
-        //qualcosa in mezzo per decidere l'ordine o simile
-        System.out.println("Seleziona la colonna della libreria:");
-        col = scanner.nextInt();
-        do {
-            System.out.println("Seleziona la tessera da inserire:");
-            for(int i=0; i<temp.size(); i++){
-                System.out.println(i+1);
-                System.out.println(" : ");
-                System.out.println(temp.get(i));
-                System.out.println("\n");
-            }
-            int tempTile = scanner.nextInt();
-            currentPlayer.placeTile(temp.get(tempTile).orElse(null),col);
-            il .orElse(null) serve per passare come parametro una tile e non
-            un operational di tile
-            temp.remove(tempTile);
-        }while(!temp.isEmpty());
-        */
-
-        // il .orElse(null) serve per trasformare un Optional<Tile> in Tile
         return  this.board.takeTiles(x,y).orElse(null);
     }
 
@@ -344,79 +375,6 @@ public class Game implements Serializable {
     }
 
     /**
-     * It sets the board ready to be used by the specific number of players in this game
-     */
-    public void setBoard() {
-        Space[][] grid = this.board.getGrid();
-
-        if(this.players.size()>2) {
-            grid[0][3].setAvailable();
-            grid[2][2].setAvailable();
-            grid[2][6].setAvailable();
-            grid[3][8].setAvailable();
-            grid[5][0].setAvailable();
-            grid[6][2].setAvailable();
-            grid[6][6].setAvailable();
-            grid[8][5].setAvailable();
-
-            if(this.players.size()>3) {
-                grid[0][4].setAvailable();
-                grid[1][5].setAvailable();
-                grid[3][1].setAvailable();
-                grid[4][0].setAvailable();
-                grid[4][8].setAvailable();
-                grid[5][7].setAvailable();
-                grid[7][3].setAvailable();
-                grid[8][4].setAvailable();
-            }
-        }
-
-        for(int row=1; row<8; row++) {
-            switch (row) {
-                case 1: {
-                    grid[row][3].setAvailable();
-                    grid[row][4].setAvailable();
-                    break;
-                }
-                case 2, 6: {
-                    grid[row][3].setAvailable();
-                    grid[row][4].setAvailable();
-                    grid[row][5].setAvailable();
-                    break;
-                }
-                case 3: {
-                    for (int col = 2; col < 8; col++) {
-                        grid[row][col].setAvailable();
-                    }
-                    break;
-                }
-                case 4: {
-                    for (int col = 1; col < 8; col++) {
-                        grid[row][col].setAvailable();
-                    }
-                    break;
-                }
-                case 5: {
-                    for (int col = 1; col < 7; col++) {
-                        grid[row][col].setAvailable();
-                    }
-                    break;
-                }
-                case 7: {
-                    grid[row][4].setAvailable();
-                    grid[row][5].setAvailable();
-                    break;
-                }
-
-                default: break;
-            }
-        }
-
-        this.board.setGrid(grid);
-        this.board.fill(this.sackOfTiles);
-    }
-
-    /**
      * Getter class of the attribute board of the object Game
      *
      * @return the board of the game
@@ -441,25 +399,6 @@ public class Game implements Serializable {
      */
     public void setSackOfTiles(SackOfTiles sackOfTiles) {
         this.sackOfTiles = sackOfTiles;
-    }
-
-    /**
-     * It decides if the current player have completed the public objectives remained to him
-     * and gives him the points in case he completed it
-     *
-     * @author Samuele Mazzoleni
-     * @author Pierantonio Mauro
-     */
-    public void reachPubObj() {
-        for(int i=0; i<2; i++) {
-            if(!this.currentPlayer.getPubObjFlag()[i]) {
-                if(this.publicObjectives[i].getResultObjective(this.currentPlayer.getShelf())){
-                    //setPubObjFlag will be replaced by updatePubObjFlag
-                        this.currentPlayer.updatePubObjFlag(i);
-                    this.currentPlayer.addPoints(pointsPubObj[i].pop());
-                }
-            }
-        }
     }
 
     /**
@@ -523,21 +462,5 @@ public class Game implements Serializable {
         Tile temp = tilesInCurrPlayerHand.get(t1);
         tilesInCurrPlayerHand.add(t1, tilesInCurrPlayerHand.get(t2));
         tilesInCurrPlayerHand.add(t2, temp);
-    }
-
-    /**
-     * return the maximum number of player allowed in this game
-     * @return
-     */
-    public int getMaxNumPlayer() {
-        return maxNumPlayer;
-    }
-
-    /**
-     * Sets the max number of player of this game
-     * @param maxNumPlayer
-     */
-    public void setMaxNumPlayer(int maxNumPlayer) {
-        this.maxNumPlayer = maxNumPlayer;
     }
 }
