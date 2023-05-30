@@ -135,40 +135,7 @@ public class Cli extends ViewObservable implements View{
      * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini
      */
-    @Override
-    public void askswap(int num){
-        Integer x=4;
-        boolean valid;
-        ArrayList<Integer> positions= new ArrayList<>();
-        Scanner in = new Scanner(System.in).useDelimiter("\\s*,\\s*");
-        out.print("input for each Tile input the order you want to insert them: for example \"2,1,0 \"  if you want to put the first tile last and the last tile first: ");
-        for (int i=0; i<num;i++){
-            do {
-                try {
-                    valid = true;
-                    x = in.nextInt();
 
-                } catch (InputMismatchException e) {
-                    out.print("please input valid positions");
-                    valid = false;
-                } catch (NoSuchElementException e1) {
-                    out.print("please input valid positions");
-                    valid = false;
-                }
-                if (valid && x > 2) {
-                    valid = false;
-                    out.print("please input valid positions");
-                }
-                if (valid && positions.contains(x)) {
-                    out.print("please input valid positions");
-                    valid=false;}
-
-                } while (!valid);
-            positions.add(x);
-        }
-
-        notifyObservers(obs -> obs.onSwap(positions));
-    }
     @Override
     public void invalidTile(int x,int y){
         out.print("tile in "+x+","+y+"doesnt exist\n");
@@ -177,6 +144,11 @@ public class Cli extends ViewObservable implements View{
     @Override
     public void invalidcombo() {
         out.print("iinvalid Tile combination selected, please select exposed and adjacent tiles\n");
+    }
+
+    @Override
+    public void invalidColumn(int column) {
+        out.print("this cant fit that many more tiles, try again\n");
     }
 
     /**
@@ -302,6 +274,7 @@ public class Cli extends ViewObservable implements View{
                 default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
             }
         }
+        out.print("\n");
 
     }
 

@@ -16,7 +16,6 @@ public class NetworkHandler implements Observer, ViewObserver {
 
     private ArrayList<Coords> tempTiles;
     private ArrayList<Tile> hand;
-    private ArrayList <Integer> order;
     private View view;
     private int column;
 
@@ -76,15 +75,21 @@ public class NetworkHandler implements Observer, ViewObserver {
                         hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
                     }
                     view.showtilesinhand(hand);
-                    view.askswap(hand.size());
-                    view.askinsertcol();
-                    client.sendMessage(new FullTileSelectionMessage(tempTiles,order,column));
-                    for (int i = 0; i < hand.size();i++ ){
-                        //TODO prima di fare questo controllare che la scelta di colonna sia valida
-                        shelf.putTile(hand.get(order.get(i)),column);
 
+                    do {
+                        valid=true;
+                        view.askinsertcol();
+                        if(shelf.tilesLeftColumn(column)<hand.size()) {
+                            view.invalidColumn(column);
+                            valid=false;
+                        }
+                    } while(!valid);
+                    client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
+                    for (int i = 0; i < hand.size();i++ ) {
+                        shelf.putTile(hand.get(i), column);
                     }
                     hand.clear();
+                    tempTiles.clear();
                     view.shelfshow(shelf.getShelf());
                     onEndTurn();
                     break;
@@ -134,11 +139,6 @@ public class NetworkHandler implements Observer, ViewObserver {
         public void onSelectCol(int col) {
 
                 this.column=col;
-        }
-
-        @Override
-        public void onSwap(ArrayList<Integer> positions) {
-            this.order=positions;
         }
 
         /**

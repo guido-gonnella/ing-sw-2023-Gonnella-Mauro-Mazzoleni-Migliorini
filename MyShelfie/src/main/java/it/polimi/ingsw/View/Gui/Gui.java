@@ -28,10 +28,6 @@ public class Gui extends ViewObservable implements View {
 
     }
 
-    @Override
-    public void askswap(int num) {
-
-    }
 
     @Override
     public void askinsertcol() {
