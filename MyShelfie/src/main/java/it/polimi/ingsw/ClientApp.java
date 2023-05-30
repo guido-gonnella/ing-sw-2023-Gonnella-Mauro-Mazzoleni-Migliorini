@@ -21,7 +21,8 @@ public class ClientApp {
             Cli view = new Cli();
             NetworkHandler networkHandler = new NetworkHandler(view);
             view.addObserver(networkHandler);
-            view.init();
+            Thread thread= new Thread(networkHandler, "networkHandler_");
+            thread.start();
         }else{
             Application.launch(JavaFXGui.class);
         }

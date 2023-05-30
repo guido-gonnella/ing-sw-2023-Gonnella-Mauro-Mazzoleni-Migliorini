@@ -12,7 +12,7 @@ import it.polimi.ingsw.View.View;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NetworkHandler implements Observer, ViewObserver {
+public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
     private ArrayList<Coords> tempTiles;
     private ArrayList<Tile> hand;
@@ -33,84 +33,88 @@ public class NetworkHandler implements Observer, ViewObserver {
         @Override
         public void onConnection(String serverAddr, int port) {
             client = new ClientSocket(serverAddr, port);
-            update(client.readMessage());
         }
 
         /**
          * Method that whenever the client recieves a message, notify this instance to be updated with a message.
-         * @param msg
          */
         @Override
-        public void update(Message msg) {
+        public void run() {
+            Message msg;
             boolean valid;
-            switch (msg.getMsgType()) {
-                case ASK_NICKNAME:
-                    view.asknickname();
-                    break;
-                case BOARD_UPDATE:
-                    this.board= ((UpdateBoardMessage)msg).getBoard();
-                    view.boardshow(board.getGrid());
-                    break;
-                case SHELF_UPDATE:
-                    this.shelf= ((UpdateShelfMessage)msg).getShelf();
-                    view.shelfshow(shelf.getShelf());
-                    break;
-                case NUMBER_PLAYER_REQUEST:
-                    view.askplayernumber();
-                    break;
-                case SELECT_TILE_REQUEST:
-                    do {
-                        for (loop = 0; loop < 3; loop++) {
-                            view.askselecttile();
-                        }
-                        valid =!validSelection();
-                        if(valid){
-                            {
-                                tempTiles.clear();
-                                view.invalidcombo();
-                            }
-                        }
-                    } while(valid);
-                    for (Coords tempTile : tempTiles) {
-                        hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
-                    }
-                    view.showtilesinhand(hand);
+            view.init();
+            while(!Thread.currentThread().isInterrupted()) {
+                msg = client.readMessage();
 
-                    do {
-                        valid=true;
-                        view.askinsertcol();
-                        if(shelf.tilesLeftColumn(column)<hand.size()) {
-                            view.invalidColumn(column);
-                            valid=false;
+                switch (msg.getMsgType()) {
+                    case ASK_NICKNAME:
+                        view.asknickname();
+                        break;
+                    case BOARD_UPDATE:
+                        this.board = ((UpdateBoardMessage) msg).getBoard();
+                        view.boardshow(board.getGrid());
+                        break;
+                    case SHELF_UPDATE:
+                        this.shelf = ((UpdateShelfMessage) msg).getShelf();
+                        view.shelfshow(shelf.getShelf());
+                        break;
+                    case NUMBER_PLAYER_REQUEST:
+                        view.askplayernumber();
+                        break;
+                    case SELECT_TILE_REQUEST:
+                        do {
+                            for (loop = 0; loop < 3; loop++) {
+                                view.askselecttile();
+                            }
+                            valid = !validSelection();
+                            if (valid) {
+                                {
+                                    tempTiles.clear();
+                                    view.invalidcombo();
+                                }
+                            }
+                        } while (valid);
+                        for (Coords tempTile : tempTiles) {
+                            hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
                         }
-                    } while(!valid);
-                    client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
-                    for (int i = 0; i < hand.size();i++ ) {
-                        shelf.putTile(hand.get(i), column);
-                    }
-                    hand.clear();
-                    tempTiles.clear();
-                    view.shelfshow(shelf.getShelf());
-                    onEndTurn();
+                        view.showtilesinhand(hand);
+
+                        do {
+                            valid = true;
+                            view.askinsertcol();
+                            if (shelf.tilesLeftColumn(column) < hand.size()) {
+                                view.invalidColumn(column);
+                                valid = false;
+                            }
+                        } while (!valid);
+                        client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
+                        for (int i = 0; i < hand.size(); i++) {
+                            shelf.putTile(hand.get(i), column);
+                        }
+                        hand.clear();
+                        tempTiles.clear();
+                        view.shelfshow(shelf.getShelf());
+                        onEndTurn();
+                        break;
+                    case PUBLIC_OBJECTIVE:
+                        view.showpublicobjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
+                        view.showpublicobjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
+                        break;
+                    case PRIVATE_OBJECTIVE:
+                        view.showprivateobjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
+                        break;
+                    case SELECT_COL_REQUEST:
+                        view.askinsertcol();
+                        break;
+                    case ERROR:
+                        //it.polimi.ingsw.view.showError();
+                        break;
+                    case END_STATS:
+                        view.showpoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
+                        Thread.currentThread().interrupt();
                     break;
-                case PUBLIC_OBJECTIVE:
-                    view.showpublicobjective(((PublicObjectiveMessage)msg).getPublicObjectives()[0]);
-                    view.showpublicobjective(((PublicObjectiveMessage)msg).getPublicObjectives()[1]);
-                    break;
-                case PRIVATE_OBJECTIVE:
-                    view.showprivateobjective(((PrivateObjectiveMessage)msg).getPrivateObjective());
-                    break;
-                case SELECT_COL_REQUEST:
-                    view.askinsertcol();
-                    break;
-                case ERROR:
-                    //it.polimi.ingsw.view.showError();
-                    break;
-                case END_STATS:
-                    view.showpoints(((EndStatsMessage)msg).getPlayer_points(),((EndStatsMessage)msg).getPlayer_ComObj());
-                    break;
+                }
             }
-            update(client.readMessage());
         }
 
         @Override

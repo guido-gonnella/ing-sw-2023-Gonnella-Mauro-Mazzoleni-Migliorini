@@ -141,7 +141,7 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void invalidcombo() {
-        out.print("iinvalid Tile combination selected, please select exposed and adjacent tiles\n");
+        out.print("invalid Tile combination selected, please select exposed and adjacent tiles\n");
     }
 
     @Override
