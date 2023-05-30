@@ -101,6 +101,9 @@ public class Game implements Serializable {
                 pointsPubObj[1].push(8);
             }
         }
+
+        firstPlayer = players.get(0);
+        currentPlayer = players.get(0);
     }
 
     public int getNumPlayers() {
@@ -330,20 +333,6 @@ public class Game implements Serializable {
     }
 
     /**
-     * It takes the random private objectives for every player from the deck, and it gives them to the players
-     *
-     * @param deckOfPrivateObjectives deck that contains all the possible private objectives
-     */
-    public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
-
-        ArrayList <PrivateObjective> temp;
-        temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
-        for(int i=0; i<this.players.size(); i++) {
-            players.get(i).setPrivateObjective(temp.get(i));
-        }
-    }
-
-    /**
      * It sets the board ready to be used by the specific number of players in this game
      */
     public void setBoard() {
@@ -441,25 +430,6 @@ public class Game implements Serializable {
      */
     public void setSackOfTiles(SackOfTiles sackOfTiles) {
         this.sackOfTiles = sackOfTiles;
-    }
-
-    /**
-     * It decides if the current player have completed the public objectives remained to him
-     * and gives him the points in case he completed it
-     *
-     * @author Samuele Mazzoleni
-     * @author Pierantonio Mauro
-     */
-    public void reachPubObj() {
-        for(int i=0; i<2; i++) {
-            if(!this.currentPlayer.getPubObjFlag()[i]) {
-                if(this.publicObjectives[i].getResultObjective(this.currentPlayer.getShelf())){
-                    //setPubObjFlag will be replaced by updatePubObjFlag
-                        this.currentPlayer.updatePubObjFlag(i);
-                    this.currentPlayer.addPoints(pointsPubObj[i].pop());
-                }
-            }
-        }
     }
 
     /**

@@ -37,7 +37,7 @@ public class NetworkHandler implements Observer, ViewObserver {
         }
 
         /**
-         * Method that whenever the client recieves a message, notify this instance to be updated with a message.
+         * Method that whenever the client receives a message, notify this instance to be updated with a message.
          * @param msg
          */
         @Override
@@ -63,7 +63,7 @@ public class NetworkHandler implements Observer, ViewObserver {
                         for (loop = 0; loop < 3; loop++) {
                             view.askselecttile();
                         }
-                        valid =!validSelection();
+                        valid =! validSelection();
                         if(valid){
                             {
                                 tempTiles.clear();
@@ -85,8 +85,8 @@ public class NetworkHandler implements Observer, ViewObserver {
                         }
                     } while(!valid);
                     client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
-                    for (int i = 0; i < hand.size();i++ ) {
-                        shelf.putTile(hand.get(i), column);
+                    for (Tile tile : hand) {
+                        shelf.putTile(tile, column);
                     }
                     hand.clear();
                     tempTiles.clear();
@@ -121,7 +121,7 @@ public class NetworkHandler implements Observer, ViewObserver {
                     loop=-1;
                     view.invalidTile(10,10);
                 }else{
-                    if (!(board.getGrid()[x][y].getTile().isEmpty())) {
+                    if (board.getGrid()[x][y].getTile().isPresent()) {
                         tempTiles.add(new Coords(x, y));
                     } else {
                         view.invalidTile(x, y);

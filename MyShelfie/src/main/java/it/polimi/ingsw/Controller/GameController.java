@@ -5,11 +5,9 @@ import it.polimi.ingsw.Model.Enumeration.GameState;
 import it.polimi.ingsw.Model.Enumeration.Phase;
 import it.polimi.ingsw.Network.Message.MsgType;
 import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
-import it.polimi.ingsw.Network.Message.S2C.UpdateShelfMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controller class for the game<br>
@@ -55,17 +53,16 @@ public class GameController implements Runnable{
 
         virtualView = vv;
 
-        firstEnder = new String();
+        firstEnder = "";
+
         endGamePhase = false;
 
         //TODO modificare la virtualview
         //così dovrebbe andare
-        /*for(String username: virtualView.getUsernames()) {
+        for(String username : virtualView.getUsernames()) {
             game.addPlayer(username);
             players.add(username);
-        }*/
-
-
+        }
     }
 
     @Override
@@ -107,9 +104,9 @@ public class GameController implements Runnable{
 
 
                 //change the turn phase
-                turnState = Phase.SELCT_COLUMN;
+                turnState = Phase.SELECT_COLUMN;
             }
-            case SELCT_COLUMN -> {
+            case SELECT_COLUMN -> {
                 virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
                 int column = (int) virtualView.read(currPlayer, MsgType.SELECT_COL_REQUEST);
 
