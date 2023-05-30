@@ -295,18 +295,19 @@ public class Cli extends ViewObservable implements View{
         boolean valid;
         Scanner in = new Scanner(System.in);
         out.print("input \"x\" number of total players in the game: ");
+
         do {
             try{valid=true;
                 playernumber =in.nextInt();}
             catch(InputMismatchException e){
-                out.print("please input a number of players (a number from 2 to 4) :");
+                out.print("please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }catch(NoSuchElementException e1){
-                out.print("please input a number of players (a number from 2 to 4): ");
+                out.print("please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }
-            if(playernumber>4||playernumber<2){
-                out.print("please input a number of players (a number from 2 to 4): ");
+            if(playernumber>5||playernumber<0){
+                out.print("please input a valid player number (a number from 1 to 5)");
                 valid=false;
             }
         } while(!valid);
