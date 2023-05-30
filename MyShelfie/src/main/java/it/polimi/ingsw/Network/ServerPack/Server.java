@@ -73,30 +73,32 @@ public class Server implements Runnable {
             }while(usernames.contains(username));
             usernames.add(username);
 
-            if(maxPlayer == 0){
-                int tempNumPl = 0;
-                do {
+            synchronized (lock) {
+                if (maxPlayer == 0) {
+                    int tempNumPl = 0;
                     do {
-                        socketServer.sendMessage(new MaxNumPlayerRequestMsg());
-                        arrivedMessage = socketServer.readMessage();
-                    } while (arrivedMessage.getMsgType() != MsgType.NUMBER_PLAYER_REPLY);
-                    tempNumPl = ((NumberOfPlayerMessage) arrivedMessage).getNum();
-                }while(tempNumPl <= 1 && tempNumPl > 4);
-                maxPlayer = tempNumPl;
-                numPlayer = 1;
-                tempVirtualView.addClient(username, socketServer);
-            }else{
-               tempVirtualView.addClient(username, socketServer);
-               numPlayer++;
-               if(numPlayer == maxPlayer){
-                   numPlayer = 0;
-                   maxPlayer = 0;
-                   GameController gc = new GameController(tempVirtualView);
-                   Thread thread = new Thread(gc, "gameController_");
-                   thread.start();
-                   gameControllerSet.add(gc);
-                   tempVirtualView = new VirtualView();
-               }
+                        do {
+                            socketServer.sendMessage(new MaxNumPlayerRequestMsg());
+                            arrivedMessage = socketServer.readMessage();
+                        } while (arrivedMessage.getMsgType() != MsgType.NUMBER_PLAYER_REPLY);
+                        tempNumPl = ((NumberOfPlayerMessage) arrivedMessage).getNum();
+                    } while (tempNumPl <= 1 && tempNumPl > 4);
+                    maxPlayer = tempNumPl;
+                    numPlayer = 1;
+                    tempVirtualView.addClient(username, socketServer);
+                } else {
+                    tempVirtualView.addClient(username, socketServer);
+                    numPlayer++;
+                    if (numPlayer == maxPlayer) {
+                        numPlayer = 0;
+                        maxPlayer = 0;
+                        GameController gc = new GameController(tempVirtualView);
+                        Thread thread = new Thread(gc, "gameController_");
+                        thread.start();
+                        gameControllerSet.add(gc);
+                        tempVirtualView = new VirtualView();
+                    }
+                }
             }
 
 

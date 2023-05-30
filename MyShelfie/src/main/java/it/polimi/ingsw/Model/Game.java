@@ -1,8 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.PublicObjectiveAlreadyCompletedException;
-import exceptions.SackEmptyException;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -55,7 +52,6 @@ public class Game implements Serializable {
 
     /**
      * Initialize method, for filling the board, choosing the common objectives and assigning private objectives to players
-     * @throws SackEmptyException if the sack of tiles is empty
      * @author Guido Gonnella
      */
     public void init(){
@@ -459,11 +455,7 @@ public class Game implements Serializable {
             if(!this.currentPlayer.getPubObjFlag()[i]) {
                 if(this.publicObjectives[i].getResultObjective(this.currentPlayer.getShelf())){
                     //setPubObjFlag will be replaced by updatePubObjFlag
-                    try {
                         this.currentPlayer.updatePubObjFlag(i);
-                    } catch (PublicObjectiveAlreadyCompletedException e) {
-                        System.out.println(e);
-                    }
                     this.currentPlayer.addPoints(pointsPubObj[i].pop());
                 }
             }
@@ -480,11 +472,7 @@ public class Game implements Serializable {
         for(int i=0; i<2; i++) {
             if(!player.getPubObjFlag()[i]) {
                 if(this.publicObjectives[i].getResultObjective(player.getShelf())){
-                    try {
-                        player.updatePubObjFlag(i);
-                    } catch (PublicObjectiveAlreadyCompletedException e) {
-                        System.out.println(e);
-                    }
+                    player.updatePubObjFlag(i);
                     player.addPoints(pointsPubObj[i].pop());
                 }
             }

@@ -41,8 +41,7 @@ public class Cli extends ViewObservable implements View{
     @Override
     public void init(){
         String serverAddr = "localhost"; //default value
-        int port = 8081; //default value
-        Scanner in = new Scanner(System.in);
+        int port = 8080; //default value
         Boolean valid = false;
         do {
             out.print("\nPlease input the address of the server: ");

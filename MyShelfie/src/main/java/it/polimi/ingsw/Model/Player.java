@@ -1,10 +1,5 @@
 package it.polimi.ingsw.Model;
 
-
-import exceptions.ColumnAlreadyFullException;
-import exceptions.OutOfShelfException;
-import exceptions.PublicObjectiveAlreadyCompletedException;
-
 import java.util.*;
 
 /**
@@ -42,11 +37,7 @@ public class Player {
      * @author Guido Gonnella
      */
     public void placeTile(Tile tile, int col){
-        try{
             shelf.putTile(tile, col);
-        }catch(ColumnAlreadyFullException | OutOfShelfException e) {
-            System.out.println(e);
-        }
     }
 
     /**
@@ -197,12 +188,10 @@ public class Player {
      * Update the flag for a specific objective as true, meaning the player has completed that objective
      *
      * @param obj index of the two boolean array
-     * @exception PublicObjectiveAlreadyCompletedException when an objective is already completed by the player(<code>this</code>)
      * @author Guido Gonnella
      */
-    public void updatePubObjFlag(int obj) throws PublicObjectiveAlreadyCompletedException{
+    public void updatePubObjFlag(int obj) {
         if(!this.pubObjFlag[obj]){ this.pubObjFlag[obj] = true;}
-        else throw new PublicObjectiveAlreadyCompletedException("Objective n° " + obj + " already completed\n");
     }
 
     /**

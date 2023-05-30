@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Controller;
 
-import exceptions.ColumnAlreadyFullException;
-import exceptions.OutOfShelfException;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.*;
@@ -82,12 +80,10 @@ public class NetworkHandler implements Observer, ViewObserver {
                     view.askinsertcol();
                     client.sendMessage(new FullTileSelectionMessage(tempTiles,order,column));
                     for (int i = 0; i < hand.size();i++ ){
-                    try {
+                        //TODO prima di fare questo controllare che la scelta di colonna sia valida
                         shelf.putTile(hand.get(order.get(i)),column);
-                    } catch (ColumnAlreadyFullException | OutOfShelfException e) {
-                        throw new RuntimeException(e);
+
                     }
-                }
                     hand.clear();
                     view.shelfshow(shelf.getShelf());
                     onEndTurn();

@@ -1,5 +1,4 @@
 package it.polimi.ingsw.Model;
-import exceptions.SackEmptyException;
 import it.polimi.ingsw.Model.Enumeration.Type;
 
 import java.util.ArrayList;

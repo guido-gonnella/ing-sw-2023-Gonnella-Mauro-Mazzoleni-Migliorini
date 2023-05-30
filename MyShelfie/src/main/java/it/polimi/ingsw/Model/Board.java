@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.SackEmptyException;
-
 import java.io.Serializable;
 import java.util.Optional;
 

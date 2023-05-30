@@ -1,8 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.ColumnAlreadyFullException;
-import exceptions.OutOfShelfException;
-
 import java.io.Serializable;
 import java.util.Optional;
 
@@ -60,27 +57,16 @@ public class Shelf implements Serializable {
      * @param tile is the Tile object the player wants to put in their shelf
      * @param col is the column where the player wants to put the tile
      *
-     * @exception ColumnAlreadyFullException if <code>shelf[0][col].isPresent()</code> is true
-     * @exception OutOfShelfException if <code>col >= WIDTH && col < 0</code>
-     *
      * @author Guido Gonnella
      */
-    public void putTile(Tile tile, int col) throws ColumnAlreadyFullException, OutOfShelfException {
-        if(0 <= col && col < WIDTH){
-            if(this.shelf[0][col].isPresent()) {
-                throw new ColumnAlreadyFullException("Column " + col + " is full\n");
-            }
-            else{
+    //il controllo che la colonna esisita e la colonna possa contenere le tiles inserite lo fa il controller
+    public void putTile(Tile tile, int col){
                 for(int i = HEIGHT-1; i >= 0; i--){
                     if(this.shelf[i][col].isEmpty()){
                         this.shelf[i][col] = Optional.of(tile);
                         break;
                     }
                 }
-            }
-        }else{
-            throw new OutOfShelfException("Out of column range\n");
-        }
     }
 
     /**

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Controller;
 
-import exceptions.ColumnAlreadyFullException;
-import exceptions.OutOfShelfException;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Model.Enumeration.GameState;
 import it.polimi.ingsw.Model.Enumeration.Phase;
@@ -117,12 +115,8 @@ public class GameController implements Runnable{
 
                 //inserting the tiles in the current player's shelf
                 for(Tile t : selectedTiles)
-                    try{
-                        //todo -> capire per le eccezioni
                         game.getPlayerByNick(currPlayer).getShelf().putTile(t, column);
-                    }catch (ColumnAlreadyFullException | OutOfShelfException e){
-                        e.printStackTrace();
-                    }
+
 
                 //checking if the current player's shelf is full
                 if(game.getPlayerByNick(currPlayer).getShelf().isFull()) {
