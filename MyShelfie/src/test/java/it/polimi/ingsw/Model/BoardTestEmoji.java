@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.SackEmptyException;
 import org.junit.Before;
 import org.junit.Test;
 

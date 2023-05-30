@@ -39,7 +39,7 @@ public class SpaceTest {
     @Test
     public void setTile_Test(){
         Type type = Type.values()[1];
-        Tile tile = new Tile(type);
+        Tile tile = new Tile(type,1);
         space.setTile(tile);
         System.out.println(space.getTile());
         assertTrue(space.getTile().isPresent());
@@ -48,7 +48,7 @@ public class SpaceTest {
 
     @Test
     public void removeTile_Test(){
-        space.setTile(new Tile(Type.CAT));
+        space.setTile(new Tile(Type.CAT,1));
         assertTrue(space.getTile().isPresent());
         space.removeTile();
         assertTrue(space.getTile().isEmpty());

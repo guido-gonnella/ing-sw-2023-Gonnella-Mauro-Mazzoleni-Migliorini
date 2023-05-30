@@ -42,9 +42,9 @@ public class SocketServer extends ServerConnection {
             ObjectInputStream input = new ObjectInputStream(is);
             Message messageArrived = (Message) input.readObject();
             if(messageArrived != null) {
+                input.close();
                 return messageArrived;
             }
-            input.close();
         }catch(IOException | ClassNotFoundException e){
             //disconnect();
             e.printStackTrace();

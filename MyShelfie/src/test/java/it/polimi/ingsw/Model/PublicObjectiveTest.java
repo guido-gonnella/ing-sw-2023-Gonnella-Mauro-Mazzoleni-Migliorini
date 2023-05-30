@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.ColumnAlreadyFullException;
-import exceptions.OutOfShelfException;
 import it.polimi.ingsw.Model.Enumeration.Type;
 import org.junit.After;
 import org.junit.Before;
@@ -42,14 +40,14 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_cross() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_cross() {
         Shelf shelf1 = new Shelf(); // true, elementary
         Shelf shelf2 = new Shelf(); // true, not elementary
         Shelf shelf3 = new Shelf(); // false, not elementary
         Shelf shelf4 = new Shelf(); // false, no tiles
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileP = new Tile(Type.PLANT);
-        Tile tileT = new Tile(Type.TROPHY);
+        Tile tileC = new Tile(Type.CAT, 1);
+        Tile tileP = new Tile(Type.PLANT, 1);
+        Tile tileT = new Tile(Type.TROPHY, 1);
         PublicObjective pubObj_cross = new PublicObjective("cross");
 
         //shelf1
@@ -117,14 +115,14 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_stair() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_stair() {
         Shelf shelf1 = new Shelf(); // true, LR
         Shelf shelf2 = new Shelf(); // true, RL
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, hard
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.BOOK);
+        Tile tileA = new Tile(Type.CAT, 1);
+        Tile tileB = new Tile(Type.PLANT, 1);
+        Tile tileC = new Tile(Type.TROPHY, 1);
         PublicObjective pubObj = new PublicObjective("stair");
 
         //shelf1
@@ -195,17 +193,17 @@ public class PublicObjectiveTest {
     }
 
     @Test
-    public void lambda_six_couples() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_six_couples() {
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, hard
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.TROPHY);
-        Tile tileD = new Tile(Type.BOOK);
-        Tile tileE = new Tile(Type.FRAME);
-        Tile tileF = new Tile(Type.GAME);
+        Tile tileA = new Tile(Type.CAT, 1);
+        Tile tileB = new Tile(Type.PLANT, 1);
+        Tile tileC = new Tile(Type.TROPHY, 1);
+        Tile tileD = new Tile(Type.BOOK, 1);
+        Tile tileE = new Tile(Type.FRAME, 1);
+        Tile tileF = new Tile(Type.GAME, 1);
 
         PublicObjective pubObj_sixCouples = new PublicObjective("sixCouples");
 
@@ -248,17 +246,17 @@ public class PublicObjectiveTest {
     }
 
     @Test
-    public void lambda_four_quadruple() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_four_quadruple() {
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, hard
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.TROPHY);
-        Tile tileD = new Tile(Type.BOOK);
-        Tile tileE = new Tile(Type.FRAME);
-        Tile tileF = new Tile(Type.GAME);
+        Tile tileA = new Tile(Type.CAT, 1);
+        Tile tileB = new Tile(Type.PLANT, 1);
+        Tile tileC = new Tile(Type.TROPHY, 1);
+        Tile tileD = new Tile(Type.BOOK, 1);
+        Tile tileE = new Tile(Type.FRAME, 1);
+        Tile tileF = new Tile(Type.GAME, 1);
 
         PublicObjective pubObj = new PublicObjective("fourQuadruple");
 
@@ -309,12 +307,12 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_four_angles() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_four_angles() {
         Shelf shelf1 = new Shelf(); // true
         Shelf shelf2 = new Shelf(); // false, wrong
         Shelf shelf3 = new Shelf(); // false, missing
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileP = new Tile(Type.PLANT);
+        Tile tileC = new Tile(Type.CAT, 1);
+        Tile tileP = new Tile(Type.PLANT, 1);
         PublicObjective pubObj_angles = new PublicObjective("angles");
 
         for(int i=0; i<HEIGHT; i++){
@@ -349,14 +347,14 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_two_squares() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_two_squares() {
         Shelf shelf1 = new Shelf(); // false, easy
         Shelf shelf2 = new Shelf(); // true, easy
         Shelf shelf3 = new Shelf(); // true, hard
         Shelf shelf4 = new Shelf(); // false
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileP = new Tile(Type.PLANT);
-        Tile tileT = new Tile(Type.TROPHY);
+        Tile tileC = new Tile(Type.CAT, 1);
+        Tile tileP = new Tile(Type.PLANT, 1);
+        Tile tileT = new Tile(Type.TROPHY, 1);
         PublicObjective pubObj_squares = new PublicObjective("twoSquares");
 
         //shelf1
@@ -419,17 +417,17 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_three_similar_columns() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_three_similar_columns() {
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, hard
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.TROPHY);
-        Tile tileD = new Tile(Type.BOOK);
-        Tile tileE = new Tile(Type.FRAME);
-        Tile tileF = new Tile(Type.GAME);
+        Tile tileA = new Tile(Type.CAT, 1);
+        Tile tileB = new Tile(Type.PLANT, 1);
+        Tile tileC = new Tile(Type.TROPHY, 1);
+        Tile tileD = new Tile(Type.BOOK, 1);
+        Tile tileE = new Tile(Type.FRAME, 1);
+        Tile tileF = new Tile(Type.GAME, 1);
         PublicObjective pubObj_threeCol = new PublicObjective("colThreeTypes");
 
         //shelf1
@@ -527,15 +525,15 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_four_similar_rows() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_four_similar_rows() {
         Shelf shelf1 = new Shelf(); // true
         Shelf shelf2 = new Shelf(); // false
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.TROPHY);
-        Tile tileD = new Tile(Type.BOOK);
-        Tile tileE = new Tile(Type.FRAME);
-        Tile tileF = new Tile(Type.GAME);
+        Tile tileA = new Tile(Type.CAT, 1);
+        Tile tileB = new Tile(Type.PLANT, 1);
+        Tile tileC = new Tile(Type.TROPHY, 1);
+        Tile tileD = new Tile(Type.BOOK, 1);
+        Tile tileE = new Tile(Type.FRAME, 1);
+        Tile tileF = new Tile(Type.GAME, 1);
         PublicObjective pubObj_fourRows = new PublicObjective("rowThreeTypes");
 
         //shelf1
@@ -597,16 +595,16 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_eight_same() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_eight_same() {
         int k;
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileP = new Tile(Type.PLANT);
-        Tile tileT = new Tile(Type.TROPHY);
-        Tile tileB = new Tile(Type.BOOK);
-        Tile tileF = new Tile(Type.FRAME);
+        Tile tileC = new Tile(Type.CAT, 1);
+        Tile tileP = new Tile(Type.PLANT, 1);
+        Tile tileT = new Tile(Type.TROPHY, 1);
+        Tile tileB = new Tile(Type.BOOK, 1);
+        Tile tileF = new Tile(Type.FRAME, 1);
         PublicObjective pubObj_eight = new PublicObjective("eight");
 
         //shelf1
@@ -644,16 +642,16 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_five_diagonal() throws ColumnAlreadyFullException, OutOfShelfException{
+    public void lambda_five_diagonal() {
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, empty
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileP = new Tile(Type.PLANT);
-        Tile tileT = new Tile(Type.TROPHY);
-        Tile tileB = new Tile(Type.BOOK);
-        Tile tileF = new Tile(Type.FRAME);
+        Tile tileC = new Tile(Type.CAT,1);
+        Tile tileP = new Tile(Type.PLANT,1);
+        Tile tileT = new Tile(Type.TROPHY,1);
+        Tile tileB = new Tile(Type.BOOK,1);
+        Tile tileF = new Tile(Type.FRAME,1);
         PublicObjective pubObj_diag = new PublicObjective("diag");
 
         //shelf1
@@ -740,17 +738,17 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_two_diff_columns() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_two_diff_columns() {
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, hard
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.TROPHY);
-        Tile tileD = new Tile(Type.FRAME);
-        Tile tileE = new Tile(Type.GAME);
-        Tile tileF = new Tile(Type.BOOK);
+        Tile tileA = new Tile(Type.CAT,1);
+        Tile tileB = new Tile(Type.PLANT,1);
+        Tile tileC = new Tile(Type.TROPHY,1);
+        Tile tileD = new Tile(Type.FRAME,1);
+        Tile tileE = new Tile(Type.GAME,1);
+        Tile tileF = new Tile(Type.BOOK,1);
         PublicObjective pubObj_diffCol = new PublicObjective("diffCol");
 
         //shelf1
@@ -819,17 +817,17 @@ public class PublicObjectiveTest {
      * @author Pierantonio Mauro
      */
     @Test
-    public void lambda_two_diff_rows() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void lambda_two_diff_rows(){
         Shelf shelf1 = new Shelf(); // true, easy
         Shelf shelf2 = new Shelf(); // true, hard
         Shelf shelf3 = new Shelf(); // false, easy
         Shelf shelf4 = new Shelf(); // false, hard
-        Tile tileA = new Tile(Type.CAT);
-        Tile tileB = new Tile(Type.PLANT);
-        Tile tileC = new Tile(Type.TROPHY);
-        Tile tileD = new Tile(Type.FRAME);
-        Tile tileE = new Tile(Type.GAME);
-        Tile tileF = new Tile(Type.BOOK);
+        Tile tileA = new Tile(Type.CAT,1);
+        Tile tileB = new Tile(Type.PLANT,1);
+        Tile tileC = new Tile(Type.TROPHY,1);
+        Tile tileD = new Tile(Type.FRAME,1);
+        Tile tileE = new Tile(Type.GAME,1);
+        Tile tileF = new Tile(Type.BOOK,1);
         PublicObjective pubObj_diffRow = new PublicObjective("diffRow");
 
         //shelf1

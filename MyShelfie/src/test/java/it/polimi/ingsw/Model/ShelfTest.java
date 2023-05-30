@@ -1,9 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.ColumnAlreadyFullException;
-import exceptions.OutOfShelfException;
-import it.polimi.ingsw.Model.*;
-
 import it.polimi.ingsw.Model.Enumeration.Type;
 import org.junit.After;
 import org.junit.Before;
@@ -36,10 +32,10 @@ public class ShelfTest {
     }
 
     @Test
-    public void putTile_right() throws ColumnAlreadyFullException, OutOfShelfException {
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileT = new Tile(Type.TROPHY);
-        Tile tileP = new Tile(Type.PLANT);
+    public void putTile_right() {
+        Tile tileC = new Tile(Type.CAT,1);
+        Tile tileT = new Tile(Type.TROPHY,1);
+        Tile tileP = new Tile(Type.PLANT,1);
 
         shelf.putTile(tileC,0);
         assertTrue(shelf.getShelf()[HEIGHT-1][0].isPresent());
@@ -59,25 +55,8 @@ public class ShelfTest {
         this.shelf.cleanShelf();
     }
 
-    @Test(expected = ColumnAlreadyFullException.class)
-    public void putTile_ColumnFull() throws ColumnAlreadyFullException, OutOfShelfException {
-        Tile tile = new Tile(Type.CAT);
-        for(int i=0; i<7; i++){
-            shelf.putTile(tile, 0);
-        }
-        this.shelf.cleanShelf();
-    }
-
-    @Test(expected = OutOfShelfException.class)
-    public void putTile_OutOfShelf() throws ColumnAlreadyFullException, OutOfShelfException {
-        Tile tile = new Tile(Type.CAT);
-        this.shelf.putTile(tile, -1);
-        this.shelf.putTile(tile, 7);
-        this.shelf.cleanShelf();
-    }
-
     @Test
-    public void getShelf_Test() throws ColumnAlreadyFullException, OutOfShelfException {
+    public void getShelf_Test() {
         Optional<Tile>[][] shelf = new Optional[HEIGHT][WIDTH];
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
@@ -85,8 +64,8 @@ public class ShelfTest {
             }
         }
 
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileP = new Tile(Type.PLANT);
+        Tile tileC = new Tile(Type.CAT,1);
+        Tile tileP = new Tile(Type.PLANT,1);
         shelf[HEIGHT-1][0] = Optional.of(tileC);
         shelf[HEIGHT-2][0] = Optional.of(tileC);
         shelf[HEIGHT-1][WIDTH-1] = Optional.of(tileP);
@@ -101,10 +80,10 @@ public class ShelfTest {
     }
 
     @Test
-    public void cleanShelf_Test() throws ColumnAlreadyFullException, OutOfShelfException {
-        Tile tileC = new Tile(Type.CAT);
-        Tile tileT = new Tile(Type.TROPHY);
-        Tile tileP = new Tile(Type.PLANT);
+    public void cleanShelf_Test() {
+        Tile tileC = new Tile(Type.CAT,1);
+        Tile tileT = new Tile(Type.TROPHY,1);
+        Tile tileP = new Tile(Type.PLANT,1);
         this.shelf.putTile(tileP, 0);
         this.shelf.putTile(tileP, 0);
         this.shelf.putTile(tileP, 0);

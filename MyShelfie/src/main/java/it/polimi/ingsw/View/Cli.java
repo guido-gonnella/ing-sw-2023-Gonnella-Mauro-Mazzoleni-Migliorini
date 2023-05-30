@@ -1,6 +1,5 @@
 package it.polimi.ingsw.View;
 
-//import it.polimi.ingsw.FirstVersion.SocketClien;
 import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.Space;
@@ -10,6 +9,7 @@ import it.polimi.ingsw.Observer.ViewObservable;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+
 
 /**
  * View by commandline
@@ -86,16 +86,14 @@ public class Cli extends ViewObservable implements View{
         int finalPort = port;
         String Finalserveraddr = serverAddr;
 
-        notifyObservers(obs -> {
-            obs.onConnection(Finalserveraddr, finalPort);
-        });
+        notifyObservers(obs -> obs.onConnection(Finalserveraddr, finalPort));
     }
 
     @Override
     public void asknickname() {
         out.print("First Insert your Username: ");
-        temp = ReadText();
-      notifyObservers(obs->obs.onNicknameUpdate(temp));
+        String nickname = ReadText();
+      notifyObservers(obs->obs.onNicknameUpdate(nickname));
     }
 
     /**
@@ -149,6 +147,7 @@ public class Cli extends ViewObservable implements View{
     @Override
     public void invalidColumn(int column) {
         out.print("this cant fit that many more tiles, try again\n");
+
     }
 
     /**

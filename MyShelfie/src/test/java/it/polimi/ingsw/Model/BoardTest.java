@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import exceptions.SackEmptyException;
-
 import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
