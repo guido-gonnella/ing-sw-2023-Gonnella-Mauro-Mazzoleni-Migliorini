@@ -62,8 +62,6 @@ public class GameController implements Runnable{
             game.addPlayer(username);
             players.add(username);
         }
-
-
     }
 
     @Override
@@ -132,7 +130,7 @@ public class GameController implements Runnable{
     private void inGame(){
         switch (turnState){
             case PICK_TILES -> pickTiles();
-            case SELCT_COLUMN -> selectColumn();
+            case SELECT_COLUMN -> selectColumn();
             case END -> endTurn();
         }
     }
@@ -194,14 +192,14 @@ public class GameController implements Runnable{
         ArrayList<Coords> tilesCoords = (ArrayList<Coords>) virtualView.read(currPlayer, MsgType.SELECT_TILE_REQUEST);
 
         //updating in the model the board and the player's shelf
-        for(int i=0; i< tilesCoords.size(); i++) {
-            if (game.getBoard().takeTiles(tilesCoords.get(i).x, tilesCoords.get(i).y).isPresent())
-                selectedTiles.add(game.getBoard().takeTiles(tilesCoords.get(i).x, tilesCoords.get(i).y).get());
+        for (Coords tilesCoord : tilesCoords) {
+            if (game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).isPresent())
+                selectedTiles.add(game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get());
         }
 
 
         //change the turn phase
-        turnState = TurnState.SELCT_COLUMN;
+        turnState = TurnState.SELECT_COLUMN;
     }
 
     /**

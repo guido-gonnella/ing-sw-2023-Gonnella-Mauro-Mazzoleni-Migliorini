@@ -71,14 +71,14 @@ public class Server implements Runnable {
 
             synchronized (lock) {
                 if (maxPlayer == 0) {
-                    int tempNumPl = 0;
+                    int tempNumPl;
                     do {
                         do {
                             socketServer.sendMessage(new MaxNumPlayerRequestMsg());
                             arrivedMessage = socketServer.readMessage();
                         } while (arrivedMessage.getMsgType() != MsgType.NUMBER_PLAYER_REPLY);
                         tempNumPl = ((NumberOfPlayerMessage) arrivedMessage).getNum();
-                    } while (tempNumPl <= 1 && tempNumPl > 4);
+                    } while (tempNumPl < 2 || tempNumPl > 4);
                     maxPlayer = tempNumPl;
                     numPlayer = 1;
                     tempVirtualView.addClient(username, socketServer);

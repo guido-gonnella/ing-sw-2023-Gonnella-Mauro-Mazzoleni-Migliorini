@@ -16,7 +16,7 @@ import java.util.*;
  * @author Andrea Migliorini
  */
 public class Cli extends ViewObservable implements View{
-    private  PrintStream out;
+    private PrintStream out;
     private Scanner input;
     private String temp;
     public Cli(){
@@ -50,12 +50,7 @@ public class Cli extends ViewObservable implements View{
                 if(serverAddr.equals("")){
                     valid = false;
                 }
-                else if(NetworkHandler.isValidIpAddress(serverAddr)){
-                    valid = true;
-                }
-                else{
-                    valid = false;
-                }
+                else valid = NetworkHandler.isValidIpAddress(serverAddr);
             } catch(NoSuchElementException e) {
                 out.print("Please input a valid address: ");
                 valid = false;
@@ -83,9 +78,9 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void asknickname() {
-        out.print("First Insert your Username: ");
+        out.print("First insert your username: ");
         String nickname = ReadText();
-      notifyObservers(obs->obs.onNicknameUpdate(nickname));
+        notifyObservers(obs->obs.onNicknameUpdate(nickname));
     }
 
     /**
@@ -279,25 +274,24 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void askplayernumber() {
-        int playernumber =10;
+        int playerNumber;
         boolean valid;
         Scanner in = new Scanner(System.in);
-        out.print("Input \"x\" number of total players in the game: ");
+        out.print("Input the number of total players in the game: ");
 
         do {
-            try{valid=true;
-                playernumber =in.nextInt();}
-            catch(NoSuchElementException e1){
-                out.print("Please input a valid column (a number from 0 to 4): ");
-                valid=false;
-            }
-            if(playernumber>3||playernumber<0){
-                out.print("Please input a valid player number (a number from 0 to 3)");
+            valid=true;
+            playerNumber = in.nextInt();
+
+            if(playerNumber>4 || playerNumber<2) {
+                out.println("Please input a valid player number (a number from 2 to 4)");
+                out.print("Input the number of total players in the game: ");
                 valid=false;
             }
         } while(!valid);
-        int finalNum = playernumber;
-        notifyObservers(obs ->obs.onPlayerNumberReply(finalNum));
+
+        final int maxPlayers = playerNumber;
+        notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
     @Override
     public void showpoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){ //Map<String, int>, Map<String, boolean[]>

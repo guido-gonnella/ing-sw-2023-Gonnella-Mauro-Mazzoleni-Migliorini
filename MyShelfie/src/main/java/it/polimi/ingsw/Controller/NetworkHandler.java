@@ -88,8 +88,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                             }
                         } while (!valid);
                         client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
-                        for (int i = 0; i < hand.size(); i++) {
-                            shelf.putTile(hand.get(i), column);
+                        for (Tile tile : hand) {
+                            shelf.putTile(tile, column);
                         }
                         hand.clear();
                         tempTiles.clear();
@@ -125,7 +125,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                     loop=-1;
                     view.invalidTile(10,10);
                 }else{
-                    if (!(board.getGrid()[x][y].getTile().isEmpty())) {
+                    if (board.getGrid()[x][y].getTile().isPresent()) {
                         tempTiles.add(new Coords(x, y));
                     } else {
                         view.invalidTile(x, y);
@@ -210,7 +210,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
      * If the tiles are two, it checks if the x coordinates or the y coordinates are the same, then it sorts the array containing the coordinates
      * (sorting on the y if the selection is horizontal, or on the x if the selection is vertical), then checks if the absolute value of the difference of the y values
      * (x values) is 1, meaning the tiles are one next to the other, then checks if the selected tiles have one free side.<br>
-     * For the the selection of three elements, it first checks if the x values or the y values are the same (same row or column), then order the arraylilst by the x or the y values,
+     * For the selection of three elements, it first checks if the x values or the y values are the same (same row or column), then order the arraylilst by the x or the y values,
      * then checks if the difference between the coordinates (x or y values) are -1, meaning the values (x or y) are consecutive, then it checks if the coordinates
      * have at least on free side.
      * @return return true if the selection is valid, false otherwise
