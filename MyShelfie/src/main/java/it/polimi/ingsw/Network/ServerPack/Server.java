@@ -54,12 +54,8 @@ public class Server implements Runnable {
         while(!Thread.currentThread().isInterrupted()){
 
             SocketServer socketServer;
-            try{
-                socketServer = new SocketServer(ss);
-            }catch (IOException e){
-                e.printStackTrace();
-                return;
-            }
+            socketServer = new SocketServer(ss);
+
 
             Message arrivedMessage;
             String username;
