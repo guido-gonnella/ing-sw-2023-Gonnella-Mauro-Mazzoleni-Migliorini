@@ -166,7 +166,7 @@ public class Player {
         points += PRVPOINTS[numTiles];
 
         //Adding points from the adjacent tiles
-        boolean checked[][] = new boolean[6][5];
+        boolean[][] checked = new boolean[6][5];
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 5; j++){
                 checked[i][j] = false;
@@ -175,7 +175,8 @@ public class Player {
 
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 5; j++){
-                if(!checked[i][j] && temp.getShelf()[i][j].isPresent()) points += adjacentPoints(temp, checked, i, j);
+                if(!checked[i][j] && temp.getShelf()[i][j].isPresent())
+                    points += adjacentPoints(temp, checked, i, j);
             }
         }
 
@@ -216,7 +217,7 @@ public class Player {
         return this.privateObjective;
     }
     public int getPlayerPoints() {
-        return(this.playerPoints);
+        return playerPoints;
     }
 
     /**

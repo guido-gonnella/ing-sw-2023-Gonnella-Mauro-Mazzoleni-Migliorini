@@ -5,8 +5,9 @@ package it.polimi.ingsw.Model.Enumeration;
  *
  * @author Guido Gonnella
  */
-public enum Phase   {
+public enum TurnState   {
     PICK_TILES,
     SELECT_COLUMN,
     END
 }
+

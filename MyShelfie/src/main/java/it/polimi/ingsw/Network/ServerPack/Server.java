@@ -25,7 +25,7 @@ public class Server implements Runnable {
 
     public Server(int port, boolean socket){
         usernames = new HashSet<>();
-        tempVirtualView = new VirtualView();
+        tempVirtualView = new VirtualView(this);
         gameControllerSet = new HashSet<>();
         numPlayer = 0;
         maxPlayer = 0;
@@ -96,13 +96,17 @@ public class Server implements Runnable {
                         Thread thread = new Thread(gc, "gameController_");
                         thread.start();
                         gameControllerSet.add(gc);
-                        tempVirtualView = new VirtualView();
+                        tempVirtualView = new VirtualView(this);
                     }
                 }
             }
 
 
         }
+    }
+
+    public void removeUsername(String username){
+        usernames.remove(username);
     }
 
 }
