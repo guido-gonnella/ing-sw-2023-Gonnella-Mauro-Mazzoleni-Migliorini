@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * Class that describes a player's shelf, with methods to return the infos about it, and the method for inserting a tile
@@ -18,7 +17,7 @@ public class Shelf implements Serializable {
     * The (0,0) coordinate in the shelf is at the top left, and the
     * coordinate (6,5) is at the bottom right.
     * */
-    private Optional<Tile>[][] shelf;
+    private SerializableOptional<Tile>[][] shelf;
 
 
     /**
@@ -29,13 +28,13 @@ public class Shelf implements Serializable {
      */
     public Shelf(){
         // Declaration of a 6x5 matrix of Optional
-        this.shelf = new Optional[HEIGHT][WIDTH];
+        this.shelf = new SerializableOptional[HEIGHT][WIDTH];
 
         // Initialization of the matrix
         // Every single spot of the shelf is an empty Optional object
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
-                this.shelf[i][j] = Optional.empty();
+                this.shelf[i][j] = SerializableOptional.empty();
             }
         }
     }
@@ -46,8 +45,8 @@ public class Shelf implements Serializable {
      * @return the copy of the instance attribute <code>shelf</code>
      * @author Guido Gonnella
      * */
-    public Optional<Tile>[][] getShelf(){
-        Optional<Tile>[][] temp = this.shelf;
+    public SerializableOptional<Tile>[][] getShelf(){
+        SerializableOptional<Tile>[][] temp = this.shelf;
         return temp;
     }
 
@@ -63,7 +62,7 @@ public class Shelf implements Serializable {
     public void putTile(Tile tile, int col){
                 for(int i = HEIGHT-1; i >= 0; i--){
                     if(this.shelf[i][col].isEmpty()){
-                        this.shelf[i][col] = Optional.of(tile);
+                        this.shelf[i][col] = SerializableOptional.of(tile);
                         break;
                     }
                 }
@@ -87,7 +86,7 @@ public class Shelf implements Serializable {
     public void cleanShelf(){
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
-                this.shelf[i][j] = Optional.empty();
+                this.shelf[i][j] = SerializableOptional.empty();
             }
         }
     }

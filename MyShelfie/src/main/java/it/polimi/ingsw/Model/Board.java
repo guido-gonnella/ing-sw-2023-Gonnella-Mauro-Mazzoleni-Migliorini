@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * Class that describes the usage and the methods of the board component of the game
@@ -50,9 +49,9 @@ public class Board implements Serializable {
      * @param col number of the column of the clicked tile
      * @return the tile that will be placed on the player shelf
      */
-    public Optional<Tile> takeTiles(int row, int col) {
+    public SerializableOptional<Tile> takeTiles(int row, int col) {
         //togliere la tile dalla board
-        Optional<Tile> temp = this.grid[row][col].getTile();
+        SerializableOptional<Tile> temp = this.grid[row][col].getTile();
         this.grid[row][col].removeTile();
 
         return temp;

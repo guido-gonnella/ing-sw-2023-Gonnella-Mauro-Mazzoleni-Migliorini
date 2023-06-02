@@ -1,10 +1,10 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.SerializableOptional;
 import it.polimi.ingsw.Model.Tile;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Scanner;
 
 /**
@@ -24,7 +24,7 @@ public class PlayerView {
      * @author Pierantonio Mauro
      */
     public void printShelf(){
-        Optional<Tile>[][] shelf = player.getShelf().getShelf();
+        SerializableOptional<Tile>[][] shelf = player.getShelf().getShelf();
 
         for(int i=0; i<6; i++){
             for(int j=0; j<7; j++){

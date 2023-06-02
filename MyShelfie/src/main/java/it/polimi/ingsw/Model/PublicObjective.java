@@ -5,7 +5,7 @@ import it.polimi.ingsw.Model.Enumeration.Type;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Optional;
+
 import java.util.Queue;
 
 /**
@@ -24,7 +24,7 @@ public class PublicObjective implements Serializable {
             case "cross" -> this.obj = (shelf) -> {
                 int i, j;
                 int contCross = 0;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
 
                 for (i = 1; i < 5 && contCross == 0; i++) {
                     for (j = 1; j < 4 && contCross == 0; j++) {
@@ -57,7 +57,7 @@ public class PublicObjective implements Serializable {
                 int contPlant = 0;
                 int contTrophy = 0;
                 int contBook = 0;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
 
                 for (i = 0; i < 6; i++) {
                     for (j = 0; j < 5; j++) {
@@ -86,7 +86,7 @@ public class PublicObjective implements Serializable {
                 int i = 0;
                 int contDiag = 0;
                 int k = 0;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
 
                 while (i < 2 && contDiag == 0) {
                     if (tempShelf[i][0].isPresent()) {
@@ -130,7 +130,7 @@ public class PublicObjective implements Serializable {
             };
             case "diffCol" -> this.obj = (shelf) -> {
                 int col, rig;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
                 int contCol = 0;
 
                 for (col = 0; col < 5; col++) {
@@ -169,7 +169,7 @@ public class PublicObjective implements Serializable {
             };
             case "diffRow" -> this.obj = (shelf) -> {
                 int col,rig;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
                 int contRow = 0;
 
                 for(rig=0; rig<6; rig++){
@@ -209,7 +209,7 @@ public class PublicObjective implements Serializable {
             case "colThreeTypes" -> this.obj = (shelf) -> {
                 int col,rig;
                 int flag;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
                 int contCol = 0;
                 int[] contType = new int[6];
                 int contDiffTypes;
@@ -254,7 +254,7 @@ public class PublicObjective implements Serializable {
             case "rowThreeTypes" -> this.obj = (shelf) -> {
                 int col,rig;
                 int flag;
-                Optional<Tile>[][] tempShelf = shelf.getShelf();
+                SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
                 int contRow = 0;
                 int[] contType = new int[6];
                 int contDiffTypes;
@@ -297,7 +297,7 @@ public class PublicObjective implements Serializable {
                     return false;
             };
             case "angles" -> this.obj = (shelf) -> {
-                Optional<Tile>[][] temp = shelf.getShelf();
+                SerializableOptional<Tile>[][] temp = shelf.getShelf();
 
                 if (temp[0][0].isPresent() && temp[HEIGHT-1][0].isPresent() &&
                         temp[0][WIDTH-1].isPresent() & temp[HEIGHT-1][WIDTH-1].isPresent()){
@@ -310,7 +310,7 @@ public class PublicObjective implements Serializable {
                 return false;
             };
             case "twoSquares" -> this.obj = (shelf) -> {
-                Optional<Tile>[][] temp = shelf.getShelf();
+                SerializableOptional<Tile>[][] temp = shelf.getShelf();
                 boolean[][] check = new boolean[6][5];
                 int countSquaresCat = 0;
                 int countSquaresPlant = 0;
@@ -357,7 +357,7 @@ public class PublicObjective implements Serializable {
                 return false;
             };
             case "stair" -> this.obj = (shelf) -> {
-                Optional<Tile>[][] temp = shelf.getShelf();
+                SerializableOptional<Tile>[][] temp = shelf.getShelf();
                 int heights[] = new int[5];
 
                 for(int i=0; i<5; i++){
@@ -473,7 +473,7 @@ public class PublicObjective implements Serializable {
         return this.obj.reach(shelf);
     }
 
-    private static void checkAdjacent(Optional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
+    private static void checkAdjacent(SerializableOptional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
         visited[i][j] = true;
 
         if (i > 0 && matrix[i - 1][j].isPresent() && matrix[i - 1][j].get().equals(value) && !visited[i - 1][j]) {

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Class that describes the game, all of its most important methods and attributes

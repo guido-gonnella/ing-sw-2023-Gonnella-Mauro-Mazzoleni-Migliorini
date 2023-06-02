@@ -1,6 +1,10 @@
 package it.polimi.ingsw.Model;
 
-import java.util.*;
+
+import java.io.Serializable;
+import java.util.ArrayDeque;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  * Class that describes the player, it contains the nickname, the player's point, the player's shelf, the player private objective
@@ -84,7 +88,7 @@ public class Player {
      */
     private int adjacentPoints(Shelf pshelf, boolean[][] checked, int i, int j) throws NoSuchElementException {
         int points = 0, adjacent = 1;
-        Optional<Tile>[][] shelf = pshelf.getShelf();
+        SerializableOptional<Tile>[][] shelf = pshelf.getShelf();
         Queue<Coords> q = new ArrayDeque<>();
 
         q.add(new Coords(i, j));
