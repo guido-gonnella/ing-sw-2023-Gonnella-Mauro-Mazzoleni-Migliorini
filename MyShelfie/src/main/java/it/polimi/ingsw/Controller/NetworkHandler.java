@@ -21,7 +21,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
     Shelf shelf;
     Board board;
-    private ClientSocket client;
+    public ClientSocket client;
     private String nick;
     private int loop;
 

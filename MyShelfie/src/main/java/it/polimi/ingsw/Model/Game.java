@@ -28,7 +28,7 @@ public class Game implements Serializable {
     public Game() {
         this.board = new Board();
         this.sackOfTiles = new SackOfTiles();
-        //this.publicObjectives = new PublicObjective[2];
+        this.publicObjectives = new PublicObjective[2];
         this.players = new ArrayList<Player>();
 
         //non so cosa che mi dice quanti giocatori ci sono
@@ -52,7 +52,9 @@ public class Game implements Serializable {
         setBoard();
 
         // adding public/common objective
-        publicObjectives = (PublicObjective[]) pubObjDeck.getPublicObjective().toArray();
+        ArrayList<PublicObjective> temp = pubObjDeck.getPublicObjective();
+        for(int i = 0; i < 2; i++)
+            publicObjectives[i] = temp.get(i);
 
         //get private objectives and give to player
         //Fill a temporary list with the private objectives

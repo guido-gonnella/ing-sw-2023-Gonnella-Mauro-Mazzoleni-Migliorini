@@ -54,7 +54,7 @@ public class Server implements Runnable {
         while(!Thread.currentThread().isInterrupted()){
 
             SocketServer socketServer;
-            socketServer = new SocketServer(ss);
+                socketServer = new SocketServer(ss);
 
 
             Message arrivedMessage;
