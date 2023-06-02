@@ -16,7 +16,7 @@ import java.util.*;
  * @author Andrea Migliorini
  */
 public class Cli extends ViewObservable implements View{
-    private  PrintStream out;
+    private PrintStream out;
     private Scanner input;
     private String temp;
     public Cli(){
@@ -50,17 +50,9 @@ public class Cli extends ViewObservable implements View{
                 if(serverAddr.equals("")){
                     valid = false;
                 }
-                else if(NetworkHandler.isValidIpAddress(serverAddr)){
-                    valid = true;
-                }
-                else{
-                    valid = false;
-                }
-            }catch(InputMismatchException e){
+                else valid = NetworkHandler.isValidIpAddress(serverAddr);
+            } catch(NoSuchElementException e) {
                 out.print("Please input a valid address: ");
-                valid = false;
-            }catch(NoSuchElementException e1){
-                out.print("Please input a valid adress: ");
                 valid = false;
             }
         } while (!valid);
@@ -71,12 +63,7 @@ public class Cli extends ViewObservable implements View{
             out.print("Please input the port of the server: ");
             try{
                 port = ReadInt();
-                if(NetworkHandler.isValidPort(port)) {
-                    valid = true;
-                }
-                else{
-                    valid = false;
-                }
+                valid = NetworkHandler.isValidPort(port);
             } catch(NoSuchElementException e1){
                 out.print("Please input a valid port: ");
                 valid = false;
@@ -84,14 +71,14 @@ public class Cli extends ViewObservable implements View{
         } while (!valid);
 
         int finalPort = port;
-        String Finalserveraddr = serverAddr;
+        String finalServerAddr = serverAddr;
 
-        notifyObservers(obs -> obs.onConnection(Finalserveraddr, finalPort));
+        notifyObservers(obs -> obs.onConnection(finalServerAddr, finalPort));
     }
 
     @Override
     public void asknickname() {
-        out.print("First Insert your Username: ");
+        out.print("First insert your username: ");
         String nickname = ReadText();
         notifyObservers(obs->obs.onNicknameUpdate(nickname));
     }
@@ -136,17 +123,17 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void invalidTile(int x,int y){
-        out.print("tile in "+x+","+y+"doesnt exist\n");
+        out.print("Tile in " + x + "," + y + " doesn't exist\n");
     }
 
     @Override
     public void invalidcombo() {
-        out.print("invalid Tile combination selected, please select exposed and adjacent tiles\n");
+        out.print("Invalid tiles combination selected, please select exposed and adjacent tiles\n");
     }
 
     @Override
     public void invalidColumn(int column) {
-        out.print("this cant fit that many more tiles, try again\n");
+        out.print("The empty spaces in this column are not enough, try again\n");
 
     }
 
@@ -163,18 +150,15 @@ public class Cli extends ViewObservable implements View{
         do {
             try{valid=true;
                 col =in.nextInt();}
-            catch(InputMismatchException e){
-                out.print("please input a valid column (a number from 0 to 4): ");
-                valid=false;
-            }catch(NoSuchElementException e1){
-                out.print("please input a valid column (a number from 0 to 4): ");
+            catch(NoSuchElementException e){
+                out.print("Please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }
             if(col>4||col<0){
-                out.print("please input a valid column (a number from 0 to 4)");
+                out.print("Please input a valid column (a number from 0 to 4)");
                 valid=false;
             }
-            } while(!valid);
+        } while(!valid);
         int finalCol = col;
         notifyObservers(obs ->obs.onSelectCol(finalCol));
     }
@@ -190,7 +174,7 @@ public class Cli extends ViewObservable implements View{
     public void boardshow (Space[][] board){
         out.print("-");
         for (int i=0;i<board.length;i++) {
-            out.print("\u001B[30m" + "-" + "\u001B[0m"+i+"\u001B[30m" + "-" + "\u001B[0m");
+            out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print("\n");
         for(int i = 0; i < board.length; i++) {
@@ -290,51 +274,45 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void askplayernumber() {
-        int playernumber =10;
+        int playerNumber;
         boolean valid;
         Scanner in = new Scanner(System.in);
-        out.print("input \"x\" number of total players in the game: ");
+        out.print("Input the number of total players in the game: ");
 
         do {
-            try{valid=true;
-                playernumber =in.nextInt();}
-            catch(InputMismatchException e){
-                out.print("please input a valid column (a number from 0 to 4): ");
-                valid=false;
-            }catch(NoSuchElementException e1){
-                out.print("please input a valid column (a number from 0 to 4): ");
-                valid=false;
-            }
-            if(playernumber>5||playernumber<0){
-                out.print("please input a valid player number (a number from 1 to 5)");
+            valid=true;
+            playerNumber = in.nextInt();
+
+            if(playerNumber>4 || playerNumber<2) {
+                out.println("Please input a valid player number (a number from 2 to 4)");
+                out.print("Input the number of total players in the game: ");
                 valid=false;
             }
         } while(!valid);
-        int finalNum = playernumber;
-        notifyObservers(obs ->obs.onPlayerNumberReply(finalNum));
+
+        final int maxPlayers = playerNumber;
+        notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
     @Override
-    public void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective){ //Map<String, int>, Map<String, boolean[]>
+    public void showpoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){ //Map<String, int>, Map<String, boolean[]>
         //player1 -> points: 20 | obj1 = tick | obj2 = cross
         boolean flag;
-        for (String player: mappoints.keySet())
+        for (String player: mapPoints.keySet())
         {
             flag= false;
-            out.print(player+ "scored:  ");
-            out.print("\u001B[33m" + mappoints.get(player)+"!\n"+"\u001B[0m");
+            out.print(player + "scored:  ");
+            out.print("\u001B[33m" + mapPoints.get(player)+"!\n"+"\u001B[0m");
             out.print("and completed: ");
-            if (mapobjective.get(player)[0]){
+            if (mapObjective.get(player)[0]){
                 flag=true;
-                out.print("\u001B[32m"+"the first objective ✔"+"\u001B[0m");
+                out.print("\u001B[32m" + "the first objective ✔" + "\u001B[0m");
             }
             if (flag) {
-                if (mapobjective.get(player)[1]) {
-                    flag = true;
-                    out.print("\u001B[32m"+"and the second ✔ "+"\u001B[0m");
+                if (mapObjective.get(player)[1]) {
+                    out.print("\u001B[32m" + "and the second ✔ " + "\u001B[0m");
                 }
-            } else if (mapobjective.get(player)[1]) {
-                flag=true;
-                out.print("\u001B[32m"+"the second objective ✔"+"\u001B[0m");
+            } else if (mapObjective.get(player)[1]) {
+                out.print("\u001B[32m" + "the second objective ✔" + "\u001B[0m");
             } else {
                 out.print("completed no objectives");
             }

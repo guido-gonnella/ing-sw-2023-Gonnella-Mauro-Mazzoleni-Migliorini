@@ -16,7 +16,7 @@ import java.net.Socket;
  */
 public class SocketServer extends ServerConnection {
 
-    private final Socket socket;
+    private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
@@ -25,10 +25,15 @@ public class SocketServer extends ServerConnection {
      * @param serverSocket of the server
      * @throws IOException
      */
-    public SocketServer(ServerSocket serverSocket) throws IOException {
-        this.socket = serverSocket.accept();
-        this.output = new ObjectOutputStream(socket.getOutputStream());
-        System.out.println("Client connected\n");
+    public SocketServer(ServerSocket serverSocket) {
+        try {
+            this.socket = serverSocket.accept();
+            this.output = new ObjectOutputStream(socket.getOutputStream());
+            this.input = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Client connected\n");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -38,11 +43,8 @@ public class SocketServer extends ServerConnection {
      */
     public synchronized Message readMessage(){
         try{
-            InputStream is = socket.getInputStream();
-            ObjectInputStream input = new ObjectInputStream(is);
             Message messageArrived = (Message) input.readObject();
             if(messageArrived != null) {
-                input.close();
                 return messageArrived;
             }
         }catch(IOException | ClassNotFoundException e){
@@ -67,7 +69,10 @@ public class SocketServer extends ServerConnection {
      */
     public synchronized void disconnect(){
         try {
-            output.close();
+            if(output != null)
+                output.close();
+            if(input != null)
+                input.close();
             if (socket != null && !socket.isClosed())
                 socket.close();
         }catch(IOException e){

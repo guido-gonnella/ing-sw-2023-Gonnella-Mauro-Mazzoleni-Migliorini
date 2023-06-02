@@ -7,7 +7,7 @@ package it.polimi.ingsw.Model.Enumeration;
  */
 public enum TurnState   {
     PICK_TILES,
-    SELCT_COLUMN,
+    SELECT_COLUMN,
     END
 }
 
