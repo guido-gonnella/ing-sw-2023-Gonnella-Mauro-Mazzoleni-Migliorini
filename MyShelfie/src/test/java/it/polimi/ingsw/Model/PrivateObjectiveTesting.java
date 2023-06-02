@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Model;
-import it.polimi.ingsw.Model.Enumeration.Type;
+import it.polimi.ingsw.Enumeration.Type;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 public class PrivateObjectiveTesting {

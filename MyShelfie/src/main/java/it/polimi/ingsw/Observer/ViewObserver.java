@@ -25,17 +25,6 @@ public interface ViewObserver {
     public void onSelectCol(int col);
     public void onNicknameUpdate(String name);
 
-
-    /**
-     * Send a message to the server when the user wants to end the selection of tiles
-     */
-    public void onEndSelection();
-
-    /**
-     * Sends a message to the server when the user wants to end their turn
-     */
-    public void onEndTurn();
-
     /**
      * When the user wants to connect to a server
      */

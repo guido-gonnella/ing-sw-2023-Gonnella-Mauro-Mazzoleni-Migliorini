@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Model.Enumeration;
+package it.polimi.ingsw.Enumeration;
 
 /**
  * Types of phases during a player's turn
@@ -8,6 +8,7 @@ package it.polimi.ingsw.Model.Enumeration;
 public enum TurnState   {
     PICK_TILES,
     SELECT_COLUMN,
+    SELECT_PHASE,
     END
 }
 

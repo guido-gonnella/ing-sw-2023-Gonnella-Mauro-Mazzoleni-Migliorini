@@ -9,12 +9,12 @@ import java.util.Map;
 
 public interface View {
     void init();
-    void asknickname();
-    void askselecttile();
-    void askinsertcol();
-    void boardshow(Space[][] board);
-    void shelfshow(SerializableOptional<Tile>[][] shelf);
-    void showtilesinhand(ArrayList<Tile> hand);
+    void askNickname();
+    void askSelectTile();
+    void askInsertCol();
+    void boardShow(Space[][] board);
+    void shelfShow(SerializableOptional<Tile>[][] shelf);
+    void showTilesInHand(ArrayList<Tile> hand);
     void askplayernumber();
     void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
     void showpublicobjective(String code);

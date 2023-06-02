@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Model.Enumeration;
+package it.polimi.ingsw.Enumeration;
 
 public enum Type {
     CAT,

@@ -1,12 +1,9 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.Enumeration.Type;
+import it.polimi.ingsw.Enumeration.Type;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-
-import java.util.Queue;
 
 /**
  * Class that contains a common objective and its realization

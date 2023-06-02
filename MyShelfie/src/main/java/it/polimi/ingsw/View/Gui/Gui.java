@@ -19,33 +19,33 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void asknickname() {
+    public void askNickname() {
 
     }
 
     @Override
-    public void askselecttile() {
+    public void askSelectTile() {
 
     }
 
 
     @Override
-    public void askinsertcol() {
+    public void askInsertCol() {
 
     }
 
     @Override
-    public void boardshow(Space[][] board) {
+    public void boardShow(Space[][] board) {
 
     }
 
     @Override
-    public void shelfshow(SerializableOptional<Tile>[][] shelf) {
+    public void shelfShow(SerializableOptional<Tile>[][] shelf) {
 
     }
 
     @Override
-    public void showtilesinhand(ArrayList<Tile> hand) {
+    public void showTilesInHand(ArrayList<Tile> hand) {
 
     }
 

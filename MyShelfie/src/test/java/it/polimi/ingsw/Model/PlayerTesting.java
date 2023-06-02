@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.Enumeration.Type;
-import org.junit.Assert;
+import it.polimi.ingsw.Enumeration.Type;
 import org.junit.Test;
 import org.junit.After;
 

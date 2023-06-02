@@ -9,7 +9,6 @@ import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class NetworkHandler implements Observer, ViewObserver, Runnable{
@@ -51,53 +50,21 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
                 switch (msg.getMsgType()) {
                     case ASK_NICKNAME:
-                        view.asknickname();
+                        view.askNickname();
                         break;
                     case BOARD_UPDATE:
                         this.board = ((UpdateBoardMessage) msg).getBoard();
-                        view.boardshow(board.getGrid());
+                        view.boardShow(board.getGrid());
                         break;
                     case SHELF_UPDATE:
                         this.shelf = ((UpdateShelfMessage) msg).getShelf();
-                        view.shelfshow(shelf.getShelf());
+                        view.shelfShow(shelf.getShelf());
                         break;
                     case NUMBER_PLAYER_REQUEST:
                         view.askplayernumber();
                         break;
                     case SELECT_TILE_REQUEST:
-                        do {
-                            for (loop = 0; loop < 3; loop++) {
-                                view.askselecttile();
-                            }
-                            valid = !validSelection();
-                            if (valid) {
-                                {
-                                    tempTiles.clear();
-                                    view.invalidcombo();
-                                }
-                            }
-                        } while (valid);
-                        for (Coords tempTile : tempTiles) {
-                            hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
-                        }
-                        view.showtilesinhand(hand);
-
-                        do {
-                            valid = true;
-                            view.askinsertcol();
-                            if (shelf.tilesLeftColumn(column) < hand.size()) {
-                                view.invalidColumn(column);
-                                valid = false;
-                            }
-                        } while (!valid);
-                        client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
-                        for (Tile tile : hand) {
-                            shelf.putTile(tile, column);
-                        }
-                        hand.clear();
-                        tempTiles.clear();
-                        view.shelfshow(shelf.getShelf());
-                        onEndTurn();
+                        selectTileRequest();
                         break;
                     case PUBLIC_OBJECTIVE:
                         view.showpublicobjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
@@ -107,7 +74,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         view.showprivateobjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
                         break;
                     case SELECT_COL_REQUEST:
-                        view.askinsertcol();
+                        view.askInsertCol();
                         break;
                     case ERROR:
                         //it.polimi.ingsw.view.showError();
@@ -115,9 +82,45 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                     case END_STATS:
                         view.showpoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
                         Thread.currentThread().interrupt();
-                    break;
+                        break;
                 }
             }
+        }
+
+        private void selectTileRequest(){
+            boolean valid = false;
+            do {
+                for (loop = 0; loop < 3; loop++) {
+                    view.askSelectTile();
+                }
+                valid = !validSelection();
+                if (valid) {
+                    {
+                        tempTiles.clear();
+                        view.invalidcombo();
+                    }
+                }
+            } while (valid);
+            for (Coords tempTile : tempTiles) {
+                hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
+            }
+            view.showTilesInHand(hand);
+
+            do {
+                valid = true;
+                view.askInsertCol();
+                if (shelf.tilesLeftColumn(column) < hand.size()) {
+                    view.invalidColumn(column);
+                    valid = false;
+                }
+            } while (!valid);
+            client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
+            for (Tile tile : hand) {
+                shelf.putTile(tile, column);
+            }
+            hand.clear();
+            tempTiles.clear();
+            view.shelfShow(shelf.getShelf());
         }
 
         @Override
@@ -132,7 +135,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         tempTiles.add(new Coords(x, y));
                     } else {
                         view.invalidTile(x, y);
-                        view.askselecttile();
+                        view.askSelectTile();
                     }
                 }
 
@@ -146,23 +149,6 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
         public void onSelectCol(int col) {
 
                 this.column=col;
-        }
-
-        /**
-         * Sends to the server when they want to end the tile selection phase
-         */
-        @Override
-        public void onEndSelection() {
-            client.sendMessage(new EndSelectTilesMessage());
-        }
-
-        /**
-         * Sends to the server when they want to end the turn
-         */
-        @Override
-        public void onEndTurn() {
-            //client.sendMessage(new EndPlTurnMessage(nick)); // vecchio, nick è inutile (?)
-            client.sendMessage(new EndPlTurnMessage());
         }
 
         /**

@@ -79,7 +79,7 @@ public class Cli extends ViewObservable implements View{
     }
 
     @Override
-    public void asknickname() {
+    public void askNickname() {
         out.print("First insert your username: ");
         String nickname = ReadText();
         notifyObservers(obs->obs.onNicknameUpdate(nickname));
@@ -90,7 +90,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      */
     @Override
-    public void askselecttile(){
+    public void askSelectTile(){
         int[] coords= new int[2];
         boolean valid;
         String temp=null;
@@ -144,7 +144,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      */
     @Override
-    public void askinsertcol(){
+    public void askInsertCol(){
         int col=9;
         boolean valid;
         Scanner in = new Scanner(System.in);
@@ -173,7 +173,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      **/
     @Override
-    public void boardshow (Space[][] board){
+    public void boardShow(Space[][] board){
         out.print("-");
         for (int i=0;i<board.length;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -209,7 +209,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      **/
     @Override
-    public void shelfshow(SerializableOptional<Tile>[][] shelf) {
+    public void shelfShow(SerializableOptional<Tile>[][] shelf) {
         out.print("-");
         for (int i=0;i<5;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m"+i+"\u001B[30m" + "-" + "\u001B[0m");
@@ -242,7 +242,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      */
     @Override
-    public void showtilesinhand(ArrayList<Tile> hand) {
+    public void showTilesInHand(ArrayList<Tile> hand) {
         out.println("0 is the tile placed at the bottom of the column \n");
         for(int i=0;i<hand.size(); i++){
             out.print(" "+i+" ");

@@ -1,13 +1,12 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Model.Enumeration.GameState;
-import it.polimi.ingsw.Model.Enumeration.TurnState;
+import it.polimi.ingsw.Enumeration.GameState;
+import it.polimi.ingsw.Enumeration.TurnState;
 import it.polimi.ingsw.Network.Message.C2S.TextMessage;
 import it.polimi.ingsw.Network.Message.EndGameMessage;
 import it.polimi.ingsw.Network.Message.MsgType;
 import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
-import it.polimi.ingsw.Network.Message.S2C.UpdateShelfMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
 import java.util.ArrayList;
@@ -133,6 +132,10 @@ public class GameController implements Runnable{
             case SELECT_COLUMN -> selectColumn();
             case END -> endTurn();
         }
+    }
+
+    private void select(){
+
     }
 
     /**
