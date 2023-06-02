@@ -2,12 +2,14 @@ package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Model.PrivateObjective;
+import it.polimi.ingsw.Model.SerializableOptional;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Observer.ViewObservable;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -207,7 +209,7 @@ public class Cli extends ViewObservable implements View{
      * @author Andrea Migliorini
      **/
     @Override
-    public void shelfshow(Optional<Tile>[][] shelf) {
+    public void shelfshow(SerializableOptional<Tile>[][] shelf) {
         out.print("-");
         for (int i=0;i<5;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m"+i+"\u001B[30m" + "-" + "\u001B[0m");

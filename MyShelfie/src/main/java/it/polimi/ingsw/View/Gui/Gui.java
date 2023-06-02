@@ -2,13 +2,13 @@ package it.polimi.ingsw.View.Gui;
 
 
 import it.polimi.ingsw.Model.PrivateObjective;
+import it.polimi.ingsw.Model.SerializableOptional;
 import it.polimi.ingsw.Model.Space;
 import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Observer.ViewObservable;
 import it.polimi.ingsw.View.View;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Optional;
 
 public class Gui extends ViewObservable implements View {
 
@@ -40,7 +40,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void shelfshow(Optional<Tile>[][] shelf) {
+    public void shelfshow(SerializableOptional<Tile>[][] shelf) {
 
     }
 
