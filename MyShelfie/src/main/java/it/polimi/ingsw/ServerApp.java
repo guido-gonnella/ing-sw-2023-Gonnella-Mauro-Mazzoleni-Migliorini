@@ -12,18 +12,14 @@ import java.util.Scanner;
 public class ServerApp {
     public static void main(String[] args){
 
-        int serverPort = 8080; //default value
+        int serverPort = 8081; //default value
         boolean socket = true;
         boolean gui = true;
         View view;
 
         Scanner s = new Scanner(System.in);
-        System.out.println("Vuoi usare la gui? [s/n]");
-
-        gui = (s.next()).equals("s");
-
         do {
-            System.out.println("Select port [8080 default]\n");
+            System.out.println("Select port [8081 default]\n");
             serverPort = s.nextInt();
         }while(!InputController.isValidPort(serverPort));
             System.out.println("Using socket connection? [y/n]\n");

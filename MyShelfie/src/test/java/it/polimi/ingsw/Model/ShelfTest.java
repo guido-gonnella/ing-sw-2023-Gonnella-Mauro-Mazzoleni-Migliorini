@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -57,19 +56,19 @@ public class ShelfTest {
 
     @Test
     public void getShelf_Test() {
-        Optional<Tile>[][] shelf = new Optional[HEIGHT][WIDTH];
+        SerializableOptional<Tile>[][] shelf = new SerializableOptional[HEIGHT][WIDTH];
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
-                shelf[i][j] = Optional.empty();
+                shelf[i][j] = SerializableOptional.empty();
             }
         }
 
         Tile tileC = new Tile(Type.CAT,1);
         Tile tileP = new Tile(Type.PLANT,1);
-        shelf[HEIGHT-1][0] = Optional.of(tileC);
-        shelf[HEIGHT-2][0] = Optional.of(tileC);
-        shelf[HEIGHT-1][WIDTH-1] = Optional.of(tileP);
-        shelf[HEIGHT-2][WIDTH-1] = Optional.of(tileP);
+        shelf[HEIGHT-1][0] = SerializableOptional.of(tileC);
+        shelf[HEIGHT-2][0] = SerializableOptional.of(tileC);
+        shelf[HEIGHT-1][WIDTH-1] = SerializableOptional.of(tileP);
+        shelf[HEIGHT-2][WIDTH-1] = SerializableOptional.of(tileP);
         this.shelf.putTile(tileC, 0);
         this.shelf.putTile(tileC, 0);
         this.shelf.putTile(tileP, WIDTH-1);
@@ -96,7 +95,7 @@ public class ShelfTest {
 
         this.shelf.cleanShelf();
 
-        Optional<Tile>[][] temp = this.shelf.getShelf();
+        SerializableOptional<Tile>[][] temp = this.shelf.getShelf();
 
         for(int i=0; i<HEIGHT; i++){
             for(int j=0; j<WIDTH; j++){

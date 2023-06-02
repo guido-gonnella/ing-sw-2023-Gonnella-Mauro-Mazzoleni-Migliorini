@@ -49,7 +49,7 @@ public class SerializableOptional<T> implements Serializable {
      * @param value the value to describe
      * @return an instance of a SerializableOptional with the given value.
      */
-    private static<T> SerializableOptional<T> of(T value){
+    public static<T> SerializableOptional<T> of(T value){
         return new SerializableOptional<>(Objects.requireNonNull(value));
     }
 

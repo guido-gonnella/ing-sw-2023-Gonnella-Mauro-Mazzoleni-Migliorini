@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayDeque;
-import java.util.Optional;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -884,7 +883,7 @@ public class PublicObjectiveTest {
     }
 
 
-    private static void checkAdjacent(Optional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
+    private static void checkAdjacent(SerializableOptional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
         visited[i][j] = true;
 
         if (i > 0 && matrix[i-1][j].isPresent() && matrix[i-1][j].get().equals(value) && !visited[i-1][j]) {

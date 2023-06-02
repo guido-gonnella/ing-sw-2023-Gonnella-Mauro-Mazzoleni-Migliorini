@@ -16,7 +16,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
     private ArrayList<Coords> tempTiles;
     private ArrayList<Tile> hand;
-    private View view;
+    private final View view;
     private int column;
 
     Shelf shelf;
@@ -29,6 +29,9 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             this.view = view;
             tempTiles = new ArrayList<>();
             hand = new ArrayList<>();
+            shelf= new Shelf();
+            board = new Board();
+            this.nick=new String();
         }
         @Override
         public void onConnection(String serverAddr, int port) {
