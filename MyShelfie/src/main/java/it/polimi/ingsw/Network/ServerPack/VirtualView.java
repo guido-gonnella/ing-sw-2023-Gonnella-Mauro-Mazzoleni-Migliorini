@@ -1,18 +1,16 @@
 package it.polimi.ingsw.Network.ServerPack;
 
 import it.polimi.ingsw.Model.Coords;
+import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectColumnMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectTileMessage;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Model.Shelf;
 import it.polimi.ingsw.Network.Message.*;
-import it.polimi.ingsw.Network.Message.S2C.AskColumnSelectMsg;
-import it.polimi.ingsw.Network.Message.S2C.AskTileSelectMsg;
-import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
-import it.polimi.ingsw.Network.Message.S2C.UpdateShelfMessage;
+import it.polimi.ingsw.Network.Message.C2S.TextMessage;
+import it.polimi.ingsw.Network.Message.S2C.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,24 +42,19 @@ public class VirtualView {
     }
 
     /**
-     * Takes an input from the client, the possible types are:
-     * SELECT_TILE_REQUEST
-     * SELECT_COL_REQUEST
-     * When the object is read by the gameController a cast type is necessary
-     * @param user that have to send the input
-     * @return the input of the client
+     * Reads all the data needed from the client, the tiles selected and the shelf's column
      */
-    public Object read(String user, MsgType message){
+    public Message readAll(String user){
         SocketServer destinationClient = socketMap.get(user);
-        switch(message){
-            case SELECT_COL_REQUEST -> {
-                return askCol(destinationClient);
-            }
-            case SELECT_TILE_REQUEST -> {
-                return askCoords(destinationClient);
-            }
-            default -> {return null;}
-        }
+        destinationClient.sendMessage(new AskFullMsg());
+        Message received;
+        do{
+            received = destinationClient.readMessage();
+            /* if(messaggio di chat) mandalo a chi deve leggerlo
+            *  if(messaggio di errore) rimuovi il giocatore da cui arriva
+            * */
+        }while(received.getMsgType() != MsgType.FULL_TILE_SELECTION);
+        return received;
     }
 
     /**
@@ -73,18 +66,9 @@ public class VirtualView {
     public void write(String user, MsgType message, Object sendObject){
         SocketServer destinationClient = socketMap.get(user);
         switch(message){
-            case BOARD_UPDATE -> {
-                destinationClient.sendMessage(new UpdateBoardMessage((Board) sendObject));
-            }
-            case SHELF_UPDATE -> {
-                destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
-            }
-            //TODO rivedere questo
-            /*case TEXT ->{
-                destinationClient.sendMessage(new ShowText((String) sendObject));
-            }*/
+            case SHELF_UPDATE -> destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
+            case TEXT -> destinationClient.sendMessage(new TextMessage((String) sendObject));
         }
-
     }
 
     /**
@@ -103,20 +87,6 @@ public class VirtualView {
      */
     public ArrayList<String> getUsernames(){
         return new ArrayList<>(socketMap.keySet());
-    }
-
-    private Integer askCol(SocketServer destinationClient){
-        // TODO controllare che la colonna sia valida
-        destinationClient.sendMessage(new AskColumnSelectMsg());
-        Message received = destinationClient.readMessage();
-        return ((SelectColumnMessage)received).getCol();
-    }
-
-    private ArrayList<Coords> askCoords(SocketServer destinationClient){
-        //TODO mettere il controllo che le coordinate siano valide client-side
-        destinationClient.sendMessage(new AskTileSelectMsg());
-        Message received = destinationClient.readMessage();
-        return ((SelectTileMessage)received).getCoordinates();
     }
 
     public void removeUsername(String username){

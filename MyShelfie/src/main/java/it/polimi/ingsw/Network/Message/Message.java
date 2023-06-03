@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Network.Message;
 
+import it.polimi.ingsw.Enumeration.MsgType;
+
 import java.io.Serializable;
 
 /**

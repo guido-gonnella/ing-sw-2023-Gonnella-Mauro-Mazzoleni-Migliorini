@@ -2,7 +2,7 @@ package it.polimi.ingsw.Network.Message.C2S;
 
 import it.polimi.ingsw.Model.Coords;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Enumeration.MsgType;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,8 @@ import java.util.ArrayList;
  *
  * @author Samuele Mazzoleni
  */
+
+//todo rimuovere
 public class SelectTileMessage extends Message {
     private final ArrayList<Coords> coords;
 

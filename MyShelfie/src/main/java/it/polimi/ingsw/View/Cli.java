@@ -91,16 +91,16 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void askSelectTile(){
-        int[] coords= new int[2];
+        int[] coords = new int[2];
         boolean valid;
-        String temp=null;
+        String temp = null;
         Scanner in = new Scanner(System.in);
         out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\": ");
         do {
-            try{ valid= true;
+            try{
+                valid= true;
                 temp=in.nextLine();
                 coords=extractIntegers(temp);
-
             }catch(InputMismatchException e){
                 out.print("Mismatch please input valid coordinates: like \"1,2\" or \"0,3\": "); //TODO cleanup
                 valid=false;
@@ -109,11 +109,9 @@ public class Cli extends ViewObservable implements View{
                 valid=false;
             }
 
-
-
         } while (!valid);
-        Integer finalX = coords[1];
-        Integer finalY = coords[0];
+        int finalX = coords[1];
+        int finalY = coords[0];
         notifyObservers(obs -> obs.onSelectTile(finalX,finalY));
 
     }

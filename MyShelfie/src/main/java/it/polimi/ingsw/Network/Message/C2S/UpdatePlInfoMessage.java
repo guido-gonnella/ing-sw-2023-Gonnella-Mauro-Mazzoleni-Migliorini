@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Network.Message.C2S;
 
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Enumeration.MsgType;
 
 /**
  * Message from client to server, notifying to update the nickname of the sender player<br>

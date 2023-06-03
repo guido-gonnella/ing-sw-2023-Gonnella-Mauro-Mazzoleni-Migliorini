@@ -3,9 +3,11 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Enumeration.GameState;
 import it.polimi.ingsw.Enumeration.TurnState;
+import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
 import it.polimi.ingsw.Network.Message.C2S.TextMessage;
 import it.polimi.ingsw.Network.Message.EndGameMessage;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Enumeration.MsgType;
+import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
@@ -48,13 +50,10 @@ public class GameController implements Runnable{
     public GameController(VirtualView vv) {
         //creating the game instance
         game = new Game();
-
-        players = new ArrayList<String>();
-
+        selectedTiles = new ArrayList<>();
+        players = new ArrayList<>();
         gameState = GameState.INIT;
-
         virtualView = vv;
-
         shelfFull = false;
 
         for(String username: virtualView.getUsernames()) {
@@ -84,7 +83,7 @@ public class GameController implements Runnable{
 
         //starting the game phase
         gameState = GameState.IN_GAME;
-        turnState = TurnState.PICK_TILES;
+        turnState = TurnState.SELECT_PHASE;
     }
 
     /**
@@ -108,7 +107,7 @@ public class GameController implements Runnable{
             playerPoints.put(player, p.getPlayerPoints());
             virtualView.writeBroadcast(new TextMessage( player + " scored " +  p.getPlayerPoints()));
 
-            if(p.getPlayerPoints()>max){
+            if(p.getPlayerPoints() > max){
                 max = p.getPlayerPoints();
                 winner = player;
             }
@@ -128,14 +127,51 @@ public class GameController implements Runnable{
      */
     private void inGame(){
         switch (turnState){
-            case PICK_TILES -> pickTiles();
-            case SELECT_COLUMN -> selectColumn();
+            case SELECT_PHASE -> select();
             case END -> endTurn();
         }
     }
 
+    /**
+     * Handle the phase of selecting the tiles from the board and the column of the shelf
+     * where to put the selected tiles
+     */
     private void select(){
+        //broadcast the player that is playing
+        virtualView.writeBroadcast(new TextMessage("It's "+ currPlayer + " turn\n"));
 
+        //broadcast the updated board to all players
+        virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
+
+        selectedTiles.clear();
+        Message response = virtualView.readAll(currPlayer);
+        FullTileSelectionMessage msg = ((FullTileSelectionMessage) response);
+        ArrayList<Coords> tilesCoords = msg.getCoords();
+        int column = msg.getColumn();
+        Tile tile;
+
+        for (Coords tilesCoord : tilesCoords) {
+            tile = game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get();
+            game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
+        }
+
+
+        //checking if the current player's shelf is full
+        if(game.getPlayerByNick(currPlayer).getShelf().isFull() && !shelfFull) {
+            shelfFull = true;
+            game.getPlayerByNick(currPlayer).addPoints(1);
+        }
+
+        //checking if the current player has reached a common goal/public objective
+        //it can add points to the player if they have passed an objective
+        game.reachPubObj(game.getPlayerByNick(currPlayer));
+
+        //sends the shelf to the current player
+        virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
+
+
+        //change the turn phase and the pick the next player
+        turnState = TurnState.END;
     }
 
     /**
@@ -149,60 +185,6 @@ public class GameController implements Runnable{
             nextPlayer();
             turnState = TurnState.PICK_TILES;
         }
-    }
-
-    /**
-     * Handle the phase of placing the tiles in the shelf
-     */
-    private void selectColumn(){
-        virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
-        int column = (int) virtualView.read(currPlayer, MsgType.SELECT_COL_REQUEST);
-
-        //inserting the tiles in the current player's shelf
-        for(Tile t : selectedTiles)
-            game.getPlayerByNick(currPlayer).getShelf().putTile(t, column);
-
-
-        //checking if the current player's shelf is full
-        if(game.getPlayerByNick(currPlayer).getShelf().isFull() && !shelfFull) {
-            shelfFull = true;
-            game.getPlayerByNick(currPlayer).addPoints(1);
-        }
-
-        //checking if the current player has reached a common goad/public objective
-        //it can add points to the player if they have passed an objective
-        game.reachPubObj(game.getPlayerByNick(currPlayer));
-
-        //sends the shelf to the current player
-        virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
-
-
-        //change the turn phase and the pick the next player
-        turnState = TurnState.END;
-    }
-
-    /**
-     * Handle the phase of picking the tiles from the board
-     */
-    private void pickTiles(){
-        //broadcast the player that is playing
-        virtualView.writeBroadcast(new TextMessage("It's "+ currPlayer + " turn\n"));
-
-        //broadcast the updated board to all players
-        virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
-
-        selectedTiles = new ArrayList<Tile>();
-        ArrayList<Coords> tilesCoords = (ArrayList<Coords>) virtualView.read(currPlayer, MsgType.SELECT_TILE_REQUEST);
-
-        //updating in the model the board and the player's shelf
-        for (Coords tilesCoord : tilesCoords) {
-            if (game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).isPresent())
-                selectedTiles.add(game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get());
-        }
-
-
-        //change the turn phase
-        turnState = TurnState.SELECT_COLUMN;
     }
 
     /**

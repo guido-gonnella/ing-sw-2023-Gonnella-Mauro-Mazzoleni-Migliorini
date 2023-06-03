@@ -4,7 +4,7 @@ import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.C2S.NumberOfPlayerMessage;
 import it.polimi.ingsw.Network.Message.C2S.UpdatePlInfoMessage;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Network.Message.S2C.AskNicknameMessage;
 import it.polimi.ingsw.Network.Message.S2C.MaxNumPlayerRequestMsg;
 

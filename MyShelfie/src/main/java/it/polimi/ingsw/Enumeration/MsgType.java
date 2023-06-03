@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Network.Message;
+package it.polimi.ingsw.Enumeration;
 
 /**
  * Enumeration of all the messages' types
@@ -21,14 +21,12 @@ public enum MsgType {
     //Server to Client
     SELECT_TILE_REQUEST,
     SELECT_COL_REQUEST,
-    HAND_TILE_SWAP_REQUEST,
+    FULL_SELECTION_REQUEST,
     NUMBER_PLAYER_REQUEST,
-    LOGIN_REPLY,
     ASK_NICKNAME,
     BOARD_UPDATE,
     SHELF_UPDATE,
     END_STATS,
-    HAND_UPDATE,
     ERROR,
     DISCONNECTION,
     TEXT,

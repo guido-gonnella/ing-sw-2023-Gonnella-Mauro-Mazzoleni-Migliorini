@@ -2,7 +2,7 @@ package it.polimi.ingsw.Network.Message.C2S;
 
 import it.polimi.ingsw.Model.Coords;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MsgType;
+import it.polimi.ingsw.Enumeration.MsgType;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ public class FullTileSelectionMessage extends Message{
     private final Integer column;
     public FullTileSelectionMessage(ArrayList<Coords>selectionlist, Integer col) {
         super(MsgType.FULL_TILE_SELECTION);
-        this.selection=selectionlist;
-        this.column=col;
+        this.selection = selectionlist;
+        this.column = col;
     }
 
-    public ArrayList<Coords> getSelection() {
+    public ArrayList<Coords> getCoords() {
         return selection;
     }
 
