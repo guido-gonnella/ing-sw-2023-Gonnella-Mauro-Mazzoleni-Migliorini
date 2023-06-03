@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Enumeration.Type;
 import org.junit.After;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class PublicObjectiveTest {
         Tile tileC = new Tile(Type.CAT, 1);
         Tile tileP = new Tile(Type.PLANT, 1);
         Tile tileT = new Tile(Type.TROPHY, 1);
-        PublicObjective pubObj_cross = new PublicObjective("cross");
+        PublicObjective pubObj_cross = new PublicObjective(PubObjType.CROSS);
 
         //shelf1
         shelf1.putTile(tileC, 0);
@@ -118,7 +119,7 @@ public class PublicObjectiveTest {
         Tile tileA = new Tile(Type.CAT, 1);
         Tile tileB = new Tile(Type.PLANT, 1);
         Tile tileC = new Tile(Type.TROPHY, 1);
-        PublicObjective pubObj = new PublicObjective("stair");
+        PublicObjective pubObj = new PublicObjective(PubObjType.STAIR);
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -200,7 +201,7 @@ public class PublicObjectiveTest {
         Tile tileE = new Tile(Type.FRAME, 1);
         Tile tileF = new Tile(Type.GAME, 1);
 
-        PublicObjective pubObj_sixCouples = new PublicObjective("sixCouples");
+        PublicObjective pubObj_sixCouples = new PublicObjective(PubObjType.SIX_COUPLES);
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -253,7 +254,7 @@ public class PublicObjectiveTest {
         Tile tileE = new Tile(Type.FRAME, 1);
         Tile tileF = new Tile(Type.GAME, 1);
 
-        PublicObjective pubObj = new PublicObjective("fourQuadruple");
+        PublicObjective pubObj = new PublicObjective(PubObjType.FOUR_QUADRUPLES);
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -308,7 +309,7 @@ public class PublicObjectiveTest {
         Shelf shelf3 = new Shelf(); // false, missing
         Tile tileC = new Tile(Type.CAT, 1);
         Tile tileP = new Tile(Type.PLANT, 1);
-        PublicObjective pubObj_angles = new PublicObjective("angles");
+        PublicObjective pubObj_angles = new PublicObjective(PubObjType.ANGLES);
 
         for(int i=0; i<HEIGHT; i++){
             shelf1.putTile(tileC, 0);
@@ -350,7 +351,7 @@ public class PublicObjectiveTest {
         Tile tileC = new Tile(Type.CAT, 1);
         Tile tileP = new Tile(Type.PLANT, 1);
         Tile tileT = new Tile(Type.TROPHY, 1);
-        PublicObjective pubObj_squares = new PublicObjective("twoSquares");
+        PublicObjective pubObj_squares = new PublicObjective(PubObjType.TWO_SQUARES);
 
         //shelf1
         shelf1.putTile(tileC,0);
@@ -423,7 +424,7 @@ public class PublicObjectiveTest {
         Tile tileD = new Tile(Type.BOOK, 1);
         Tile tileE = new Tile(Type.FRAME, 1);
         Tile tileF = new Tile(Type.GAME, 1);
-        PublicObjective pubObj_threeCol = new PublicObjective("colThreeTypes");
+        PublicObjective pubObj_threeCol = new PublicObjective(PubObjType.COL_THREE_TYPES);
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -529,7 +530,7 @@ public class PublicObjectiveTest {
         Tile tileD = new Tile(Type.BOOK, 1);
         Tile tileE = new Tile(Type.FRAME, 1);
         Tile tileF = new Tile(Type.GAME, 1);
-        PublicObjective pubObj_fourRows = new PublicObjective("rowThreeTypes");
+        PublicObjective pubObj_fourRows = new PublicObjective(PubObjType.ROW_THREE_TYPES);
 
         //shelf1
         shelf1.putTile(tileA, 0);
@@ -600,7 +601,7 @@ public class PublicObjectiveTest {
         Tile tileT = new Tile(Type.TROPHY, 1);
         Tile tileB = new Tile(Type.BOOK, 1);
         Tile tileF = new Tile(Type.FRAME, 1);
-        PublicObjective pubObj_eight = new PublicObjective("eight");
+        PublicObjective pubObj_eight = new PublicObjective(PubObjType.EIGHT);
 
         //shelf1
         for(k=0; k<HEIGHT; k++) {
@@ -647,7 +648,7 @@ public class PublicObjectiveTest {
         Tile tileT = new Tile(Type.TROPHY,1);
         Tile tileB = new Tile(Type.BOOK,1);
         Tile tileF = new Tile(Type.FRAME,1);
-        PublicObjective pubObj_diag = new PublicObjective("diag");
+        PublicObjective pubObj_diag = new PublicObjective(PubObjType.DIAG);
 
         //shelf1
         shelf1.putTile(tileC, 1);
@@ -744,7 +745,7 @@ public class PublicObjectiveTest {
         Tile tileD = new Tile(Type.FRAME,1);
         Tile tileE = new Tile(Type.GAME,1);
         Tile tileF = new Tile(Type.BOOK,1);
-        PublicObjective pubObj_diffCol = new PublicObjective("diffCol");
+        PublicObjective pubObj_diffCol = new PublicObjective(PubObjType.DIFF_COL);
 
         //shelf1
         shelf1.putTile(tileA,0);
@@ -823,7 +824,7 @@ public class PublicObjectiveTest {
         Tile tileD = new Tile(Type.FRAME,1);
         Tile tileE = new Tile(Type.GAME,1);
         Tile tileF = new Tile(Type.BOOK,1);
-        PublicObjective pubObj_diffRow = new PublicObjective("diffRow");
+        PublicObjective pubObj_diffRow = new PublicObjective(PubObjType.DIFF_ROW);
 
         //shelf1
         for(int i=0; i<2; i++){

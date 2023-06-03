@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Enumeration.Type;
 
 import java.io.Serializable;
@@ -12,13 +13,15 @@ import java.util.ArrayList;
  */
 public class PublicObjective implements Serializable {
     private final CommonObj obj;
+    private final PubObjType type;
 
     private final int HEIGHT = 6;
     private final int WIDTH = 5;
 
-    public PublicObjective(String obj){
+    public PublicObjective(PubObjType obj){
+        type = obj;
         switch (obj) {
-            case "cross" -> this.obj = (shelf) -> {
+            case CROSS -> this.obj = (shelf) -> {
                 int i, j;
                 int contCross = 0;
                 SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
@@ -46,7 +49,7 @@ public class PublicObjective implements Serializable {
                 else
                     return true;
             };
-            case "eight" -> this.obj = (shelf) -> {
+            case EIGHT -> this.obj = (shelf) -> {
                 int i, j;
                 int contCat = 0;
                 int contFrame = 0;
@@ -79,7 +82,7 @@ public class PublicObjective implements Serializable {
                 else
                     return false;
             };
-            case "diag" -> this.obj = (shelf) -> {
+            case DIAG -> this.obj = (shelf) -> {
                 int i = 0;
                 int contDiag = 0;
                 int k = 0;
@@ -125,7 +128,7 @@ public class PublicObjective implements Serializable {
                 else
                     return false;
             };
-            case "diffCol" -> this.obj = (shelf) -> {
+            case DIFF_COL -> this.obj = (shelf) -> {
                 int col, rig;
                 SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
                 int contCol = 0;
@@ -164,7 +167,7 @@ public class PublicObjective implements Serializable {
                 else
                     return false;
             };
-            case "diffRow" -> this.obj = (shelf) -> {
+            case DIFF_ROW -> this.obj = (shelf) -> {
                 int col,rig;
                 SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
                 int contRow = 0;
@@ -203,7 +206,7 @@ public class PublicObjective implements Serializable {
                 else
                     return false;
             };
-            case "colThreeTypes" -> this.obj = (shelf) -> {
+            case COL_THREE_TYPES -> this.obj = (shelf) -> {
                 int col,rig;
                 int flag;
                 SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
@@ -243,12 +246,9 @@ public class PublicObjective implements Serializable {
 
                     }
                 }
-                if(contCol>=3)
-                    return true;
-                else
-                    return false;
+                return contCol >= 3;
             };
-            case "rowThreeTypes" -> this.obj = (shelf) -> {
+            case ROW_THREE_TYPES -> this.obj = (shelf) -> {
                 int col,rig;
                 int flag;
                 SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
@@ -288,12 +288,9 @@ public class PublicObjective implements Serializable {
 
                     }
                 }
-                if(contRow>=4)
-                    return true;
-                else
-                    return false;
+                return contRow >= 4;
             };
-            case "angles" -> this.obj = (shelf) -> {
+            case ANGLES -> this.obj = (shelf) -> {
                 SerializableOptional<Tile>[][] temp = shelf.getShelf();
 
                 if (temp[0][0].isPresent() && temp[HEIGHT-1][0].isPresent() &&
@@ -306,7 +303,7 @@ public class PublicObjective implements Serializable {
                 }
                 return false;
             };
-            case "twoSquares" -> this.obj = (shelf) -> {
+            case TWO_SQUARES -> this.obj = (shelf) -> {
                 SerializableOptional<Tile>[][] temp = shelf.getShelf();
                 boolean[][] check = new boolean[6][5];
                 int countSquaresCat = 0;
@@ -353,7 +350,7 @@ public class PublicObjective implements Serializable {
                         countSquaresPlant >= 2 || countSquaresGame >= 2 || countSquaresTrophy >= 2) return true;
                 return false;
             };
-            case "stair" -> this.obj = (shelf) -> {
+            case STAIR -> this.obj = (shelf) -> {
                 SerializableOptional<Tile>[][] temp = shelf.getShelf();
                 int heights[] = new int[5];
 
@@ -380,7 +377,7 @@ public class PublicObjective implements Serializable {
 
                 return stairRL || stairLR;
             };
-            case "sixCouples" -> this.obj = (shelf) -> {
+            case SIX_COUPLES -> this.obj = (shelf) -> {
                 int[][] gruppi = new int[6][5];
                 for(int i = 0; i < 6; i++) {
                     for(int j = 0; j < 5; j++) {
@@ -417,7 +414,7 @@ public class PublicObjective implements Serializable {
 
                 return couples>=6;
             };
-            case "fourQuadruple" -> this.obj = (shelf) -> {
+            case FOUR_QUADRUPLES -> this.obj = (shelf) -> {
                 int[][] gruppi = new int[6][5];
                 for(int i = 0; i < 6; i++) {
                     for(int j = 0; j < 5; j++) {
@@ -470,25 +467,8 @@ public class PublicObjective implements Serializable {
         return this.obj.reach(shelf);
     }
 
-    private static void checkAdjacent(SerializableOptional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
-        visited[i][j] = true;
+    public PubObjType getObjectiveType(){return type;}
 
-        if (i > 0 && matrix[i - 1][j].isPresent() && matrix[i - 1][j].get().equals(value) && !visited[i - 1][j]) {
-            checkAdjacent(matrix, visited, i - 1, j, value);
-        }
-
-        if (i < 6 - 1 && matrix[i - 1][j].isPresent() && matrix[i + 1][j].get().equals(value) && !visited[i + 1][j]) {
-            checkAdjacent(matrix, visited, i + 1, j, value);
-        }
-
-        if (j > 0 && matrix[i - 1][j].isPresent() && matrix[i][j - 1].get().equals(value) && !visited[i][j - 1]) {
-            checkAdjacent(matrix, visited, i, j - 1, value);
-        }
-
-        if (j < 5 - 1 && matrix[i - 1][j].isPresent() && matrix[i][j + 1].get().equals(value) && !visited[i][j + 1]) {
-            checkAdjacent(matrix, visited, i, j + 1, value);
-        }
-    }
 }
 
 /*

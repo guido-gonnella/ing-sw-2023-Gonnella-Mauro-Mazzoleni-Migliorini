@@ -6,8 +6,6 @@ package it.polimi.ingsw.Enumeration;
  * @author Guido Gonnella
  */
 public enum TurnState   {
-    PICK_TILES,
-    SELECT_COLUMN,
     SELECT_PHASE,
     END
 }

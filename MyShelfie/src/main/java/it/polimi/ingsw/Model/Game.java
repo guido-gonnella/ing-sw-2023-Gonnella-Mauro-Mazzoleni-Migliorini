@@ -15,7 +15,7 @@ import java.util.Stack;
 public class Game implements Serializable {
     private Board board;
     private SackOfTiles sackOfTiles;
-    private PublicObjective[] publicObjectives;
+    private final PublicObjective[] publicObjectives;
     private final DeckOfPublicObjectives pubObjDeck;
     private final DeckOfPrivateObjectives prvObjDeck;
     private final ArrayList<Player> players;
@@ -64,7 +64,7 @@ public class Game implements Serializable {
         for(Player p : players){
             //give the player the first public objective in the list
             //it resembles the First Out logic
-            p.setPrivateObjective(chosenObj.get(0));
+            p.setPrivateObjective(chosenObj.remove(0));
         }
 
         //initialize stacks for the common goal(public objectives)
@@ -343,7 +343,7 @@ public class Game implements Serializable {
      * @param deckOfPublicObjectives deck that contains all the possible public objectives
      */
     public void setPublicObjectives(DeckOfPublicObjectives deckOfPublicObjectives) {
-        ArrayList<PublicObjective> temp = new ArrayList<PublicObjective>(deckOfPublicObjectives.getPublicObjective());
+        ArrayList<PublicObjective> temp = deckOfPublicObjectives.getPublicObjective();
         this.publicObjectives[0] = temp.get(0);
         this.publicObjectives[1] = temp.get(1);
     }

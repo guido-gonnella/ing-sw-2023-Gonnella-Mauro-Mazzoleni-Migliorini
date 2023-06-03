@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Server implements Runnable {
 
-    private Set<String> usernames;
+    private final Set<String> usernames;
     private ServerSocket ss;
     private Set<GameController> gameControllerSet;
     private VirtualView tempVirtualView;
@@ -58,12 +58,12 @@ public class Server implements Runnable {
 
             Message arrivedMessage;
             String username;
+
             do {
                 do {
                     socketServer.sendMessage(new AskNicknameMessage());
                     arrivedMessage = socketServer.readMessage();
                 } while (arrivedMessage.getMsgType() != MsgType.SEND_NICKNAME);
-
                 username = ((UpdatePlInfoMessage) arrivedMessage).getNickname();
             } while(usernames.contains(username));
             usernames.add(username);

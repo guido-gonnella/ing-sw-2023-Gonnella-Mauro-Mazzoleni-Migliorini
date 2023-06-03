@@ -8,10 +8,13 @@ import it.polimi.ingsw.Network.Message.C2S.TextMessage;
 import it.polimi.ingsw.Network.Message.EndGameMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.S2C.AskFullMsg;
+import it.polimi.ingsw.Network.Message.S2C.PublicObjectiveMessage;
 import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,13 +56,13 @@ public class GameController implements Runnable{
         selectedTiles = new ArrayList<>();
         players = new ArrayList<>();
         gameState = GameState.INIT;
+        turnState = TurnState.SELECT_PHASE;
         virtualView = vv;
         shelfFull = false;
 
         for(String username : virtualView.getUsernames()) {
             game.addPlayer(username);
             players.add(username);
-            System.out.println(virtualView.getUsernames().size());
         }
     }
 
@@ -74,6 +77,9 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * Initialization of the game
+     */
     private void init(){
         game.init();    // initializing the game
 
@@ -113,9 +119,8 @@ public class GameController implements Runnable{
 
         virtualView.writeBroadcast(new TextMessage(winner + " is the winner!"));
         virtualView.writeBroadcast(new EndGameMessage());
-        for(String p : players){
+        for(String p : players)
             virtualView.removeUsername(p);
-        }
 
         Thread.currentThread().interrupt();
     }
@@ -137,22 +142,22 @@ public class GameController implements Runnable{
     private void select(){
         //broadcast the player that is playing
         virtualView.writeBroadcast(new TextMessage("It's "+ currPlayer + " turn\n"));
+        virtualView.write(currPlayer, MsgType.PUBLIC_OBJECTIVE, game.getPublicObjectives());
+        virtualView.write(currPlayer, MsgType.PRIVATE_OBJECTIVE, game.getPlayerByNick(currPlayer).getPrivateObjective());
 
         //broadcast the updated board to all players
         virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
 
         selectedTiles.clear();
-        Message response = virtualView.readAll(currPlayer);
-        FullTileSelectionMessage msg = ((FullTileSelectionMessage) response);
-        ArrayList<Coords> tilesCoords = msg.getCoords();
-        int column = msg.getColumn();
+        FullTileSelectionMessage response = virtualView.readAll(currPlayer, new AskFullMsg(game.getBoard(), game.getPlayerByNick(currPlayer).getShelf()));
+        ArrayList<Coords> tilesCoords = response.getCoords();
+        int column = response.getColumn();
         Tile tile;
 
         for (Coords tilesCoord : tilesCoords) {
             tile = game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get();
             game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
         }
-
 
         //checking if the current player's shelf is full
         if(game.getPlayerByNick(currPlayer).getShelf().isFull() && !shelfFull) {
@@ -167,7 +172,6 @@ public class GameController implements Runnable{
         //sends the shelf to the current player
         virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
 
-
         //change the turn phase and the pick the next player
         turnState = TurnState.END;
     }
@@ -181,7 +185,7 @@ public class GameController implements Runnable{
         else {
             //go to the next player
             nextPlayer();
-            turnState = TurnState.PICK_TILES;
+            turnState = TurnState.SELECT_PHASE;
         }
     }
 

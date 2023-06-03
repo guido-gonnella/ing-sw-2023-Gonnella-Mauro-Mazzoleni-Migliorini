@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Enumeration.PubObjType;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,18 +16,18 @@ public class DeckOfPublicObjectives {
 
     public DeckOfPublicObjectives(){
         this.publicObjective = new ArrayList<>();
-        this.publicObjective.add(new PublicObjective("cross"));
-        this.publicObjective.add(new PublicObjective("eight"));
-        this.publicObjective.add(new PublicObjective("diag"));
-        this.publicObjective.add(new PublicObjective("diffCol"));
-        this.publicObjective.add(new PublicObjective("diffRow"));
-        this.publicObjective.add(new PublicObjective("colThreeTypes"));
-        this.publicObjective.add(new PublicObjective("rowThreeTypes"));
-        this.publicObjective.add(new PublicObjective("angles"));
-        this.publicObjective.add(new PublicObjective("twoSquares"));
-        this.publicObjective.add(new PublicObjective("stair"));
-        this.publicObjective.add(new PublicObjective("sixCouples"));
-        this.publicObjective.add(new PublicObjective("fourQuadruple"));
+        this.publicObjective.add(new PublicObjective(PubObjType.CROSS));
+        this.publicObjective.add(new PublicObjective(PubObjType.EIGHT));
+        this.publicObjective.add(new PublicObjective(PubObjType.DIAG));
+        this.publicObjective.add(new PublicObjective(PubObjType.DIFF_COL));
+        this.publicObjective.add(new PublicObjective(PubObjType.DIFF_ROW));
+        this.publicObjective.add(new PublicObjective(PubObjType.COL_THREE_TYPES));
+        this.publicObjective.add(new PublicObjective(PubObjType.ROW_THREE_TYPES));
+        this.publicObjective.add(new PublicObjective(PubObjType.ANGLES));
+        this.publicObjective.add(new PublicObjective(PubObjType.TWO_SQUARES));
+        this.publicObjective.add(new PublicObjective(PubObjType.STAIR));
+        this.publicObjective.add(new PublicObjective(PubObjType.SIX_COUPLES));
+        this.publicObjective.add(new PublicObjective(PubObjType.FOUR_QUADRUPLES));
     }
 
     /**

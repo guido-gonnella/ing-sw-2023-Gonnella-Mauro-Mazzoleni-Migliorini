@@ -61,17 +61,17 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         view.shelfShow(shelf.getShelf());
                         break;
                     case NUMBER_PLAYER_REQUEST:
-                        view.askplayernumber();
+                        view.askPlayerNumber();
                         break;
                     case SELECT_TILE_REQUEST:
                         selectTileRequest();
                         break;
                     case PUBLIC_OBJECTIVE:
-                        view.showpublicobjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
-                        view.showpublicobjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
+                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0].getObjectiveType());
+                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1].getObjectiveType());
                         break;
                     case PRIVATE_OBJECTIVE:
-                        view.showprivateobjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
+                        view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
                         break;
                     case SELECT_COL_REQUEST:
                         view.askInsertCol();
@@ -80,7 +80,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         //it.polimi.ingsw.view.showError();
                         break;
                     case END_STATS:
-                        view.showpoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
+                        view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
                         Thread.currentThread().interrupt();
                         break;
                 }
@@ -97,7 +97,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                 if (valid) {
                     {
                         tempTiles.clear();
-                        view.invalidcombo();
+                        view.invalidCombo();
                     }
                 }
             } while (valid);

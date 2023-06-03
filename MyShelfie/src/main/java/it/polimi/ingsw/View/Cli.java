@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.SerializableOptional;
 import it.polimi.ingsw.Model.Space;
@@ -127,7 +128,7 @@ public class Cli extends ViewObservable implements View{
     }
 
     @Override
-    public void invalidcombo() {
+    public void invalidCombo() {
         out.print("Invalid tiles combination selected, please select exposed and adjacent tiles\n");
     }
 
@@ -273,7 +274,7 @@ public class Cli extends ViewObservable implements View{
     }
 
     @Override
-    public void askplayernumber() {
+    public void askPlayerNumber() {
         int playerNumber;
         boolean valid;
         Scanner in = new Scanner(System.in);
@@ -294,7 +295,8 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
     @Override
-    public void showpoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){ //Map<String, int>, Map<String, boolean[]>
+    public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){
+        //Map<String, int>, Map<String, boolean[]>
         //player1 -> points: 20 | obj1 = tick | obj2 = cross
         boolean flag;
         for (String player: mapPoints.keySet())
@@ -321,28 +323,28 @@ public class Cli extends ViewObservable implements View{
     }
 
     @Override
-    public void showpublicobjective(String code) {
+    public void showPublicObjective(PubObjType code) {
         switch (code)
         {
-            case "angles" -> out.print("place four of the same tiles on the corner of the shelf\n [=][■][=]\n[■][■][■]\n[=][■][=]\n");
-            case "sixCouples"-> out.print("place six groups of at least 2 tiles of the same type \n [=][=]x6\n");
-            case "fourQuadruple"-> out.print("place four groups of at least 4 tiles of the same type\n [=][=][=][=]x4\n");
-            case "twoSquares"-> out.print("place 2 groups of 4 tiles in a square of 2x2 tiles\n [=][=]\n[=][=]x2\n");
-            case "colThreeTypes"-> out.print("place 3 groups of 6 tiles in a column, it can have at most 3 different types of tiles\n" );
-            case "cross"->out.print("place a group of 5 tiles in a X pattern\n[=][■][=]\n[■][=][■]\n[=][■][=]\n");
-            case "eight" ->out.print("place 8 tiles of the same type\n[=]x8\n");
-            case "diffCol" ->out.print("place 2 groups of 6 tiles of different types in a column\n [≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
-            case "diffRow" -> out.print("place 2 groups of 5 tiles of different types in a line\n [≠][≠][≠][≠][≠]\n");
-            case "diag"-> out.print("place 5 tiles in a diagonal\n");
-            case "rowThreeTypes"-> out.print("place 4 groups of 5 tiles in a line, it can have at most 3 different types of tiles\n");
-            case "stair"-> out.print("place 5 columns of increasing height from left to right or right to left, starting from a height of 1\n");
-            default ->out.print("invalid objective\n");
+            case ANGLES -> out.print("Place four of the same tiles on the corner of the shelf\n [=][■][=]\n[■][■][■]\n[=][■][=]\n");
+            case SIX_COUPLES-> out.print("Place six groups of at least 2 tiles of the same type \n [=][=]x6\n");
+            case FOUR_QUADRUPLES-> out.print("Place four groups of at least 4 tiles of the same type\n [=][=][=][=]x4\n");
+            case TWO_SQUARES-> out.print("Place 2 groups of 4 tiles in a square of 2x2 tiles\n [=][=]\n[=][=]x2\n");
+            case COL_THREE_TYPES-> out.print("Place 3 groups of 6 tiles in a column, it can have at most 3 different types of tiles\n" );
+            case CROSS->out.print("Place a group of 5 tiles in a X pattern\n[=][■][=]\n[■][=][■]\n[=][■][=]\n");
+            case EIGHT ->out.print("Place 8 tiles of the same type\n[=]x8\n");
+            case DIFF_COL ->out.print("Place 2 groups of 6 tiles of different types in a column\n [≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
+            case DIFF_ROW -> out.print("Place 2 groups of 5 tiles of different types in a line\n [≠][≠][≠][≠][≠]\n");
+            case DIAG-> out.print("Place 5 tiles in a diagonal\n");
+            case ROW_THREE_TYPES-> out.print("Place 4 groups of 5 tiles in a line, it can have at most 3 different types of tiles\n");
+            case STAIR-> out.print("Place 5 columns of increasing height from left to right or right to left, starting from a height of 1\n");
+            default ->out.print("Invalid objective\n");
 
         }
     }
 
     @Override
-    public void showprivateobjective(PrivateObjective objective) {
+    public void showPrivateObjective(PrivateObjective objective) {
         int z=0;
         for (int i = 0; i <6; i++) {
             for (int j=0;j<5;j++){

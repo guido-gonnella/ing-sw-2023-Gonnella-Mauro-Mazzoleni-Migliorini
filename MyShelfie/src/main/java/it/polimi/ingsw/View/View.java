@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.SerializableOptional;
 import it.polimi.ingsw.Model.Space;
@@ -15,13 +16,13 @@ public interface View {
     void boardShow(Space[][] board);
     void shelfShow(SerializableOptional<Tile>[][] shelf);
     void showTilesInHand(ArrayList<Tile> hand);
-    void askplayernumber();
-    void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
-    void showpublicobjective(String code);
-    void showprivateobjective(PrivateObjective objective);
+    void askPlayerNumber();
+    void showPoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective);
+    void showPublicObjective(PubObjType code);
+    void showPrivateObjective(PrivateObjective objective);
 
     void invalidTile(int x, int y);
-    void invalidcombo();
+    void invalidCombo();
 
     void invalidColumn(int column);
 }

@@ -1,12 +1,10 @@
 package it.polimi.ingsw.Network.ServerPack;
 
-import it.polimi.ingsw.Model.Coords;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectColumnMessage;
 import it.polimi.ingsw.Network.Message.C2S.SelectTileMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
-import it.polimi.ingsw.Model.Board;
-import it.polimi.ingsw.Model.Shelf;
 import it.polimi.ingsw.Network.Message.*;
 import it.polimi.ingsw.Network.Message.C2S.TextMessage;
 import it.polimi.ingsw.Network.Message.S2C.*;
@@ -21,8 +19,8 @@ import java.util.Map;
  */
 public class VirtualView {
 
-    private Map<String, SocketServer> socketMap;
-    private Server server;
+    private final Map<String, SocketServer> socketMap;
+    private final Server server;
 
     /**
      * Constructor of the class
@@ -44,9 +42,9 @@ public class VirtualView {
     /**
      * Reads all the data needed from the client, the tiles selected and the shelf's column
      */
-    public Message readAll(String user){
+    public FullTileSelectionMessage readAll(String user, AskFullMsg msg){
         SocketServer destinationClient = socketMap.get(user);
-        destinationClient.sendMessage(new AskFullMsg());
+        destinationClient.sendMessage(msg);
         Message received;
         do{
             received = destinationClient.readMessage();
@@ -54,7 +52,7 @@ public class VirtualView {
             *  if(messaggio di errore) rimuovi il giocatore da cui arriva
             * */
         }while(received.getMsgType() != MsgType.FULL_TILE_SELECTION);
-        return received;
+        return ((FullTileSelectionMessage)received);
     }
 
     /**
@@ -68,6 +66,8 @@ public class VirtualView {
         switch(message){
             case SHELF_UPDATE -> destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
             case TEXT -> destinationClient.sendMessage(new TextMessage((String) sendObject));
+            case PUBLIC_OBJECTIVE -> destinationClient.sendMessage(new PublicObjectiveMessage((PublicObjective[]) sendObject));
+            case PRIVATE_OBJECTIVE -> destinationClient.sendMessage(new PrivateObjectiveMessage((PrivateObjective) sendObject));
         }
     }
 

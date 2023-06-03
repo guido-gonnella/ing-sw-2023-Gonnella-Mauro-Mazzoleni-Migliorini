@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.Gui;
 
 
+import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.PrivateObjective;
 import it.polimi.ingsw.Model.SerializableOptional;
 import it.polimi.ingsw.Model.Space;
@@ -50,22 +51,22 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void askplayernumber() {
+    public void askPlayerNumber() {
 
     }
 
     @Override
-    public void showpoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective) {
+    public void showPoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective) {
 
     }
 
     @Override
-    public void showpublicobjective(String code) {
+    public void showPublicObjective(PubObjType code) {
 
     }
 
     @Override
-    public void showprivateobjective(PrivateObjective objective) {
+    public void showPrivateObjective(PrivateObjective objective) {
 
     }
 
@@ -75,7 +76,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void invalidcombo() {
+    public void invalidCombo() {
     }
 
     @Override
