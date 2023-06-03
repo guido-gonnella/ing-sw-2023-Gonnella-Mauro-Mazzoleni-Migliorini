@@ -49,39 +49,48 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                 msg = client.readMessage();
 
                 switch (msg.getMsgType()) {
-                    case ASK_NICKNAME:
+                    case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
                         view.askNickname();
                         break;
-                    case BOARD_UPDATE:
-                        this.board = ((UpdateBoardMessage) msg).getBoard();
-                        view.boardShow(board.getGrid());
-                        break;
-                    case SHELF_UPDATE:
-                        this.shelf = ((UpdateShelfMessage) msg).getShelf();
-                        view.shelfShow(shelf.getShelf());
-                        break;
-                    case NUMBER_PLAYER_REQUEST:
+                    case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
                         view.askPlayerNumber();
                         break;
-                    case SELECT_TILE_REQUEST:
-                        selectTileRequest();
+                    case TEXT: //stampa il testo ricevuto, non ritorna niente
+                        view.showText(((TextMessage)msg).getText());
                         break;
-                    case PUBLIC_OBJECTIVE:
+                    case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
                         view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0].getObjectiveType());
                         view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1].getObjectiveType());
                         break;
-                    case PRIVATE_OBJECTIVE:
+                    case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
                         view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
                         break;
-                    case SELECT_COL_REQUEST:
-                        view.askInsertCol();
+                    case BOARD_UPDATE: //stampa la board, non ritorna niente
+                        this.board = ((UpdateBoardMessage) msg).getBoard();
+                        view.boardShow(board.getGrid());
+                        break;
+                    case SHELF_UPDATE: //stampa la shelf, non ritorna niente
+                        this.shelf = ((UpdateShelfMessage) msg).getShelf();
+                        view.shelfShow(shelf.getShelf());
+                        break;
+                    case FULL_SELECTION_REQUEST:
+                        //stampa la board, restituisce un FullTileSelectionMessage con
+                        //l'arraylist di coordinate selezionate e la colonna selezionata
+                        //il messaggio arrivato ha già la board e la shelf
+
+                        // quello da fare sulla view
+                        selectTileRequest(); //va bene questo?
+                        break;
+                    case END_GAME:
+                        //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
+                        //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
+                        //punteggi e il vincitore, non restituisce niente
+
+                        //view.gameEnded();
+                        Thread.currentThread().interrupt();
                         break;
                     case ERROR:
                         //it.polimi.ingsw.view.showError();
-                        break;
-                    case END_STATS:
-                        view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
-                        Thread.currentThread().interrupt();
                         break;
                 }
             }
@@ -147,8 +156,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
         @Override
         public void onSelectCol(int col) {
-
-                this.column=col;
+                this.column = col;
         }
 
         /**
@@ -160,8 +168,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             client.sendMessage(new NumberOfPlayerMessage(numPlayers));
         }
         @Override
-        public void onNicknameUpdate (String Nick){
-            this.nick=Nick;
+        public void onNicknameUpdate (String nick){
+            this.nick = nick;
             client.sendMessage(new UpdatePlInfoMessage(nick));
         }
 

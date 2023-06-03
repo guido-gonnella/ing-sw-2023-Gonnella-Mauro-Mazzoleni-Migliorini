@@ -385,4 +385,8 @@ public class Cli extends ViewObservable implements View{
         return values;
     }
 
+    public void showText(String text){
+        out.print(text + "\n");
+    }
+
 }

@@ -25,4 +25,6 @@ public interface View {
     void invalidCombo();
 
     void invalidColumn(int column);
+
+    void showText(String text);
 }

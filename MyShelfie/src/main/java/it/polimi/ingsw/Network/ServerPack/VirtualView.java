@@ -2,11 +2,9 @@ package it.polimi.ingsw.Network.ServerPack;
 
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
-import it.polimi.ingsw.Network.Message.C2S.SelectColumnMessage;
-import it.polimi.ingsw.Network.Message.C2S.SelectTileMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Network.Message.*;
-import it.polimi.ingsw.Network.Message.C2S.TextMessage;
+import it.polimi.ingsw.Network.Message.S2C.TextMessage;
 import it.polimi.ingsw.Network.Message.S2C.*;
 
 import java.util.ArrayList;

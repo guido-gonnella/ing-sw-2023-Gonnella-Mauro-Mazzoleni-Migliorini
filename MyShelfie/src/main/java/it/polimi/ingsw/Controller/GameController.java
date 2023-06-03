@@ -4,17 +4,14 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Enumeration.GameState;
 import it.polimi.ingsw.Enumeration.TurnState;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
-import it.polimi.ingsw.Network.Message.C2S.TextMessage;
+import it.polimi.ingsw.Network.Message.S2C.TextMessage;
 import it.polimi.ingsw.Network.Message.EndGameMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
-import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.AskFullMsg;
-import it.polimi.ingsw.Network.Message.S2C.PublicObjectiveMessage;
 import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +30,7 @@ public class GameController implements Runnable{
      * List of the players, used also as the player order in the game
      */
     private final ArrayList<String> players;
+
     /**
      * Current player
      */
@@ -41,7 +39,6 @@ public class GameController implements Runnable{
     private final Game game;
     private ArrayList<Tile> selectedTiles;
 
-    //VirtualView
     /**
      * used for sending and receiving Messages from the client
      */
