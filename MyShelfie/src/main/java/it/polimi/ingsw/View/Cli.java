@@ -54,7 +54,7 @@ public class Cli extends ViewObservable implements View{
                 }
                 else valid = NetworkHandler.isValidIpAddress(serverAddr);
             } catch(NoSuchElementException e) {
-                out.print("Please input a valid address: ");
+                out.println("Please input a valid address!");
                 valid = false;
             }
         } while (!valid);
@@ -67,7 +67,7 @@ public class Cli extends ViewObservable implements View{
                 port = ReadInt();
                 valid = NetworkHandler.isValidPort(port);
             } catch(NoSuchElementException e1){
-                out.print("Please input a valid port: ");
+                out.println("Please input a valid port!");
                 valid = false;
             }
         } while (!valid);

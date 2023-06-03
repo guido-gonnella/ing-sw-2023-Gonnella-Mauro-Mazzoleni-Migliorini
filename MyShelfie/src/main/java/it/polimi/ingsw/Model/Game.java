@@ -105,7 +105,7 @@ public class Game implements Serializable {
     public void setBoard() {
         Space[][] grid = this.board.getGrid();
 
-        if(this.players.size()>2) {
+        if(players.size()>2) {
             grid[0][3].setAvailable();
             grid[2][2].setAvailable();
             grid[2][6].setAvailable();
@@ -115,7 +115,7 @@ public class Game implements Serializable {
             grid[6][6].setAvailable();
             grid[8][5].setAvailable();
 
-            if(this.players.size()>3) {
+            if(players.size()>3) {
                 grid[0][4].setAvailable();
                 grid[1][5].setAvailable();
                 grid[3][1].setAvailable();
@@ -129,42 +129,36 @@ public class Game implements Serializable {
 
         for(int row=1; row<8; row++) {
             switch (row) {
-                case 1: {
+                case 1 -> {
                     grid[row][3].setAvailable();
                     grid[row][4].setAvailable();
-                    break;
                 }
-                case 2, 6: {
+                case 2, 6 -> {
                     grid[row][3].setAvailable();
                     grid[row][4].setAvailable();
                     grid[row][5].setAvailable();
-                    break;
                 }
-                case 3: {
+                case 3 -> {
                     for (int col = 2; col < 8; col++) {
                         grid[row][col].setAvailable();
                     }
-                    break;
                 }
-                case 4: {
+                case 4 -> {
                     for (int col = 1; col < 8; col++) {
                         grid[row][col].setAvailable();
                     }
-                    break;
                 }
-                case 5: {
+                case 5 -> {
                     for (int col = 1; col < 7; col++) {
                         grid[row][col].setAvailable();
                     }
-                    break;
                 }
-                case 7: {
+                case 7 -> {
                     grid[row][4].setAvailable();
                     grid[row][5].setAvailable();
-                    break;
                 }
-
-                default: break;
+                default -> {
+                }
             }
         }
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Space implements Serializable {
     private SerializableOptional<Tile> tile;
-private Boolean available;
+    private Boolean available;
 
     public Space() {
         this.tile = SerializableOptional.empty();

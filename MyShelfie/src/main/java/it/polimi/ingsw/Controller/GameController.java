@@ -56,9 +56,10 @@ public class GameController implements Runnable{
         virtualView = vv;
         shelfFull = false;
 
-        for(String username: virtualView.getUsernames()) {
+        for(String username : virtualView.getUsernames()) {
             game.addPlayer(username);
             players.add(username);
+            System.out.println(virtualView.getUsernames().size());
         }
     }
 
@@ -74,9 +75,6 @@ public class GameController implements Runnable{
     }
 
     private void init(){
-        for(String player : players){
-            game.addPlayer(player);
-        }
         game.init();    // initializing the game
 
         currPlayer = players.get(0); // setting the first player

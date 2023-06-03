@@ -54,8 +54,7 @@ public class Server implements Runnable {
         while(!Thread.currentThread().isInterrupted()){
 
             SocketServer socketServer;
-                socketServer = new SocketServer(ss);
-
+            socketServer = new SocketServer(ss);
 
             Message arrivedMessage;
             String username;
@@ -66,7 +65,7 @@ public class Server implements Runnable {
                 } while (arrivedMessage.getMsgType() != MsgType.SEND_NICKNAME);
 
                 username = ((UpdatePlInfoMessage) arrivedMessage).getNickname();
-            }while(usernames.contains(username));
+            } while(usernames.contains(username));
             usernames.add(username);
 
             synchronized (lock) {
