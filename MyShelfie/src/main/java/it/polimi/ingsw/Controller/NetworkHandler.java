@@ -59,8 +59,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         view.showText(((TextMessage)msg).getText());
                         break;
                     case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
-                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0].getObjectiveType());
-                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1].getObjectiveType());
+                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
+                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
                         break;
                     case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
                         view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
@@ -92,6 +92,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                     case ERROR:
                         //it.polimi.ingsw.view.showError();
                         break;
+                    default: view.showText("something went very wrong");
+                    break;
                 }
             }
         }
@@ -135,7 +137,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
         @Override
         public void onSelectTile(int x, int y) {
             if (x>-1 && y>-1) {
-                if(x>10||y>10) {
+                if(x>8||y>8) {
                     tempTiles.clear();
                     loop=-1;
                     view.invalidTile(10,10);

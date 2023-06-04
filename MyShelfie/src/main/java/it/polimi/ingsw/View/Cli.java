@@ -111,8 +111,8 @@ public class Cli extends ViewObservable implements View{
             }
 
         } while (!valid);
-        int finalX = coords[0];
-        int finalY = coords[1];
+        int finalX = coords[1];
+        int finalY = coords[0];
         notifyObservers(obs -> obs.onSelectTile(finalX,finalY));
 
     }

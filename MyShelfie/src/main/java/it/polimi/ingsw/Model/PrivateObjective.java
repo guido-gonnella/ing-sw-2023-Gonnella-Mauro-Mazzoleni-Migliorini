@@ -109,6 +109,7 @@ public class PrivateObjective implements Serializable {
             case 10 -> {
                 this.id=10;
                 objective.add(new ElementObjective(0, 4, Type.TROPHY));
+                objective.add(new ElementObjective(1, 1, Type.GAME));
                 objective.add(new ElementObjective(2, 0, Type.BOOK));
                 objective.add(new ElementObjective(3, 3, Type.CAT));
                 objective.add(new ElementObjective(4, 1, Type.FRAME));

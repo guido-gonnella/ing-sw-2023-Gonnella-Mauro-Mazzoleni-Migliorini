@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Enumeration.PubObjType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -356,7 +358,13 @@ public class Game implements Serializable {
     public PublicObjective[] getPublicObjectives() {
         return this.publicObjectives;
     }
-
+    public PubObjType[] getPublicObjectivesType(){
+        PubObjType[] pubObjTypes;
+        pubObjTypes=new PubObjType[2];
+        pubObjTypes[0]=publicObjectives[0].getObjectiveType();
+        pubObjTypes[1]=publicObjectives[1].getObjectiveType();
+        return(pubObjTypes);
+    }
     /**
      * It takes the random private objectives for every player from the deck, and it gives them to the players
      *

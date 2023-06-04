@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Network.ServerPack;
 
+import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
@@ -64,7 +65,7 @@ public class VirtualView {
         switch(message){
             case SHELF_UPDATE -> destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
             case TEXT -> destinationClient.sendMessage(new TextMessage((String) sendObject));
-            case PUBLIC_OBJECTIVE -> destinationClient.sendMessage(new PublicObjectiveMessage((PublicObjective[]) sendObject));
+            case PUBLIC_OBJECTIVE -> destinationClient.sendMessage(new PublicObjectiveMessage((PubObjType[]) sendObject));
             case PRIVATE_OBJECTIVE -> destinationClient.sendMessage(new PrivateObjectiveMessage((PrivateObjective) sendObject));
         }
     }

@@ -139,7 +139,7 @@ public class GameController implements Runnable{
     private void select(){
         //broadcast the player that is playing
         virtualView.writeBroadcast(new TextMessage("It's "+ currPlayer + " turn\n"));
-        virtualView.write(currPlayer, MsgType.PUBLIC_OBJECTIVE, game.getPublicObjectives());
+        virtualView.write(currPlayer, MsgType.PUBLIC_OBJECTIVE, game.getPublicObjectivesType());
         virtualView.write(currPlayer, MsgType.PRIVATE_OBJECTIVE, game.getPlayerByNick(currPlayer).getPrivateObjective());
 
         //broadcast the updated board to all players

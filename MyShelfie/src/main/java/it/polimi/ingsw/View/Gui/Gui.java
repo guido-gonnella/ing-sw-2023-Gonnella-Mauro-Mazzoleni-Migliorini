@@ -83,4 +83,9 @@ public class Gui extends ViewObservable implements View {
     public void invalidColumn(int column) {
 
     }
+
+    @Override
+    public void showText(String text) {
+
+    }
 }
