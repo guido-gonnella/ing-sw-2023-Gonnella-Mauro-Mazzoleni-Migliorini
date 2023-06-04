@@ -360,23 +360,10 @@ public class Game implements Serializable {
     }
     public PubObjType[] getPublicObjectivesType(){
         PubObjType[] pubObjTypes;
-        pubObjTypes=new PubObjType[2];
-        pubObjTypes[0]=publicObjectives[0].getObjectiveType();
-        pubObjTypes[1]=publicObjectives[1].getObjectiveType();
+        pubObjTypes = new PubObjType[2];
+        pubObjTypes[0] = publicObjectives[0].getObjectiveType();
+        pubObjTypes[1] = publicObjectives[1].getObjectiveType();
         return(pubObjTypes);
-    }
-    /**
-     * It takes the random private objectives for every player from the deck, and it gives them to the players
-     *
-     * @param deckOfPrivateObjectives deck that contains all the possible private objectives
-     */
-    public void setPrivateObjectives(DeckOfPrivateObjectives deckOfPrivateObjectives) {
-
-        ArrayList <PrivateObjective> temp;
-        temp=deckOfPrivateObjectives.getPrivateObjectives(this.players.size());
-        for(int i=0; i<this.players.size(); i++) {
-            players.get(i).setPrivateObjective(temp.get(i));
-        }
     }
 
     /**
@@ -457,15 +444,5 @@ public class Game implements Serializable {
         return firstPlayer.getNickname();
     }
 
-    /**
-     * Swap tiles in hand to change the order.<br>
-     * It swaps t1 and t2 element in the tilesInCurrPlayerHand arrayList
-     * @param t1 first tile index
-     * @param t2 second tile index
-     */
-    public void swapInHand(int t1, int t2){
-        Tile temp = tilesInCurrPlayerHand.get(t1);
-        tilesInCurrPlayerHand.add(t1, tilesInCurrPlayerHand.get(t2));
-        tilesInCurrPlayerHand.add(t2, temp);
-    }
+
 }

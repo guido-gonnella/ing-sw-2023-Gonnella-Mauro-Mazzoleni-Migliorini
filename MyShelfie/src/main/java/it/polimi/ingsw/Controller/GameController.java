@@ -183,6 +183,8 @@ public class GameController implements Runnable{
             //go to the next player
             nextPlayer();
             turnState = TurnState.SELECT_PHASE;
+            if(!game.getBoard().checkFill())
+                game.getBoard().fill(game.getSackOfTiles());
         }
     }
 

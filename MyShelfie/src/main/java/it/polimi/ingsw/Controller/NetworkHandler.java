@@ -79,7 +79,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         //il messaggio arrivato ha già la board e la shelf
 
                         // quello da fare sulla view
-                        selectTileRequest(); //va bene questo?
+                        selectTileRequest();
                         break;
                     case END_GAME:
                         //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
@@ -151,7 +151,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                 }
 
             }else {
-                loop=4;
+                loop = 4;
             }
 
         }

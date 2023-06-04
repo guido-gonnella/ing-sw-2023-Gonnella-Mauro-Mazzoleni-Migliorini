@@ -34,10 +34,10 @@ public class GameTest {
 
     @Test
     public void setBoard_4PlayersSetup() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         for(int i = 0; i < game.getBoard().ROW; i++) {
             for(int j = 0; j < game.getBoard().COL; j++) {
@@ -63,10 +63,10 @@ public class GameTest {
 
     @Test
     public void getPlayerList_AndSetFirstPlayer_4Players() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         for (String name : game.getPlayerList()) {
             System.out.println(name);
@@ -79,10 +79,10 @@ public class GameTest {
 
     @Test
     public void setSackOfTiles_afterFillIn4PlayersBoard() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         for(int i = 0; i < game.getBoard().ROW; i++) {
             for(int j = 0; j < game.getBoard().COL; j++) {
@@ -120,10 +120,10 @@ public class GameTest {
 
     @Test
     public void takeTiles_from_4PlayersBoard() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         for(int i = 0; i < game.getBoard().ROW; i++) {
             for(int j = 0; j < game.getBoard().COL; j++) {
@@ -173,10 +173,10 @@ public class GameTest {
 
     @Test
     public void selectTiles_validSelection_returnTrue_4PlayersBoard() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         game.selectTiles(0,3);
         game.selectTiles(0,4);
@@ -186,10 +186,10 @@ public class GameTest {
 
     @Test
     public void selectTiles_validSelection_returnFalse_4PlayersBoard() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         game.selectTiles(0,3);
         game.selectTiles(1,4);
@@ -199,10 +199,10 @@ public class GameTest {
 
     @Test
     public void selectTiles_2Tiles_tempTilesSelSize() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         game.selectTiles(0,3);
         game.selectTiles(0,4);
@@ -212,10 +212,10 @@ public class GameTest {
 
     @Test
     public void selectTiles_tilesInHandMethodsTest() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         Tile tile1 = game.getBoard().getGrid()[0][3].getTile().get();
         Tile tile2 = game.getBoard().getGrid()[0][4].getTile().get();
@@ -236,10 +236,10 @@ public class GameTest {
 
     @Test
     public void publicObjectivesMethodsTest() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         game.setPublicObjectives(deckOfPublicObjectives);
         assertNotEquals(game.getPublicObjectives()[0], game.getPublicObjectives()[1]);

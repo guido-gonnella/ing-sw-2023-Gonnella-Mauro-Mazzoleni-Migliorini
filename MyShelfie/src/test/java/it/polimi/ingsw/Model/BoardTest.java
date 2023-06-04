@@ -64,26 +64,7 @@ public class BoardTest {
 
         System.out.println("Test2:");
 
-        for(int i = 0; i < board.ROW; i++) {
-            for(int j = 0; j < board.COL; j++) {
-                if(board.getGrid()[i][j].getTile().isPresent()) {
-                    switch (board.getGrid()[i][j].getTile().get().getType()) {
-                        case TROPHY -> System.out.print("\u001B[36m" + "[T]" + "\u001B[0m");
-                        case FRAME -> System.out.print("\u001B[34m" + "[F]" + "\u001B[0m");
-                        case PLANT -> System.out.print("\u001B[35m" + "[P]" + "\u001B[0m");
-                        case GAME -> System.out.print("\u001B[33m" + "[G]" + "\u001B[0m");
-                        case BOOK -> System.out.print("\u001B[37m" + "[B]" + "\u001B[0m");
-                        case CAT -> System.out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
-                    }
-                }
-                else {
-                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
-                }
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
+        print_board(board);
 
         assertTrue(board.checkFill());
     }
@@ -203,5 +184,28 @@ public class BoardTest {
         System.out.print("\n");
 
         assertTrue(board.checkFill());
+    }
+
+    public void print_board(Board board){
+        for(int i = 0; i < board.ROW; i++) {
+            for(int j = 0; j < board.COL; j++) {
+                if(board.getGrid()[i][j].getTile().isPresent()) {
+                    switch (board.getGrid()[i][j].getTile().get().getType()) {
+                        case TROPHY -> System.out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> System.out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> System.out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> System.out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> System.out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> System.out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                }
+                else {
+                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
     }
 }

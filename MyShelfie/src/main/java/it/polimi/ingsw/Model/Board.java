@@ -36,8 +36,10 @@ public class Board implements Serializable {
         for(int row=0; row<ROW; row++) {
             for(int col=0; col<COL; col++) {
                 if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
-                    //metodo per settare una random tile nella board dal sacchetto
-                    this.grid[row][col].setTile(sackOfTiles.getRandomTile());
+                    if(sackOfTiles.getRandomTile() != null) {
+                        //metodo per settare una random tile nella board dal sacchetto
+                        this.grid[row][col].setTile(sackOfTiles.getRandomTile());
+                    }
                 }
             }
         }
@@ -72,7 +74,12 @@ public class Board implements Serializable {
      * @param grid updated grid to use
      */
     public void setGrid(Space[][] grid) {
-        this.grid = grid;
+        // todo togli commento this.grid = grid;
+        for(int i = 0; i < ROW; i++){
+            for(int j = 0; j < COL; j++){
+                this.grid[i][j] = grid[i][j];
+            }
+        }
     }
 
     /**
@@ -95,9 +102,9 @@ public class Board implements Serializable {
                 }
             }
         }
-        if(flagNotAlone==0)
-            return false;
-        else
-            return true;
+
+        return flagNotAlone != 0;
     }
+
+
 }
