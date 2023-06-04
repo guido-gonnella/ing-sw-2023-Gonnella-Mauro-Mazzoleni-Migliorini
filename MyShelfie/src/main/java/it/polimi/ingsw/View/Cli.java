@@ -96,7 +96,7 @@ public class Cli extends ViewObservable implements View{
         boolean valid;
         String temp = null;
         Scanner in = new Scanner(System.in);
-        out.print("input \"x,y\" coordinates of the tile, to stop input \"-1,-1\": ");
+        out.print("Input \"x,y\" coordinates of the tile, to stop input \"-1,-1\": ");
         do {
             try{
                 valid= true;
@@ -106,7 +106,7 @@ public class Cli extends ViewObservable implements View{
                 out.print("Mismatch please input valid coordinates: like \"1,2\" or \"0,3\": "); //TODO cleanup
                 valid=false;
             }catch(NoSuchElementException e1){
-                out.print("no element please input valid coordinates: like \"1,2\" or \"0,3\": ");
+                out.print("No element please input valid coordinates: like \"1,2\" or \"0,3\": ");
                 valid=false;
             }
 

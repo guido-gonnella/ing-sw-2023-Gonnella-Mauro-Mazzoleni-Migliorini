@@ -8,8 +8,8 @@ import javafx.geometry.Bounds;
 
 public class AskFullMsg extends Message {
 
-    private Board board;
-    private Shelf shelf;
+    private final Board board;
+    private final Shelf shelf;
     public AskFullMsg(Board board, Shelf shelf){
         super(MsgType.FULL_SELECTION_REQUEST);
         this.board = board;

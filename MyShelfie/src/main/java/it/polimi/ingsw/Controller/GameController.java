@@ -152,10 +152,12 @@ public class GameController implements Runnable{
         Tile tile;
 
         for (Coords tilesCoord : tilesCoords) {
-            tile = game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get();
-            game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
+            if(game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).isPresent()){
+                tile = game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get();
+                game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
+            }
         }
-
+        
         //checking if the current player's shelf is full
         if(game.getPlayerByNick(currPlayer).getShelf().isFull() && !shelfFull) {
             shelfFull = true;
