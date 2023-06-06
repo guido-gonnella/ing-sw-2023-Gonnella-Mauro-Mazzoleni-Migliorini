@@ -17,17 +17,16 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     private ArrayList<Tile> hand;
     private final View view;
     private int column;
-
     Shelf shelf;
+    int loop;
     Board board;
     public ClientSocket client;
     private String nick;
-    private int loop;
 
     public NetworkHandler(View view){
             this.view = view;
-            tempTiles = new ArrayList<>();
-            hand = new ArrayList<>();
+            tempTiles = new ArrayList<Coords>();
+            hand = new ArrayList<Tile>();
             shelf= new Shelf();
             board = new Board();
             this.nick=new String();
@@ -56,7 +55,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         view.askPlayerNumber();
                         break;
                     case TEXT: //stampa il testo ricevuto, non ritorna niente
-                        view.showText(((TextMessage)msg).getText());
+                        view.showText(((TextMessage) msg).getText());
                         break;
                     case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
                         view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
@@ -99,21 +98,21 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
         }
 
         private void selectTileRequest(){
-            boolean valid = false;
+            boolean valid;
+
             do {
                 for (loop = 0; loop < 3; loop++) {
                     view.askSelectTile();
                 }
-                valid = !validSelection();
-                if (valid) {
-                    {
-                        tempTiles.clear();
-                        view.invalidCombo();
-                    }
+                valid = validSelection();
+                if (!valid) {
+                    tempTiles.clear();
+                    view.invalidCombo();
                 }
-            } while (valid);
+            } while (!valid);
+
             for (Coords tempTile : tempTiles) {
-                hand.add((board.takeTiles(tempTile.x, tempTile.y)).get());
+                hand.add((board.takeTiles(tempTile.ROW, tempTile.COL)).get());
             }
             view.showTilesInHand(hand);
 
@@ -125,40 +124,35 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                     valid = false;
                 }
             } while (!valid);
+
             client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
+
             for (Tile tile : hand) {
                 shelf.putTile(tile, column);
             }
+
             hand.clear();
             tempTiles.clear();
-            view.shelfShow(shelf.getShelf());
         }
 
         @Override
         public void onSelectTile(int x, int y) {
-            if (x>-1 && y>-1) {
-                if(x>8||y>8) {
-                    tempTiles.clear();
-                    loop=-1;
-                    view.invalidTile(10,10);
-                }else{
-                    if (board.getGrid()[x][y].getTile().isPresent()) {
-                        tempTiles.add(new Coords(x, y));
-                    } else {
-                        view.invalidTile(x, y);
-                        view.askSelectTile();
-                    }
-                }
-
-            }else {
-                loop = 4;
+            if (x==-1 && y==-1) {
+                loop=2;
             }
-
+            else {
+                if (x>8 || y>8 || board.getGrid()[x][y].getTile().isEmpty()) {
+                    view.invalidTile(x, y);
+                    view.askSelectTile();
+                } else {
+                    tempTiles.add(new Coords(x, y));
+                }
+            }
         }
 
         @Override
         public void onSelectCol(int col) {
-                this.column = col;
+            this.column = col;
         }
 
         /**
@@ -218,76 +212,76 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     public boolean validSelection(){
         if(tempTiles.size() > 0 && tempTiles.size() <= 3){
             if(tempTiles.size() == 1){
-                return adjacent(tempTiles.get(0).x, tempTiles.get(0).y);
+                return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL);
             } else if (tempTiles.size() == 2) {
-                if(tempTiles.get(0).x == tempTiles.get(1).x){
+                if(tempTiles.get(0).ROW == tempTiles.get(1).ROW){
                     //swap for sorting the two element array
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if(Math.abs(tempTiles.get(0).y - tempTiles.get(1).y) == 1){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y);
+                    if(Math.abs(tempTiles.get(0).COL - tempTiles.get(1).COL) == 1){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
                     }
-                } else if (tempTiles.get(0).y == tempTiles.get(1).y) {
+                } else if (tempTiles.get(0).COL == tempTiles.get(1).COL) {
                     //swap for sorting the two element array
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if(Math.abs(tempTiles.get(0).x - tempTiles.get(1).x) == 1){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y);
+                    if(Math.abs(tempTiles.get(0).ROW - tempTiles.get(1).ROW) == 1){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
                     }
                 }
             } else if (tempTiles.size() == 3) {
-                if(tempTiles.get(0).x == tempTiles.get(1).x && tempTiles.get(1).x == tempTiles.get(2).x){
+                if(tempTiles.get(0).ROW == tempTiles.get(1).ROW && tempTiles.get(1).ROW == tempTiles.get(2).ROW){
                     //sorting 3 element array
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
-                    if(tempTiles.get(1).y > tempTiles.get(2).y){
+                    if(tempTiles.get(1).COL > tempTiles.get(2).COL){
                         Coords t = tempTiles.get(2);
                         tempTiles.set(2, tempTiles.get(1));
                         tempTiles.set(1, t);
                     }
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if((tempTiles.get(0).y - tempTiles.get(1).y == -1 && tempTiles.get(1).y - tempTiles.get(2).y == -1 )||
-                            (tempTiles.get(0).y - tempTiles.get(1).y == 1 && tempTiles.get(1).y - tempTiles.get(2).y == 1 )){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y) && adjacent(tempTiles.get(2).x, tempTiles.get(2).y);
+                    if((tempTiles.get(0).COL - tempTiles.get(1).COL == -1 && tempTiles.get(1).COL - tempTiles.get(2).COL == -1 )||
+                            (tempTiles.get(0).COL - tempTiles.get(1).COL == 1 && tempTiles.get(1).COL - tempTiles.get(2).COL == 1 )){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL) && adjacent(tempTiles.get(2).ROW, tempTiles.get(2).COL);
                     }
 
-                }else if(tempTiles.get(0).y == tempTiles.get(1).y && tempTiles.get(1).y == tempTiles.get(2).y){
+                }else if(tempTiles.get(0).COL == tempTiles.get(1).COL && tempTiles.get(1).COL == tempTiles.get(2).COL){
                     //sorting 3 element array
-                    if(tempTiles.get(0).x > tempTiles.get(1).x){
+                    if(tempTiles.get(0).ROW > tempTiles.get(1).ROW){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
-                    if(tempTiles.get(1).x > tempTiles.get(2).x){
+                    if(tempTiles.get(1).ROW > tempTiles.get(2).ROW){
                         Coords t = tempTiles.get(2);
                         tempTiles.set(2, tempTiles.get(1));
                         tempTiles.set(1, t);
                     }
-                    if(tempTiles.get(0).x > tempTiles.get(1).x){
+                    if(tempTiles.get(0).ROW > tempTiles.get(1).ROW){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if((tempTiles.get(0).x - tempTiles.get(1).x == -1 && tempTiles.get(1).x - tempTiles.get(2).x == -1 )||
-                            (tempTiles.get(0).x - tempTiles.get(1).x == 1 && tempTiles.get(1).x - tempTiles.get(2).x == 1 )){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y) && adjacent(tempTiles.get(2).x, tempTiles.get(2).y);
+                    if((tempTiles.get(0).ROW - tempTiles.get(1).ROW == -1 && tempTiles.get(1).ROW - tempTiles.get(2).ROW == -1 )||
+                            (tempTiles.get(0).ROW - tempTiles.get(1).ROW == 1 && tempTiles.get(1).ROW - tempTiles.get(2).ROW == 1 )){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL) && adjacent(tempTiles.get(2).ROW, tempTiles.get(2).COL);
                     }
 
                 }

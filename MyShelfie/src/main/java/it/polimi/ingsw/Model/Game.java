@@ -56,15 +56,14 @@ public class Game implements Serializable {
 
         // adding public/common objective
         ArrayList<PublicObjective> temp = pubObjDeck.getPublicObjective();
-        for(int i = 0; i < 2; i++)
-            publicObjectives[i] = temp.get(i);
+        for(int i = 0; i < 2; i++) publicObjectives[i] = temp.get(i);
 
         //get private objectives and give to player
         //Fill a temporary list with the private objectives
         ArrayList<PrivateObjective> chosenObj = prvObjDeck.getPrivateObjectives(players.size());
 
         for(Player p : players){
-            //give the player the first public objective in the list
+            //give the player the first private objective in the list
             //it resembles the First Out logic
             p.setPrivateObjective(chosenObj.remove(0));
         }
@@ -206,74 +205,74 @@ public class Game implements Serializable {
     public boolean validSelection(){
         if(tempTileSelSize() > 0 && tempTileSelSize() <= 3){
             if(tempTileSelSize() == 1){
-                return adjacent(tempTiles.get(0).x, tempTiles.get(0).y);
+                return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL);
             } else if (tempTileSelSize() == 2) {
-                if(tempTiles.get(0).x == tempTiles.get(1).x){
+                if(tempTiles.get(0).ROW == tempTiles.get(1).ROW){
                     //swap for sorting the two element array
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if(Math.abs(tempTiles.get(0).y - tempTiles.get(1).y) == 1){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y);
+                    if(Math.abs(tempTiles.get(0).COL - tempTiles.get(1).COL) == 1){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
                     }
-                } else if (tempTiles.get(0).y == tempTiles.get(1).y) {
+                } else if (tempTiles.get(0).COL == tempTiles.get(1).COL) {
                     //swap for sorting the two element array
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if(Math.abs(tempTiles.get(0).x - tempTiles.get(1).x) == 1){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y);
+                    if(Math.abs(tempTiles.get(0).ROW - tempTiles.get(1).ROW) == 1){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
                     }
                 }
             } else if (tempTileSelSize() == 3) {
-                if(tempTiles.get(0).x == tempTiles.get(1).x && tempTiles.get(1).x == tempTiles.get(2).x){
+                if(tempTiles.get(0).ROW == tempTiles.get(1).ROW && tempTiles.get(1).ROW == tempTiles.get(2).ROW){
                     //sorting 3 element array
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
-                    if(tempTiles.get(1).y > tempTiles.get(2).y){
+                    if(tempTiles.get(1).COL > tempTiles.get(2).COL){
                         Coords t = tempTiles.get(2);
                         tempTiles.set(2, tempTiles.get(1));
                         tempTiles.set(1, t);
                     }
-                    if(tempTiles.get(0).y > tempTiles.get(1).y){
+                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if(tempTiles.get(0).y - tempTiles.get(1).y == -1 && tempTiles.get(1).y - tempTiles.get(2).y == -1){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y) && adjacent(tempTiles.get(2).x, tempTiles.get(2).y);
+                    if(tempTiles.get(0).COL - tempTiles.get(1).COL == -1 && tempTiles.get(1).COL - tempTiles.get(2).COL == -1){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL) && adjacent(tempTiles.get(2).ROW, tempTiles.get(2).COL);
                     }
 
-                }else if(tempTiles.get(0).y == tempTiles.get(1).y && tempTiles.get(1).y == tempTiles.get(2).y){
+                }else if(tempTiles.get(0).COL == tempTiles.get(1).COL && tempTiles.get(1).COL == tempTiles.get(2).COL){
                     //sorting 3 element array
-                    if(tempTiles.get(0).x > tempTiles.get(1).x){
+                    if(tempTiles.get(0).ROW > tempTiles.get(1).ROW){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
-                    if(tempTiles.get(1).x > tempTiles.get(2).x){
+                    if(tempTiles.get(1).ROW > tempTiles.get(2).ROW){
                         Coords t = tempTiles.get(2);
                         tempTiles.set(2, tempTiles.get(1));
                         tempTiles.set(1, t);
                     }
-                    if(tempTiles.get(0).x > tempTiles.get(1).x){
+                    if(tempTiles.get(0).ROW > tempTiles.get(1).ROW){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
                         tempTiles.set(0, t);
                     }
 
-                    if(tempTiles.get(0).x - tempTiles.get(1).x == -1 && tempTiles.get(1).x - tempTiles.get(2).x == -1){
-                        return adjacent(tempTiles.get(0).x, tempTiles.get(0).y) && adjacent(tempTiles.get(1).x, tempTiles.get(1).y) && adjacent(tempTiles.get(2).x, tempTiles.get(2).y);
+                    if(tempTiles.get(0).ROW - tempTiles.get(1).ROW == -1 && tempTiles.get(1).ROW - tempTiles.get(2).ROW == -1){
+                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL) && adjacent(tempTiles.get(2).ROW, tempTiles.get(2).COL);
                     }
 
                 }
@@ -306,7 +305,7 @@ public class Game implements Serializable {
      */
     public void fillTilesInHand(){
         for(Coords c: tempTiles){
-            tilesInCurrPlayerHand.add(this.board.takeTiles(c.x, c.y).orElse(null));
+            tilesInCurrPlayerHand.add(this.board.takeTiles(c.ROW, c.COL).orElse(null));
         }
     }
 
@@ -402,7 +401,7 @@ public class Game implements Serializable {
     public void reachPubObj(Player player) {
         for(int i=0; i<2; i++) {
             if(!player.getPubObjFlag()[i]) {
-                if(this.publicObjectives[i].getResultObjective(player.getShelf())){
+                if(publicObjectives[i].getResultObjective(player.getShelf())) {
                     player.updatePubObjFlag(i);
                     player.addPoints(pointsPubObj[i].pop());
                 }

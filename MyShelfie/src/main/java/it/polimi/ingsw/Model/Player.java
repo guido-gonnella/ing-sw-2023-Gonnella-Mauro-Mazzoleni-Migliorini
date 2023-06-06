@@ -95,7 +95,7 @@ public class Player {
         checked[i][j] = true;
 
         while(!q.isEmpty()){
-            int x = q.peek().x, y = q.peek().y;
+            int x = q.peek().ROW, y = q.peek().COL;
             q.poll();
 
             // tile under the current tile

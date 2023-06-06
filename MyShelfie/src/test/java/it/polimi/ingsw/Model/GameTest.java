@@ -227,11 +227,6 @@ public class GameTest {
 
         assertEquals(game.getTilesInCurrPlayerHand().get(0), tile1);
         assertEquals(game.getTilesInCurrPlayerHand().get(1), tile2);
-
-        game.swapInHand(0, 1);
-
-        assertEquals(game.getTilesInCurrPlayerHand().get(0), tile2);
-        assertEquals(game.getTilesInCurrPlayerHand().get(1), tile1);
     }
 
     @Test

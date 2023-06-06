@@ -7,11 +7,12 @@ import it.polimi.ingsw.Enumeration.MsgType;
 import java.util.ArrayList;
 
 public class FullTileSelectionMessage extends Message{
-    private final ArrayList <Coords> selection;
+    private final ArrayList<Coords> selection;
     private final Integer column;
-    public FullTileSelectionMessage(ArrayList<Coords>selectionlist, Integer col) {
+
+    public FullTileSelectionMessage(ArrayList<Coords> selectionList, Integer col) {
         super(MsgType.FULL_TILE_SELECTION);
-        this.selection = selectionlist;
+        this.selection = selectionList;
         this.column = col;
     }
 

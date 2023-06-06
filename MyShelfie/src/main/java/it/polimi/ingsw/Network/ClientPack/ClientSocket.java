@@ -31,14 +31,12 @@ public class ClientSocket extends ClientConnection {
      * Read a message from the server and returns it to the NetworkHandler
      * @return the message received
      */
-    public Message readMessage(){
+    public synchronized Message readMessage(){
 
         try {
-            synchronized (input) {
-                Message messageArrived = (Message) input.readObject();
-                if (messageArrived != null) {
-                    return messageArrived;
-                }
+            Message messageArrived = (Message) input.readObject();
+            if (messageArrived != null) {
+                return messageArrived;
             }
         } catch (IOException | ClassNotFoundException e) {
             disconnect();
@@ -52,29 +50,28 @@ public class ClientSocket extends ClientConnection {
      * disconnect the client and end the game
      * @param message sent to the server
      */
-    public void sendMessage(Message message) {
-        synchronized (output) {
-            try {
-                output.writeObject(message);
-                output.flush();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+    public synchronized void sendMessage(Message message) {
+        try {
+            output.writeObject(message);
+            output.flush();
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     /**
      * Disconnect the socket from the server
      */
-    public synchronized void disconnect(){try {
-        if (input != null)
-            input.close();
-        if (output != null)
-            output.close();
-        if (socket != null && !socket.isClosed())
-            socket.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+    public synchronized void disconnect() {
+        try {
+            if (input != null)
+                input.close();
+            if (output != null)
+                output.close();
+            if (socket != null && !socket.isClosed())
+                socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

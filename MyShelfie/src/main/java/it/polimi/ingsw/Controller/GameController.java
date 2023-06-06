@@ -66,7 +66,7 @@ public class GameController implements Runnable{
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
-            switch (gameState){
+            switch (gameState) {
                 case INIT -> init();
                 case IN_GAME -> inGame();
                 case END -> end();
@@ -91,8 +91,8 @@ public class GameController implements Runnable{
      * Method to add the points for the players and/or calls the inGame() function if not all the players have finished the last turn.<br>
      * It broadcast to the players the points and other stats
      */
-    private void end(){
-        virtualView.writeBroadcast(new TextMessage("Game's ended!"));
+    private void end() {
+        virtualView.writeBroadcast(new TextMessage("================= GAME'S ENDED! ================="));
         virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
         Map<String, Integer> playerPoints = new HashMap<>();
 
@@ -106,7 +106,7 @@ public class GameController implements Runnable{
             //adds the points from private objectives and adjacent tiles
             p.countPoints();
             playerPoints.put(player, p.getPlayerPoints());
-            virtualView.writeBroadcast(new TextMessage( player + " scored " +  p.getPlayerPoints()));
+            virtualView.writeBroadcast(new TextMessage(player + " scored " + p.getPlayerPoints() + " points!"));
 
             if(p.getPlayerPoints() > max){
                 max = p.getPlayerPoints();
@@ -114,7 +114,7 @@ public class GameController implements Runnable{
             }
         }
 
-        virtualView.writeBroadcast(new TextMessage(winner + " is the winner!"));
+        virtualView.writeBroadcast(new TextMessage(winner + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／"));
         virtualView.writeBroadcast(new EndGameMessage());
         for(String p : players)
             virtualView.removeUsername(p);
@@ -138,22 +138,27 @@ public class GameController implements Runnable{
      */
     private void select(){
         //broadcast the player that is playing
-        virtualView.writeBroadcast(new TextMessage("It's "+ currPlayer + " turn\n"));
+        virtualView.writeBroadcast(new TextMessage("\n================= IT'S " + "\u001B[35m" + currPlayer + "\u001B[0m" + "'S TURN =================\n"));
+        virtualView.write(currPlayer, MsgType.TEXT, "\n------------- PUBLIC OBJECTIVES -------------\n\n");
         virtualView.write(currPlayer, MsgType.PUBLIC_OBJECTIVE, game.getPublicObjectivesType());
+        virtualView.write(currPlayer, MsgType.TEXT, "------------- PRIVATE OBJECTIVE -------------\n\n");
         virtualView.write(currPlayer, MsgType.PRIVATE_OBJECTIVE, game.getPlayerByNick(currPlayer).getPrivateObjective());
+        virtualView.write(currPlayer, MsgType.TEXT, "\n------------- SHELF -------------\n\n");
+        virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
+        virtualView.writeBroadcast(new TextMessage("\n------------- UPDATED BOARD -------------\n\n"));
 
         //broadcast the updated board to all players
         virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
+        virtualView.write(currPlayer, MsgType.TEXT, "\n\n");
 
         selectedTiles.clear();
         FullTileSelectionMessage response = virtualView.readAll(currPlayer, new AskFullMsg(game.getBoard(), game.getPlayerByNick(currPlayer).getShelf()));
         ArrayList<Coords> tilesCoords = response.getCoords();
         int column = response.getColumn();
-        Tile tile;
 
-        for (Coords tilesCoord : tilesCoords) {
-            if(game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).isPresent()){
-                tile = game.getBoard().takeTiles(tilesCoord.x, tilesCoord.y).get();
+        for (Coords CoordsOfTile : tilesCoords) {
+            if(game.getBoard().getGrid()[CoordsOfTile.ROW][CoordsOfTile.COL].getTile().isPresent()) {
+                Tile tile = game.getBoard().takeTiles(CoordsOfTile.ROW, CoordsOfTile.COL).get();
                 game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
             }
         }
@@ -169,6 +174,7 @@ public class GameController implements Runnable{
         game.reachPubObj(game.getPlayerByNick(currPlayer));
 
         //sends the shelf to the current player
+        virtualView.write(currPlayer, MsgType.TEXT, "\n------------- UPDATED SHELF -------------\n\n");
         virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
 
         //change the turn phase and the pick the next player

@@ -8,9 +8,10 @@ import java.io.Serializable;
  * @author Guido Gonnella
  */
 public class Coords implements Serializable {
-    public int x, y;
+    public int ROW, COL;
+
     public Coords(int a, int b){
-        this.x = a;
-        this.y = b;
+        this.ROW = a;
+        this.COL = b;
     }
 }

@@ -143,5 +143,7 @@ public class PrivateObjective implements Serializable {
         return this.objective;
     }
 
-    public int getId() {return id;}
+    public int getId() {
+        return id;
+    }
 }

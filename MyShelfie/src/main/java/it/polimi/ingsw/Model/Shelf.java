@@ -60,12 +60,12 @@ public class Shelf implements Serializable {
      */
     //il controllo che la colonna esisita e la colonna possa contenere le tiles inserite lo fa il controller
     public void putTile(Tile tile, int col){
-                for(int i = HEIGHT-1; i >= 0; i--){
-                    if(this.shelf[i][col].isEmpty()){
-                        this.shelf[i][col] = SerializableOptional.of(tile);
-                        break;
-                    }
-                }
+        for(int i = HEIGHT-1; i >= 0; i--) {
+            if(this.shelf[i][col].isEmpty()){
+                this.shelf[i][col] = SerializableOptional.of(tile);
+                break;
+            }
+        }
     }
 
     /**
@@ -116,9 +116,9 @@ public class Shelf implements Serializable {
         int tilesleft=0;
         int i=HEIGHT-1;
         for (;i>-1;i--){
-                    if(shelf[i][column].isEmpty()){
-                        break;
-                    }
+            if(shelf[i][column].isEmpty()){
+                break;
+            }
         }
         for (;i>-1;i--){
             tilesleft++;

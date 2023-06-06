@@ -17,7 +17,7 @@ public class DeckOfPrivateObjectives {
     public DeckOfPrivateObjectives(){
         this.privateObjectives = new ArrayList<PrivateObjective>();
 
-        for(int i = 0; i < 12; i++){
+        for(int i = 0; i < 12; i++) {
             //add a new private objective in the arraylist, one of each kind
             privateObjectives.add(new PrivateObjective(i));
         }

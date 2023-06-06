@@ -418,7 +418,7 @@ public class TempLambda {
                     check[i][j] = true;
 
                     while (!q.isEmpty() && nEqualTiles < 2) {
-                        int x = q.peek().x, y = q.peek().y;
+                        int x = q.peek().ROW, y = q.peek().COL;
                         q.poll();
 
                         if ((temp[x + 1][y].isEmpty() || temp[x + 1][y].get().getType().equals(temp[x][y].get().getType())) && !check[x + 1][y] && x + 1 >= 0 && x + 1 < 6) {

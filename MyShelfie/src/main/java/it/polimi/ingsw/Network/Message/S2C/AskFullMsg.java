@@ -10,14 +10,17 @@ public class AskFullMsg extends Message {
 
     private final Board board;
     private final Shelf shelf;
-    public AskFullMsg(Board board, Shelf shelf){
+    public AskFullMsg(Board board, Shelf shelf) {
         super(MsgType.FULL_SELECTION_REQUEST);
         this.board = board;
         this.shelf = shelf;
     }
 
-    public Board getBoard(){ return board;}
+    public Board getBoard() {
+        return board;
+    }
 
-    public Shelf getShelf(){ return shelf;}
-
+    public Shelf getShelf() {
+        return shelf;
+    }
 }

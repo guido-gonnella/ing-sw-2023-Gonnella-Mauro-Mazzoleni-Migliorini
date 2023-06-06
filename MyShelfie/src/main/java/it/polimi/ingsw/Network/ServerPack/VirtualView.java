@@ -45,13 +45,15 @@ public class VirtualView {
         SocketServer destinationClient = socketMap.get(user);
         destinationClient.sendMessage(msg);
         Message received;
-        do{
+
+        do {
             received = destinationClient.readMessage();
             /* if(messaggio di chat) mandalo a chi deve leggerlo
             *  if(messaggio di errore) rimuovi il giocatore da cui arriva
             * */
-        }while(received.getMsgType() != MsgType.FULL_TILE_SELECTION);
-        return ((FullTileSelectionMessage)received);
+        } while(received.getMsgType() != MsgType.FULL_TILE_SELECTION);
+
+        return ((FullTileSelectionMessage) received);
     }
 
     /**
@@ -62,7 +64,8 @@ public class VirtualView {
      */
     public void write(String user, MsgType message, Object sendObject){
         SocketServer destinationClient = socketMap.get(user);
-        switch(message){
+
+        switch(message) {
             case SHELF_UPDATE -> destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
             case TEXT -> destinationClient.sendMessage(new TextMessage((String) sendObject));
             case PUBLIC_OBJECTIVE -> destinationClient.sendMessage(new PublicObjectiveMessage((PubObjType[]) sendObject));

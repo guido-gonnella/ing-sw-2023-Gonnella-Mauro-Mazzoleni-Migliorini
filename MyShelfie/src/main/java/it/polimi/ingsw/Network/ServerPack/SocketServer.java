@@ -30,7 +30,7 @@ public class SocketServer extends ServerConnection {
             this.socket = serverSocket.accept();
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
-            System.out.println("Client connected\n");
+            System.out.println("Client connected");
         }catch (IOException e){
             e.printStackTrace();
         }
