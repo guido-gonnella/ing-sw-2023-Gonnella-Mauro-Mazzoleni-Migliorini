@@ -326,15 +326,15 @@ public class Cli extends ViewObservable implements View{
     public void showPublicObjective(PubObjType code) {
         switch (code)
         {
-            case ANGLES -> out.print("Place four of the same tiles on the corner of the shelf\n [=][■][=]\n[■][■][■]\n[=][■][=]\n");
-            case SIX_COUPLES-> out.print("Place six groups of at least 2 tiles of the same type \n [=][=]x6\n");
-            case FOUR_QUADRUPLES-> out.print("Place four groups of at least 4 tiles of the same type\n [=][=][=][=]x4\n");
-            case TWO_SQUARES-> out.print("Place 2 groups of 4 tiles in a square of 2x2 tiles\n [=][=]\n[=][=]x2\n");
+            case ANGLES -> out.print("Place four of the same tiles on the corner of the shelf\n[=][■][=]\n[■][■][■]\n[=][■][=]\n");
+            case SIX_COUPLES-> out.print("Place six groups of at least 2 tiles of the same type \n[=][=]x6\n");
+            case FOUR_QUADRUPLES-> out.print("Place four groups of at least 4 tiles of the same type\n[=][=][=][=]x4\n");
+            case TWO_SQUARES-> out.print("Place 2 groups of 4 tiles in a square of 2x2 tiles\n[=][=]\n[=][=]x2\n");
             case COL_THREE_TYPES-> out.print("Place 3 groups of 6 tiles in a column, it can have at most 3 different types of tiles\n" );
             case CROSS->out.print("Place a group of 5 tiles in a X pattern\n[=][■][=]\n[■][=][■]\n[=][■][=]\n");
             case EIGHT ->out.print("Place 8 tiles of the same type\n[=]x8\n");
-            case DIFF_COL ->out.print("Place 2 groups of 6 tiles of different types in a column\n [≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
-            case DIFF_ROW -> out.print("Place 2 groups of 5 tiles of different types in a line\n [≠][≠][≠][≠][≠]\n");
+            case DIFF_COL ->out.print("Place 2 groups of 6 tiles of different types in a column\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n[≠]\n" );
+            case DIFF_ROW -> out.print("Place 2 groups of 5 tiles of different types in a line\n[≠][≠][≠][≠][≠]\n");
             case DIAG-> out.print("Place 5 tiles in a diagonal\n");
             case ROW_THREE_TYPES-> out.print("Place 4 groups of 5 tiles in a line, it can have at most 3 different types of tiles\n");
             case STAIR-> out.print("Place 5 columns of increasing height from left to right or right to left, starting from a height of 1\n");
