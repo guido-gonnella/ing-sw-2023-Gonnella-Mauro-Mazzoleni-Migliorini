@@ -2,10 +2,7 @@ package it.polimi.ingsw.View.Gui;
 
 
 import it.polimi.ingsw.Enumeration.PubObjType;
-import it.polimi.ingsw.Model.PrivateObjective;
-import it.polimi.ingsw.Model.SerializableOptional;
-import it.polimi.ingsw.Model.Space;
-import it.polimi.ingsw.Model.Tile;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
 import it.polimi.ingsw.View.View;
 import java.util.ArrayList;
@@ -86,6 +83,11 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showText(String text) {
+
+    }
+
+    @Override
+    public void askSelection(Board board, Shelf shelf) {
 
     }
 }

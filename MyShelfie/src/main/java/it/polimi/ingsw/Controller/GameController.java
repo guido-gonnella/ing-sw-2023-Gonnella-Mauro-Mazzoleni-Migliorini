@@ -11,6 +11,7 @@ import it.polimi.ingsw.Network.Message.S2C.AskFullMsg;
 import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -148,20 +149,33 @@ public class GameController implements Runnable{
         virtualView.writeBroadcast(new TextMessage("\n------------- UPDATED BOARD -------------\n\n"));
 
         //broadcast the updated board to all players
-        virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
+        UpdateBoardMessage uptMsg = new UpdateBoardMessage(game.getBoard());
+        virtualView.writeBroadcast(uptMsg);
         virtualView.write(currPlayer, MsgType.TEXT, "\n\n");
+
+        //todo, togliere, è testing
+        System.out.print("Board inviata (nel messaggio)\n");
+        boardShow(uptMsg.getBoard().getGrid());
 
         selectedTiles.clear();
         FullTileSelectionMessage response = virtualView.readAll(currPlayer, new AskFullMsg(game.getBoard(), game.getPlayerByNick(currPlayer).getShelf()));
         ArrayList<Coords> tilesCoords = response.getCoords();
         int column = response.getColumn();
 
-        for (Coords CoordsOfTile : tilesCoords) {
+        for (int i = 0; i < tilesCoords.size(); i++) {
+            Coords CoordsOfTile = tilesCoords.get(i);
             if(game.getBoard().getGrid()[CoordsOfTile.ROW][CoordsOfTile.COL].getTile().isPresent()) {
+                System.out.print("x: "+ CoordsOfTile.ROW + " y: "+ CoordsOfTile.COL+"\n");
                 Tile tile = game.getBoard().takeTiles(CoordsOfTile.ROW, CoordsOfTile.COL).get();
                 game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
             }
         }
+
+
+        //todo temp
+        System.out.print("Board fine turno\n");
+        boardShow(game.getBoard().getGrid());
+        shelfShow(game.getPlayerByNick(currPlayer).getShelf().getShelf());
         
         //checking if the current player's shelf is full
         if(game.getPlayerByNick(currPlayer).getShelf().isFull() && !shelfFull) {
@@ -207,4 +221,61 @@ public class GameController implements Runnable{
         currPlayer = players.get(nextPlayerIndex);
     }
 
+    //todo temporanei, da togliere
+    public void boardShow(Space[][] board){
+        PrintStream out = new PrintStream(System.out);
+        out.print("-");
+        for (int i=0;i<board.length;i++) {
+            out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
+        }
+        out.print("\n");
+        for(int i = 0; i < board.length; i++) {
+            out.print(i);
+            for(int j = 0; j < board[0].length; j++) {
+                if(board[i][j].getTile().isPresent()) {
+                    switch (board[i][j].getTile().get().getType()) {
+                        case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                }
+                else {
+                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            out.print("\n");
+        }
+    }
+
+    public void shelfShow(SerializableOptional<Tile>[][] shelf) {
+        PrintStream out = new PrintStream(System.out);
+        out.print("-");
+        for (int i=0;i<5;i++) {
+            out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
+        }
+        out.print ("\n");
+        for (int i = 0; i < shelf.length; i++) {
+            out.print(i);
+            for (int j = 0; j < shelf[0].length; j++) {
+                if (shelf[i][j].isPresent()) {
+                    switch (shelf[i][j].get().getType()) {
+                        case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                } else {
+                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            System.out.print("\n");
+        }
+    }
 }

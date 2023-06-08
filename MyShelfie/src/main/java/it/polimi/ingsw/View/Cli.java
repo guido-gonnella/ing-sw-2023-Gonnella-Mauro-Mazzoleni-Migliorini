@@ -2,10 +2,7 @@ package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Enumeration.PubObjType;
-import it.polimi.ingsw.Model.PrivateObjective;
-import it.polimi.ingsw.Model.SerializableOptional;
-import it.polimi.ingsw.Model.Space;
-import it.polimi.ingsw.Model.Tile;
+import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
 
 import java.io.IOException;
@@ -97,21 +94,69 @@ public class Cli extends ViewObservable implements View{
         out.print("Input \"ROW,COL\" coordinates of the tile, to stop input \"-1,-1\": ");
         do {
             try{
-                valid= true;
-                temp=in.nextLine();
-                coords=extractIntegers(temp);
+                valid = true;
+                temp = in.nextLine();
+                coords = extractIntegers(temp);
             }catch(InputMismatchException e){
                 out.print("Mismatch please input valid coordinates (like \"1,2\" or \"0,3\"): "); //TODO cleanup
-                valid=false;
+                valid = false;
             }catch(NoSuchElementException e1){
                 out.print("No element please input valid coordinates (like \"1,2\" or \"0,3\"): ");
-                valid=false;
+                valid = false;
             }
         } while (!valid);
 
         int finalROW = coords[0];
         int finalCOL = coords[1];
         notifyObservers(obs -> obs.onSelectTile(finalROW,finalCOL));
+    }
+
+    //TODO nuovo, da togliere o modificare
+    @Override
+    public void askSelection(Board board, Shelf shelf){
+        int chosenCol;
+        int tempCol;
+        ArrayList<Tile> chosenTiles = new ArrayList<>();
+        ArrayList<Coords> chosenCoords = new ArrayList<>();
+        String temp;
+        int[] coords = new int[2];
+        boolean end = false;
+
+        //do{
+        // chosenCoords.clear();
+        // chosenTiles.clear();
+        for(int i = 0; i<3 && !end; i++){
+            showText("Input \"ROW,COL\" coordinates of the tile, to stop input \"-1,-1\": ");
+            try {
+                coords = extractIntegers(ReadText());
+                if(coords[0] == -1 && coords[1] == -1){
+                    end = true;
+                } else {
+                    chosenCoords.add(new Coords(coords[0], coords[1]));
+                    chosenTiles.add(board.getGrid()[coords[0]][coords[1]].getTile().get());
+                }
+            }catch(InputMismatchException e){
+                showText("Mismatch please input valid coordinates (like \"1,2\" or \"0,3\"): ");
+                i--;
+            }catch(NoSuchElementException e1){
+                showText("No element please input valid coordinates (like \"1,2\" or \"0,3\"): ");
+                i--;
+            }
+        }
+        //}while(selezione non valida, fare check);
+
+        showTilesInHand(chosenTiles);
+
+        showText("Select the column [0 to 4] ");
+        tempCol = ReadInt();
+        while(tempCol < 0 || tempCol > 4){ //oppure le tiles non entrano nella colonna
+            showText("Out of bounds, select a number between 0 and 4 ");
+            tempCol = ReadInt();
+        }
+        chosenCol = tempCol;
+
+        notifyObservers(obs -> obs.onSelection(chosenCoords, chosenCol));
+
     }
 
     /**
@@ -340,15 +385,16 @@ public class Cli extends ViewObservable implements View{
     @Override
     public void showPrivateObjective(PrivateObjective objective) {
         out.print("-");
-        for (int i=0;i<5;i++) {
+        for (int i = 0; i < 5; i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print ("\n");
-        int z=0;
-        for (int i=0; i<6; i++) {
+        //prima z era 0, adesso non da problemi nel mostrare gli obiettivi privati
+        int z = 0;
+        for (int i = 0; i < 6; i++) {
             out.print(i);
-            for (int j=0; j<5; j++) {
-                if (objective.getObjective().get(z).getX()==i && objective.getObjective().get(z).getY()==j){
+            for (int j = 0; j < 5; j++) {
+                if (objective.getObjective().get(z).getX() == i && objective.getObjective().get(z).getY() == j){
                     switch (objective.getObjective().get(z).getType()) {
                         case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
                         case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");

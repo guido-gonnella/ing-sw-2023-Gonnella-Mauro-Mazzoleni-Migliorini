@@ -17,9 +17,10 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     private ArrayList<Tile> hand;
     private final View view;
     private int column;
-    Shelf shelf;
+    private Shelf shelf;
     int loop;
-    Board board;
+    private Board board;
+
     public ClientSocket client;
     private String nick;
 
@@ -29,18 +30,17 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             hand = new ArrayList<Tile>();
             shelf= new Shelf();
             board = new Board();
-            this.nick=new String();
         }
-        @Override
-        public void onConnection(String serverAddr, int port) {
+    @Override
+    public void onConnection(String serverAddr, int port) {
             client = new ClientSocket(serverAddr, port);
         }
 
-        /**
-         * Method that whenever the client recieves a message, notify this instance to be updated with a message.
-         */
-        @Override
-        public void run() {
+    /**
+    * Method that whenever the client recieves a message, notify this instance to be updated with a message.
+    */
+    @Override
+    public void run() {
             Message msg;
             boolean valid;
             view.init();
@@ -65,11 +65,13 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
                         break;
                     case BOARD_UPDATE: //stampa la board, non ritorna niente
-                        this.board = ((UpdateBoardMessage) msg).getBoard();
+                        UpdateBoardMessage recMsgB = ((UpdateBoardMessage) msg);
+                        board = recMsgB.getBoard();
                         view.boardShow(board.getGrid());
                         break;
                     case SHELF_UPDATE: //stampa la shelf, non ritorna niente
-                        this.shelf = ((UpdateShelfMessage) msg).getShelf();
+                        UpdateShelfMessage recMsgS = ((UpdateShelfMessage) msg);
+                        shelf = recMsgS.getShelf();
                         view.shelfShow(shelf.getShelf());
                         break;
                     case FULL_SELECTION_REQUEST:
@@ -79,6 +81,10 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
                         // quello da fare sulla view
                         selectTileRequest();
+
+                        // todo, da rimuovere alla fine, testing
+                        //AskFullMsg recMsg = ((AskFullMsg) msg);
+                        //view.askSelection(recMsg.getBoard(), recMsg.getShelf());
                         break;
                     case END_GAME:
                         //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
@@ -97,7 +103,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             }
         }
 
-        private void selectTileRequest(){
+    private void selectTileRequest(){
             boolean valid;
 
             do {
@@ -135,10 +141,10 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             tempTiles.clear();
         }
 
-        @Override
-        public void onSelectTile(int x, int y) {
-            if (x==-1 && y==-1) {
-                loop=2;
+    @Override
+    public void onSelectTile(int x, int y) {
+            if (x == -1 && y == -1) {
+                loop = 2;
             }
             else {
                 if (x>8 || y>8 || board.getGrid()[x][y].getTile().isEmpty()) {
@@ -150,43 +156,49 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             }
         }
 
-        @Override
-        public void onSelectCol(int col) {
+    @Override
+    public void onSelectCol(int col) {
             this.column = col;
         }
 
-        /**
+    /**
          * Sends to the server the chosen number of player
          * @param numPlayers the max number of players allowed in the game
          */
-        @Override
-        public void onPlayerNumberReply(int numPlayers){
+    @Override
+    public void onPlayerNumberReply(int numPlayers){
             client.sendMessage(new NumberOfPlayerMessage(numPlayers));
         }
-        @Override
-        public void onNicknameUpdate (String nick){
+
+    @Override
+    public void onSelection(ArrayList<Coords> coords, int col) {
+        client.sendMessage(new FullTileSelectionMessage(coords, col));
+    }
+
+    @Override
+    public void onNicknameUpdate (String nick){
             this.nick = nick;
             client.sendMessage(new UpdatePlInfoMessage(nick));
         }
 
-        /**
-         * This method validates the given IPv4
-         * @param ip address
-         */
-        public static boolean isValidIpAddress(String ip) {
-            String regex = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-            return ip.matches(regex);
-        }
+    /**
+    * This method validates the given IPv4
+    * @param ip address
+    */
+    public static boolean isValidIpAddress(String ip) {
+        String regex = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+        return ip.matches(regex);
+    }
 
-        /**
+    /**
          * Check if a port is valid
          * @param portStr
          * @return
          */
-        public static boolean isValidPort(int portStr) {
+    public static boolean isValidPort(int portStr) {
             try {
                 return portStr >= 1 && portStr <= 65535;
             } catch (NumberFormatException e) {
