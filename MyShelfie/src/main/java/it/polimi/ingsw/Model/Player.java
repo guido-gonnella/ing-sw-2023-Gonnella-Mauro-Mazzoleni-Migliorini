@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
 
-import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -162,7 +161,7 @@ public class Player {
         //Adding points from completion of the private object
         int numTiles = 0;
         for(ElementObjective e : privateObjective.getObjective()){
-            if(shelf.getShelf()[e.getX()][e.getY()].isPresent() && shelf.getShelf()[e.getX()][e.getY()].get().getType().equals(e.getType())){
+            if(shelf.getShelf()[e.getROW()][e.getCOL()].isPresent() && shelf.getShelf()[e.getROW()][e.getCOL()].get().getType().equals(e.getType())){
                 numTiles++;
             }
         }

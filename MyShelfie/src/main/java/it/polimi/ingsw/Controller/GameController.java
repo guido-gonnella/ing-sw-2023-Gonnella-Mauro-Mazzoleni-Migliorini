@@ -144,11 +144,11 @@ public class GameController implements Runnable{
         virtualView.write(currPlayer, MsgType.PUBLIC_OBJECTIVE, game.getPublicObjectivesType());
         virtualView.write(currPlayer, MsgType.TEXT, "------------- PRIVATE OBJECTIVE -------------\n\n");
         virtualView.write(currPlayer, MsgType.PRIVATE_OBJECTIVE, game.getPlayerByNick(currPlayer).getPrivateObjective());
-        virtualView.write(currPlayer, MsgType.TEXT, "\n------------- SHELF -------------\n\n");
+        virtualView.write(currPlayer, MsgType.TEXT, "\n------------------- SHELF -------------------\n\n");
         virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
-        virtualView.writeBroadcast(new TextMessage("\n------------- UPDATED BOARD -------------\n\n"));
 
         //broadcast the updated board to all players
+        virtualView.writeBroadcast(new TextMessage("\n--------------- UPDATED BOARD ---------------\n\n"));
         UpdateBoardMessage uptMsg = new UpdateBoardMessage(game.getBoard());
         virtualView.writeBroadcast(uptMsg);
         virtualView.write(currPlayer, MsgType.TEXT, "\n\n");
@@ -162,10 +162,8 @@ public class GameController implements Runnable{
         ArrayList<Coords> tilesCoords = response.getCoords();
         int column = response.getColumn();
 
-        for (int i = 0; i < tilesCoords.size(); i++) {
-            Coords CoordsOfTile = tilesCoords.get(i);
-            if(game.getBoard().getGrid()[CoordsOfTile.ROW][CoordsOfTile.COL].getTile().isPresent()) {
-                System.out.print("x: "+ CoordsOfTile.ROW + " y: "+ CoordsOfTile.COL+"\n");
+        for (Coords CoordsOfTile : tilesCoords) {
+            if (game.getBoard().getGrid()[CoordsOfTile.ROW][CoordsOfTile.COL].getTile().isPresent()) {
                 Tile tile = game.getBoard().takeTiles(CoordsOfTile.ROW, CoordsOfTile.COL).get();
                 game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
             }
@@ -188,7 +186,7 @@ public class GameController implements Runnable{
         game.reachPubObj(game.getPlayerByNick(currPlayer));
 
         //sends the shelf to the current player
-        virtualView.write(currPlayer, MsgType.TEXT, "\n------------- UPDATED SHELF -------------\n\n");
+        virtualView.write(currPlayer, MsgType.TEXT, "\n--------------- UPDATED SHELF ---------------\n\n");
         virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
 
         //change the turn phase and the pick the next player

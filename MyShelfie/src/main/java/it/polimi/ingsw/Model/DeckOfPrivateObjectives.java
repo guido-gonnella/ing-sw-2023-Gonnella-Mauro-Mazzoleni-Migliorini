@@ -19,7 +19,7 @@ public class DeckOfPrivateObjectives {
 
         for(int i = 0; i < 12; i++) {
             //add a new private objective in the arraylist, one of each kind
-            privateObjectives.add(new PrivateObjective(i));
+            privateObjectives.add(new PrivateObjective(i+1));
         }
     }
 
@@ -37,7 +37,7 @@ public class DeckOfPrivateObjectives {
             randomTempList.add(i);
         }
 
-        for (int j=0; j<numPlayers;j++){
+        for (int j=0; j<numPlayers; j++) {
             a = rand.nextInt(randomTempList.size());
             i = randomTempList.remove(a);
             SingleRoundObjectives.add(this.privateObjectives.get(i));
@@ -47,7 +47,7 @@ public class DeckOfPrivateObjectives {
     }
 
     /**
-     * return an arraylist containing the privateobjectives to give to the players
+     * return an arraylist containing the private objectives to give to the players
      * @param numPlayers number of player
      * @return the array list of {@link PrivateObjective privateObjectives}
      * @author Guido Gonnella

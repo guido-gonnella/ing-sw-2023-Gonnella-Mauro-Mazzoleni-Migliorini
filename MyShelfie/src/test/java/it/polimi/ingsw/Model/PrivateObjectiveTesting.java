@@ -32,7 +32,7 @@ public class PrivateObjectiveTesting {
         }
           objective =new PrivateObjective(1);
 
-        for(int j=0;j<5;j++) assertEquals(TestingList.get(j).getY(),objective.getObjective().get(j).getY());
+        for(int j=0;j<5;j++) assertEquals(TestingList.get(j).getCOL(),objective.getObjective().get(j).getCOL());
     }
     @After
     public void Teardown()

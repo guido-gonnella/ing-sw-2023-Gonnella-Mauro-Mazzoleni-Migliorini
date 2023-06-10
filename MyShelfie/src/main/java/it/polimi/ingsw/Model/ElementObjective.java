@@ -10,25 +10,25 @@ import java.io.Serializable;
  * @author Andrea Migliorini
  */
 public class ElementObjective implements Serializable {
-    private final int x;
-    private final int y;
+    private final int ROW;
+    private final int COL;
     private final Type type;
-    public ElementObjective(int x, int y, Type kind) // simple constructor method
+    public ElementObjective(int ROW, int COL, Type kind) // simple constructor method
     {
         this.type=kind;
-        this.x=x;
-        this.y=y;
+        this.ROW =ROW;
+        this.COL =COL;
     }
 
     /**
      * basic getters
      */
-    public int getX() {
-        return x;
+    public int getROW() {
+        return ROW;
     }
 
-    public int getY() {
-        return y;
+    public int getCOL() {
+        return COL;
     }
 
     public Type getType() {

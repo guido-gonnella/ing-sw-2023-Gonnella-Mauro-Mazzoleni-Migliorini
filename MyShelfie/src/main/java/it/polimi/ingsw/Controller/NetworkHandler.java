@@ -9,6 +9,7 @@ import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NetworkHandler implements Observer, ViewObserver, Runnable{
@@ -118,7 +119,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             } while (!valid);
 
             for (Coords tempTile : tempTiles) {
-                hand.add((board.takeTiles(tempTile.ROW, tempTile.COL)).get());
+                Tile tile = board.takeTiles(tempTile.ROW, tempTile.COL).get();
+                hand.add(tile);
             }
             view.showTilesInHand(hand);
 
@@ -142,16 +144,16 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
         }
 
     @Override
-    public void onSelectTile(int x, int y) {
-            if (x == -1 && y == -1) {
+    public void onSelectTile(int ROW, int COL) {
+            if (ROW == -1 && COL == -1) {
                 loop = 2;
             }
             else {
-                if (x>8 || y>8 || board.getGrid()[x][y].getTile().isEmpty()) {
-                    view.invalidTile(x, y);
+                if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
+                    view.invalidTile(ROW, COL);
                     view.askSelectTile();
                 } else {
-                    tempTiles.add(new Coords(x, y));
+                    tempTiles.add(new Coords(ROW, COL));
                 }
             }
         }
@@ -222,78 +224,80 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
      * @author Guido Gonnella
      */
     public boolean validSelection(){
-        if(tempTiles.size() > 0 && tempTiles.size() <= 3){
-            if(tempTiles.size() == 1){
-                return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL);
-            } else if (tempTiles.size() == 2) {
-                if(tempTiles.get(0).ROW == tempTiles.get(1).ROW){
+        ArrayList<Coords> tempCoords = new ArrayList<>(this.tempTiles);
+
+        if(tempCoords.size() > 0 && tempCoords.size() <= 3){
+            if(tempCoords.size() == 1){
+                return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL);
+            } else if (tempCoords.size() == 2) {
+                if(tempCoords.get(0).ROW == tempCoords.get(1).ROW){
                     //swap for sorting the two element array
-                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
-                        Coords t = tempTiles.get(1);
-                        tempTiles.set(1, tempTiles.get(0));
-                        tempTiles.set(0, t);
+                    if(tempCoords.get(0).COL > tempCoords.get(1).COL){
+                        Coords t = tempCoords.get(1);
+                        tempCoords.set(1, tempCoords.get(0));
+                        tempCoords.set(0, t);
                     }
 
-                    if(Math.abs(tempTiles.get(0).COL - tempTiles.get(1).COL) == 1){
-                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
+                    if(Math.abs(tempCoords.get(0).COL - tempCoords.get(1).COL) == 1){
+                        return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL) && adjacent(tempCoords.get(1).ROW, tempCoords.get(1).COL);
                     }
-                } else if (tempTiles.get(0).COL == tempTiles.get(1).COL) {
+                } else if (tempCoords.get(0).COL == tempCoords.get(1).COL) {
                     //swap for sorting the two element array
-                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
-                        Coords t = tempTiles.get(1);
-                        tempTiles.set(1, tempTiles.get(0));
-                        tempTiles.set(0, t);
+                    if(tempCoords.get(0).COL > tempCoords.get(1).COL){
+                        Coords t = tempCoords.get(1);
+                        tempCoords.set(1, tempCoords.get(0));
+                        tempCoords.set(0, t);
                     }
 
-                    if(Math.abs(tempTiles.get(0).ROW - tempTiles.get(1).ROW) == 1){
-                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
+                    if(Math.abs(tempCoords.get(0).ROW - tempCoords.get(1).ROW) == 1){
+                        return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL) && adjacent(tempCoords.get(1).ROW, tempCoords.get(1).COL);
                     }
                 }
-            } else if (tempTiles.size() == 3) {
-                if(tempTiles.get(0).ROW == tempTiles.get(1).ROW && tempTiles.get(1).ROW == tempTiles.get(2).ROW){
+            } else {
+                if(tempCoords.get(0).ROW == tempCoords.get(1).ROW && tempCoords.get(1).ROW == tempCoords.get(2).ROW) {
                     //sorting 3 element array
-                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
-                        Coords t = tempTiles.get(1);
-                        tempTiles.set(1, tempTiles.get(0));
-                        tempTiles.set(0, t);
+                    if(tempCoords.get(0).COL > tempCoords.get(1).COL){
+                        Coords t = tempCoords.get(1);
+                        tempCoords.set(1, tempCoords.get(0));
+                        tempCoords.set(0, t);
                     }
-                    if(tempTiles.get(1).COL > tempTiles.get(2).COL){
-                        Coords t = tempTiles.get(2);
-                        tempTiles.set(2, tempTiles.get(1));
-                        tempTiles.set(1, t);
+                    if(tempCoords.get(1).COL > tempCoords.get(2).COL){
+                        Coords t = tempCoords.get(2);
+                        tempCoords.set(2, tempCoords.get(1));
+                        tempCoords.set(1, t);
                     }
-                    if(tempTiles.get(0).COL > tempTiles.get(1).COL){
-                        Coords t = tempTiles.get(1);
-                        tempTiles.set(1, tempTiles.get(0));
-                        tempTiles.set(0, t);
-                    }
-
-                    if((tempTiles.get(0).COL - tempTiles.get(1).COL == -1 && tempTiles.get(1).COL - tempTiles.get(2).COL == -1 )||
-                            (tempTiles.get(0).COL - tempTiles.get(1).COL == 1 && tempTiles.get(1).COL - tempTiles.get(2).COL == 1 )){
-                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL) && adjacent(tempTiles.get(2).ROW, tempTiles.get(2).COL);
+                    if(tempCoords.get(0).COL > tempCoords.get(1).COL){
+                        Coords t = tempCoords.get(1);
+                        tempCoords.set(1, tempCoords.get(0));
+                        tempCoords.set(0, t);
                     }
 
-                }else if(tempTiles.get(0).COL == tempTiles.get(1).COL && tempTiles.get(1).COL == tempTiles.get(2).COL){
+                    if((tempCoords.get(0).COL - tempCoords.get(1).COL == -1 && tempCoords.get(1).COL - tempCoords.get(2).COL == -1 )||
+                            (tempCoords.get(0).COL - tempCoords.get(1).COL == 1 && tempCoords.get(1).COL - tempCoords.get(2).COL == 1 )){
+                        return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL) && adjacent(tempCoords.get(1).ROW, tempCoords.get(1).COL) && adjacent(tempCoords.get(2).ROW, tempCoords.get(2).COL);
+                    }
+
+                }else if(tempCoords.get(0).COL == tempCoords.get(1).COL && tempCoords.get(1).COL == tempCoords.get(2).COL){
                     //sorting 3 element array
-                    if(tempTiles.get(0).ROW > tempTiles.get(1).ROW){
-                        Coords t = tempTiles.get(1);
-                        tempTiles.set(1, tempTiles.get(0));
-                        tempTiles.set(0, t);
+                    if(tempCoords.get(0).ROW > tempCoords.get(1).ROW){
+                        Coords t = tempCoords.get(1);
+                        tempCoords.set(1, tempCoords.get(0));
+                        tempCoords.set(0, t);
                     }
-                    if(tempTiles.get(1).ROW > tempTiles.get(2).ROW){
-                        Coords t = tempTiles.get(2);
-                        tempTiles.set(2, tempTiles.get(1));
-                        tempTiles.set(1, t);
+                    if(tempCoords.get(1).ROW > tempCoords.get(2).ROW){
+                        Coords t = tempCoords.get(2);
+                        tempCoords.set(2, tempCoords.get(1));
+                        tempCoords.set(1, t);
                     }
-                    if(tempTiles.get(0).ROW > tempTiles.get(1).ROW){
-                        Coords t = tempTiles.get(1);
-                        tempTiles.set(1, tempTiles.get(0));
-                        tempTiles.set(0, t);
+                    if(tempCoords.get(0).ROW > tempCoords.get(1).ROW){
+                        Coords t = tempCoords.get(1);
+                        tempCoords.set(1, tempCoords.get(0));
+                        tempCoords.set(0, t);
                     }
 
-                    if((tempTiles.get(0).ROW - tempTiles.get(1).ROW == -1 && tempTiles.get(1).ROW - tempTiles.get(2).ROW == -1 )||
-                            (tempTiles.get(0).ROW - tempTiles.get(1).ROW == 1 && tempTiles.get(1).ROW - tempTiles.get(2).ROW == 1 )){
-                        return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL) && adjacent(tempTiles.get(2).ROW, tempTiles.get(2).COL);
+                    if((tempCoords.get(0).ROW - tempCoords.get(1).ROW == -1 && tempCoords.get(1).ROW - tempCoords.get(2).ROW == -1 )||
+                            (tempCoords.get(0).ROW - tempCoords.get(1).ROW == 1 && tempCoords.get(1).ROW - tempCoords.get(2).ROW == 1 )){
+                        return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL) && adjacent(tempCoords.get(1).ROW, tempCoords.get(1).COL) && adjacent(tempCoords.get(2).ROW, tempCoords.get(2).COL);
                     }
 
                 }

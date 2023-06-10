@@ -5,9 +5,7 @@ import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
 
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Serializable;
 import java.util.*;
 
 
@@ -97,11 +95,15 @@ public class Cli extends ViewObservable implements View{
                 valid = true;
                 temp = in.nextLine();
                 coords = extractIntegers(temp);
+                if(coords == null) {
+                    out.print("Error, please input valid coordinates (like \"1,2\" or \"0,3\"): ");
+                    valid = false;
+                }
             }catch(InputMismatchException e){
-                out.print("Mismatch please input valid coordinates (like \"1,2\" or \"0,3\"): "); //TODO cleanup
+                out.print("Mismatch, please input valid coordinates (like \"1,2\" or \"0,3\"): ");
                 valid = false;
             }catch(NoSuchElementException e1){
-                out.print("No element please input valid coordinates (like \"1,2\" or \"0,3\"): ");
+                out.print("No element, please input valid coordinates (like \"1,2\" or \"0,3\"): ");
                 valid = false;
             }
         } while (!valid);
@@ -394,7 +396,7 @@ public class Cli extends ViewObservable implements View{
         for (int i = 0; i < 6; i++) {
             out.print(i);
             for (int j = 0; j < 5; j++) {
-                if (objective.getObjective().get(z).getX() == i && objective.getObjective().get(z).getY() == j){
+                if (objective.getObjective().get(z).getROW() == i && objective.getObjective().get(z).getCOL() == j){
                     switch (objective.getObjective().get(z).getType()) {
                         case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
                         case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
