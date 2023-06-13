@@ -50,24 +50,24 @@ public class GameController implements Runnable{
 
     public GameController(VirtualView vv) {
         //creating the game instance
-        game = new Game();
-        selectedTiles = new ArrayList<>();
-        players = new ArrayList<>();
-        gameState = GameState.INIT;
-        turnState = TurnState.SELECT_PHASE;
-        virtualView = vv;
-        shelfFull = false;
+        this.game = new Game();
+        this.selectedTiles = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.gameState = GameState.INIT;
+        this.turnState = TurnState.SELECT_PHASE;
+        this.virtualView = vv;
+        this.shelfFull = false;
 
         for(String username : virtualView.getUsernames()) {
-            game.addPlayer(username);
-            players.add(username);
+            this.game.addPlayer(username);
+            this.players.add(username);
         }
     }
 
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
-            switch (gameState) {
+            switch (this.gameState) {
                 case INIT -> init();
                 case IN_GAME -> inGame();
                 case END -> end();
@@ -79,13 +79,13 @@ public class GameController implements Runnable{
      * Initialization of the game
      */
     private void init(){
-        game.init();    // initializing the game
+        this.game.init();    // initializing the game
 
-        currPlayer = players.get(0); // setting the first player
+        this.currPlayer = this.players.get(0); // setting the first player
 
         //starting the game phase
-        gameState = GameState.IN_GAME;
-        turnState = TurnState.SELECT_PHASE;
+        this.gameState = GameState.IN_GAME;
+        this.turnState = TurnState.SELECT_PHASE;
     }
 
     /**
@@ -93,21 +93,21 @@ public class GameController implements Runnable{
      * It broadcast to the players the points and other stats
      */
     private void end() {
-        virtualView.writeBroadcast(new TextMessage("================= GAME'S ENDED! ================="));
-        virtualView.writeBroadcast(new UpdateBoardMessage(game.getBoard()));
+        this.virtualView.writeBroadcast(MsgType.TEXT, "================= GAME'S ENDED! =================");
+        this.virtualView.writeBroadcast(MsgType.BOARD_UPDATE, game.getBoard());
         Map<String, Integer> playerPoints = new HashMap<>();
 
         int max = 0;
         String winner = null;
 
-        for(String player : players){
-            Player p = game.getPlayerByNick(player);
-            virtualView.write(player, MsgType.SHELF_UPDATE, p.getShelf());
+        for(String player : this.players){
+            Player p = this.game.getPlayerByNick(player);
+            this.virtualView.write(player, MsgType.SHELF_UPDATE, p.getShelf());
 
             //adds the points from private objectives and adjacent tiles
             p.countPoints();
             playerPoints.put(player, p.getPlayerPoints());
-            virtualView.writeBroadcast(new TextMessage(player + " scored " + p.getPlayerPoints() + " points!"));
+            this.virtualView.writeBroadcast(MsgType.TEXT, player + " scored " + p.getPlayerPoints() + " points!");
 
             if(p.getPlayerPoints() > max){
                 max = p.getPlayerPoints();
@@ -115,10 +115,10 @@ public class GameController implements Runnable{
             }
         }
 
-        virtualView.writeBroadcast(new TextMessage(winner + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／"));
-        virtualView.writeBroadcast(new EndGameMessage());
-        for(String p : players)
-            virtualView.removeUsername(p);
+        this.virtualView.writeBroadcast(MsgType.TEXT, winner + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／");
+        this.virtualView.writeBroadcast(MsgType.END_GAME, null);
+        for(String p : this.players)
+            this.virtualView.removeUsername(p);
 
         Thread.currentThread().interrupt();
     }
@@ -127,7 +127,7 @@ public class GameController implements Runnable{
      * Handle the game turns and flow
      */
     private void inGame(){
-        switch (turnState){
+        switch (this.turnState){
             case SELECT_PHASE -> select();
             case END -> endTurn();
         }
@@ -139,72 +139,62 @@ public class GameController implements Runnable{
      */
     private void select(){
         //broadcast the player that is playing
-        virtualView.writeBroadcast(new TextMessage("\n================= IT'S " + "\u001B[35m" + currPlayer + "\u001B[0m" + "'S TURN =================\n"));
-        virtualView.write(currPlayer, MsgType.TEXT, "\n------------- PUBLIC OBJECTIVES -------------\n\n");
-        virtualView.write(currPlayer, MsgType.PUBLIC_OBJECTIVE, game.getPublicObjectivesType());
-        virtualView.write(currPlayer, MsgType.TEXT, "------------- PRIVATE OBJECTIVE -------------\n\n");
-        virtualView.write(currPlayer, MsgType.PRIVATE_OBJECTIVE, game.getPlayerByNick(currPlayer).getPrivateObjective());
-        virtualView.write(currPlayer, MsgType.TEXT, "\n------------------- SHELF -------------------\n\n");
-        virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= IT'S " + "\u001B[35m" + this.currPlayer + "\u001B[0m" + "'S TURN =================\n");
+        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n------------- PUBLIC OBJECTIVES -------------\n\n");
+        this.virtualView.write(this.currPlayer, MsgType.PUBLIC_OBJECTIVE, this.game.getPublicObjectivesType());
+        this.virtualView.write(this.currPlayer, MsgType.TEXT, "------------- PRIVATE OBJECTIVE -------------\n\n");
+        this.virtualView.write(this.currPlayer, MsgType.PRIVATE_OBJECTIVE, this.game.getPlayerByNick(this.currPlayer).getPrivateObjective());
+        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n------------------- SHELF -------------------\n\n");
+        this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
 
         //broadcast the updated board to all players
-        virtualView.writeBroadcast(new TextMessage("\n--------------- UPDATED BOARD ---------------\n\n"));
-        UpdateBoardMessage uptMsg = new UpdateBoardMessage(game.getBoard());
-        virtualView.writeBroadcast(uptMsg);
-        virtualView.write(currPlayer, MsgType.TEXT, "\n\n");
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n--------------- UPDATED BOARD ---------------\n\n");
+        virtualView.writeBroadcast(MsgType.BOARD_UPDATE, game.getBoard());
+        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n\n");
 
-        //todo, togliere, è testing
-        System.out.print("Board inviata (nel messaggio)\n");
-        boardShow(uptMsg.getBoard().getGrid());
-
-        selectedTiles.clear();
-        FullTileSelectionMessage response = virtualView.readAll(currPlayer, new AskFullMsg(game.getBoard(), game.getPlayerByNick(currPlayer).getShelf()));
+        this.selectedTiles.clear();
+        FullTileSelectionMessage response = this.virtualView.readAll(this.currPlayer, new AskFullMsg(game.getBoard(), this.game.getPlayerByNick(this.currPlayer).getShelf()));
         ArrayList<Coords> tilesCoords = response.getCoords();
         int column = response.getColumn();
 
         for (Coords CoordsOfTile : tilesCoords) {
-            if (game.getBoard().getGrid()[CoordsOfTile.ROW][CoordsOfTile.COL].getTile().isPresent()) {
-                Tile tile = game.getBoard().takeTiles(CoordsOfTile.ROW, CoordsOfTile.COL).get();
-                game.getPlayerByNick(currPlayer).getShelf().putTile(tile, column);
+            if (this.game.getBoard().getGrid()[CoordsOfTile.ROW][CoordsOfTile.COL].getTile().isPresent()) {
+                Tile tile = this.game.getBoard().takeTiles(CoordsOfTile.ROW, CoordsOfTile.COL).get();
+                this.game.getPlayerByNick(this.currPlayer).getShelf().putTile(tile, column);
             }
         }
-
-
-        //todo temp
-        System.out.print("Board fine turno\n");
-        boardShow(game.getBoard().getGrid());
-        shelfShow(game.getPlayerByNick(currPlayer).getShelf().getShelf());
         
         //checking if the current player's shelf is full
-        if(game.getPlayerByNick(currPlayer).getShelf().isFull() && !shelfFull) {
-            shelfFull = true;
-            game.getPlayerByNick(currPlayer).addPoints(1);
+        if(!this.shelfFull && this.game.getPlayerByNick(this.currPlayer).getShelf().isFull()) {
+            this.shelfFull = true;
+            this.game.getPlayerByNick(this.currPlayer).addPoints(1);
         }
 
         //checking if the current player has reached a common goal/public objective
         //it can add points to the player if they have passed an objective
-        game.reachPubObj(game.getPlayerByNick(currPlayer));
+        this.game.reachPubObj(this.game.getPlayerByNick(this.currPlayer));
 
         //sends the shelf to the current player
-        virtualView.write(currPlayer, MsgType.TEXT, "\n--------------- UPDATED SHELF ---------------\n\n");
-        virtualView.write(currPlayer, MsgType.SHELF_UPDATE, game.getPlayerByNick(currPlayer).getShelf());
+        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n--------------- UPDATED SHELF ---------------\n\n");
+        this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
 
         //change the turn phase and the pick the next player
-        turnState = TurnState.END;
+        this.turnState = TurnState.END;
     }
 
     /**
      * Handle the end of the turn
      */
     private void endTurn(){
-        if(shelfFull && players.indexOf(currPlayer) == players.size()-1)
-            gameState = GameState.END;
+        if(this.shelfFull && this.players.indexOf(this.currPlayer) == this.players.size()-1)
+            this.gameState = GameState.END;
         else {
             //go to the next player
             nextPlayer();
-            turnState = TurnState.SELECT_PHASE;
-            if(!game.getBoard().checkFill())
-                game.getBoard().fill(game.getSackOfTiles());
+            this.turnState = TurnState.SELECT_PHASE;
+            if(!this.game.getBoard().checkFill()) {
+                this.game.getBoard().fill(this.game.getSackOfTiles());
+            }
         }
     }
 
@@ -213,10 +203,10 @@ public class GameController implements Runnable{
      * It select the next index and put under the modulus of the number of players
      */
     private void nextPlayer(){
-        int currPlayerIndex = players.indexOf(currPlayer);
-        int nextPlayerIndex = (currPlayerIndex+1) % players.size();
+        int currPlayerIndex = this.players.indexOf(this.currPlayer);
+        int nextPlayerIndex = (currPlayerIndex+1) % this.players.size();
 
-        currPlayer = players.get(nextPlayerIndex);
+        this.currPlayer = this.players.get(nextPlayerIndex);
     }
 
     //todo temporanei, da togliere

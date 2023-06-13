@@ -19,7 +19,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     private final View view;
     private int column;
     private Shelf shelf;
-    int loop;
+    private int loop;
     private Board board;
 
     public ClientSocket client;
@@ -29,8 +29,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             this.view = view;
             tempTiles = new ArrayList<Coords>();
             hand = new ArrayList<Tile>();
-            shelf= new Shelf();
-            board = new Board();
+            shelf = new Shelf();
         }
     @Override
     public void onConnection(String serverAddr, int port) {
@@ -43,7 +42,6 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     @Override
     public void run() {
             Message msg;
-            boolean valid;
             view.init();
             while(!Thread.currentThread().isInterrupted()) {
                 msg = client.readMessage();
@@ -66,13 +64,11 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
                         break;
                     case BOARD_UPDATE: //stampa la board, non ritorna niente
-                        UpdateBoardMessage recMsgB = ((UpdateBoardMessage) msg);
-                        board = recMsgB.getBoard();
+                        board = ((UpdateBoardMessage) msg).getBoard();
                         view.boardShow(board.getGrid());
                         break;
                     case SHELF_UPDATE: //stampa la shelf, non ritorna niente
-                        UpdateShelfMessage recMsgS = ((UpdateShelfMessage) msg);
-                        shelf = recMsgS.getShelf();
+                        shelf = ((UpdateShelfMessage) msg).getShelf();
                         view.shelfShow(shelf.getShelf());
                         break;
                     case FULL_SELECTION_REQUEST:
@@ -99,7 +95,6 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         //it.polimi.ingsw.view.showError();
                         break;
                     default: view.showText("something went very wrong");
-                    break;
                 }
             }
         }
@@ -148,13 +143,12 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             if (ROW == -1 && COL == -1) {
                 loop = 2;
             }
+            else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
+                view.invalidTile(ROW, COL);
+                view.askSelectTile();
+            }
             else {
-                if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
-                    view.invalidTile(ROW, COL);
-                    view.askSelectTile();
-                } else {
-                    tempTiles.add(new Coords(ROW, COL));
-                }
+                tempTiles.add(new Coords(ROW, COL));
             }
         }
 

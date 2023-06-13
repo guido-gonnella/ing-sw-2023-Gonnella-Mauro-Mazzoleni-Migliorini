@@ -59,6 +59,7 @@ public class SocketServer extends ServerConnection {
         try {
             output.writeObject(message);
             output.flush();
+            output.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }

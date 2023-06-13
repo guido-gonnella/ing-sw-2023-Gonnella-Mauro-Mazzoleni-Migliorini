@@ -54,6 +54,7 @@ public class ClientSocket extends ClientConnection {
         try {
             output.writeObject(message);
             output.flush();
+            output.reset();
         }catch (IOException e){
             e.printStackTrace();
         }

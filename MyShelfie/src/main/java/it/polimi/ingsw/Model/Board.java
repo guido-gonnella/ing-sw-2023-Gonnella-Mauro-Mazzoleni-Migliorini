@@ -65,7 +65,7 @@ public class Board implements Serializable {
      * @return the board grid
      */
     public Space[][] getGrid() {
-        return grid.clone();
+        return grid;
     }
 
     /**
@@ -74,12 +74,7 @@ public class Board implements Serializable {
      * @param grid updated grid to use
      */
     public void setGrid(Space[][] grid) {
-        // todo togli commento this.grid = grid;
-        for(int i = 0; i < ROW; i++){
-            for(int j = 0; j < COL; j++){
-                this.grid[i][j] = grid[i][j];
-            }
-        }
+        this.grid = grid;
     }
 
     /**

@@ -8,6 +8,7 @@ import it.polimi.ingsw.Network.Message.*;
 import it.polimi.ingsw.Network.Message.S2C.TextMessage;
 import it.polimi.ingsw.Network.Message.S2C.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +71,7 @@ public class VirtualView {
             case TEXT -> destinationClient.sendMessage(new TextMessage((String) sendObject));
             case PUBLIC_OBJECTIVE -> destinationClient.sendMessage(new PublicObjectiveMessage((PubObjType[]) sendObject));
             case PRIVATE_OBJECTIVE -> destinationClient.sendMessage(new PrivateObjectiveMessage((PrivateObjective) sendObject));
+            case BOARD_UPDATE -> destinationClient.sendMessage(new UpdateBoardMessage((Board) sendObject));
         }
     }
 
@@ -77,9 +79,38 @@ public class VirtualView {
      * Sends a message in broadcast to all clients
      * @param message that is sent in broadcast
      */
-    public void writeBroadcast(Message message){
-        for(SocketServer server : socketMap.values()){
-            server.sendMessage(message);
+    public void writeBroadcast(MsgType message, Object sendObject){
+        switch(message) {
+            case SHELF_UPDATE -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
+                }
+            }
+            case TEXT -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new TextMessage((String) sendObject));
+                }
+            }
+            case PUBLIC_OBJECTIVE -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new PublicObjectiveMessage((PubObjType[]) sendObject));
+                }
+            }
+            case PRIVATE_OBJECTIVE -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new PrivateObjectiveMessage((PrivateObjective) sendObject));
+                }
+            }
+            case BOARD_UPDATE -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new UpdateBoardMessage((Board) sendObject));
+                }
+            }
+            case END_GAME -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new EndGameMessage());
+                }
+            }
         }
     }
 
