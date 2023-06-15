@@ -106,11 +106,12 @@ public class VirtualView {
                     server.sendMessage(new UpdateBoardMessage((Board) sendObject));
                 }
             }
-            case END_GAME -> {
-                for(SocketServer server : socketMap.values()){
-                    server.sendMessage(new EndGameMessage());
-                }
-            }
+        }
+    }
+
+    public void endGame(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective) {
+        for(SocketServer server : socketMap.values()){
+            server.sendMessage(new EndStatsMessage(mapPoints, mapObjective));
         }
     }
 

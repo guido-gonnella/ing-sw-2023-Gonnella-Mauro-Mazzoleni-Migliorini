@@ -93,9 +93,11 @@ public class GameController implements Runnable{
      * It broadcast to the players the points and other stats
      */
     private void end() {
-        this.virtualView.writeBroadcast(MsgType.TEXT, "================= GAME'S ENDED! =================");
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= GAME'S ENDED! =================\n\n");
         this.virtualView.writeBroadcast(MsgType.BOARD_UPDATE, game.getBoard());
-        Map<String, Integer> playerPoints = new HashMap<>();
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n");
+        Map<String, Integer> mapPoints = new HashMap<>();
+        Map<String, boolean[]> mapObjective = new HashMap<>();
 
         int max = 0;
         String winner = null;
@@ -106,8 +108,8 @@ public class GameController implements Runnable{
 
             //adds the points from private objectives and adjacent tiles
             p.countPoints();
-            playerPoints.put(player, p.getPlayerPoints());
-            this.virtualView.writeBroadcast(MsgType.TEXT, player + " scored " + p.getPlayerPoints() + " points!");
+            mapPoints.put(player, p.getPlayerPoints());
+            mapObjective.put(player, p.getPubObjFlag());
 
             if(p.getPlayerPoints() > max){
                 max = p.getPlayerPoints();
@@ -115,8 +117,9 @@ public class GameController implements Runnable{
             }
         }
 
-        this.virtualView.writeBroadcast(MsgType.TEXT, winner + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／");
-        this.virtualView.writeBroadcast(MsgType.END_GAME, null);
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= ENDING STATS =================\n");
+        this.virtualView.endGame(mapPoints, mapObjective);
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= " + "\u001B[35m" + winner + "\u001B[0m" + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／ =================");
         for(String p : this.players)
             this.virtualView.removeUsername(p);
 
@@ -189,12 +192,13 @@ public class GameController implements Runnable{
         if(this.shelfFull && this.players.indexOf(this.currPlayer) == this.players.size()-1)
             this.gameState = GameState.END;
         else {
-            //go to the next player
-            nextPlayer();
-            this.turnState = TurnState.SELECT_PHASE;
             if(!this.game.getBoard().checkFill()) {
                 this.game.getBoard().fill(this.game.getSackOfTiles());
             }
+
+            //go to the next player
+            nextPlayer();
+            this.turnState = TurnState.SELECT_PHASE;
         }
     }
 

@@ -35,10 +35,10 @@ public class Board implements Serializable {
     public void fill(SackOfTiles sackOfTiles){
         for(int row=0; row<ROW; row++) {
             for(int col=0; col<COL; col++) {
-                if(this.grid[row][col].getTile().isEmpty() && this.grid[row][col].isAvailable()){
-                    if(sackOfTiles.getRandomTile() != null) {
-                        //metodo per settare una random tile nella board dal sacchetto
-                        this.grid[row][col].setTile(sackOfTiles.getRandomTile());
+                if(this.grid[row][col].isAvailable() && this.grid[row][col].getTile().isEmpty()){
+                    if(!sackOfTiles.getLeftTiles().isEmpty()) {
+                        Tile tile = sackOfTiles.getRandomTile();
+                        this.grid[row][col].setTile(tile);
                     }
                 }
             }

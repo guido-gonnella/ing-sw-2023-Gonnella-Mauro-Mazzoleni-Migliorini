@@ -178,7 +178,7 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void invalidColumn(int column) {
-        out.print("The empty spaces in column " + column + "are not enough, try again\n");
+        out.print("The empty spaces in column " + column + " are not enough, try again\n");
     }
 
     /**
@@ -344,8 +344,8 @@ public class Cli extends ViewObservable implements View{
         for (String player: mapPoints.keySet())
         {
             flag= false;
-            out.print(player + "scored: ");
-            out.print("\u001B[33m" + mapPoints.get(player) + "\u001B[0m" + "points!\n");
+            out.print("\n" + "\u001B[35m" + player + "\u001B[0m" + " scored: ");
+            out.print("\u001B[33m" + mapPoints.get(player) + "\u001B[0m" + " points!\n");
             out.print("and completed: ");
             if (mapObjective.get(player)[0]){
                 flag=true;
@@ -358,7 +358,7 @@ public class Cli extends ViewObservable implements View{
             } else if (mapObjective.get(player)[1]) {
                 out.print("\u001B[32m" + "the second objective ✔" + "\u001B[0m");
             } else {
-                out.print("\\u001B[31m" + "no objectives (╥﹏╥)" + "\u001B[0m");
+                out.print("\u001B[31m" + "no objectives (╥﹏╥)" + "\u001B[0m");
             }
         out.print("\n");
         }

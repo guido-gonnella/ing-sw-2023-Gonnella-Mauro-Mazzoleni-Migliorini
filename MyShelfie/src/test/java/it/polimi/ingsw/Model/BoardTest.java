@@ -186,8 +186,37 @@ public class BoardTest {
         assertTrue(board.checkFill());
     }
 
-    public void print_board(Board board){
+    @Test
+    public void setBoard_4Players_emptyBoard_fill_multipleTimes() {
         for(int i = 0; i < board.ROW; i++) {
+            for(int j = 0; j < board.COL; j++) {
+                board.getGrid()[i][j].setAvailable();
+            }
+        }
+
+        board.fill(sack);
+
+        print_board(board);
+
+        for(int i=0; i< board.ROW && board.checkFill(); i++) {
+            for(int j=0; j< board.COL && board.checkFill(); j++) {
+                board.takeTiles(i, j);
+            }
+        }
+
+        board.fill(sack);
+
+        print_board(board);
+    }
+
+    public void print_board(Board board){
+        System.out.print("-");
+        for (int i=0;i<board.COL;i++) {
+            System.out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
+        }
+        System.out.print("\n");
+        for(int i = 0; i < board.ROW; i++) {
+            System.out.print(i);
             for(int j = 0; j < board.COL; j++) {
                 if(board.getGrid()[i][j].getTile().isPresent()) {
                     switch (board.getGrid()[i][j].getTile().get().getType()) {

@@ -78,18 +78,13 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
                         // quello da fare sulla view
                         selectTileRequest();
-
-                        // todo, da rimuovere alla fine, testing
-                        //AskFullMsg recMsg = ((AskFullMsg) msg);
-                        //view.askSelection(recMsg.getBoard(), recMsg.getShelf());
                         break;
-                    case END_GAME:
+                    case END_STATS:
                         //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
                         //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
                         //punteggi e il vincitore, non restituisce niente
 
-                        //view.gameEnded();
-                        Thread.currentThread().interrupt();
+                        view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
                         break;
                     case ERROR:
                         //it.polimi.ingsw.view.showError();
