@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.View.Gui.Gui;
 import it.polimi.ingsw.View.Gui.JavaFXGui;
 import it.polimi.ingsw.View.Cli;
 import javafx.application.Application;

@@ -1,0 +1,14 @@
+.ConfirmIpPort {
+    -fx-background-image: url("../Publisher%20material/Display_5.jpg");
+    -fx-background-size: cover;
+}
+
+.StartScene {
+    -fx-background-image: url("../Publisher%20material/Display_1.jpg");
+    -fx-background-size: cover;
+}
+
+.WaitingRoomScene {
+    -fx-background-image: url("../Publisher%20material/Display_2.jpg");
+    -fx-background-size: cover;
+}
