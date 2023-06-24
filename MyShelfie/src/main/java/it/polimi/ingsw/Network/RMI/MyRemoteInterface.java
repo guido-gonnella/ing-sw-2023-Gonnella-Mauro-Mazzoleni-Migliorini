@@ -6,7 +6,13 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface MyRemoteInterface extends Remote {
-    public abstract Message readMessage() throws RemoteException;
-    public abstract void sendMessage(Message message) throws RemoteException;
-    public abstract void disconnect() throws RemoteException;
+    Message clientReadMessage(String user) throws RemoteException;
+    void clientSendMessage(String user, Message message) throws RemoteException;
+    Message serverReadMessage(String user) throws RemoteException;
+    void serverSendMessage(Message message) throws RemoteException;
+    void disconnect() throws RemoteException;
+    void addUser(String user, MyRemoteInterface remoteInterface) throws RemoteException;
+    MyRemoteInterface getLastInterface() throws RemoteException;
+    MyRemoteInterface peekLastInterface() throws RemoteException;
+    void setLastRemoteInterface(MyRemoteInterface remoteInterface) throws RemoteException;
 }
