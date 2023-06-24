@@ -14,15 +14,14 @@ public class ClientRmi extends ClientConnection {
 
     private MyRemoteInterface client;
     private MyRemoteInterface server;
-    private Registry registry;
     private String username;
     public ClientRmi(String address){
         try {
             client = new RmiServant();
-            registry = LocateRegistry.getRegistry();
-            server = (MyRemoteInterface) Naming.lookup("rmi://" + address + "/RmiConnection");
+            Registry registry = LocateRegistry.getRegistry();
+            server = (MyRemoteInterface) registry.lookup(/*"rmi://" + address +*/ "RmiConnection");
             server.setLastRemoteInterface(client);
-        }catch (RemoteException | NotBoundException | MalformedURLException e){
+        }catch (RemoteException | NotBoundException /*| MalformedURLException */ e){
             e.printStackTrace();
         }
     }

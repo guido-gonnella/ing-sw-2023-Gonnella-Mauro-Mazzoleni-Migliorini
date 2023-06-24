@@ -14,8 +14,6 @@ public class ServerApp {
 
         int serverPort = 8080; //default value
         boolean socket = true;
-        boolean gui = true;
-        View view;
 
         Scanner s = new Scanner(System.in);
         do {
@@ -25,6 +23,7 @@ public class ServerApp {
         while(!InputController.isValidPort(serverPort));
 
         System.out.print("Using socket connection? [y/n]\n");
+        System.out.print("(The alternative is to use RMI)\n");
         socket = !s.next().equals("n");
 
         Server server = new Server(serverPort, socket);

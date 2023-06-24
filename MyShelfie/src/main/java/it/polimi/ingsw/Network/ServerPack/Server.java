@@ -7,15 +7,22 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Network.Message.S2C.AskNicknameMessage;
 import it.polimi.ingsw.Network.Message.S2C.MaxNumPlayerRequestMsg;
+import it.polimi.ingsw.Network.RMI.RmiServant;
+import it.polimi.ingsw.Network.RMI.RmiServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.*;
 
 public class Server implements Runnable {
 
     private final Set<String> usernames;
     private ServerSocket ss;
+    private RmiServant servant;
+    private Registry registry;
     private Set<GameController> gameControllerSet;
     private VirtualView tempVirtualView;
     private final Object lock;
@@ -39,7 +46,14 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }else{
-            //rmi
+            try {
+                servant = new RmiServant();
+                registry = LocateRegistry.createRegistry(port);
+                registry.rebind("RmiConnection", servant);
+                System.out.println("RMI server: ON, port: " + port);
+            }catch (RemoteException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -53,16 +67,19 @@ public class Server implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()){
 
-            SocketServer socketServer;
-            socketServer = new SocketServer(ss);
+            ServerConnection server;
+            if(socketConnection)
+                server = new SocketServer(ss);
+            else
+                server = new RmiServer(servant);
 
             Message arrivedMessage;
             String username;
 
             do {
                 do {
-                    socketServer.sendMessage(new AskNicknameMessage());
-                    arrivedMessage = socketServer.readMessage();
+                    server.sendMessage(new AskNicknameMessage());
+                    arrivedMessage = server.readMessage();
                 } while (arrivedMessage.getMsgType() != MsgType.SEND_NICKNAME);
                 username = ((UpdatePlInfoMessage) arrivedMessage).getNickname();
             } while(usernames.contains(username));
@@ -73,16 +90,16 @@ public class Server implements Runnable {
                     int tempNumPl;
                     do {
                         do {
-                            socketServer.sendMessage(new MaxNumPlayerRequestMsg());
-                            arrivedMessage = socketServer.readMessage();
+                            server.sendMessage(new MaxNumPlayerRequestMsg());
+                            arrivedMessage = server.readMessage();
                         } while (arrivedMessage.getMsgType() != MsgType.NUMBER_PLAYER_REPLY);
                         tempNumPl = ((NumberOfPlayerMessage) arrivedMessage).getNum();
                     } while (tempNumPl < 2 || tempNumPl > 4);
                     maxPlayer = tempNumPl;
                     numPlayer = 1;
-                    tempVirtualView.addClient(username, socketServer);
+                    tempVirtualView.addClient(username, server);
                 } else {
-                    tempVirtualView.addClient(username, socketServer);
+                    tempVirtualView.addClient(username, server);
                     numPlayer++;
                     if (numPlayer == maxPlayer) {
                         numPlayer = 0;

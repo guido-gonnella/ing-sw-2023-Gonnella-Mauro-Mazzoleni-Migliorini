@@ -23,7 +23,8 @@ public class StartSceneController {
         stage.show();
 
         Gui view = new Gui();
-        NetworkHandler networkHandler = new NetworkHandler(view);
+        //TODO il true (o false) al seguente medoto è temporaneo, va trovato un modo di toglierlo!!!
+        NetworkHandler networkHandler = new NetworkHandler(view, true);
         view.addObserver(networkHandler);
         Thread thread= new Thread(networkHandler, "networkHandler_");
         thread.start();

@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.*;
+import it.polimi.ingsw.Network.ClientPack.ClientConnection;
 import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.*;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.*;
+import it.polimi.ingsw.Network.RMI.ClientRmi;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
@@ -21,23 +23,27 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     private Shelf shelf;
     private int loop;
     private Board board;
-
-    public ClientSocket client;
+    public ClientConnection client;
     private String nick;
+    private final boolean socketConnection;
 
-    public NetworkHandler(View view){
+    public NetworkHandler(View view, boolean socketConnection){
             this.view = view;
             tempTiles = new ArrayList<Coords>();
             hand = new ArrayList<Tile>();
             shelf = new Shelf();
+            this.socketConnection = socketConnection;
         }
     @Override
     public void onConnection(String serverAddr, int port) {
+        if(socketConnection)
             client = new ClientSocket(serverAddr, port);
+        else
+            client = new ClientRmi(serverAddr);
         }
 
     /**
-    * Method that whenever the client recieves a message, notify this instance to be updated with a message.
+    * Method that whenever the client receives a message, notify this instance to be updated with a message.
     */
     @Override
     public void run() {

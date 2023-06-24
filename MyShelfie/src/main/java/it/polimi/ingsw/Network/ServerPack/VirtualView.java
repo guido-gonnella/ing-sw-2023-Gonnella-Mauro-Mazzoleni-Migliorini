@@ -8,7 +8,6 @@ import it.polimi.ingsw.Network.Message.*;
 import it.polimi.ingsw.Network.Message.S2C.TextMessage;
 import it.polimi.ingsw.Network.Message.S2C.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,14 +18,14 @@ import java.util.Map;
  */
 public class VirtualView {
 
-    private final Map<String, SocketServer> socketMap;
+    private final Map<String, ServerConnection> connectionMap;
     private final Server server;
 
     /**
      * Constructor of the class
      */
     public VirtualView(Server server){
-        this.socketMap = new HashMap<>();
+        this.connectionMap = new HashMap<>();
         this.server = server;
     }
 
@@ -35,15 +34,15 @@ public class VirtualView {
      * @param username of the user
      * @param serverSocket associated with the user
      */
-    public void addClient(String username, SocketServer serverSocket){
-        socketMap.put(username, serverSocket);
+    public void addClient(String username, ServerConnection serverSocket){
+        connectionMap.put(username, serverSocket);
     }
 
     /**
      * Reads all the data needed from the client, the tiles selected and the shelf's column
      */
     public FullTileSelectionMessage readAll(String user, AskFullMsg msg){
-        SocketServer destinationClient = socketMap.get(user);
+        ServerConnection destinationClient = connectionMap.get(user);
         destinationClient.sendMessage(msg);
         Message received;
 
@@ -64,7 +63,7 @@ public class VirtualView {
      * @param message that the client will receive
      */
     public void write(String user, MsgType message, Object sendObject){
-        SocketServer destinationClient = socketMap.get(user);
+        ServerConnection destinationClient = connectionMap.get(user);
 
         switch(message) {
             case SHELF_UPDATE -> destinationClient.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
@@ -83,32 +82,32 @@ public class VirtualView {
     public void writeBroadcast(MsgType message, Object sendObject){
         switch(message) {
             case SHELF_UPDATE -> {
-                for(SocketServer server : socketMap.values()){
+                for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new UpdateShelfMessage((Shelf) sendObject));
                 }
             }
             case TEXT -> {
-                for(SocketServer server : socketMap.values()){
+                for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new TextMessage((String) sendObject));
                 }
             }
             case PUBLIC_OBJECTIVE -> {
-                for(SocketServer server : socketMap.values()){
+                for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new PublicObjectiveMessage((PubObjType[]) sendObject));
                 }
             }
             case PRIVATE_OBJECTIVE -> {
-                for(SocketServer server : socketMap.values()){
+                for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new PrivateObjectiveMessage((PrivateObjective) sendObject));
                 }
             }
             case BOARD_UPDATE -> {
-                for(SocketServer server : socketMap.values()){
+                for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new UpdateBoardMessage((Board) sendObject));
                 }
             }
             case END_GAME -> {
-                for(SocketServer server : socketMap.values()){
+                for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new EndGameMessage());
                 }
             }
@@ -116,7 +115,7 @@ public class VirtualView {
     }
 
     public void endGame(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective) {
-        for(SocketServer server : socketMap.values()){
+        for(ServerConnection server : connectionMap.values()){
             server.sendMessage(new EndStatsMessage(mapPoints, mapObjective));
         }
     }
@@ -126,7 +125,7 @@ public class VirtualView {
      * @return
      */
     public ArrayList<String> getUsernames(){
-        return new ArrayList<>(socketMap.keySet());
+        return new ArrayList<>(connectionMap.keySet());
     }
 
     public void removeUsername(String username){

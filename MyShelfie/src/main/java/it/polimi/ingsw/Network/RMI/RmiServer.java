@@ -8,10 +8,11 @@ import java.rmi.RemoteException;
 public class RmiServer extends ServerConnection {
 
     private String username;
-    private RmiServant server;
+    private final RmiServant server;
     private MyRemoteInterface client;
 
-    public RmiServer(RmiServant servant) throws RemoteException {
+    public RmiServer(RmiServant servant){
+        server = servant;
         try{
             do{
                 client = servant.peekLastInterface();
@@ -26,7 +27,7 @@ public class RmiServer extends ServerConnection {
         try{
             Message msg;
             do{
-                msg = client.serverReadMessage(username);
+                msg = server.serverReadMessage(username);
             }while(msg == null);
             return msg;
         }catch (RemoteException e){

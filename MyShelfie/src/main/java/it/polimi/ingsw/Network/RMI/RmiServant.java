@@ -28,7 +28,9 @@ public class RmiServant extends UnicastRemoteObject implements MyRemoteInterface
     //DONE
     @Override
     public Message clientReadMessage(String user) {
-        return messageFromServer.remove(user);
+        Message temp = msgFromServer;
+        msgFromServer = null;
+        return temp;
     }
 
     @Override
