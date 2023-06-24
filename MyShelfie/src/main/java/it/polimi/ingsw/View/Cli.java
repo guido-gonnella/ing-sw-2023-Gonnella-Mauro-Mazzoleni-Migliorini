@@ -353,7 +353,7 @@ public class Cli extends ViewObservable implements View{
             }
             if (flag) {
                 if (mapObjective.get(player)[1]) {
-                    out.print("\u001B[32m" + "and the second objective ✔" + "\u001B[0m");
+                    out.print("\u001B[32m" + " and the second objective ✔" + "\u001B[0m");
                 }
             } else if (mapObjective.get(player)[1]) {
                 out.print("\u001B[32m" + "the second objective ✔" + "\u001B[0m");

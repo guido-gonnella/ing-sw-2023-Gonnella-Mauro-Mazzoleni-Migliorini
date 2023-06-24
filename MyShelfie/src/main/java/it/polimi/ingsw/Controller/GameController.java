@@ -4,11 +4,8 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Enumeration.GameState;
 import it.polimi.ingsw.Enumeration.TurnState;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
-import it.polimi.ingsw.Network.Message.S2C.TextMessage;
-import it.polimi.ingsw.Network.Message.EndGameMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Network.Message.S2C.AskFullMsg;
-import it.polimi.ingsw.Network.Message.S2C.UpdateBoardMessage;
 import it.polimi.ingsw.Network.ServerPack.VirtualView;
 
 import java.io.PrintStream;
@@ -120,10 +117,9 @@ public class GameController implements Runnable{
         this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= ENDING STATS =================\n");
         this.virtualView.endGame(mapPoints, mapObjective);
         this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= " + "\u001B[35m" + winner + "\u001B[0m" + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／ =================");
+        this.virtualView.writeBroadcast(MsgType.END_GAME, null);
         for(String p : this.players)
             this.virtualView.removeUsername(p);
-
-        Thread.currentThread().interrupt();
     }
 
     /**
@@ -189,8 +185,10 @@ public class GameController implements Runnable{
      * Handle the end of the turn
      */
     private void endTurn(){
-        if(this.shelfFull && this.players.indexOf(this.currPlayer) == this.players.size()-1)
+        if(this.shelfFull && this.players.indexOf(this.currPlayer) == this.players.size()-1) {
             this.gameState = GameState.END;
+            this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= " + "\u001B[35m" + this.currPlayer + "\u001B[0m" + " FILLED THEIR SHELF! =================\n");
+        }
         else {
             if(!this.game.getBoard().checkFill()) {
                 this.game.getBoard().fill(this.game.getSackOfTiles());

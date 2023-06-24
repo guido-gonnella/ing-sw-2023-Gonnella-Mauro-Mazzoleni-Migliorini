@@ -99,7 +99,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void showPoints(Map<String, Integer> mappoints, Map<String, boolean[]> mapobjective) {
+    public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective) {
 
     }
 

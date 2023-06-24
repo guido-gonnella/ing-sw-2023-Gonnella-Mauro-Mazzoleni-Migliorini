@@ -72,6 +72,7 @@ public class VirtualView {
             case PUBLIC_OBJECTIVE -> destinationClient.sendMessage(new PublicObjectiveMessage((PubObjType[]) sendObject));
             case PRIVATE_OBJECTIVE -> destinationClient.sendMessage(new PrivateObjectiveMessage((PrivateObjective) sendObject));
             case BOARD_UPDATE -> destinationClient.sendMessage(new UpdateBoardMessage((Board) sendObject));
+            case END_GAME -> destinationClient.sendMessage(new EndGameMessage());
         }
     }
 
@@ -104,6 +105,11 @@ public class VirtualView {
             case BOARD_UPDATE -> {
                 for(SocketServer server : socketMap.values()){
                     server.sendMessage(new UpdateBoardMessage((Board) sendObject));
+                }
+            }
+            case END_GAME -> {
+                for(SocketServer server : socketMap.values()){
+                    server.sendMessage(new EndGameMessage());
                 }
             }
         }

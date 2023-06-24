@@ -86,6 +86,9 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
                         view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
                         break;
+                    case END_GAME:
+                        Thread.currentThread().interrupt();
+                        break;
                     case ERROR:
                         //it.polimi.ingsw.view.showError();
                         break;
