@@ -160,7 +160,6 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs -> obs.onSelection(chosenCoords, chosenCol));
 
     }
-
     /**
      * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini
