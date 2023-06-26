@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.Gui.SceneControllers;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.Observer.ViewObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,7 +15,7 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.Observer.ViewObservable.notifyObservers;
 
-public class MenuSceneController {
+public class MenuSceneController implements GenericSceneController {
     public TextField IpAddressBox;
     public TextField PortBox;
     public Button Button;
@@ -45,8 +46,8 @@ public class MenuSceneController {
         else {
             String finalServerAddr = ipAddress;
             int finalPort = Integer.parseInt(portAddress);
-            notifyObservers(obs -> obs.onConnection(finalServerAddr, finalPort));
-            usernameScene();
+            new Thread(()->notifyObservers(obs -> obs.onConnection(finalServerAddr, finalPort))).start();
+            //usernameScene();
         }
         loginAttempt = valid;
     }
@@ -56,7 +57,7 @@ public class MenuSceneController {
         PortBox.clear();
     }
 
-    public void usernameScene() {
+  /*  public void usernameScene() {
         Parent root = null;
         try {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmls/UsernameScene.fxml")));
@@ -66,5 +67,5 @@ public class MenuSceneController {
 
         stage.getScene().setRoot(root);
         stage.show();
-    }
+    }*/
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class ViewObservable     {
-    private static List<ViewObserver> observers = new ArrayList<ViewObserver>();
+    protected static List<ViewObserver> observers = new ArrayList<ViewObserver>();
 
     /**
      * Add an observer to the list

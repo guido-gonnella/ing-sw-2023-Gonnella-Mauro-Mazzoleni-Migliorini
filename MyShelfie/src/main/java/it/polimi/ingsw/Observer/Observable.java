@@ -32,9 +32,9 @@ public abstract class Observable {
      * Notify all the added observers with the passed message
      * @param msg the message
      */
-  /*  public static void notifyAllObservers(Message msg){
+   /*public static void notifymessage(Message msg){
         for(Observer o : observers){
-            observers.
+            observers.update(msg);
         }
     }*/
 }

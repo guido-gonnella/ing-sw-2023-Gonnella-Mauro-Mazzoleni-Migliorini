@@ -76,7 +76,8 @@ public class Cli extends ViewObservable implements View{
     public void askNickname() {
         out.print("First insert your username: ");
         String nickname = ReadText();
-        notifyObservers(obs->obs.onNicknameUpdate(nickname));
+      notifyObservers(obs->obs.onNicknameUpdate(nickname));
+
     }
 
     /**
