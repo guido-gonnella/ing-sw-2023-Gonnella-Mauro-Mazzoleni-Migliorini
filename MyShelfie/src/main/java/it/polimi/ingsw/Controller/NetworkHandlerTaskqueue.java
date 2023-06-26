@@ -72,8 +72,8 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             msg=client.readMessage();
             switch (msg.getMsgType()) {
                 case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
-                    view.askNickname();
                     clientlock = true;
+                    view.askNickname();
                     while (clientlock) {
                         try {
                             Thread.sleep(10);
@@ -83,8 +83,8 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                     }
                     break;
                 case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
-                    view.askPlayerNumber();
                     clientlock = true;
+                    view.askPlayerNumber();
                     while (clientlock) {
                         try {
                             Thread.sleep(10);

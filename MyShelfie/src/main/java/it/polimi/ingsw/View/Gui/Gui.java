@@ -95,7 +95,6 @@ public class Gui extends ViewObservable implements View {
         }
         MaxPlayerSceneController controller = loader.getController();
 
-        while(!controller.loginAttempt);
     }
 
     @Override
