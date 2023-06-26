@@ -27,7 +27,7 @@ public class MaxPlayerSceneController implements GenericSceneController{
         }
         else {
             final int maxPlayers = playerNumber;
-            notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
+            new Thread(()->notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
         }
     }
 }
