@@ -18,6 +18,8 @@ public class ClientApp {
         Scanner s = new Scanner(System.in);
         String sel;
 
+        //TODO da mettere in linea di comando tramite args[]
+
         System.out.println("Cli or gui? [c/g]");
         cliView = !s.next().equals("g");
         System.out.print(("Want to use socket or RMI connection? [s/r]\n"));

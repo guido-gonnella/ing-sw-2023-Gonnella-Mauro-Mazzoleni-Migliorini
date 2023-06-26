@@ -32,4 +32,5 @@ public enum MsgType {
     TEXT,
 
     END_GAME,
+    PING
 }

@@ -131,5 +131,4 @@ public class VirtualView {
     public void removeUsername(String username){
         server.removeUsername(username);
     }
-
 }

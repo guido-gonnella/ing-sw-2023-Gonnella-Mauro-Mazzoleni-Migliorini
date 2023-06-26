@@ -80,6 +80,4 @@ public class SocketServer extends ServerConnection {
             e.printStackTrace();
         }
     }
-
-
 }

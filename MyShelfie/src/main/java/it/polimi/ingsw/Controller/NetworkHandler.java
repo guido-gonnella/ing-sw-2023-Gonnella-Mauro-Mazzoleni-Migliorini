@@ -11,7 +11,6 @@ import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NetworkHandler implements Observer, ViewObserver, Runnable{

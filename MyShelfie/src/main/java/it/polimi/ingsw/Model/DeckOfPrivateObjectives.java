@@ -45,29 +45,4 @@ public class DeckOfPrivateObjectives {
 
         return SingleRoundObjectives;
     }
-
-    /**
-     * return an arraylist containing the private objectives to give to the players
-     * @param numPlayers number of player
-     * @return the array list of {@link PrivateObjective privateObjectives}
-     * @author Guido Gonnella
-     */
-    public ArrayList<PrivateObjective> getObjectives(int numPlayers){
-        ArrayList<PrivateObjective> temp = new ArrayList<PrivateObjective>(numPlayers);
-        ArrayList<Integer> tn = new ArrayList<Integer>();
-
-        Random r = new Random();
-
-        for(; temp.size() < numPlayers; ){
-            int n = r.nextInt(12);
-            if(!tn.contains(n)){
-                temp.add(privateObjectives.get(n));
-                tn.add(n);
-            }
-        }
-
-        return temp;
-    }
-
-
 }
