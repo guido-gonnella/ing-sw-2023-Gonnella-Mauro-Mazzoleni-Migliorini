@@ -109,9 +109,20 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
      */
     private void selectTileRequest(){
         boolean valid;
-
+        int max=0;
+        int tilesleft;
+        for (int i=0;i<5;i++){
+            tilesleft=shelf.tilesLeftColumn(i);
+            if(max<tilesleft) {
+                max=tilesleft;
+            }
+        }
         do {
-            for (loop = 0; loop < 3; loop++) {
+            loop=0;
+            if (max<3){
+                loop=3-max;
+            }
+            for (; loop < 3; loop++) {
                 view.askSelectTile();
             }
             valid = validSelection();
