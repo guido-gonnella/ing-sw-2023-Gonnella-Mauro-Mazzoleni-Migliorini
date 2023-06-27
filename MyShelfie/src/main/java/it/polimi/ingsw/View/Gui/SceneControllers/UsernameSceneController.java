@@ -1,28 +1,25 @@
 package it.polimi.ingsw.View.Gui.SceneControllers;
 
 import it.polimi.ingsw.Observer.ViewObservable;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import it.polimi.ingsw.View.Gui.Gui2;
+import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
-
-import static it.polimi.ingsw.Observer.ViewObservable.notifyObservers;
 
 public class UsernameSceneController extends ViewObservable implements GenericSceneController {
-    public TextField UsernameBox;
-    public javafx.scene.control.Button Button;
-    private Stage stage;
-    public boolean loginAttempt;
+    @FXML
+    private TextField UsernameBox;
+    @FXML
+    private javafx.scene.control.Button Button;
 
-    public void login(ActionEvent actionEvent) {
-
-        new Thread(() -> notifyObservers(obs -> obs.onNicknameUpdate(UsernameBox.getText()))).start();
+    @FXML
+    public void initialize() {
+        Button.setOnAction(this::nickButton);
     }
 
+    private void nickButton(Event event) {
+        new Thread(() -> notifyObservers(obs -> obs.onNicknameUpdate(UsernameBox.getText()))).start();
+
+        Gui2.planeLoader("WaitingRoomScene.fxml");
+    }
 }

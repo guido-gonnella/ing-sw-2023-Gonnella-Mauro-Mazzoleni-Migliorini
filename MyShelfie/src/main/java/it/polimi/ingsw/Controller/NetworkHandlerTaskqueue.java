@@ -46,10 +46,9 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
         }
     @Override
     public void onConnection(String serverAddr, int port) {
-        if(socketConnection)
-            client = new ClientSocket(serverAddr, port);
-        else
-            client = new ClientRmi(serverAddr);
+        if(socketConnection) client = new ClientSocket(serverAddr, port);
+        else client = new ClientRmi(serverAddr);
+
         clientlock=false;
     }
 
@@ -67,7 +66,7 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            }
+        }
 
         while (!Thread.currentThread().isInterrupted()) {
             msg=client.readMessage();

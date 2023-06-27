@@ -1,34 +1,20 @@
 package it.polimi.ingsw.View.Gui;
 
 
-import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
-import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.Gui.SceneControllers.GenericSceneController;
-import it.polimi.ingsw.View.Gui.SceneControllers.MaxPlayerSceneController;
-import it.polimi.ingsw.View.Gui.SceneControllers.MenuSceneController;
-import it.polimi.ingsw.View.Gui.SceneControllers.UsernameSceneController;
 import it.polimi.ingsw.View.View;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-import java.io.PrintStream;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 
 public class Gui2 extends ViewObservable implements View {
 
@@ -42,7 +28,7 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void askNickname() {
-        Platform.runLater(()-> planeloader("UsernameScene.fxml"));
+        Platform.runLater(()-> planeLoader("UsernameScene.fxml"));
     }
 
     @Override
@@ -73,8 +59,7 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void askPlayerNumber() {
-        Platform.runLater(()->planeloader("MaxPlayerScene.fxml"));
-
+        Platform.runLater(()-> planeLoader("MaxPlayerScene.fxml"));
     }
 
     @Override
@@ -84,7 +69,7 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void showPublicObjective(PubObjType code) {
-        Platform.runLater(()->planeloader("MainScene.fxml"));
+        Platform.runLater(()-> planeLoader("MainScene.fxml"));
     }
 
     @Override
@@ -113,11 +98,12 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void askSelection(Board board, Shelf shelf) {
+
     }
-    public void planeloader( String fxml) {
+
+    public static void planeLoader(String fxml) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxmls/"+ fxml));
-        //FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxmls/MenuScene.fxml")));
+        loader.setLocation(Gui2.class.getResource("/fxmls/"+ fxml));
         Parent root;
         try {
              root = loader.load();
@@ -126,13 +112,13 @@ public class Gui2 extends ViewObservable implements View {
         }
         activeController= loader.getController();
         activeScene.setRoot(root);
-     //   activeStage.setScene(activeScene);
-
+        //activeStage.setScene(activeScene);
     }
-    public  void initialize(Scene scene,Stage stage){
+
+    public static void initialize(Scene scene, Stage stage) {
         activeScene= scene;
         activeStage=stage;
-        Platform.runLater(()->planeloader("MenuScene.fxml"));
+        Platform.runLater(() -> planeLoader("MenuScene.fxml"));
     }
 
 }

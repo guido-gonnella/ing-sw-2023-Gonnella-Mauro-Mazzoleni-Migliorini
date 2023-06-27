@@ -1,19 +1,23 @@
 package it.polimi.ingsw.View.Gui.SceneControllers;
 
-import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.Observer.ViewObservable;
 import it.polimi.ingsw.View.Gui.Gui2;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.Objects;
+public class StartSceneController extends ViewObservable implements GenericSceneController {
+    @FXML
+    private Button Button;
 
-public class StartSceneController {
+    @FXML
+    public void initialize() {
+        Button.setOnAction(this::initButton);
+    }
 
+    private void initButton(Event event) {
+        Gui2.initialize(((Node) event.getSource()).getScene(),(Stage) (((Node) event.getSource()).getScene()).getWindow());
+    }
 }

@@ -1,33 +1,43 @@
 package it.polimi.ingsw.View.Gui.SceneControllers;
 
 import it.polimi.ingsw.Observer.ViewObservable;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
+import it.polimi.ingsw.View.Gui.Gui2;
+import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.util.Scanner;
+public class MaxPlayerSceneController extends ViewObservable implements GenericSceneController{
+    @FXML
+    private TextField MaxPlayerBox;
+    @FXML
+    private javafx.scene.control.Button Button;
 
-import static it.polimi.ingsw.Observer.ViewObservable.notifyObservers;
+    @FXML
+    public void initialize() {
+        Button.setOnAction(this::playersButton);
+    }
 
-public class MaxPlayerSceneController implements GenericSceneController{
-    public TextField MaxPlayerBox;
-    public javafx.scene.control.Button Button;
-    private Stage stage;
-
-    public void login(ActionEvent actionEvent) {
+    private void playersButton(Event event) {
         int playerNumber;
-        boolean valid;
-        valid=true;
-        playerNumber = Integer.parseInt(MaxPlayerBox.getText());
+        boolean valid = false;
 
-        if(playerNumber>4 || playerNumber<2) {
-            valid=false;
+        while(!valid) {
+            playerNumber = Integer.parseInt(MaxPlayerBox.getText());
+
+            if(playerNumber>4 || playerNumber<2) {
+                reset();
+            }
+            else {
+                valid=true;
+                final int maxPlayers = playerNumber;
+                new Thread(()->notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
+            }
         }
-        else {
-            final int maxPlayers = playerNumber;
-            new Thread(()->notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
-        }
+
+        Gui2.planeLoader("WaitingRoomScene.fxml");
+    }
+
+    private void reset() {
+        MaxPlayerBox.clear();
     }
 }

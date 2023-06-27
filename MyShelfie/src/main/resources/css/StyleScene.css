@@ -12,3 +12,7 @@
     -fx-background-image: url("../Publisher%20material/Display_2.jpg");
     -fx-background-size: cover;
 }
+
+.Tiles {
+    -fx-background-size: stretch
+}
