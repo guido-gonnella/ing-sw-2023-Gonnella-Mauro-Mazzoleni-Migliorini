@@ -153,12 +153,12 @@ public class Cli extends ViewObservable implements View{
     public void askInsertCol(){
         int col=0;
         boolean valid;
-        Scanner in = new Scanner(System.in);
         out.print("Input the column in which to insert the tiles in your hand, they will be inserted with the leftmost as the one at the bottom: ");
         do {
             try{
                 valid=true;
-                col =in.nextInt();}
+                col =ReadInt();
+            }
             catch(NoSuchElementException e){
                 out.print("Please input a valid column (a number from 0 to 4): ");
                 valid=false;
@@ -167,6 +167,7 @@ public class Cli extends ViewObservable implements View{
                 out.print("Please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }
+
         } while(!valid);
         int finalCol = col;
         notifyObservers(obs -> obs.onSelectCol(finalCol));
@@ -205,8 +206,9 @@ public class Cli extends ViewObservable implements View{
                     out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                 }
             }
-            out.print("\n\n\n");
+            out.print("\n");
         }
+        out.print("\n\n");
     }
 
 
@@ -294,19 +296,24 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void askPlayerNumber() {
-        int playerNumber;
+        int playerNumber=0;
         boolean valid;
-        Scanner in = new Scanner(System.in);
         out.print("Input the number of total players in the game: ");
 
         do {
-            valid=true;
-            playerNumber = in.nextInt();
-
-            if(playerNumber>4 || playerNumber<2) {
+            valid = true;
+            try {
+               playerNumber = ReadInt();
+           } catch(NoSuchElementException e){
+               out.print("Please input a valid player number (a number from 2 to 4): ");
+               valid=false;
+           }if(valid){
+            if (playerNumber > 4 || playerNumber < 2) {
                 out.print("Please input a valid player number (a number from 2 to 4): ");
-                valid=false;
+                valid = false;
             }
+           }
+
         } while(!valid);
 
         final int maxPlayers = playerNumber;
