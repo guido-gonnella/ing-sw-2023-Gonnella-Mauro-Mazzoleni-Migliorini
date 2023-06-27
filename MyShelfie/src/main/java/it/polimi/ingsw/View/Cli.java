@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -77,6 +78,7 @@ public class Cli extends ViewObservable implements View{
         out.print("First insert your username: ");
         String nickname = ReadText();
         notifyObservers(obs->obs.onNicknameUpdate(nickname));
+
     }
 
     /**
@@ -112,7 +114,6 @@ public class Cli extends ViewObservable implements View{
         int finalCOL = coords[1];
         notifyObservers(obs -> obs.onSelectTile(finalROW,finalCOL));
     }
-
 
     /**
      * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
@@ -170,6 +171,7 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void boardShow(Space[][] board){
+        out.print("\n--------------- UPDATED BOARD ---------------\n\n");
         out.print("-");
         for (int i=0;i<board.length;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -193,7 +195,7 @@ public class Cli extends ViewObservable implements View{
                     out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                 }
             }
-            out.print("\n");
+            out.print("\n\n\n");
         }
     }
 
@@ -206,6 +208,7 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void shelfShow(SerializableOptional<Tile>[][] shelf) {
+        out.print("\n--------------- UPDATED SHELF ---------------\n\n");
         out.print("-");
         for (int i=0;i<5;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -269,9 +272,6 @@ public class Cli extends ViewObservable implements View{
         return(input.nextInt());
     }
 
-    /**
-     * Ask the player the number of players allowed in the game, then notify the networkHandler which then it sends the number to the server.
-     */
     @Override
     public void askPlayerNumber() {
         int playerNumber;
@@ -292,12 +292,6 @@ public class Cli extends ViewObservable implements View{
         final int maxPlayers = playerNumber;
         notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
-
-    /**
-     * Print on screen the points and the completion of the public objectives of all players connected to the game.<br>
-     * @param mapPoints
-     * @param mapObjective
-     */
     @Override
     public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){
         //Map<String, int>, Map<String, boolean[]>
@@ -322,16 +316,13 @@ public class Cli extends ViewObservable implements View{
             } else {
                 out.print("\u001B[31m" + "no objectives (╥﹏╥)" + "\u001B[0m");
             }
-        out.print("\n");
+            out.print("\n");
         }
     }
 
-    /**
-     * Print on screen the description of the {@link PublicObjective} based on the {@link PubObjType type} passed as the parameter.
-     * @param code the {@link PubObjType type} of the {@link PublicObjective} to be printed.
-     */
     @Override
     public void showPublicObjective(PubObjType code) {
+        out.print("\n------------- PUBLIC OBJECTIVES -------------\n\n");
         switch (code)
         {
             case ANGLES -> out.println("Place four of the same tiles on the corner of the shelf\n\t[=]---[=]\n\t |    |\n |    |\n\t[=]---[=]\n");
@@ -350,17 +341,15 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
-    /**
-     * Prints on screen the representation of the {@link PrivateObjective} passed as the parameter of the function.
-     * @param objective the {@link PrivateObjective} of a player.
-     */
     @Override
     public void showPrivateObjective(PrivateObjective objective) {
+        out.print( "------------- PRIVATE OBJECTIVE -------------\n\n");
         out.print("-");
         for (int i = 0; i < 5; i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print ("\n");
+        //prima z era 0, adesso non da problemi nel mostrare gli obiettivi privati
         int z = 0;
         for (int i = 0; i < 6; i++) {
             out.print(i);
@@ -384,12 +373,6 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
-    /**
-     * Extract the coordinates value from the input.<br>
-     * For example, the player write "4,6" the method return the array [4, 6].
-     * @param input the string inserted by the player.
-     * @return the array containing the coordinate int values.
-     */
     public static int[] extractIntegers(String input) {
         String[] parts = input.split(",");
         if (parts.length != 2) {
@@ -407,10 +390,6 @@ public class Cli extends ViewObservable implements View{
         return values;
     }
 
-    /**
-     * Simple print on screen of a text.
-     * @param text
-     */
     public void showText(String text){
         out.print(text);
     }

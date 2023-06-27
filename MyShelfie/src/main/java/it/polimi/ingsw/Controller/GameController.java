@@ -45,10 +45,6 @@ public class GameController implements Runnable{
     //flags & utils
     private boolean shelfFull;
 
-    /**
-     * Constructor for the GameController
-     * @param vv virtual view used to communicated with the client
-     */
     public GameController(VirtualView vv) {
         //creating the game instance
         this.game = new Game();
@@ -65,9 +61,6 @@ public class GameController implements Runnable{
         }
     }
 
-    /**
-     * Run method from the Runnable interface implemented to cycle and select which function to call based on the gameState
-     */
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
@@ -146,17 +139,12 @@ public class GameController implements Runnable{
     private void select(){
         //broadcast the player that is playing
         this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= IT'S " + "\u001B[35m" + this.currPlayer + "\u001B[0m" + "'S TURN =================\n");
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n------------- PUBLIC OBJECTIVES -------------\n\n");
-        this.virtualView.write(this.currPlayer, MsgType.PUBLIC_OBJECTIVE, this.game.getPublicObjectivesType());
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "------------- PRIVATE OBJECTIVE -------------\n\n");
-        this.virtualView.write(this.currPlayer, MsgType.PRIVATE_OBJECTIVE, this.game.getPlayerByNick(this.currPlayer).getPrivateObjective());
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n------------------- SHELF -------------------\n\n");
-        this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
 
+        this.virtualView.write(this.currPlayer, MsgType.PUBLIC_OBJECTIVE, this.game.getPublicObjectivesType());
+        this.virtualView.write(this.currPlayer, MsgType.PRIVATE_OBJECTIVE, this.game.getPlayerByNick(this.currPlayer).getPrivateObjective());
+        this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
         //broadcast the updated board to all players
-        this.virtualView.writeBroadcast(MsgType.TEXT, "\n--------------- UPDATED BOARD ---------------\n\n");
         virtualView.writeBroadcast(MsgType.BOARD_UPDATE, game.getBoard());
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n\n");
 
         this.selectedTiles.clear();
         FullTileSelectionMessage response = this.virtualView.readAll(this.currPlayer, new AskFullMsg(game.getBoard(), this.game.getPlayerByNick(this.currPlayer).getShelf()));
@@ -169,7 +157,7 @@ public class GameController implements Runnable{
                 this.game.getPlayerByNick(this.currPlayer).getShelf().putTile(tile, column);
             }
         }
-        
+
         //checking if the current player's shelf is full
         if(!this.shelfFull && this.game.getPlayerByNick(this.currPlayer).getShelf().isFull()) {
             this.shelfFull = true;
@@ -181,7 +169,6 @@ public class GameController implements Runnable{
         this.game.reachPubObj(this.game.getPlayerByNick(this.currPlayer));
 
         //sends the shelf to the current player
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n--------------- UPDATED SHELF ---------------\n\n");
         this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
 
         //change the turn phase and the pick the next player
@@ -216,5 +203,63 @@ public class GameController implements Runnable{
         int nextPlayerIndex = (currPlayerIndex+1) % this.players.size();
 
         this.currPlayer = this.players.get(nextPlayerIndex);
+    }
+
+    //todo temporanei, da togliere
+    public void boardShow(Space[][] board){
+        PrintStream out = new PrintStream(System.out);
+        out.print("-");
+        for (int i=0;i<board.length;i++) {
+            out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
+        }
+        out.print("\n");
+        for(int i = 0; i < board.length; i++) {
+            out.print(i);
+            for(int j = 0; j < board[0].length; j++) {
+                if(board[i][j].getTile().isPresent()) {
+                    switch (board[i][j].getTile().get().getType()) {
+                        case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                }
+                else {
+                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            out.print("\n");
+        }
+    }
+
+    public void shelfShow(SerializableOptional<Tile>[][] shelf) {
+        PrintStream out = new PrintStream(System.out);
+        out.print("-");
+        for (int i=0;i<5;i++) {
+            out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
+        }
+        out.print ("\n");
+        for (int i = 0; i < shelf.length; i++) {
+            out.print(i);
+            for (int j = 0; j < shelf[0].length; j++) {
+                if (shelf[i][j].isPresent()) {
+                    switch (shelf[i][j].get().getType()) {
+                        case TROPHY -> out.print("\u001B[36m" + "[T]" + "\u001B[0m");
+                        case FRAME -> out.print("\u001B[34m" + "[F]" + "\u001B[0m");
+                        case PLANT -> out.print("\u001B[35m" + "[P]" + "\u001B[0m");
+                        case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
+                        case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
+                        case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
+                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    }
+                } else {
+                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                }
+            }
+            System.out.print("\n");
+        }
     }
 }
