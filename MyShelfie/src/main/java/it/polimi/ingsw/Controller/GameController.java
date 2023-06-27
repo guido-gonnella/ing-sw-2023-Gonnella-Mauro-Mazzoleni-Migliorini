@@ -139,17 +139,12 @@ public class GameController implements Runnable{
     private void select(){
         //broadcast the player that is playing
         this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= IT'S " + "\u001B[35m" + this.currPlayer + "\u001B[0m" + "'S TURN =================\n");
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n------------- PUBLIC OBJECTIVES -------------\n\n");
-        this.virtualView.write(this.currPlayer, MsgType.PUBLIC_OBJECTIVE, this.game.getPublicObjectivesType());
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "------------- PRIVATE OBJECTIVE -------------\n\n");
-        this.virtualView.write(this.currPlayer, MsgType.PRIVATE_OBJECTIVE, this.game.getPlayerByNick(this.currPlayer).getPrivateObjective());
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n------------------- SHELF -------------------\n\n");
-        this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
 
+        this.virtualView.write(this.currPlayer, MsgType.PUBLIC_OBJECTIVE, this.game.getPublicObjectivesType());
+        this.virtualView.write(this.currPlayer, MsgType.PRIVATE_OBJECTIVE, this.game.getPlayerByNick(this.currPlayer).getPrivateObjective());
+        this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
         //broadcast the updated board to all players
-        this.virtualView.writeBroadcast(MsgType.TEXT, "\n--------------- UPDATED BOARD ---------------\n\n");
         virtualView.writeBroadcast(MsgType.BOARD_UPDATE, game.getBoard());
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n\n");
 
         this.selectedTiles.clear();
         FullTileSelectionMessage response = this.virtualView.readAll(this.currPlayer, new AskFullMsg(game.getBoard(), this.game.getPlayerByNick(this.currPlayer).getShelf()));
@@ -174,7 +169,6 @@ public class GameController implements Runnable{
         this.game.reachPubObj(this.game.getPlayerByNick(this.currPlayer));
 
         //sends the shelf to the current player
-        this.virtualView.write(this.currPlayer, MsgType.TEXT, "\n--------------- UPDATED SHELF ---------------\n\n");
         this.virtualView.write(this.currPlayer, MsgType.SHELF_UPDATE, this.game.getPlayerByNick(this.currPlayer).getShelf());
 
         //change the turn phase and the pick the next player

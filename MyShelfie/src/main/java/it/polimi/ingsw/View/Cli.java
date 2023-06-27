@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -218,6 +219,7 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void boardShow(Space[][] board){
+        out.print("\n--------------- UPDATED BOARD ---------------\n\n");
         out.print("-");
         for (int i=0;i<board.length;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -241,7 +243,7 @@ public class Cli extends ViewObservable implements View{
                     out.print("\u001B[30m" + "[■]" + "\u001B[0m");
                 }
             }
-            out.print("\n");
+            out.print("\n\n\n");
         }
     }
 
@@ -254,6 +256,7 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void shelfShow(SerializableOptional<Tile>[][] shelf) {
+        out.print("\n--------------- UPDATED SHELF ---------------\n\n");
         out.print("-");
         for (int i=0;i<5;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -367,6 +370,7 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void showPublicObjective(PubObjType code) {
+        out.print("\n------------- PUBLIC OBJECTIVES -------------\n\n");
         switch (code)
         {
             case ANGLES -> out.println("Place four of the same tiles on the corner of the shelf\n\t[=]---[=]\n\t |    |\n |    |\n\t[=]---[=]\n");
@@ -387,6 +391,7 @@ public class Cli extends ViewObservable implements View{
 
     @Override
     public void showPrivateObjective(PrivateObjective objective) {
+        out.print( "------------- PRIVATE OBJECTIVE -------------\n\n");
         out.print("-");
         for (int i = 0; i < 5; i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
