@@ -73,6 +73,9 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs -> obs.onConnection(finalServerAddr, finalPort));
     }
 
+    /**
+     * Ask the player to insert their nickname and then notify the {@link NetworkHandler} which sends it to the server.
+     */
     @Override
     public void askNickname() {
         out.print("First insert your username: ");
@@ -125,11 +128,18 @@ public class Cli extends ViewObservable implements View{
         out.print("Tile in " + ROW + "," + COL + " doesn't exist\n");
     }
 
+    /**
+     * Print on screen when the selected tiles are not valid, not adjacent or not in a straight line.
+     */
     @Override
     public void invalidCombo() {
         out.print("Invalid tiles combination selected, please select exposed and adjacent tiles\n");
     }
 
+    /**
+     * Print on screen the error when the column selected is out of bounds.
+     * @param column
+     */
     @Override
     public void invalidColumn(int column) {
         out.print("The empty spaces in column " + column + " are not enough, try again\n");
@@ -263,17 +273,27 @@ public class Cli extends ViewObservable implements View{
         out.println("\n");
     }
 
-
+    /**
+     * Read the String from the input stream.
+     * @return the read string
+     */
     private String ReadText(){
         input = new Scanner(System.in);
         return(input.next());
     }
 
+    /**
+     * Read an integer from the input stream.
+     * @return the read integer
+     */
     private int ReadInt(){
         input = new Scanner(System.in);
         return(input.nextInt());
     }
 
+    /**
+     * Ask the player the number of players allowed in the game, then notify the networkHandler which then it sends the number to the server.
+     */
     @Override
     public void askPlayerNumber() {
         int playerNumber=0;
@@ -299,6 +319,12 @@ public class Cli extends ViewObservable implements View{
         final int maxPlayers = playerNumber;
         notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
+
+    /**
+     * Print on screen the points and the completion of the public objectives of all players connected to the game.<br>
+     * @param mapPoints
+     * @param mapObjective
+     */
     @Override
     public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){
         //Map<String, int>, Map<String, boolean[]>
@@ -327,6 +353,10 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Print on screen the description of the {@link PublicObjective} based on the {@link PubObjType type} passed as the parameter.
+     * @param code the {@link PubObjType type} of the {@link PublicObjective} to be printed.
+     */
     @Override
     public void showPublicObjective(PubObjType code) {
         out.print("\n------------- PUBLIC OBJECTIVES -------------\n\n");
@@ -348,6 +378,10 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Prints on screen the representation of the {@link PrivateObjective} passed as the parameter of the function.
+     * @param objective the {@link PrivateObjective} of a player.
+     */
     @Override
     public void showPrivateObjective(PrivateObjective objective) {
         out.print( "------------- PRIVATE OBJECTIVE -------------\n\n");
@@ -380,6 +414,12 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Extract the coordinates value from the input.<br>
+     * For example, the player write "4,6" the method return the array [4, 6].
+     * @param input the string inserted by the player.
+     * @return the array containing the coordinate int values.
+     */
     public static int[] extractIntegers(String input) {
         String[] parts = input.split(",");
         if (parts.length != 2) {
