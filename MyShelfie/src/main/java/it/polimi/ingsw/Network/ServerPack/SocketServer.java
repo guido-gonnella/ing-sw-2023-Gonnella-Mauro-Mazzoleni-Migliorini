@@ -45,6 +45,7 @@ public class SocketServer extends ServerConnection {
         try{
             Message messageArrived = (Message) input.readObject();
             if(messageArrived != null) {
+                System.out.println("message"+messageArrived.getMsgType());
                 return messageArrived;
             }
         }catch(IOException | ClassNotFoundException e){

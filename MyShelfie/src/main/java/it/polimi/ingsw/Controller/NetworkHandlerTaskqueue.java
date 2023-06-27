@@ -1,9 +1,14 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.*;
+import it.polimi.ingsw.Model.Board;
+import it.polimi.ingsw.Model.Coords;
+import it.polimi.ingsw.Model.Shelf;
+import it.polimi.ingsw.Model.Tile;
 import it.polimi.ingsw.Network.ClientPack.ClientConnection;
 import it.polimi.ingsw.Network.ClientPack.ClientSocket;
-import it.polimi.ingsw.Network.Message.C2S.*;
+import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
+import it.polimi.ingsw.Network.Message.C2S.NumberOfPlayerMessage;
+import it.polimi.ingsw.Network.Message.C2S.UpdatePlInfoMessage;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.*;
 import it.polimi.ingsw.Network.RMI.ClientRmi;
@@ -11,180 +16,185 @@ import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class NetworkHandler implements Observer, ViewObserver, Runnable{
+public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable{
 
-    private ArrayList<Coords> tempTiles;
-    private ArrayList<Tile> hand;
-    private final View view;
-    private int column;
-    private Shelf shelf;
-    private int loop;
-    private Board board;
-    public ClientConnection client;
-    private String nick;
+    private static ArrayList<Coords> tempTiles;
+    private static ArrayList<Tile> hand;
+    private  final View view;
+    private static int column;
+    private static Shelf shelf;
+    private static int loop;
+    private static Board board;
+    public static ClientConnection client;
+    private static String nick;
     private final boolean socketConnection;
-
-    public NetworkHandler(View view, boolean socketConnection){
+    private boolean clientlock;
+    public NetworkHandlerTaskqueue(View view, boolean socketConnection){
             this.view = view;
             tempTiles = new ArrayList<Coords>();
             hand = new ArrayList<Tile>();
             shelf = new Shelf();
             this.socketConnection = socketConnection;
+            clientlock= true;
         }
     @Override
     public void onConnection(String serverAddr, int port) {
-        if(socketConnection)
-            client = new ClientSocket(serverAddr, port);
-        else
-            client = new ClientRmi(serverAddr);
-        }
+        if(socketConnection) client = new ClientSocket(serverAddr, port);
+        else client = new ClientRmi(serverAddr);
+
+        clientlock=false;
+    }
 
     /**
     * Method that whenever the client receives a message, notify this instance to be updated with a message.
     */
     @Override
     public void run() {
-            Message msg;
-            view.init();
-            while(!Thread.currentThread().isInterrupted()) {
-                msg = client.readMessage();
+        Message msg;
+        view.init();
 
-                switch (msg.getMsgType()) {
-                    case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
-                        view.askNickname();
-                        break;
-                    case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
-                        view.askPlayerNumber();
-                        break;
-                    case TEXT: //stampa il testo ricevuto, non ritorna niente
-                        view.showText(((TextMessage) msg).getText());
-                        break;
-                    case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
-                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
-                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
-                        break;
-                    case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
-                        view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
-                        break;
-                    case BOARD_UPDATE: //stampa la board, non ritorna niente
-                        board = ((UpdateBoardMessage) msg).getBoard();
-                        view.boardShow(board.getGrid());
-                        break;
-                    case SHELF_UPDATE: //stampa la shelf, non ritorna niente
-                        shelf = ((UpdateShelfMessage) msg).getShelf();
-                        view.shelfShow(shelf.getShelf());
-                        break;
-                    case FULL_SELECTION_REQUEST:
-                        //stampa la board, restituisce un FullTileSelectionMessage con
-                        //l'arraylist di coordinate selezionate e la colonna selezionata
-                        //il messaggio arrivato ha già la board e la shelf
-
-                        // quello da fare sulla view
-                        selectTileRequest(); //va bene questo?
-                        break;
-                    case END_STATS:
-                        //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
-                        //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
-                        //punteggi e il vincitore, non restituisce niente
-
-                        view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
-                        break;
-                    case END_GAME:
-                        Thread.currentThread().interrupt();
-                        break;
-                    case ERROR:
-                        //it.polimi.ingsw.view.showError();
-                        break;
-                    default: view.showText("something went very wrong");
-                }
+        while (clientlock) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
+        while (!Thread.currentThread().isInterrupted()) {
+            msg=client.readMessage();
+            switch (msg.getMsgType()) {
+                case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
+                    clientlock = true;
+                    view.askNickname();
+                    while (clientlock) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    break;
+                case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
+                    clientlock = true;
+                    view.askPlayerNumber();
+                     while (clientlock) {
+                         try {
+                             Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    break;
+                case TEXT: //stampa il testo ricevuto, non ritorna niente
+                    view.showText(((TextMessage) msg).getText());
+                    break;
+                case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
+                    view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
+                    view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
+                    break;
+                case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
+                    view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
+                    break;
+                case BOARD_UPDATE: //stampa la board, non ritorna niente
+                    board = ((UpdateBoardMessage) msg).getBoard();
+                    view.boardShow(board.getGrid());
+                    break;
+                case SHELF_UPDATE: //stampa la shelf, non ritorna niente
+                    shelf = ((UpdateShelfMessage) msg).getShelf();
+                    view.shelfShow(shelf.getShelf());
+                    break;
+                case FULL_SELECTION_REQUEST:
+                    //stampa la board, restituisce un FullTileSelectionMessage con
+                    //l'arraylist di coordinate selezionate e la colonna selezionata
+                    //il messaggio arrivato ha già la board e la shelf
 
-    /**
-     * Method that ask the player via view methods to selected the tiles from the board and then to select the column where to put the selected tiles.<br>
-     * Then the method send a {@link FullTileSelectionMessage} to the server containing the selected tiles and the column.
-     */
-    private void selectTileRequest(){
-        boolean valid;
-        int max=0;
-        int tilesleft;
-        for (int i=0;i<5;i++){
-            tilesleft=shelf.tilesLeftColumn(i);
-            if(max<tilesleft) {
-                max=tilesleft;
+                    // quello da fare sulla view
+                    selectTileRequest(); //va bene questo?
+                    break;
+                case END_STATS:
+                    //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
+                    //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
+                    //punteggi e il vincitore, non restituisce niente
+
+                    view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
+                    break;
+                case END_GAME:
+                    Thread.currentThread().interrupt();
+                    break;
+                case ERROR:
+                    //it.polimi.ingsw.view.showError();
+                    break;
+                default:
+                    view.showText("something went very wrong");
             }
         }
-        do {
-            loop=0;
-            if (max<3){
-                loop=3-max;
-            }
-            for (; loop < 3; loop++) {
-                view.askSelectTile();
-            }
-            valid = validSelection();
-            if (!valid) {
-                tempTiles.clear();
-                view.invalidCombo();
-            }
-        } while (!valid);
 
-        for (Coords tempTile : tempTiles) {
-            Tile tile = board.takeTiles(tempTile.ROW, tempTile.COL).get();
-            hand.add(tile);
-        }
-        view.showTilesInHand(hand);
-
-        do {
-            valid = true;
-            view.askInsertCol();
-            if (shelf.tilesLeftColumn(column) < hand.size()) {
-                view.invalidColumn(column);
-                valid = false;
-            }
-        } while (!valid);
-
-        client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
-
-        for (Tile tile : hand) {
-            shelf.putTile(tile, column);
-        }
-
-        hand.clear();
-        tempTiles.clear();
     }
+    private void selectTileRequest(){
+            boolean valid;
 
-    /**
-     * Method that add the coordinates of the selected tile to the tempTiles list, but firstly check if the coordinates inserted are -1,-1, which means
-     * the player wants to end their selection, or check if the selected coordinated are out of bounds or the space on the board is empty.
-     * @param ROW x coordinate
-     * @param COL y coordinate
-     */
+            do {
+                for (loop = 0; loop < 3; loop++) {
+                    view.askSelectTile();
+                }
+                valid = validSelection();
+                if (!valid) {
+                    tempTiles.clear();
+                    view.invalidCombo();
+                }
+            } while (!valid);
+
+            for (Coords tempTile : tempTiles) {
+                Tile tile = board.takeTiles(tempTile.ROW, tempTile.COL).get();
+                hand.add(tile);
+            }
+            view.showTilesInHand(hand);
+
+            do {
+                valid = true;
+                view.askInsertCol();
+                if (shelf.tilesLeftColumn(column) < hand.size()) {
+                    view.invalidColumn(column);
+                    valid = false;
+                }
+            } while (!valid);
+
+            client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
+
+            for (Tile tile : hand) {
+                shelf.putTile(tile, column);
+            }
+
+            hand.clear();
+            tempTiles.clear();
+        }
+
     @Override
     public void onSelectTile(int ROW, int COL) {
-        if (ROW == -1 && COL == -1) {
-            loop = 2;
+            if (ROW == -1 && COL == -1) {
+                loop = 2;
+            }
+            else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
+                view.invalidTile(ROW, COL);
+                view.askSelectTile();
+            }
+            else {
+                tempTiles.add(new Coords(ROW, COL));
+            }
         }
-        else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
-            view.invalidTile(ROW, COL);
-            view.askSelectTile();
-        }
-        else {
-            tempTiles.add(new Coords(ROW, COL));
-        }
-    }
 
-    /**
-     * Set the column attribute at the value of the parameter passed.
-     * @param col - the selected column
-     */
     @Override
     public void onSelectCol(int col) {
-        this.column = col;
-    }
+            this.column = col;
+        }
 
     /**
          * Sends to the server the chosen number of player
@@ -193,27 +203,23 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     @Override
     public void onPlayerNumberReply(int numPlayers){
             client.sendMessage(new NumberOfPlayerMessage(numPlayers));
+
+            clientlock=false;
         }
 
-    /**
-     * Sends to the server the selected tiles and column, in the form of a {@link FullTileSelectionMessage}
-     * @param coords the coordinates of the selected tiles
-     * @param col the selected column
-     */
     @Override
     public void onSelection(ArrayList<Coords> coords, int col) {
         client.sendMessage(new FullTileSelectionMessage(coords, col));
     }
 
-    /**
-     * Update the nickname with the passed parameter, and send it to the server in the form of a {@link UpdatePlInfoMessage}.
-     * @param nick the new nickname
-     */
     @Override
     public void onNicknameUpdate (String nick){
-        this.nick = nick;
-        client.sendMessage(new UpdatePlInfoMessage(nick));
-    }
+            this.nick = nick;
+            client.sendMessage(new UpdatePlInfoMessage(nick));
+
+            clientlock=false;
+
+        }
 
     /**
     * This method validates the given IPv4
@@ -233,12 +239,12 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
          * @return
          */
     public static boolean isValidPort(int portStr) {
-        try {
-            return portStr >= 1 && portStr <= 65535;
-        } catch (NumberFormatException e) {
-            return false;
+            try {
+                return portStr >= 1 && portStr <= 65535;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
-    }
 
     /**
      *
@@ -253,6 +259,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
      * then checks if the difference between the coordinates (x or y values) are -1, meaning the values (x or y) are consecutive, then it checks if the coordinates
      * have at least on free side.
      * @return return true if the selection is valid, false otherwise
+     * @author Guido Gonnella
      */
     public boolean validSelection(){
         ArrayList<Coords> tempCoords = new ArrayList<>(this.tempTiles);
@@ -337,13 +344,6 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
         return false;
     }
-
-    /**
-     * Checks if the tile at the passed coordinate have, at least, a free side.
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return true if the tile have at least one free side, false otherwise
-     */
     private boolean adjacent(int x, int y){
         if(x==0 || x== 8 || y==0 || y==8)
             return true;

@@ -1,37 +1,43 @@
 package it.polimi.ingsw.View.Gui.SceneControllers;
 
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
+import it.polimi.ingsw.Observer.ViewObservable;
+import it.polimi.ingsw.View.Gui.Gui2;
+import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.util.Scanner;
+public class MaxPlayerSceneController extends ViewObservable implements GenericSceneController{
+    @FXML
+    private TextField MaxPlayerBox;
+    @FXML
+    private javafx.scene.control.Button Button;
 
-import static it.polimi.ingsw.Observer.ViewObservable.notifyObservers;
+    @FXML
+    public void initialize() {
+        Button.setOnAction(this::playersButton);
+    }
 
-public class MaxPlayerSceneController {
-    public TextField MaxPlayerBox;
-    public javafx.scene.control.Button Button;
-    private Stage stage;
-    public boolean loginAttempt;
-
-    public void login(ActionEvent actionEvent) {
+    private void playersButton(Event event) {
         int playerNumber;
-        boolean valid;
+        boolean valid = false;
 
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        while(!valid) {
+            playerNumber = Integer.parseInt(MaxPlayerBox.getText());
 
-        valid=true;
-        playerNumber = Integer.parseInt(MaxPlayerBox.getText());
-
-        if(playerNumber>4 || playerNumber<2) {
-            valid=false;
+            if(playerNumber>4 || playerNumber<2) {
+                reset();
+            }
+            else {
+                valid=true;
+                final int maxPlayers = playerNumber;
+                new Thread(()->notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
+            }
         }
-        else {
-            final int maxPlayers = playerNumber;
-            notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
-        }
-        loginAttempt = valid;
+
+        Gui2.planeLoader("WaitingRoomScene.fxml");
+    }
+
+    private void reset() {
+        MaxPlayerBox.clear();
     }
 }

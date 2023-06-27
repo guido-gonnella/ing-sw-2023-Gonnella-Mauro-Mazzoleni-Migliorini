@@ -40,8 +40,6 @@ public class Gui extends ViewObservable implements View {
             throw new RuntimeException(e);
         }
         MenuSceneController controller = loader.getController();
-
-        while(!controller.loginAttempt);
     }
 
     @Override
@@ -54,8 +52,6 @@ public class Gui extends ViewObservable implements View {
             throw new RuntimeException(e);
         }
         UsernameSceneController controller = loader.getController();
-
-        while(!controller.loginAttempt);
     }
 
     @Override
@@ -95,7 +91,6 @@ public class Gui extends ViewObservable implements View {
         }
         MaxPlayerSceneController controller = loader.getController();
 
-        while(!controller.loginAttempt);
     }
 
     @Override
