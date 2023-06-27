@@ -36,10 +36,10 @@ public class ClientApp {
 
         if(cliView){
             Cli view = new Cli();
-            NetworkHandler networkHandler = new NetworkHandler(view, socketConnection);
+            NetworkHandlerTaskqueue networkHandler = new NetworkHandlerTaskqueue(view, socketConnection);
             view.addObserver(networkHandler);
-            Thread thread= new Thread(networkHandler, "networkHandler_");
-            thread.start();
+            view.init();
+
         }else{
             Application.launch(JavaFXGui.class);
         }

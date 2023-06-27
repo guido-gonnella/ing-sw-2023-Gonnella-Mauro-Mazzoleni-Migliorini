@@ -162,6 +162,11 @@ public class Cli extends ViewObservable implements View{
 
     }
 
+    @Override
+    public void terminate() {
+        System.exit(0);
+    }
+
     /**
      * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini

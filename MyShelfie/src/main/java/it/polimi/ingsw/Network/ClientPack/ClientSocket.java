@@ -1,11 +1,16 @@
 package it.polimi.ingsw.Network.ClientPack;
 
 import it.polimi.ingsw.Network.Message.*;
+import it.polimi.ingsw.Observer.Observable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static it.polimi.ingsw.Observer.Observable.notifymessage;
 
 /**
  * This class is used to communicate with the server, is purpose is to act as a blackbox
@@ -15,8 +20,11 @@ public class ClientSocket extends ClientConnection {
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private final ExecutorService readExecutionQueue;
+
 
     public ClientSocket(String address, int port) {
+        this.readExecutionQueue = Executors.newSingleThreadExecutor();
         try {
             this.socket = new Socket(address, port);
             this.output = new ObjectOutputStream(socket.getOutputStream());
@@ -31,18 +39,20 @@ public class ClientSocket extends ClientConnection {
      * Read a message from the server and returns it to the NetworkHandler
      * @return the message received
      */
-    public synchronized Message readMessage(){
+    public  void readMessage(){
+        readExecutionQueue.execute(() -> {
+            while (!readExecutionQueue.isShutdown()) {
 
-        try {
-            Message messageArrived = (Message) input.readObject();
-            if (messageArrived != null) {
-                return messageArrived;
+                try {
+                    Message messageArrived = (Message) input.readObject();
+                    if (messageArrived != null) {
+                        notifymessage(messageArrived);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    disconnect();
+                }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            disconnect();
-            return new ErrorMessage("Error in reading message");
-        }
-        return new ErrorMessage("Error in reading message");
+        });
     }
 
     /**

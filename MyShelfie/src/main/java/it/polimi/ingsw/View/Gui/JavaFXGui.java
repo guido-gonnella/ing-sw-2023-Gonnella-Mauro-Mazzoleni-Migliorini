@@ -22,8 +22,6 @@ public class JavaFXGui extends Application {
         Gui2 view = new Gui2();
         NetworkHandlerTaskqueue networkHandler = new NetworkHandlerTaskqueue(view, true);
         view.addObserver(networkHandler);
-        Thread thread= new Thread(networkHandler, "networkHandler_");
-        thread.start();
 
         // Load root layout from fxml file.
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmls/StartScene.fxml")));

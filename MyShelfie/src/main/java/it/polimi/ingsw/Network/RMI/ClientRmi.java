@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class ClientRmi extends ClientConnection {
+public class ClientRmi  {
 
     private MyRemoteInterface client;
     private MyRemoteInterface server;
@@ -25,7 +25,6 @@ public class ClientRmi extends ClientConnection {
             e.printStackTrace();
         }
     }
-    @Override
     public synchronized Message readMessage() {
         try {
             Message msg;
@@ -39,7 +38,6 @@ public class ClientRmi extends ClientConnection {
         return null;
     }
 
-    @Override
     public synchronized void sendMessage(Message message) {
         try{
             server.clientSendMessage(username, message);
@@ -49,7 +47,7 @@ public class ClientRmi extends ClientConnection {
         }
     }
 
-    @Override
+
     public void disconnect() {
 
     }

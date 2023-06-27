@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.ClientPack.ClientConnection;
 import it.polimi.ingsw.Network.ClientPack.ClientSocket;
@@ -13,7 +14,7 @@ import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
 
-public class NetworkHandler implements Observer, ViewObserver, Runnable{
+public class NetworkHandler implements ViewObserver, Runnable{
 
     private ArrayList<Coords> tempTiles;
     private ArrayList<Tile> hand;
@@ -37,8 +38,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     public void onConnection(String serverAddr, int port) {
         if(socketConnection)
             client = new ClientSocket(serverAddr, port);
-        else
-            client = new ClientRmi(serverAddr);
+
+            //client = new ClientRmi(serverAddr);
         }
 
     /**
@@ -47,9 +48,9 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     @Override
     public void run() {
             Message msg;
+            msg=new Message(MsgType.SELECT_COL_REQUEST);
             view.init();
             while(!Thread.currentThread().isInterrupted()) {
-                msg = client.readMessage();
 
                 switch (msg.getMsgType()) {
                     case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username

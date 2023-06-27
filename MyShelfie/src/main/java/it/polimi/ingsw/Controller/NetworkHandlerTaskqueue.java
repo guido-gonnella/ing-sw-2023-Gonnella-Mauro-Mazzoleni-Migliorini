@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable{
+public class NetworkHandlerTaskqueue implements Observer, ViewObserver{
 
     private static ArrayList<Coords> tempTiles;
     private static ArrayList<Tile> hand;
@@ -35,7 +35,8 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     public static ClientConnection client;
     private static String nick;
     private final boolean socketConnection;
-    private boolean clientlock;
+    private static boolean clientlock;
+    private final ExecutorService taskExecutor;
     public NetworkHandlerTaskqueue(View view, boolean socketConnection){
             this.view = view;
             tempTiles = new ArrayList<Coords>();
@@ -43,74 +44,51 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             shelf = new Shelf();
             this.socketConnection = socketConnection;
             clientlock= true;
-        }
+        taskExecutor= Executors.newSingleThreadExecutor();
+
+    }
     @Override
     public void onConnection(String serverAddr, int port) {
         if(socketConnection)
             client = new ClientSocket(serverAddr, port);
-        else
-            client = new ClientRmi(serverAddr);
-        clientlock=false;
+      /*  else
+            client = new ClientRmi(serverAddr);*/
+        client.addObserver(this);
+        client.readMessage();
     }
 
     /**
     * Method that whenever the client receives a message, notify this instance to be updated with a message.
     */
     @Override
-    public void run() {
-        Message msg;
-        view.init();
+    public void update(Message msg) {
 
-        while (clientlock) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            }
 
-        while (!Thread.currentThread().isInterrupted()) {
-            msg=client.readMessage();
             switch (msg.getMsgType()) {
                 case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
-                    clientlock = true;
-                    view.askNickname();
-                    while (clientlock) {
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    taskExecutor.execute(()->view.askNickname());
                     break;
                 case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
-                    clientlock = true;
-                    view.askPlayerNumber();
-                     while (clientlock) {
-                         try {
-                             Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    taskExecutor.execute(()-> view.askPlayerNumber());
+
                     break;
                 case TEXT: //stampa il testo ricevuto, non ritorna niente
-                    view.showText(((TextMessage) msg).getText());
+                    taskExecutor.execute(()->view.showText(((TextMessage) msg).getText()));
                     break;
                 case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
-                    view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
-                    view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
+                    taskExecutor.execute(()->view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]));
+                    taskExecutor.execute(()->view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]));
                     break;
                 case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
-                    view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
+                    taskExecutor.execute(()->view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective()));
                     break;
                 case BOARD_UPDATE: //stampa la board, non ritorna niente
                     board = ((UpdateBoardMessage) msg).getBoard();
-                    view.boardShow(board.getGrid());
+                    taskExecutor.execute(()->view.boardShow(board.getGrid()));
                     break;
                 case SHELF_UPDATE: //stampa la shelf, non ritorna niente
                     shelf = ((UpdateShelfMessage) msg).getShelf();
-                    view.shelfShow(shelf.getShelf());
+                    taskExecutor.execute(()->view.shelfShow(shelf.getShelf()));
                     break;
                 case FULL_SELECTION_REQUEST:
                     //stampa la board, restituisce un FullTileSelectionMessage con
@@ -125,9 +103,10 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                     //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
                     //punteggi e il vincitore, non restituisce niente
 
-                    view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
+                    taskExecutor.execute(()->view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj()));
                     break;
                 case END_GAME:
+                    view.terminate();
                     Thread.currentThread().interrupt();
                     break;
                 case ERROR:
@@ -136,20 +115,28 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                 default:
                     view.showText("something went very wrong");
             }
-        }
+
 
     }
     private void selectTileRequest(){
             boolean valid;
-
             do {
                 for (loop = 0; loop < 3; loop++) {
-                    view.askSelectTile();
+                    clientlock=true;
+                    taskExecutor.execute(()->view.askSelectTile());
+                    while(clientlock)
+                    {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
                 valid = validSelection();
                 if (!valid) {
                     tempTiles.clear();
-                    view.invalidCombo();
+                    taskExecutor.execute(()->view.invalidCombo());
                 }
             } while (!valid);
 
@@ -157,13 +144,22 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                 Tile tile = board.takeTiles(tempTile.ROW, tempTile.COL).get();
                 hand.add(tile);
             }
-            view.showTilesInHand(hand);
+        taskExecutor.execute(()->view.showTilesInHand(hand));
 
             do {
                 valid = true;
-                view.askInsertCol();
+                clientlock=true;
+                taskExecutor.execute(()->view.askInsertCol());
+                while(clientlock)
+                {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (shelf.tilesLeftColumn(column) < hand.size()) {
-                    view.invalidColumn(column);
+                    taskExecutor.execute(()->view.invalidColumn(column));
                     valid = false;
                 }
             } while (!valid);
@@ -182,19 +178,23 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     public void onSelectTile(int ROW, int COL) {
             if (ROW == -1 && COL == -1) {
                 loop = 2;
+                clientlock=false;
             }
             else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
-                view.invalidTile(ROW, COL);
-                view.askSelectTile();
+
+                taskExecutor.execute(()->view.invalidTile(ROW, COL));
+                taskExecutor.execute(()->view.askSelectTile());
             }
             else {
                 tempTiles.add(new Coords(ROW, COL));
+                clientlock=false;
             }
         }
 
     @Override
     public void onSelectCol(int col) {
             this.column = col;
+            clientlock=false;
         }
 
     /**
