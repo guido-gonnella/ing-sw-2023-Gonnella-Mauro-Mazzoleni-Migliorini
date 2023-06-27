@@ -114,6 +114,11 @@ public class VirtualView {
         }
     }
 
+    /**
+     * Sends to all the client connected at the game the statistics of the game just ended, in the form of a {@link EndStatsMessage}.
+     * @param mapPoints a map containing the players' username as the keys, and their points as the values
+     * @param mapObjective a map containing the players' username as the keys, and their completion of the public objectives in the form of an array of two boolean
+     */
     public void endGame(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective) {
         for(ServerConnection server : connectionMap.values()){
             server.sendMessage(new EndStatsMessage(mapPoints, mapObjective));
@@ -122,12 +127,16 @@ public class VirtualView {
 
     /**
      * To return the list of usernames
-     * @return
+     * @return the list containing the username of all the players connected to the game
      */
     public ArrayList<String> getUsernames(){
         return new ArrayList<>(connectionMap.keySet());
     }
 
+    /**
+     * Remove the username from the sever.
+     * @param username the player's username
+     */
     public void removeUsername(String username){
         server.removeUsername(username);
     }

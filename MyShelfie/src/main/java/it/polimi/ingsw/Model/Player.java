@@ -208,17 +208,34 @@ public class Player {
         return this.nickname;
     }
 
+    /**
+     * Return the array containing the flags which represent if the corresponding {@link PublicObjective} has been reached by the player.
+     * @return the array with the booleans.
+     */
     public boolean[] getPubObjFlag() {
         return this.pubObjFlag;
     }
 
+    /**
+     * Setter for the player's {@link PrivateObjective}
+     * @param privateObjective the privateObjective
+     */
     public void setPrivateObjective(PrivateObjective privateObjective){
         this.privateObjective = privateObjective;
     }
 
+    /**
+     * Getter for the player's {@link PrivateObjective}
+     * @return the player's privateObjective
+     */
     public PrivateObjective getPrivateObjective() {
         return this.privateObjective;
     }
+
+    /**
+     * Getter for the player's actual points.
+     * @return
+     */
     public int getPlayerPoints() {
         return playerPoints;
     }

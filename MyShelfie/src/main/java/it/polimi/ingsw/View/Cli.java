@@ -113,53 +113,7 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs -> obs.onSelectTile(finalROW,finalCOL));
     }
 
-    //TODO nuovo, da togliere o modificare
-    @Override
-    public void askSelection(Board board, Shelf shelf){
-        int chosenCol;
-        int tempCol;
-        ArrayList<Tile> chosenTiles = new ArrayList<>();
-        ArrayList<Coords> chosenCoords = new ArrayList<>();
-        String temp;
-        int[] coords = new int[2];
-        boolean end = false;
 
-        //do{
-        // chosenCoords.clear();
-        // chosenTiles.clear();
-        for(int i = 0; i<3 && !end; i++){
-            showText("Input \"ROW,COL\" coordinates of the tile, to stop input \"-1,-1\": ");
-            try {
-                coords = extractIntegers(ReadText());
-                if(coords[0] == -1 && coords[1] == -1){
-                    end = true;
-                } else {
-                    chosenCoords.add(new Coords(coords[0], coords[1]));
-                    chosenTiles.add(board.getGrid()[coords[0]][coords[1]].getTile().get());
-                }
-            }catch(InputMismatchException e){
-                showText("Mismatch please input valid coordinates (like \"1,2\" or \"0,3\"): ");
-                i--;
-            }catch(NoSuchElementException e1){
-                showText("No element please input valid coordinates (like \"1,2\" or \"0,3\"): ");
-                i--;
-            }
-        }
-        //}while(selezione non valida, fare check);
-
-        showTilesInHand(chosenTiles);
-
-        showText("Select the column [0 to 4] ");
-        tempCol = ReadInt();
-        while(tempCol < 0 || tempCol > 4){ //oppure le tiles non entrano nella colonna
-            showText("Out of bounds, select a number between 0 and 4 ");
-            tempCol = ReadInt();
-        }
-        chosenCol = tempCol;
-
-        notifyObservers(obs -> obs.onSelection(chosenCoords, chosenCol));
-
-    }
     /**
      * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini
@@ -315,6 +269,9 @@ public class Cli extends ViewObservable implements View{
         return(input.nextInt());
     }
 
+    /**
+     * Ask the player the number of players allowed in the game, then notify the networkHandler which then it sends the number to the server.
+     */
     @Override
     public void askPlayerNumber() {
         int playerNumber;
@@ -335,6 +292,12 @@ public class Cli extends ViewObservable implements View{
         final int maxPlayers = playerNumber;
         notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
+
+    /**
+     * Print on screen the points and the completion of the public objectives of all players connected to the game.<br>
+     * @param mapPoints
+     * @param mapObjective
+     */
     @Override
     public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){
         //Map<String, int>, Map<String, boolean[]>
@@ -363,6 +326,10 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Print on screen the description of the {@link PublicObjective} based on the {@link PubObjType type} passed as the parameter.
+     * @param code the {@link PubObjType type} of the {@link PublicObjective} to be printed.
+     */
     @Override
     public void showPublicObjective(PubObjType code) {
         switch (code)
@@ -383,6 +350,10 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Prints on screen the representation of the {@link PrivateObjective} passed as the parameter of the function.
+     * @param objective the {@link PrivateObjective} of a player.
+     */
     @Override
     public void showPrivateObjective(PrivateObjective objective) {
         out.print("-");
@@ -390,7 +361,6 @@ public class Cli extends ViewObservable implements View{
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print ("\n");
-        //prima z era 0, adesso non da problemi nel mostrare gli obiettivi privati
         int z = 0;
         for (int i = 0; i < 6; i++) {
             out.print(i);
@@ -414,6 +384,12 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Extract the coordinates value from the input.<br>
+     * For example, the player write "4,6" the method return the array [4, 6].
+     * @param input the string inserted by the player.
+     * @return the array containing the coordinate int values.
+     */
     public static int[] extractIntegers(String input) {
         String[] parts = input.split(",");
         if (parts.length != 2) {
@@ -431,6 +407,10 @@ public class Cli extends ViewObservable implements View{
         return values;
     }
 
+    /**
+     * Simple print on screen of a text.
+     * @param text
+     */
     public void showText(String text){
         out.print(text);
     }

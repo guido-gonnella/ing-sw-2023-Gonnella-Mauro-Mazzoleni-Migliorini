@@ -8,8 +8,7 @@ import java.io.Serializable;
 
 /**
  * Message from server to the client, notifying to update its it.polimi.ingsw.view to update the shelf<br>
- * It sends the information about the updated shelf
- * @author Guido Gonnella
+ * It sends the information about the updated shelf.
  */
 public class UpdateShelfMessage extends Message {
     private final Shelf shelf;

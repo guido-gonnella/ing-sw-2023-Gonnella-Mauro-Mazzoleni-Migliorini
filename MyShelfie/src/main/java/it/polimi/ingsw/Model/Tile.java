@@ -18,9 +18,16 @@ public class Tile implements Serializable {
         this.type = type;
         this.id=id;
     }
+
+    /**
+     * @return the {@link Type} of the tile.
+     */
     public Type getType(){
         return this.type;
     }
 
+    /**
+     * @return the id of the tile, which is used in the view.
+     */
     public int getId() {return id; }
 }

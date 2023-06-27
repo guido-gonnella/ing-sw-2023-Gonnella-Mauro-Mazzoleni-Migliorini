@@ -21,16 +21,22 @@ public class ElementObjective implements Serializable {
     }
 
     /**
-     * basic getters
+     * Getter for the row.
      */
     public int getROW() {
         return ROW;
     }
 
+    /**
+     * Getter for the column.
+     */
     public int getCOL() {
         return COL;
     }
 
+    /**
+     * Getter for the type.
+     */
     public Type getType() {
         return type;
     }

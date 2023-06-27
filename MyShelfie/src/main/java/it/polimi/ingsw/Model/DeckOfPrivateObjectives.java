@@ -23,6 +23,12 @@ public class DeckOfPrivateObjectives {
         }
     }
 
+    /**
+     * Return a list containing the {@link PrivateObjective private objectives}, which then are distributed to the players.<br>
+     * There are as many elements as the number of players passed as a parameter.
+     * @param numPlayers the number of player in the game
+     * @return an arrayList containing the privateObjectives
+     */
     public ArrayList<PrivateObjective> getPrivateObjectives(int numPlayers) {
         //randomly  adds of the 12 private objectives the same number of players to a list of private objectives as output
         ArrayList<PrivateObjective> SingleRoundObjectives = new ArrayList<>();

@@ -18,6 +18,10 @@ public class PublicObjective implements Serializable {
     private final int HEIGHT = 6;
     private final int WIDTH = 5;
 
+    /**
+     * Constructor for the class. Based on the parameter, the obj attribute is set as one of the lambdas specified in the method.
+     * @param obj the {@link PubObjType type} of the public objective
+     */
     public PublicObjective(PubObjType obj){
         type = obj;
         switch (obj) {
@@ -467,6 +471,10 @@ public class PublicObjective implements Serializable {
         return this.obj.reach(shelf);
     }
 
+    /**
+     * Getter for the type of the objective.
+     * @return the type of the objective.
+     */
     public PubObjType getObjectiveType(){return type;}
 
 }

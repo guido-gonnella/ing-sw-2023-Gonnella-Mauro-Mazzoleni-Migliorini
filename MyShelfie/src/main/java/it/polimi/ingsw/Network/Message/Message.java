@@ -11,9 +11,6 @@ import java.io.Serializable;
  * @author Samuele Mazzoleni
  */
 
-/*TODO modificare i messaggi, non è necessario inserire come parametro il giocatore a cui è destinato
-   ci pensa la virtalView (attuale PlayerController)  a mandarlo al giocatore corretto
- */
 public class Message implements Serializable {
 
     private MsgType type;
@@ -38,6 +35,10 @@ public class Message implements Serializable {
         return username;
     }*/
 
+    /**
+     * toString method to visualize the Message in the form of a {@link String}
+     * @return
+     */
     @Override
     public String toString() {
         return "Message{" +

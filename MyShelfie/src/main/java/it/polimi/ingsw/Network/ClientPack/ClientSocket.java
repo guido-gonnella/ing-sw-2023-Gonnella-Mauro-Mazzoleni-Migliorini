@@ -16,6 +16,12 @@ public class ClientSocket extends ClientConnection {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
+    /**
+     * Constructor of the class.<br>
+     * It creates the connection with the server on {@link Socket socket} attribute.
+     * @param address the server IPv4 address.
+     * @param port the port of the server.
+     */
     public ClientSocket(String address, int port) {
         try {
             this.socket = new Socket(address, port);

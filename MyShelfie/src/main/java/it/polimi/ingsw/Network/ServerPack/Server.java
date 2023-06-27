@@ -116,6 +116,10 @@ public class Server implements Runnable {
 
     }
 
+    /**
+     * Remove the passed username from the set.
+     * @param username the pplayer's username.
+     */
     public void removeUsername(String username){
         usernames.remove(username);
     }

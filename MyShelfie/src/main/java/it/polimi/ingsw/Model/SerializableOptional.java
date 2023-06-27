@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
- * Copy of the {@link java.util.Optional Optional<T>} but serializable.<br>
+ * Re-implementation of the {@link java.util.Optional Optional<T>} but serializable.<br>
  * If the value is ot null isEmpty return false, and the isPresent return true.<br><br>
  * The methods in the class are a copy of the original methods.<br>
  * The only method different from the original is of(T value), which if value is null return an empty SerializableOptional
