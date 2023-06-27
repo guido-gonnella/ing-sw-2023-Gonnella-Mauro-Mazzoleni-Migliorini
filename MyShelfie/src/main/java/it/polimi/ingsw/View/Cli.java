@@ -175,9 +175,9 @@ public class Cli extends ViewObservable implements View{
 
 
     /**
-     * *prints the board to the player in color
-     @param board the game Board
-      * @author Samuele Mazzoleni
+     * prints the board to the player in color
+     * @param board the game Board
+     * @author Samuele Mazzoleni
      * @author Andrea Migliorini
      **/
     @Override
@@ -213,9 +213,9 @@ public class Cli extends ViewObservable implements View{
 
 
     /**
-     * *prints the board to the player in color
-     @param shelf<Tile>[][] shelf
-      * @author Pier Antonio Mauro
+     * prints the board to the player in color
+     * @param shelf<Tile>[][] shelf
+     * @author Pier Antonio Mauro
      * @author Andrea Migliorini
      **/
     @Override
@@ -437,6 +437,10 @@ public class Cli extends ViewObservable implements View{
         return values;
     }
 
+    /**
+     * Print on screen the String passed as the parameter.
+     * @param text the String to be showed.
+     */
     public void showText(String text){
         out.print(text);
     }
