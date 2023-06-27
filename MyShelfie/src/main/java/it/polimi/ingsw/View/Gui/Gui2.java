@@ -37,16 +37,12 @@ public class Gui2 extends ViewObservable implements View {
     private static GenericSceneController activeController;
     @Override
     public void init() {
-        PrintStream out=new PrintStream(System.out);
-        out.println("1");
+
     }
 
     @Override
     public void askNickname() {
-        UsernameSceneController controller = new UsernameSceneController();
-        Platform.runLater(()-> planeloader( controller,"UsernameScene.fxml"));
-
-
+        Platform.runLater(()-> planeloader("UsernameScene.fxml"));
     }
 
     @Override
@@ -77,8 +73,8 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void askPlayerNumber() {
-        MaxPlayerSceneController controller = new MaxPlayerSceneController();
-        planeloader(controller,"MaxPlayerScene.fxml");
+        Platform.runLater(()->planeloader("MaxPlayerScene.fxml"));
+
     }
 
     @Override
@@ -88,7 +84,7 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void showPublicObjective(PubObjType code) {
-
+        Platform.runLater(()->planeloader("MainScene.fxml"));
     }
 
     @Override
@@ -118,18 +114,17 @@ public class Gui2 extends ViewObservable implements View {
     @Override
     public void askSelection(Board board, Shelf shelf) {
     }
-    public void planeloader(GenericSceneController controller, String fxml) {
+    public void planeloader( String fxml) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxmls/"+ fxml));
         //FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxmls/MenuScene.fxml")));
-
-        activeController = controller;
         Parent root;
         try {
              root = loader.load();
         } catch (IOException e) {
             throw new RuntimeException();
         }
+        activeController= loader.getController();
         activeScene.setRoot(root);
      //   activeStage.setScene(activeScene);
 
@@ -137,8 +132,7 @@ public class Gui2 extends ViewObservable implements View {
     public  void initialize(Scene scene,Stage stage){
         activeScene= scene;
         activeStage=stage;
-        MenuSceneController sceneController =new MenuSceneController();
-        Platform.runLater(()->planeloader(sceneController,"MenuScene.fxml"));
+        Platform.runLater(()->planeloader("MenuScene.fxml"));
     }
 
 }

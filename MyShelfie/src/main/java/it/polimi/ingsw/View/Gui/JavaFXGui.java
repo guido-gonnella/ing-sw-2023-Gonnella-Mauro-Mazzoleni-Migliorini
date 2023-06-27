@@ -33,11 +33,13 @@ public class JavaFXGui extends Application {
         // Show the scene containing the root layout.
         Scene scene = new Scene(root);
 
-        stage.setMaxHeight(1080);
+  /*      stage.setMaxHeight(1080);
         stage.setMaxWidth(1920);
         stage.setAlwaysOnTop(true);
-        stage.setResizable(false);
+        stage.setResizable(false);*/
+        stage.setFullScreen(true);
         stage.setTitle("MyShelfie");
+        stage.setFullScreenExitHint("");
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Publisher material/Icon 50x50px.png"))));
 
         stage.setScene(scene);

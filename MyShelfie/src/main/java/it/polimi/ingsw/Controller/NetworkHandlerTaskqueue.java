@@ -20,6 +20,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable{
 
@@ -34,7 +36,6 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     private static String nick;
     private final boolean socketConnection;
     private boolean clientlock;
-    private static ExecutorService taskExecutor;
     public NetworkHandlerTaskqueue(View view, boolean socketConnection){
             this.view = view;
             tempTiles = new ArrayList<Coords>();
@@ -42,7 +43,6 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             shelf = new Shelf();
             this.socketConnection = socketConnection;
             clientlock= true;
-        taskExecutor = Executors.newSingleThreadExecutor();
         }
     @Override
     public void onConnection(String serverAddr, int port) {
@@ -50,7 +50,6 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             client = new ClientSocket(serverAddr, port);
         else
             client = new ClientRmi(serverAddr);
-
         clientlock=false;
     }
 
@@ -61,13 +60,15 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     public void run() {
         Message msg;
         view.init();
+
         while (clientlock) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+            }
+
         while (!Thread.currentThread().isInterrupted()) {
             msg=client.readMessage();
             switch (msg.getMsgType()) {
@@ -85,9 +86,9 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                 case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
                     clientlock = true;
                     view.askPlayerNumber();
-                    while (clientlock) {
-                        try {
-                            Thread.sleep(10);
+                     while (clientlock) {
+                         try {
+                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -203,7 +204,8 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     @Override
     public void onPlayerNumberReply(int numPlayers){
             client.sendMessage(new NumberOfPlayerMessage(numPlayers));
-        clientlock=false;
+
+            clientlock=false;
         }
 
     @Override
@@ -215,7 +217,8 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     public void onNicknameUpdate (String nick){
             this.nick = nick;
             client.sendMessage(new UpdatePlInfoMessage(nick));
-    clientlock=false;
+
+            clientlock=false;
 
         }
 
