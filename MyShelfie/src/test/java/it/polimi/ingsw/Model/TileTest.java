@@ -14,11 +14,11 @@ public class TileTest {
         Tile tile5 = new Tile(Type.FRAME,1);
         Tile tile6 = new Tile(Type.GAME,1);
 
-        assertTrue(tile1.getType()==Type.BOOK);
-        assertTrue(tile2.getType()==Type.CAT);
-        assertTrue(tile3.getType()==Type.TROPHY);
-        assertTrue(tile4.getType()==Type.PLANT);
-        assertTrue(tile5.getType()==Type.FRAME);
-        assertTrue(tile6.getType()==Type.GAME);
+        assertSame(tile1.getType(), Type.BOOK);
+        assertSame(tile2.getType(), Type.CAT);
+        assertSame(tile3.getType(), Type.TROPHY);
+        assertSame(tile4.getType(), Type.PLANT);
+        assertSame(tile5.getType(), Type.FRAME);
+        assertSame(tile6.getType(), Type.GAME);
     }
 }
