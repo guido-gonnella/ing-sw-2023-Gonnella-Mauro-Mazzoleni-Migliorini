@@ -19,3 +19,6 @@
     <li>Socket Communication</li>
   </ul>
 </p>
+
+<h2>Deliverables</h2>
+<p>You can find the the UML, for the model, the complete application and coomunication protocol, [here](./Deliverables/uml/)</p>
