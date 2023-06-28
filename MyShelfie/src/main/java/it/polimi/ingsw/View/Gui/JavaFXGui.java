@@ -4,9 +4,11 @@ import it.polimi.ingsw.View.Gui.SceneControllers.StartSceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
@@ -38,6 +40,8 @@ public class JavaFXGui extends Application {
         // Show the scene containing the root layout.
         Scene scene = new Scene(root);
 
+        stage.setResizable(false);
+        stage.setMaximized(true);
         stage.setFullScreen(true);
         stage.setTitle("MyShelfie");
         stage.setFullScreenExitHint("");
