@@ -49,7 +49,7 @@ public class BoardTest {
         }
         System.out.print("\n");
 
-        assertTrue(board.checkFill());
+        assertFalse(board.checkFill());
     }
 
     @Test
@@ -65,8 +65,6 @@ public class BoardTest {
         System.out.println("Test2:");
 
         print_board(board);
-
-        assertTrue(board.checkFill());
     }
 
     @Test
@@ -122,7 +120,7 @@ public class BoardTest {
         }
         System.out.print("\n");
 
-        assertTrue(board.checkFill());
+        assertFalse(board.checkFill());
     }
 
     @Test

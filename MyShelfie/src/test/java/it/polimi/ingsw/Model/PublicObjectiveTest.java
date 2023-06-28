@@ -32,7 +32,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Testing of the labda function that see if there's a "cross"
+     * Testing of the lambda function that see if there's a "cross"
      * @author Pierantonio Mauro
      */
     @Test
@@ -188,6 +188,10 @@ public class PublicObjectiveTest {
         assertFalse(pubObj.getResultObjective(shelf4));
     }
 
+    /**
+     * Lambda function that see if there are six couples of tiles
+     * @author Pierantonio Mauro
+     */
     @Test
     public void lambda_six_couples() {
         Shelf shelf1 = new Shelf(); // true, easy
@@ -238,9 +242,13 @@ public class PublicObjectiveTest {
         }
         System.out.print("\n");
 
-        assertFalse(pubObj_sixCouples.getResultObjective(shelf1));
+        assertTrue(pubObj_sixCouples.getResultObjective(shelf1));
     }
 
+    /**
+     * Lambda function that see if there are four quadruple of tiles
+     * @author Pierantonio Mauro
+     */
     @Test
     public void lambda_four_quadruple() {
         Shelf shelf1 = new Shelf(); // true, easy
@@ -879,24 +887,4 @@ public class PublicObjectiveTest {
 
     }
 
-
-    private static void checkAdjacent(SerializableOptional<Tile>[][] matrix, boolean[][] visited, int i, int j, Tile value) {
-        visited[i][j] = true;
-
-        if (i > 0 && matrix[i-1][j].isPresent() && matrix[i-1][j].get().equals(value) && !visited[i-1][j]) {
-            checkAdjacent(matrix, visited, i-1, j, value);
-        }
-
-        if (i < 6-1 && matrix[i-1][j].isPresent() && matrix[i+1][j].get().equals(value) && !visited[i+1][j]) {
-            checkAdjacent(matrix, visited, i+1, j, value);
-        }
-
-        if (j > 0 && matrix[i-1][j].isPresent() && matrix[i][j-1].get().equals(value) && !visited[i][j-1]) {
-            checkAdjacent(matrix, visited, i, j-1, value);
-        }
-
-        if (j < 5-1 && matrix[i-1][j].isPresent() && matrix[i][j+1].get().equals(value) && !visited[i][j+1]) {
-            checkAdjacent(matrix, visited, i, j+1, value);
-        }
-    }
 }
