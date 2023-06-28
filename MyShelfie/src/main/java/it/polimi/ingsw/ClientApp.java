@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
+
 import it.polimi.ingsw.Controller.NetworkHandler;
-import it.polimi.ingsw.View.Gui.Gui;
-import it.polimi.ingsw.View.Gui.JavaFXGui;
 import it.polimi.ingsw.View.Cli;
+import it.polimi.ingsw.View.Gui.JavaFXGui;
 import javafx.application.Application;
 
 import java.util.Objects;
@@ -13,8 +13,8 @@ public class ClientApp {
 
     public static void main(String[] args) {
 
-        boolean cliView = false;
-        boolean socketConnection = true;
+        boolean cliView;
+        boolean socketConnection;
         Scanner s = new Scanner(System.in);
         String sel;
 

@@ -2,33 +2,22 @@ package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Enumeration.Type;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the {@link PublicObjective} methods.
  */
 public class PublicObjectiveTest {
 
-    private Shelf shelf;
-
-    private CommonObj commObj;
-
     private final int WIDTH = 5;
     private final int HEIGHT = 6;
 
     @Before
     public void setUp(){
-        this.shelf = new Shelf();
-    }
-
-    @After
-    public void tearDown(){
-        this.shelf = null;
-        this.commObj = null;
     }
 
     /**
@@ -107,7 +96,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there is a "stair" on the shelf
+     * Lambda function that sees if there is a "stair" on the shelf
      * @author Pierantonio Mauro
      */
     @Test
@@ -189,15 +178,12 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are six couples of tiles
+     * Lambda function that sees if there are six couples of tiles
      * @author Pierantonio Mauro
      */
     @Test
     public void lambda_six_couples() {
         Shelf shelf1 = new Shelf(); // true, easy
-        Shelf shelf2 = new Shelf(); // true, hard
-        Shelf shelf3 = new Shelf(); // false, easy
-        Shelf shelf4 = new Shelf(); // false, hard
         Tile tileA = new Tile(Type.CAT, 1);
         Tile tileB = new Tile(Type.PLANT, 1);
         Tile tileC = new Tile(Type.TROPHY, 1);
@@ -246,15 +232,12 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are four quadruple of tiles
+     * Lambda function that sees if there are four quadruples of tiles
      * @author Pierantonio Mauro
      */
     @Test
     public void lambda_four_quadruple() {
         Shelf shelf1 = new Shelf(); // true, easy
-        Shelf shelf2 = new Shelf(); // true, hard
-        Shelf shelf3 = new Shelf(); // false, easy
-        Shelf shelf4 = new Shelf(); // false, hard
         Tile tileA = new Tile(Type.CAT, 1);
         Tile tileB = new Tile(Type.PLANT, 1);
         Tile tileC = new Tile(Type.TROPHY, 1);
@@ -347,7 +330,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are two squares of the same typr of tiles
+     * Lambda function that sees if there are two squares of the same type of tiles
      * @author Pierantonio Mauro
      */
     @Test
@@ -417,7 +400,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are three full column with max 3 different types of tiles
+     * Lambda function that sees if there are three full columns with max 3 different types of tiles
      * @author Pierantonio Mauro
      */
     @Test
@@ -525,7 +508,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are four full rows with max 3 different types of tiles
+     * Lambda function that sees if there are four full rows with max 3 different types of tiles
      * @author Pierantonio Mauro
      */
     @Test
@@ -595,7 +578,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are eight tiles of the same type
+     * Lambda function that sees if there are eight tiles of the same type
      * @author Pierantonio Mauro
      */
     @Test
@@ -642,7 +625,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are five tiles of the same type in a diagonal
+     * Lambda function that sees if there are five tiles of the same type in a diagonal
      * @author Pierantonio Mauro
      */
     @Test
@@ -737,8 +720,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are at least two columns made of six different
-     * type of tiles
+     * Lambda function that sees if there are at least two columns made of six different types of tiles
      * @author Pierantonio Mauro
      */
     @Test
@@ -816,8 +798,7 @@ public class PublicObjectiveTest {
     }
 
     /**
-     * Lambda function that see if there are at least two rows made of five different
-     * type of tile
+     * Lambda function that sees if there are at least two rows made of five different types of tile
      * @author Pierantonio Mauro
      */
     @Test

@@ -31,7 +31,7 @@ public class DeckOfPublicObjectives {
     }
 
     /**
-     * This method choose randomly two PublicObjective
+     * This method chooses randomly two PublicObjective
      * @return two random PublicObjective
      * @author Pierantonio Mauro
      */

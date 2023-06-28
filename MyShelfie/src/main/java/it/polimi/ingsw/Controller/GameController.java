@@ -123,12 +123,10 @@ public class GameController implements Runnable{
             }
         }
 
-        this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= ENDING STATS =================\n");
         this.virtualView.endGame(mapPoints, mapObjective);
         this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= " + "\u001B[35m" + winner + "\u001B[0m" + " WINNER WINNER CHICKEN DINNER! ＼(＾O＾)／ =================");
         this.virtualView.writeBroadcast(MsgType.END_GAME, null);
-        for(String p : this.players)
-            this.virtualView.removeUsername(p);
+        for(String p : this.players) this.virtualView.removeUsername(p);
     }
 
     /**

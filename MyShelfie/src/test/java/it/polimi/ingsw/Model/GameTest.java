@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Model;
 
-import java.util.*;
+import org.junit.After;
+import org.junit.Test;
 
-import org.junit.*;
 import static org.junit.Assert.*;
 
 public class GameTest {
@@ -109,7 +109,7 @@ public class GameTest {
         System.out.println(tiles + "\n");
 
         while(!game.getSackOfTiles().getLeftTiles().isEmpty()) {
-            Tile tile = sack.getRandomTile();
+            sack.getRandomTile();
             game.setSackOfTiles(sack);
             System.out.println(game.getSackOfTiles().getLeftTiles().size() + "\n");
         }

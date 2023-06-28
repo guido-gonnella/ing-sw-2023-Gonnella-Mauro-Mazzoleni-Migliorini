@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class SackOfTilesTest {
     @Test

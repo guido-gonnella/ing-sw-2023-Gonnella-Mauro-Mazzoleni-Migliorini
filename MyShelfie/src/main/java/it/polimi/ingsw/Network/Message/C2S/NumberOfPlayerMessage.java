@@ -4,7 +4,7 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Enumeration.MsgType;
 
 /**
- * When the first player connects to the server, the first thing he sends is the number of player for the game
+ * When the first player connects to the server, the first thing he sends is the number of players for the game
  *
  * @author Guido Gonnella
  */

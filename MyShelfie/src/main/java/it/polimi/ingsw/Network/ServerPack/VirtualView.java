@@ -30,7 +30,7 @@ public class VirtualView {
     }
 
     /**
-     * Adds a client to the virualView
+     * Adds a client to the virtualView
      * @param username of the user
      * @param serverSocket associated with the user
      */
@@ -39,7 +39,7 @@ public class VirtualView {
     }
 
     /**
-     * Reads all the data needed from the client, the tiles selected and the shelf's column
+     * Reads all the data needed from the client; the tiles selected and the shelf's column
      */
     public FullTileSelectionMessage readAll(String user, AskFullMsg msg){
         ServerConnection destinationClient = connectionMap.get(user);

@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Controller.InputController;
 import it.polimi.ingsw.Network.ServerPack.Server;
-import it.polimi.ingsw.View.View;
 
 import java.util.Scanner;
 
@@ -12,8 +11,8 @@ import java.util.Scanner;
 public class ServerApp {
     public static void main(String[] args){
 
-        int serverPort = 8080; //default value
-        boolean socket = true;
+        int serverPort; //default value
+        boolean socket;
 
         Scanner s = new Scanner(System.in);
         do {

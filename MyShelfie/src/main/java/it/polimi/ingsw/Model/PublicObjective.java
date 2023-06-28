@@ -48,10 +48,7 @@ public class PublicObjective implements Serializable {
                         }
                     }
                 }
-                if (contCross == 0)
-                    return false;
-                else
-                    return true;
+                return contCross != 0;
             };
             case EIGHT -> this.obj = (shelf) -> {
                 int i, j;
@@ -80,16 +77,13 @@ public class PublicObjective implements Serializable {
                     }
                 }
 
-                if (contCat >= 8 || contBook >= 8 || contGame >= 8 ||
-                        contFrame >= 8 || contPlant >= 8 || contTrophy >= 8)
-                    return true;
-                else
-                    return false;
+                return contCat >= 8 || contBook >= 8 || contGame >= 8 || contFrame >= 8 ||
+                        contPlant >= 8 || contTrophy >= 8;
             };
             case DIAG -> this.obj = (shelf) -> {
                 int i = 0;
                 int contDiag = 0;
-                int k = 0;
+                int k;
                 SerializableOptional<Tile>[][] tempShelf = shelf.getShelf();
 
                 while (i < 2 && contDiag == 0) {
@@ -127,10 +121,7 @@ public class PublicObjective implements Serializable {
                     i++;
                 }
 
-                if (contDiag == 1)
-                    return true;
-                else
-                    return false;
+                return contDiag == 1;
             };
             case DIFF_COL -> this.obj = (shelf) -> {
                 int col, rig;
@@ -166,10 +157,7 @@ public class PublicObjective implements Serializable {
                         contCol++;
                 }
 
-                if (contCol >= 2)
-                    return true;
-                else
-                    return false;
+                return contCol >= 2;
             };
             case DIFF_ROW -> this.obj = (shelf) -> {
                 int col,rig;
@@ -205,10 +193,7 @@ public class PublicObjective implements Serializable {
                         contRow++;
                 }
 
-                if(contRow>=2)
-                    return true;
-                else
-                    return false;
+                return contRow >= 2;
             };
             case COL_THREE_TYPES -> this.obj = (shelf) -> {
                 int col,rig;
@@ -299,11 +284,9 @@ public class PublicObjective implements Serializable {
 
                 if (temp[0][0].isPresent() && temp[HEIGHT-1][0].isPresent() &&
                         temp[0][WIDTH-1].isPresent() & temp[HEIGHT-1][WIDTH-1].isPresent()){
-                    if     (temp[0][0].get().getType().equals(temp[HEIGHT-1][0].get().getType()) &&
-                            temp[0][0].get().getType().equals(temp[0][WIDTH-1].get().getType()) &&
-                            temp[0][0].get().getType().equals(temp[HEIGHT-1][WIDTH-1].get().getType())){
-                        return true;
-                    }
+                    return temp[0][0].get().getType().equals(temp[HEIGHT - 1][0].get().getType()) &&
+                            temp[0][0].get().getType().equals(temp[0][WIDTH - 1].get().getType()) &&
+                            temp[0][0].get().getType().equals(temp[HEIGHT - 1][WIDTH - 1].get().getType());
                 }
                 return false;
             };
@@ -350,13 +333,12 @@ public class PublicObjective implements Serializable {
                     }
                 }
 
-                if (countSquaresCat >= 2 || countSquaresBook >= 2 || countSquaresFrame >= 2 ||
-                        countSquaresPlant >= 2 || countSquaresGame >= 2 || countSquaresTrophy >= 2) return true;
-                return false;
+                return countSquaresCat >= 2 || countSquaresBook >= 2 || countSquaresFrame >= 2 ||
+                        countSquaresPlant >= 2 || countSquaresGame >= 2 || countSquaresTrophy >= 2;
             };
             case STAIR -> this.obj = (shelf) -> {
                 SerializableOptional<Tile>[][] temp = shelf.getShelf();
-                int heights[] = new int[5];
+                int[] heights = new int[5];
 
                 for(int i=0; i<5; i++){
                     heights[i] = 0;
@@ -461,9 +443,9 @@ public class PublicObjective implements Serializable {
 
     /**
      * This method take as a parameter a shelf and return a boolean
-     * indicating if the shelf have reached or not the objective
+     * indicating if the shelf has reached or not the objective
      * @param shelf
-     * @return true if the shelf have reached the common objective
+     * @return true if the shelf has reached the common objective
      * false otherwise
      * @author Pierantonio Mauro
      */

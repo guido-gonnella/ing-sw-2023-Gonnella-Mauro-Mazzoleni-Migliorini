@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Observer;
 
-import it.polimi.ingsw.Network.Message.Message;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,7 @@ public abstract class Observable {
      * @param obs the observer to be added
      */
     public void addObserver(Observer obs){
-        this.observers.add(obs);
+        observers.add(obs);
     }
 
     /**
@@ -25,14 +23,10 @@ public abstract class Observable {
      * @param obs the observer to be removed
      */
     public void removeObserver(Observer obs){
-        this.observers.remove(obs);
+        observers.remove(obs);
     }
 
-    /**
-     * Notify all the added observers with the passed message
-     * @param msg the message
-     */
-  /*  public static void notifyAllObservers(Message msg){
+    /*  public static void notifyAllObservers(Message msg){
         for(Observer o : observers){
             observers.
         }

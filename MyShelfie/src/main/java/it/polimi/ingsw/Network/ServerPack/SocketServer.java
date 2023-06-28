@@ -1,18 +1,18 @@
 package it.polimi.ingsw.Network.ServerPack;
 
-import it.polimi.ingsw.Network.Message.*;
+import it.polimi.ingsw.Network.Message.ErrorMessage;
+import it.polimi.ingsw.Network.Message.Message;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Class that handles the communication between server and client,
- * it communicates with one client only, each client will have its
- * own realization of this class
+ * Class that handles the communication between server and client
+ * It communicates with one client only
+ * Each client will have its own realization of this class
  */
 public class SocketServer extends ServerConnection {
 

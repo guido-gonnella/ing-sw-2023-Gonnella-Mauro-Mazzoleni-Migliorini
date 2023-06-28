@@ -1,7 +1,6 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
-import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -17,7 +16,7 @@ import java.util.*;
 public class Cli extends ViewObservable implements View{
     private PrintStream out;
     private Scanner input;
-    private String temp;
+
     public Cli(){
         out= new PrintStream(System.out);
         out.println("""
@@ -119,10 +118,9 @@ public class Cli extends ViewObservable implements View{
     }
 
     /**
-     * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
+     * asks to order the tiles to insert the columns, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini
      */
-
     @Override
     public void invalidTile(int ROW,int COL) {
         out.print("Tile in " + ROW + "," + COL + " doesn't exist\n");
@@ -212,7 +210,7 @@ public class Cli extends ViewObservable implements View{
             }
             out.print("\n");
         }
-        out.print("\n\n");
+        out.print("\n");
     }
 
 
@@ -363,7 +361,6 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void showPublicObjective(PubObjType code) {
-        out.print("\n------------- PUBLIC OBJECTIVES -------------\n\n");
         switch (code)
         {
             case ANGLES -> out.println("Place four of the same tiles on the corner of the shelf\n\t[=]---[=]\n\t |    |\n |    |\n\t[=]---[=]\n");
@@ -394,7 +391,6 @@ public class Cli extends ViewObservable implements View{
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print ("\n");
-        //prima z era 0, adesso non da problemi nel mostrare gli obiettivi privati
         int z = 0;
         for (int i = 0; i < 6; i++) {
             out.print(i);
@@ -419,8 +415,8 @@ public class Cli extends ViewObservable implements View{
     }
 
     /**
-     * Extract the coordinates value from the input.<br>
-     * For example, the player write "4,6" the method return the array [4, 6].
+     * Extract the coordinate values from the input.<br>
+     * For example, the player writes "4,6" the method returns the array [4, 6].
      * @param input the string inserted by the player.
      * @return the array containing the coordinate int values.
      */

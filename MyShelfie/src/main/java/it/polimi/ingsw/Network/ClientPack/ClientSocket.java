@@ -9,7 +9,7 @@ import java.net.Socket;
 
 /**
  * This class is used to communicate with the server, is purpose is to act as a blackbox
- * for the NetworkHandler which receives and sends messages
+ * for the NetworkHandler, which receives and sends messages
  */
 public class ClientSocket extends ClientConnection {
     private Socket socket;
@@ -52,7 +52,7 @@ public class ClientSocket extends ClientConnection {
     }
 
     /**
-     * Send a message to the server, if there is an exception the networkHandler will inform the player,
+     * Send a message to the server, if there is an exception, the networkHandler will inform the player,
      * disconnect the client and end the game
      * @param message sent to the server
      */

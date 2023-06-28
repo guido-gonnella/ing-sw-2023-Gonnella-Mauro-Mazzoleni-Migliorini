@@ -3,8 +3,6 @@ package it.polimi.ingsw.Network.RMI;
 import it.polimi.ingsw.Network.ClientPack.ClientConnection;
 import it.polimi.ingsw.Network.Message.Message;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
