@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Controller.InputController;
+import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Network.ServerPack.Server;
 
 import java.util.Scanner;
@@ -19,7 +19,7 @@ public class ServerApp {
             System.out.print("Select port [8080 default]\n");
             serverPort = s.nextInt();
         }
-        while(!InputController.isValidPort(serverPort));
+        while(!NetworkHandler.isValidPort(serverPort));
 
         System.out.print("Using socket connection? [y/n]\n");
         System.out.print("(The alternative is to use RMI)\n");

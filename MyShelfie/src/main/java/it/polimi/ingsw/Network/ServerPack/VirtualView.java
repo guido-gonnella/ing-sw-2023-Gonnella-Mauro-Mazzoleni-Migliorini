@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.ServerPack;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
+import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Network.Message.*;
 import it.polimi.ingsw.Network.Message.S2C.TextMessage;
@@ -48,12 +49,10 @@ public class VirtualView {
 
         do {
             received = destinationClient.readMessage();
-            /* if(messaggio di chat) mandalo a chi deve leggerlo
-            *  if(messaggio di errore) rimuovi il giocatore da cui arriva
-            * */
         } while(received.getMsgType() != MsgType.FULL_TILE_SELECTION);
 
-        return ((FullTileSelectionMessage) received);
+        return ((FullTileSelectionMessage)received);
+
     }
 
     /**
@@ -109,6 +108,11 @@ public class VirtualView {
             case END_GAME -> {
                 for(ServerConnection server : connectionMap.values()){
                     server.sendMessage(new EndGameMessage());
+                }
+            }
+            case ERROR -> {
+                for(ServerConnection server : connectionMap.values()){
+                    server.sendMessage(new ErrorMessage((String) sendObject));
                 }
             }
         }

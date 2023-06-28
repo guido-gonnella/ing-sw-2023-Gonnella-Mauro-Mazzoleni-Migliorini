@@ -155,7 +155,7 @@ public class Cli extends ViewObservable implements View{
         do {
             try{
                 while(!input.hasNextInt()){
-                    out.print("Please input a number: ");
+                    out.print("Please input a valid column (a number from 0 to 4): ");
                     input.next();
                 }
                 col = input.nextInt();

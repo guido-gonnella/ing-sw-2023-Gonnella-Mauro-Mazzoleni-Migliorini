@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.ClientPack.ClientConnection;
 import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.*;
+import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.*;
 import it.polimi.ingsw.Network.RMI.ClientRmi;
@@ -12,11 +13,12 @@ import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
-    private ArrayList<Coords> tempTiles;
-    private ArrayList<Tile> hand;
+    private final ArrayList<Coords> tempTiles;
+    private final ArrayList<Tile> hand;
     private final View view;
     private int column;
     private Shelf shelf;
@@ -34,6 +36,12 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
         this.socketConnection = socketConnection;
     }
 
+    /**
+     * It creates the connection to the server and distinguishes between
+     * the socket and rmi connection
+     * @param serverAddr address of the server
+     * @param port of connection
+     */
     @Override
     public void onConnection(String serverAddr, int port) {
         if(socketConnection) client = new ClientSocket(serverAddr, port);
@@ -50,54 +58,60 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
         while(!Thread.currentThread().isInterrupted()) {
             msg = client.readMessage();
 
-            switch (msg.getMsgType()) {
-                case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
-                    view.askNickname();
-                    break;
-                case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
-                    view.askPlayerNumber();
-                    break;
-                case TEXT: //stampa il testo ricevuto, non ritorna niente
-                    view.showText(((TextMessage) msg).getText());
-                    break;
-                case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
+            if(msg == null){
+                System.out.print("An error occurred\n");
+                client.disconnect();
+                Thread.currentThread().interrupt();
+                continue;
+            }
+
+            switch ((msg).getMsgType()) {
+                case ASK_NICKNAME -> //return an UpdatePlInfoMessage with the username
+                        view.askNickname();
+                case NUMBER_PLAYER_REQUEST -> //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
+                        view.askPlayerNumber();
+                case TEXT -> //stampa il testo ricevuto, non ritorna niente
+                        view.showText(((TextMessage) msg).getText());
+                case PUBLIC_OBJECTIVE -> { //stampa gli obiettivi pubblici, non ritorna niente
                     view.showText("\n------------- PUBLIC OBJECTIVES -------------\n\n");
                     view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
                     view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
-                    break;
-                case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
-                    view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
-                    break;
-                case BOARD_UPDATE: //stampa la board, non ritorna niente
+                }
+                case PRIVATE_OBJECTIVE -> //stampa l'obiettivo privato, non ritorna niente
+                        view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
+                case BOARD_UPDATE -> { //stampa la board, non ritorna niente
                     board = ((UpdateBoardMessage) msg).getBoard();
                     view.boardShow(board.getGrid());
-                    break;
-                case SHELF_UPDATE: //stampa la shelf, non ritorna niente
+                }
+                case SHELF_UPDATE -> { //stampa la shelf, non ritorna niente
                     shelf = ((UpdateShelfMessage) msg).getShelf();
                     view.shelfShow(shelf.getShelf());
-                    break;
-                case FULL_SELECTION_REQUEST:
+                }
+                case FULL_SELECTION_REQUEST ->
                     //stampa la board, restituisce un FullTileSelectionMessage con
                     //l'arraylist di coordinate selezionate e la colonna selezionata
                     //il messaggio arrivato ha già la board e la shelf
 
                     // quello da fare sulla view
-                    selectTileRequest();
-                    break;
-                case END_STATS:
+                        selectTileRequest();
+                case END_STATS -> {
                     //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
                     //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
                     //punteggi e il vincitore, non restituisce niente
                     view.showText("\n================= ENDING STATS =================\n");
                     view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
-                    break;
-                case END_GAME:
+                }
+                case END_GAME -> {
                     Thread.currentThread().interrupt();
-                    break;
-                case ERROR:
+                    client.disconnect();
+                }
+                case ERROR -> {
                     //it.polimi.ingsw.view.showError();
-                    break;
-                default: view.showText("something went very wrong");
+                    view.showText(((ErrorMessage) msg).getError());
+                    client.disconnect();
+                    Thread.currentThread().interrupt();
+                }
+                default -> view.showText("something went very wrong");
             }
         }
     }

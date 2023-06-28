@@ -3,11 +3,10 @@ package it.polimi.ingsw.Network.ServerPack;
 import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Network.Message.Message;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * Class that handles the communication between server and client
@@ -28,11 +27,17 @@ public class SocketServer extends ServerConnection {
     public SocketServer(ServerSocket serverSocket) {
         try {
             this.socket = serverSocket.accept();
+            this.socket.setSoTimeout(250000);
             this.output = new ObjectOutputStream(socket.getOutputStream());
             this.input = new ObjectInputStream(socket.getInputStream());
             System.out.println("Client connected");
+        }catch(SocketTimeoutException e){
+            System.out.print("The client didn't respond in time.\n");
+            //disconnect();
         }catch (IOException e){
-            e.printStackTrace();
+            disconnect();
+            System.out.print("Something went wrong...\n");
+            //e.printStackTrace();
         }
     }
 
@@ -42,17 +47,21 @@ public class SocketServer extends ServerConnection {
      * @return
      */
     public synchronized Message readMessage(){
-        try{
-            Message messageArrived = (Message) input.readObject();
-            if(messageArrived != null) {
-                return messageArrived;
+            try {
+                    Message messageArrived = (Message) input.readObject();
+                    if (messageArrived != null) {
+                        return messageArrived;
+                    }
+            }catch(SocketTimeoutException e){
+                    System.out.print("The client didn't respond in time\n");
+                    return new ErrorMessage("Error in receiving the message\n");
+            }catch (IOException | ClassNotFoundException e) {
+                //disconnect();
+                //e.printStackTrace();
+                return new ErrorMessage("Error in receiving the message\n");
             }
-        }catch(IOException | ClassNotFoundException e){
             //disconnect();
-            e.printStackTrace();
-            return new ErrorMessage("Error in receiving the message");
-        }
-        return new ErrorMessage("Error in receiving the message");
+            return new ErrorMessage("Error in receiving the message\n");
     }
 
     /**
@@ -60,13 +69,17 @@ public class SocketServer extends ServerConnection {
      * @param message the {@link Message} to be sent at the client.
      */
     public synchronized void sendMessage(Message message){
-        try {
-            output.writeObject(message);
-            output.flush();
-            output.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                output.writeObject(message);
+                output.flush();
+                output.reset();
+            }catch(SocketTimeoutException e){
+                System.out.print("The client didn't respond in time\n");
+                //disconnect();
+            }catch (IOException e) {
+                //disconnect();
+                System.out.print("Error in sending the message\n");
+            }
     }
 
     /**
