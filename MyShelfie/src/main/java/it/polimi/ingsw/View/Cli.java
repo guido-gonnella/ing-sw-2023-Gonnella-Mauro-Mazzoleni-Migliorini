@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -72,11 +73,14 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs -> obs.onConnection(finalServerAddr, finalPort));
     }
 
+    /**
+     * Ask the player to insert their nickname and then notify the {@link NetworkHandler} which sends it to the server.
+     */
     @Override
     public void askNickname() {
         out.print("First insert your username: ");
         String nickname = ReadText();
-      notifyObservers(obs->obs.onNicknameUpdate(nickname));
+        notifyObservers(obs->obs.onNicknameUpdate(nickname));
 
     }
 
@@ -114,59 +118,6 @@ public class Cli extends ViewObservable implements View{
         notifyObservers(obs -> obs.onSelectTile(finalROW,finalCOL));
     }
 
-    //TODO nuovo, da togliere o modificare
-    @Override
-    public void askSelection(Board board, Shelf shelf){
-        int chosenCol;
-        int tempCol;
-        ArrayList<Tile> chosenTiles = new ArrayList<>();
-        ArrayList<Coords> chosenCoords = new ArrayList<>();
-        String temp;
-        int[] coords = new int[2];
-        boolean end = false;
-
-        //do{
-        // chosenCoords.clear();
-        // chosenTiles.clear();
-        for(int i = 0; i<3 && !end; i++){
-            showText("Input \"ROW,COL\" coordinates of the tile, to stop input \"-1,-1\": ");
-            try {
-                coords = extractIntegers(ReadText());
-                if(coords[0] == -1 && coords[1] == -1){
-                    end = true;
-                } else {
-                    chosenCoords.add(new Coords(coords[0], coords[1]));
-                    chosenTiles.add(board.getGrid()[coords[0]][coords[1]].getTile().get());
-                }
-            }catch(InputMismatchException e){
-                showText("Mismatch please input valid coordinates (like \"1,2\" or \"0,3\"): ");
-                i--;
-            }catch(NoSuchElementException e1){
-                showText("No element please input valid coordinates (like \"1,2\" or \"0,3\"): ");
-                i--;
-            }
-        }
-        //}while(selezione non valida, fare check);
-
-        showTilesInHand(chosenTiles);
-
-        showText("Select the column [0 to 4] ");
-        tempCol = ReadInt();
-        while(tempCol < 0 || tempCol > 4){ //oppure le tiles non entrano nella colonna
-            showText("Out of bounds, select a number between 0 and 4 ");
-            tempCol = ReadInt();
-        }
-        chosenCol = tempCol;
-
-        notifyObservers(obs -> obs.onSelection(chosenCoords, chosenCol));
-
-    }
-
-    @Override
-    public void terminate() {
-        System.exit(0);
-    }
-
     /**
      * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini
@@ -177,11 +128,18 @@ public class Cli extends ViewObservable implements View{
         out.print("Tile in " + ROW + "," + COL + " doesn't exist\n");
     }
 
+    /**
+     * Print on screen when the selected tiles are not valid, not adjacent or not in a straight line.
+     */
     @Override
     public void invalidCombo() {
         out.print("Invalid tiles combination selected, please select exposed and adjacent tiles\n");
     }
 
+    /**
+     * Print on screen the error when the column selected is out of bounds.
+     * @param column
+     */
     @Override
     public void invalidColumn(int column) {
         out.print("The empty spaces in column " + column + " are not enough, try again\n");
@@ -195,12 +153,12 @@ public class Cli extends ViewObservable implements View{
     public void askInsertCol(){
         int col=0;
         boolean valid;
-        Scanner in = new Scanner(System.in);
         out.print("Input the column in which to insert the tiles in your hand, they will be inserted with the leftmost as the one at the bottom: ");
         do {
             try{
                 valid=true;
-                col =in.nextInt();}
+                col =ReadInt();
+            }
             catch(NoSuchElementException e){
                 out.print("Please input a valid column (a number from 0 to 4): ");
                 valid=false;
@@ -209,6 +167,7 @@ public class Cli extends ViewObservable implements View{
                 out.print("Please input a valid column (a number from 0 to 4): ");
                 valid=false;
             }
+
         } while(!valid);
         int finalCol = col;
         notifyObservers(obs -> obs.onSelectCol(finalCol));
@@ -223,6 +182,7 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void boardShow(Space[][] board){
+        out.print("\n--------------- UPDATED BOARD ---------------\n\n");
         out.print("-");
         for (int i=0;i<board.length;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -248,6 +208,7 @@ public class Cli extends ViewObservable implements View{
             }
             out.print("\n");
         }
+        out.print("\n\n");
     }
 
 
@@ -259,6 +220,7 @@ public class Cli extends ViewObservable implements View{
      **/
     @Override
     public void shelfShow(SerializableOptional<Tile>[][] shelf) {
+        out.print("\n--------------- UPDATED SHELF ---------------\n\n");
         out.print("-");
         for (int i=0;i<5;i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -311,37 +273,58 @@ public class Cli extends ViewObservable implements View{
         out.println("\n");
     }
 
-
+    /**
+     * Read the String from the input stream.
+     * @return the read string
+     */
     private String ReadText(){
         input = new Scanner(System.in);
         return(input.next());
     }
 
+    /**
+     * Read an integer from the input stream.
+     * @return the read integer
+     */
     private int ReadInt(){
         input = new Scanner(System.in);
         return(input.nextInt());
     }
 
+    /**
+     * Ask the player the number of players allowed in the game, then notify the networkHandler which then it sends the number to the server.
+     */
     @Override
     public void askPlayerNumber() {
-        int playerNumber;
+        int playerNumber=0;
         boolean valid;
-        Scanner in = new Scanner(System.in);
         out.print("Input the number of total players in the game: ");
 
         do {
-            valid=true;
-            playerNumber = in.nextInt();
-
-            if(playerNumber>4 || playerNumber<2) {
+            valid = true;
+            try {
+                playerNumber = ReadInt();
+            } catch(NoSuchElementException e){
                 out.print("Please input a valid player number (a number from 2 to 4): ");
                 valid=false;
+            }if(valid){
+                if (playerNumber > 4 || playerNumber < 2) {
+                    out.print("Please input a valid player number (a number from 2 to 4): ");
+                    valid = false;
+                }
             }
+
         } while(!valid);
 
         final int maxPlayers = playerNumber;
         notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers));
     }
+
+    /**
+     * Print on screen the points and the completion of the public objectives of all players connected to the game.<br>
+     * @param mapPoints
+     * @param mapObjective
+     */
     @Override
     public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){
         //Map<String, int>, Map<String, boolean[]>
@@ -366,12 +349,17 @@ public class Cli extends ViewObservable implements View{
             } else {
                 out.print("\u001B[31m" + "no objectives (╥﹏╥)" + "\u001B[0m");
             }
-        out.print("\n");
+            out.print("\n");
         }
     }
 
+    /**
+     * Print on screen the description of the {@link PublicObjective} based on the {@link PubObjType type} passed as the parameter.
+     * @param code the {@link PubObjType type} of the {@link PublicObjective} to be printed.
+     */
     @Override
     public void showPublicObjective(PubObjType code) {
+        out.print("\n------------- PUBLIC OBJECTIVES -------------\n\n");
         switch (code)
         {
             case ANGLES -> out.println("Place four of the same tiles on the corner of the shelf\n\t[=]---[=]\n\t |    |\n |    |\n\t[=]---[=]\n");
@@ -390,8 +378,13 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Prints on screen the representation of the {@link PrivateObjective} passed as the parameter of the function.
+     * @param objective the {@link PrivateObjective} of a player.
+     */
     @Override
     public void showPrivateObjective(PrivateObjective objective) {
+        out.print( "------------- PRIVATE OBJECTIVE -------------\n\n");
         out.print("-");
         for (int i = 0; i < 5; i++) {
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
@@ -421,6 +414,12 @@ public class Cli extends ViewObservable implements View{
         }
     }
 
+    /**
+     * Extract the coordinates value from the input.<br>
+     * For example, the player write "4,6" the method return the array [4, 6].
+     * @param input the string inserted by the player.
+     * @return the array containing the coordinate int values.
+     */
     public static int[] extractIntegers(String input) {
         String[] parts = input.split(",");
         if (parts.length != 2) {
