@@ -21,4 +21,4 @@
 </p>
 
 <h2>Deliverables</h2>
-<p>You can find the the UML, for the model, the complete application and comunication protocol,</p>  [here](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/main/Deliverables)
+<p>You can find the the UML, for the model, the complete application and comunication protocol, at this link:</p> https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/main/Deliverables/uml
