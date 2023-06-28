@@ -156,16 +156,20 @@ public class Cli extends ViewObservable implements View{
         out.print("Input the column in which to insert the tiles in your hand, they will be inserted with the leftmost as the one at the bottom: ");
         do {
             try{
-                valid=true;
-                col =ReadInt();
+                while(!input.hasNextInt()){
+                    out.print("Please input a number: ");
+                    input.next();
+                }
+                col = input.nextInt();
+                valid = true;
             }
             catch(NoSuchElementException e){
                 out.print("Please input a valid column (a number from 0 to 4): ");
-                valid=false;
+                valid = false;
             }
             if(col>4 || col<0){
                 out.print("Please input a valid column (a number from 0 to 4): ");
-                valid=false;
+                valid = false;
             }
 
         } while(!valid);
