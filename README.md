@@ -21,4 +21,9 @@
 </p>
 
 <h2>Deliverables</h2>
-<p>You can find the the UML, for the model, the complete application and comunication protocol, at this link:</p> https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/main/Deliverables/uml
+<p>The following link are for the UML diagram produced:</p>
+(Complete UML)[Deliverable/uml/UML_completo.png]
+(Model UML)[Deliverable/uml/UML_MODEL.png]
+(Connection and server reading a message)[Deliverable/uml/UML_connection_serverRead.jpg]
+(Select Turn and end turn)[Deliverable/uml/UML_select_endTurn.jpg]
+(End Messages)[Deliverable/uml/UML_end.jpg]
