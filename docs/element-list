@@ -1,0 +1,14 @@
+it.polimi.ingsw
+it.polimi.ingsw.Controller
+it.polimi.ingsw.Enumeration
+it.polimi.ingsw.Model
+it.polimi.ingsw.Network.ClientPack
+it.polimi.ingsw.Network.Message
+it.polimi.ingsw.Network.Message.C2S
+it.polimi.ingsw.Network.Message.S2C
+it.polimi.ingsw.Network.RMI
+it.polimi.ingsw.Network.ServerPack
+it.polimi.ingsw.Observer
+it.polimi.ingsw.View
+it.polimi.ingsw.View.Gui
+it.polimi.ingsw.View.Gui.SceneControllers
