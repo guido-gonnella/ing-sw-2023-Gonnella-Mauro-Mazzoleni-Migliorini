@@ -35,7 +35,7 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void askSelectTile() {
-        Platform.runLater(() -> ((MainSceneController) activeController).setText("It's your turn man!\n"));
+        Platform.runLater(() -> ((MainSceneController) activeController).setText("It's your turn!\n"));
         Platform.runLater(() -> ((MainSceneController) activeController).enableButtons());
     }
 

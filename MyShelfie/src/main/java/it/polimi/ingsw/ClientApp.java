@@ -30,6 +30,7 @@ public class ClientApp {
 
 
         if(cliView){
+            System.out.println("Cli Selected");
             Cli view = new Cli();
             NetworkHandler networkHandler = new NetworkHandler(view, socketConnection);
             view.addObserver(networkHandler);
