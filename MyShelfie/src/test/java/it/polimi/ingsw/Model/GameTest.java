@@ -19,16 +19,16 @@ public class GameTest {
 
     @Test
     public void addPlayer_and_getPlayerByNick_getNumPlayers() {
-        game.addPlayer("Pietro");
-        game.addPlayer("San");
-        game.addPlayer("Tua Madre");
-        game.addPlayer("lol");
+        game.addPlayer("Nome1");
+        game.addPlayer("Nome2");
+        game.addPlayer("Nome3");
+        game.addPlayer("Nome4");
 
         System.out.println("Test1: ");
-        System.out.println(game.getPlayerByNick("Pietro").getNickname());
-        System.out.println(game.getPlayerByNick("Tua Madre").getNickname());
-        System.out.println(game.getPlayerByNick("lol").getNickname());
-        System.out.println(game.getPlayerByNick("San").getNickname());
+        System.out.println(game.getPlayerByNick("Nome1").getNickname());
+        System.out.println(game.getPlayerByNick("Nome2").getNickname());
+        System.out.println(game.getPlayerByNick("Nome3").getNickname());
+        System.out.println(game.getPlayerByNick("Nome4").getNickname());
         System.out.println(game.getNumPlayers() + "\n");
     }
 
