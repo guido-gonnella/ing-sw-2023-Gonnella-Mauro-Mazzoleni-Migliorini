@@ -36,7 +36,7 @@ public class ClientApp {
             Thread thread= new Thread(networkHandler, "networkHandler_");
             thread.start();
         }else{
-            System.out.println("Cli Selected");
+            System.out.println("Gui Selected");
             System.setProperty("prism.allowhidpi", "false");
             Application.launch(JavaFXGui.class);
         }

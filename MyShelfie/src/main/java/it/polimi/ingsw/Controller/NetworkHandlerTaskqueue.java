@@ -9,6 +9,7 @@ import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
 import it.polimi.ingsw.Network.Message.C2S.NumberOfPlayerMessage;
 import it.polimi.ingsw.Network.Message.C2S.UpdatePlInfoMessage;
+import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.*;
 import it.polimi.ingsw.Network.RMI.ClientRmi;
@@ -73,6 +74,14 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
 
         while (!Thread.currentThread().isInterrupted()) {
             msg=client.readMessage();
+
+            if(msg == null){
+                System.out.print("An error occurred\n");
+                client.disconnect();
+                Thread.currentThread().interrupt();
+                continue;
+            }
+
             switch (msg.getMsgType()) {
                 case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
                     clientlock = true;
@@ -131,9 +140,12 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                     break;
                 case END_GAME:
                     Thread.currentThread().interrupt();
+                    client.disconnect();
                     break;
                 case ERROR:
-                    //it.polimi.ingsw.view.showError();
+                    view.showText(((ErrorMessage) msg).getError());
+                    client.disconnect();
+                    Thread.currentThread().interrupt();
                     break;
                 default:
                     view.showText("something went very wrong");
@@ -143,9 +155,19 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
 
     private void selectTileRequest(){
         boolean valid;
-
+        int max=0;
+        int tilesLeft;
+        for (int i=0;i<5;i++){
+            tilesLeft=shelf.tilesLeftColumn(i);
+            if(max<tilesLeft) {
+                max=tilesLeft;
+            }
+        }
         do {
             loop=0;
+            if (max<3){
+                loop=3-max;
+            }
             view.askSelectTile();
             while(loop<3) System.out.print("");
             valid = validSelection();

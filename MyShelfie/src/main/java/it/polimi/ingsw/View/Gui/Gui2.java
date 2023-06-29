@@ -103,11 +103,6 @@ public class Gui2 extends ViewObservable implements View {
 
     }
 
-    @Override
-    public void askSelection(Board board, Shelf shelf) {
-
-    }
-
     public static void planeLoader(String fxml) {
         FXMLLoader loader = new FXMLLoader(Gui2.class.getResource("/fxmls/"+ fxml));
         Parent root;
