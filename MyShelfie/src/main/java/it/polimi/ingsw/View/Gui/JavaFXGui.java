@@ -23,11 +23,10 @@ public class JavaFXGui extends Application {
         Gui2 view = new Gui2();
         NetworkHandlerTaskqueue networkHandler = new NetworkHandlerTaskqueue(view, true);
         view.addObserver(networkHandler);
-        Thread thread= new Thread(networkHandler, "networkHandler_");
+        Thread thread = new Thread(networkHandler, "networkHandler_");
         thread.start();
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxmls/StartScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmls/StartScene.fxml"));
         Parent root;
         try {
             root = loader.load();
