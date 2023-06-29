@@ -1,32 +1,23 @@
 package it.polimi.ingsw.View.Gui.SceneControllers;
 
-import it.polimi.ingsw.Controller.NetworkHandler;
-import it.polimi.ingsw.View.Gui.Gui;
+import it.polimi.ingsw.Observer.ViewObservable;
+import it.polimi.ingsw.View.Gui.Gui2;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.Objects;
+public class StartSceneController extends ViewObservable implements GenericSceneController {
+    @FXML
+    private Button Button;
 
-public class StartSceneController {
-    public void pressToContinue(Event event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmls/MenuScene.fxml")));
+    @FXML
+    public void initialize() {
+        Button.setOnAction(this::initButton);
+    }
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.getScene().setRoot(root);
-        stage.show();
-
-        Gui view = new Gui();
-        //TODO il true (o false) al seguente medoto è temporaneo, va trovato un modo di toglierlo!!!
-        NetworkHandler networkHandler = new NetworkHandler(view, true);
-        view.addObserver(networkHandler);
-        Thread thread= new Thread(networkHandler, "networkHandler_");
-        thread.start();
+    private void initButton(Event event) {
+        Gui2.initialize(((Node) event.getSource()).getScene(),(Stage) (((Node) event.getSource()).getScene()).getWindow());
     }
 }

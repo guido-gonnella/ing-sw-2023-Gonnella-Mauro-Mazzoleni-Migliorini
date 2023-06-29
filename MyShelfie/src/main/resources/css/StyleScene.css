@@ -14,5 +14,12 @@
 }
 
 .Tiles {
-    -fx-background-size: stretch;
+    -fx-background-size: stretch
+}
+.MainBackground{
+    -fx-background-image: url("../misc/sfondo%20parquet.jpg");
+    -fx-background-size: cover;
+}
+.Text{
+    -fx-font-size: 30px;
 }

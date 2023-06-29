@@ -39,7 +39,7 @@
          <Font name="Comic Sans MS" size="14.0" />
       </font>
    </TextField>
-   <Button fx:id="Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#login" text="Confirm" textAlignment="CENTER" translateY="35.0">
+   <Button fx:id="Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Confirm" textAlignment="CENTER" translateY="35.0">
       <font>
          <Font size="15.0" />
       </font>
