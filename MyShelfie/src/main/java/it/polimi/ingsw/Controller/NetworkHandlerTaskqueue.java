@@ -168,7 +168,13 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                 loop=3-max;
             }
             view.askSelectTile();
-            while(loop<3) System.out.print("");
+            while(loop<3) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             valid = validSelection();
             if (!valid) {
                 tempTiles.clear();
@@ -186,7 +192,13 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             loop=0;
             valid = true;
             view.askInsertCol();
-            while(loop==0) System.out.print("");
+            while(loop==0) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             if (shelf.tilesLeftColumn(column) < hand.size()) {
                 view.invalidColumn(column);
                 valid = false;
