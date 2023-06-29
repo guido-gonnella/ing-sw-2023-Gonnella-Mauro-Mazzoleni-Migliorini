@@ -24,4 +24,4 @@
 <p>You can find the UML diagram produces for the project in the Deliverables/uml folder.</p>
 
 <h2>JavaDoc documentation</h2>
-<p>You can find the generated Javadoc documentation </p>(here)[https://guido-gonnella.github.io/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/]
+<p>You can find the generated Javadoc documentation at the link below</p> https://guido-gonnella.github.io/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/
