@@ -21,7 +21,7 @@ The following UML class diagrams represent the initial model of the architecture
 - [UML final design](link)
 
 ### JavaDoc
-The following documentation includes a description for the majority of the classes and the method used. [Javadoc](link)
+The following documentation includes a description for the majority of the classes and the method used. [Javadoc](https://guido-gonnella.github.io/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/)
 
 ### Coverage report
 
@@ -49,8 +49,3 @@ The following sequence diagrams describe the communication between the server an
   </ul>
 </p>
 
-<h2>Deliverables</h2>
-<p>You can find the UML diagram produces for the project in the Deliverables/uml folder.</p>
-
-<h2>JavaDoc documentation</h2>
-<p>You can find the generated Javadoc documentation at the link below</p> https://guido-gonnella.github.io/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/
