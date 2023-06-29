@@ -21,7 +21,7 @@ The following UML class diagrams represent the initial model of the architecture
 - [UML final design](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/main/Deliverables/final/uml/UML_generated_2.png)
 
 ### JavaDoc
-The following documentation includes a description for the majority of the classes and the method used. [Javadoc](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/main/docs)
+The following documentation includes a description for the majority of the classes and the method used. [Javadoc](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/)
 
 ### Coverage report
 
