@@ -45,7 +45,6 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
         hand = new ArrayList<Tile>();
         shelf = new Shelf();
         this.socketConnection = socketConnection;
-        clientlock= true;
     }
 
     @Override
@@ -63,7 +62,7 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     public void run() {
         Message msg;
         view.init();
-
+        clientlock= true;
         while (clientlock) {
             try {
                 Thread.sleep(10);
