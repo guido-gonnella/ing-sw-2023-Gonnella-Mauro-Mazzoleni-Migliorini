@@ -1,15 +1,12 @@
 package it.polimi.ingsw.Network.Message.S2C;
 
+import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Model.Board;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Enumeration.MsgType;
-
-import java.io.Serializable;
 
 /**
  * Message from server to the client, notifying to update its it.polimi.ingsw.view to update the board<br>
- * It sends the information about the updated board
- * @author Guido Gonnella
+ * It sends the information about the updated board.
  */
 public class UpdateBoardMessage extends Message {
     private final Board board;

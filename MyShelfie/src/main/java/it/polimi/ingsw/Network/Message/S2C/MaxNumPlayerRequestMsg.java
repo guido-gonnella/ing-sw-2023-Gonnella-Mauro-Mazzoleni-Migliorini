@@ -4,8 +4,7 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Enumeration.MsgType;
 
 /**
- *
- * @author Guido Gonnella
+ * Request the first player connected to the server the maximum number of the player for that game.
  */
 public class MaxNumPlayerRequestMsg extends Message {
     public MaxNumPlayerRequestMsg() {

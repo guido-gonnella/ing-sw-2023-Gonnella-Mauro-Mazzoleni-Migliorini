@@ -28,8 +28,6 @@ public class Player {
         this.shelf = new Shelf();
         this.playerPoints = 0;
         this.pubObjFlag = new boolean[2];
-        pubObjFlag[0] =  false;
-        pubObjFlag[1] = false;
         this.privateObjective = null;
     }
 
@@ -80,7 +78,7 @@ public class Player {
      * @param checked a matrix, equally sized to the shelf, used for checking if a certain spot on the shelf has been already checked
      * @param i starting point from where to check
      * @param j starting point from where to check
-     * @return Points based on the amount of equal type adjacent tiles
+     * @return Points based on the number of equal type adjacent tiles
      * @throws NoSuchElementException It throws this exception if the method Optional.get() is called on an empty Optional,
      *                                  but checking if it is present, it may prevent from throwing this exception
      * @author Guido Gonnella
@@ -128,7 +126,7 @@ public class Player {
         }
 
 
-        //assignement to the point variable the points based on how many equal type adjacent tile there are
+        //assignment to the point variable the points based on how many equal type adjacent tile there are
         if(adjacent < 3) points = 0;
         else if(adjacent == 3) points = 2;
         else if(adjacent == 4) points = 3;
@@ -183,7 +181,7 @@ public class Player {
             }
         }
 
-        //adding the points to the player's points attribute
+        //adding the points to the player points' attribute
         addPoints(points);
     }
 
@@ -191,7 +189,7 @@ public class Player {
     /**
      * Update the flag for a specific objective as true, meaning the player has completed that objective
      *
-     * @param obj index of the two boolean array
+     * @param obj index of the two boolean arrays
      * @author Guido Gonnella
      */
     public void updatePubObjFlag(int obj) {
@@ -208,17 +206,34 @@ public class Player {
         return this.nickname;
     }
 
+    /**
+     * Return the array containing the flags which represent if the corresponding {@link PublicObjective} has been reached by the player.
+     * @return the array with the booleans.
+     */
     public boolean[] getPubObjFlag() {
         return this.pubObjFlag;
     }
 
+    /**
+     * Setter for the player's {@link PrivateObjective}
+     * @param privateObjective the privateObjective
+     */
     public void setPrivateObjective(PrivateObjective privateObjective){
         this.privateObjective = privateObjective;
     }
 
+    /**
+     * Getter for the player's {@link PrivateObjective}
+     * @return the player's privateObjective
+     */
     public PrivateObjective getPrivateObjective() {
         return this.privateObjective;
     }
+
+    /**
+     * Getter for the player's actual points.
+     * @return
+     */
     public int getPlayerPoints() {
         return playerPoints;
     }

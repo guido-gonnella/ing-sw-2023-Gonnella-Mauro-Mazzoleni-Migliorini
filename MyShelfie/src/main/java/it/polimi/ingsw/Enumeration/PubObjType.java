@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Enumeration;
 
+/**
+ * Represent the types which a {@link it.polimi.ingsw.Model.PublicObjective public/common Objective} can be.
+ */
 public enum PubObjType {
     CROSS,
     EIGHT,

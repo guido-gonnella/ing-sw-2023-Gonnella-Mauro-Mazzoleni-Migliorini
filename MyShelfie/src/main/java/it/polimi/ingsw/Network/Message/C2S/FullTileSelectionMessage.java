@@ -6,6 +6,9 @@ import it.polimi.ingsw.Enumeration.MsgType;
 
 import java.util.ArrayList;
 
+/**
+ * Used to communicate to the server the selected tiles from the board, and the selected column where the player wants to place their tiles.
+ */
 public class FullTileSelectionMessage extends Message{
     private final ArrayList<Coords> selection;
     private final Integer column;

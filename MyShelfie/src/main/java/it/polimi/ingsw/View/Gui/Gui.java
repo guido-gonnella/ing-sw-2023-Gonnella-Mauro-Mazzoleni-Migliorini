@@ -126,9 +126,4 @@ public class Gui extends ViewObservable implements View {
     public void showText(String text) {
 
     }
-
-    @Override
-    public void askSelection(Board board, Shelf shelf) {
-
-    }
 }

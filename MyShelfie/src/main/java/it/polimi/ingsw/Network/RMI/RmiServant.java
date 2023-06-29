@@ -3,16 +3,12 @@ package it.polimi.ingsw.Network.RMI;
 import it.polimi.ingsw.Network.Message.Message;
 
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class RmiServant extends UnicastRemoteObject implements MyRemoteInterface {
 
-    private Registry registry;
     private MyRemoteInterface lastInterface = null;
     private final Map<String, MyRemoteInterface> remoteInterfaceMap;
     private final Map<String, Message> messageFromServer;

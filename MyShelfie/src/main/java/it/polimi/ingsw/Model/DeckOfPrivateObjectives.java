@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Deck of Private Objectives, it's a list containing all of the possible objectives
+ * Deck of Private Objectives, it's a list containing all the possible objectives
  *
  * @author Andrea Migliorini
  */
@@ -23,8 +23,14 @@ public class DeckOfPrivateObjectives {
         }
     }
 
+    /**
+     * Return a list containing the {@link PrivateObjective private objectives}, which then are distributed to the players.<br>
+     * There are as many elements as the number of players passed as a parameter.
+     * @param numPlayers the number of players in the game
+     * @return an arrayList containing the privateObjectives
+     */
     public ArrayList<PrivateObjective> getPrivateObjectives(int numPlayers) {
-        //randomly  adds of the 12 private objectives the same number of players to a list of private objectives as output
+        //randomly adds of the 12 private objectives the same number of players to a list of private objectives as output
         ArrayList<PrivateObjective> SingleRoundObjectives = new ArrayList<>();
         ArrayList<Integer> randomTempList = new ArrayList<>();
         Random rand = new Random();

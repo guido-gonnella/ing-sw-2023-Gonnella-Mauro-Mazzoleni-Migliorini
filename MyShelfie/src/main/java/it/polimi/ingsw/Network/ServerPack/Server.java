@@ -28,7 +28,7 @@ public class Server implements Runnable {
     private final Object lock;
     private int maxPlayer;
     private int numPlayer;
-    private boolean socketConnection;
+    private final boolean socketConnection;
 
     public Server(int port, boolean socket){
         usernames = new HashSet<>();
@@ -59,7 +59,7 @@ public class Server implements Runnable {
 
 
     /**
-     * Main method of the server, accepts the clients and send them to a game already created,
+     * The Main method of the server, accepts the clients and sends them to a game already created,
      * otherwise creates a new game
      */
     @Override
@@ -116,6 +116,10 @@ public class Server implements Runnable {
 
     }
 
+    /**
+     * Remove the passed username from the set.
+     * @param username the player's username.
+     */
     public void removeUsername(String username){
         usernames.remove(username);
     }

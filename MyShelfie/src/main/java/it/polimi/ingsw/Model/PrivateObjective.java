@@ -137,12 +137,15 @@ public class PrivateObjective implements Serializable {
     }
 
     /**
-     * basic getter
+     * Getter for the objective.
      */
     public ArrayList<ElementObjective> getObjective() {
         return this.objective;
     }
 
+    /**
+     * Getter of the id.
+     */
     public int getId() {
         return id;
     }

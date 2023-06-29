@@ -6,7 +6,7 @@ import org.junit.After;
 
 import static org.junit.Assert.*;
 
-public class PlayerTesting {
+public class PlayerTest {
     Player player = new Player("Asdrubale");
 
     @After
@@ -54,7 +54,7 @@ public class PlayerTesting {
         System.out.print("\n");
 
         player.placeTile(t6, 0);
-        player.placeTile(t6, 5);
+        player.placeTile(t6, 4);
     }
 
     @Test
