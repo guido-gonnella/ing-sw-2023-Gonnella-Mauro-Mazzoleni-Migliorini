@@ -126,7 +126,6 @@
                 <excludes>
                   <exclude>classworlds:classworlds</exclude>
                   <exclude>junit:*</exclude>
-                  <exclude>org.openjfx:*</exclude>
                   <exclude>jmock:*</exclude>
                   <exclude>*:xml-apis</exclude>
                   <exclude>org.apache.maven:lib:tests</exclude>
