@@ -66,38 +66,31 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
             }
 
             switch ((msg).getMsgType()) {
-                case ASK_NICKNAME -> //return an UpdatePlInfoMessage with the username
+                case ASK_NICKNAME ->
                         view.askNickname();
-                case NUMBER_PLAYER_REQUEST -> //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
+                case NUMBER_PLAYER_REQUEST ->
                         view.askPlayerNumber();
-                case TEXT -> //stampa il testo ricevuto, non ritorna niente
+                case TEXT ->
                         view.showText(((TextMessage) msg).getText());
-                case PUBLIC_OBJECTIVE -> { //stampa gli obiettivi pubblici, non ritorna niente
+                case PUBLIC_OBJECTIVE -> {
                     view.showText("\n------------- PUBLIC OBJECTIVES -------------\n\n");
                     view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
                     view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
                 }
-                case PRIVATE_OBJECTIVE -> //stampa l'obiettivo privato, non ritorna niente
+                case PRIVATE_OBJECTIVE ->
                         view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
-                case BOARD_UPDATE -> { //stampa la board, non ritorna niente
+                case BOARD_UPDATE -> {
                     board = ((UpdateBoardMessage) msg).getBoard();
                     view.boardShow(board.getGrid());
                 }
-                case SHELF_UPDATE -> { //stampa la shelf, non ritorna niente
+                case SHELF_UPDATE -> {
                     shelf = ((UpdateShelfMessage) msg).getShelf();
                     view.shelfShow(shelf.getShelf());
                 }
                 case FULL_SELECTION_REQUEST ->
-                    //stampa la board, restituisce un FullTileSelectionMessage con
-                    //l'arraylist di coordinate selezionate e la colonna selezionata
-                    //il messaggio arrivato ha già la board e la shelf
 
-                    // quello da fare sulla view
                         selectTileRequest();
                 case END_STATS -> {
-                    //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
-                    //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
-                    //punteggi e il vincitore, non restituisce niente
                     view.showText("\n================= ENDING STATS =================\n");
                     view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
                 }
@@ -106,7 +99,6 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                     client.disconnect();
                 }
                 case ERROR -> {
-                    //it.polimi.ingsw.view.showError();
                     view.showText(((ErrorMessage) msg).getError());
                     client.disconnect();
                     Thread.currentThread().interrupt();

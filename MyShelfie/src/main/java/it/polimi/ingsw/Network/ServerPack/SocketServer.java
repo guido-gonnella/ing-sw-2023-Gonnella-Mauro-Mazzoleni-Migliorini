@@ -22,7 +22,6 @@ public class SocketServer extends ServerConnection {
     /**
      * Constructor of the class
      * @param serverSocket of the server
-     * @throws IOException
      */
     public SocketServer(ServerSocket serverSocket) {
         try {
@@ -33,18 +32,16 @@ public class SocketServer extends ServerConnection {
             System.out.println("Client connected");
         }catch(SocketTimeoutException e){
             System.out.print("The client didn't respond in time.\n");
-            //disconnect();
         }catch (IOException e){
             disconnect();
             System.out.print("Something went wrong...\n");
-            //e.printStackTrace();
         }
     }
 
     /**
      * Reads a message from the client and returns it to
      * the virtual view
-     * @return
+     * @return message read
      */
     public synchronized Message readMessage(){
             try {
@@ -56,11 +53,8 @@ public class SocketServer extends ServerConnection {
                     System.out.print("The client didn't respond in time\n");
                     return new ErrorMessage("Error in receiving the message\n");
             }catch (IOException | ClassNotFoundException e) {
-                //disconnect();
-                //e.printStackTrace();
                 return new ErrorMessage("Error in receiving the message\n");
             }
-            //disconnect();
             return new ErrorMessage("Error in receiving the message\n");
     }
 
@@ -75,9 +69,7 @@ public class SocketServer extends ServerConnection {
                 output.reset();
             }catch(SocketTimeoutException e){
                 System.out.print("The client didn't respond in time\n");
-                //disconnect();
             }catch (IOException e) {
-                //disconnect();
                 System.out.print("Error in sending the message\n");
             }
     }

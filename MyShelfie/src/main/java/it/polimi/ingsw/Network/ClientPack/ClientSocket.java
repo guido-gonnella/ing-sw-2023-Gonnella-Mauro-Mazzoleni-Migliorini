@@ -31,11 +31,8 @@ public class ClientSocket extends ClientConnection {
             this.input = new ObjectInputStream(socket.getInputStream());
         }catch(SocketTimeoutException e){
             System.out.print("The server didn't respond in time.\n");
-            //disconnect();
         } catch (IOException e) {
             System.out.print("Something went wrong...\n");
-            //disconnect();
-            //e.printStackTrace();
         }
 
     }
@@ -53,17 +50,14 @@ public class ClientSocket extends ClientConnection {
             }catch(SocketTimeoutException e){
                 System.out.print("The server didn't respond in time\n");
                 disconnect();
-                //return new ErrorMessage("Error in receiving the message\n");
             }catch (IOException | ClassNotFoundException e) {
                 if(!socket.isClosed())
                     disconnect();
                 System.out.print("The server didn't respond in time\n");
-                //return new ErrorMessage("Error in reading message\n");
             }
             if(!socket.isClosed())
                 disconnect();
             System.out.print("The server didn't respond in time\n");
-            //return new ErrorMessage("Error in reading message\n");
             return null;
     }
 

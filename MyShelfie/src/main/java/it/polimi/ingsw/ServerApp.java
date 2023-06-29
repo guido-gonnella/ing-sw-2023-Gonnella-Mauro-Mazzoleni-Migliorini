@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class ServerApp {
     public static void main(String[] args){
 
-        int serverPort; //default value
+        int serverPort;
         boolean socket;
         String conn;
 

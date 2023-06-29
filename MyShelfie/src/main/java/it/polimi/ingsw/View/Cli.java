@@ -340,16 +340,16 @@ public class Cli extends ViewObservable implements View{
             out.print("and completed: ");
             if (mapObjective.get(player)[0]){
                 flag=true;
-                out.print("\u001B[32m" + "the first objective ✔" + "\u001B[0m");
+                out.print("\u001B[32m" + "completed the first objective " + "\u001B[0m");
             }
             if (flag) {
                 if (mapObjective.get(player)[1]) {
-                    out.print("\u001B[32m" + " and the second objective ✔" + "\u001B[0m");
+                    out.print("\u001B[32m" + " and the second objective " + "\u001B[0m");
                 }
             } else if (mapObjective.get(player)[1]) {
-                out.print("\u001B[32m" + "the second objective ✔" + "\u001B[0m");
+                out.print("\u001B[32m" + "completed the second objective " + "\u001B[0m");
             } else {
-                out.print("\u001B[31m" + "no objectives (╥﹏╥)" + "\u001B[0m");
+                out.print("\u001B[31m" + "no objectives completed" + "\u001B[0m");
             }
             out.print("\n");
         }
