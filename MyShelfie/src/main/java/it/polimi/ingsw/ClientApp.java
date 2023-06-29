@@ -8,13 +8,20 @@ public class ClientApp {
 
     public static void main(String[] args) {
 
-        boolean cliView;
-        boolean socketConnection;
+        boolean cliView = true;
+        boolean socketConnection = true;
 
-        cliView = !args[0].equals("g");
-        socketConnection = !args[1].equals("r");
+        for (String arg : args) {
+            if (arg.equals("--gui") || arg.equals("-g"))
+                cliView = false;
+            if (arg.equals("--rmi") || arg.equals("-r"))
+                socketConnection = false;
+        }
+
+
         if(socketConnection){
-            System.out.println("Socket Connection Selected");} else {
+            System.out.println("Socket Connection Selected");
+        } else {
             System.out.println("RMI Connection Selected");
         }
 

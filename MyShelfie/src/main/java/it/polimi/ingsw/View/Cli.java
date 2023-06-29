@@ -201,11 +201,11 @@ public class Cli extends ViewObservable implements View{
                         case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                         case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                        default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                     }
                 }
                 else {
-                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                 }
             }
             out.print("\n");
@@ -239,10 +239,10 @@ public class Cli extends ViewObservable implements View{
                         case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                         case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                        default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                     }
                 } else {
-                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    System.out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                 }
             }
             System.out.print("\n");
@@ -269,7 +269,7 @@ public class Cli extends ViewObservable implements View{
                 case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                 case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                 case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
             }
         }
         out.println("\n");
@@ -403,11 +403,11 @@ public class Cli extends ViewObservable implements View{
                         case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                         case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                        default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                     }
                     if(z<5) z++;
                 }else {
-                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                 }
             }
             out.print("\n");
