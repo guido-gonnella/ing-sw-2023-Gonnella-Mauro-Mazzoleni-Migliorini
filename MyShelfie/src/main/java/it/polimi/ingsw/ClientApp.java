@@ -32,7 +32,7 @@ public class ClientApp {
         if(cliView){
             System.out.println("Cli Selected");
             Cli view = new Cli();
-            NetworkHandler networkHandler = new NetworkHandler(view, socketConnection);
+            NetworkHandlerTaskqueue networkHandler = new NetworkHandlerTaskqueue(view, socketConnection);
             view.addObserver(networkHandler);
             Thread thread= new Thread(networkHandler, "networkHandler_");
             thread.start();

@@ -20,6 +20,7 @@ import javafx.application.Platform;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -39,12 +40,14 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     private final boolean socketConnection;
     private boolean clientlock;
 
+
     public NetworkHandlerTaskqueue(View view, boolean socketConnection){
         this.view = view;
         tempTiles = new ArrayList<Coords>();
         hand = new ArrayList<Tile>();
         shelf = new Shelf();
         this.socketConnection = socketConnection;
+
     }
 
     @Override
@@ -61,8 +64,8 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     @Override
     public void run() {
         Message msg;
-        view.init();
         clientlock= true;
+        view.init();
         while (clientlock) {
             try {
                 Thread.sleep(10);
