@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Controller.NetworkHandler;
 import it.polimi.ingsw.Network.ServerPack.Server;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -13,6 +14,7 @@ public class ServerApp {
 
         int serverPort; //default value
         boolean socket;
+        String conn;
 
         Scanner s = new Scanner(System.in);
         do {
@@ -21,9 +23,13 @@ public class ServerApp {
         }
         while(!NetworkHandler.isValidPort(serverPort));
 
-        System.out.print("Using socket connection? [y/n]\n");
-        System.out.print("(The alternative is to use RMI)\n");
-        socket = !s.next().equals("n");
+        System.out.print("Using socket [s] or RMI [r] connection?\n");
+        conn = s.next();
+        while(!Objects.equals(conn, "s") && !Objects.equals(conn, "r")){
+            System.out.print("Please select a valid input [s] [r]\n");
+            conn = s.next();
+        }
+        socket = !conn.equals("r");
 
         Server server = new Server(serverPort, socket);
         Thread thread = new Thread(server, "server_");
