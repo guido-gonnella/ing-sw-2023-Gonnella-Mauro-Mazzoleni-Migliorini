@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Class that represent the single tiles that can be placed on the
- * board and on the players shelves
+ * board and on the player shelves
  *
  * @author Pierantonio Mauro
  */
@@ -29,5 +29,7 @@ public class Tile implements Serializable {
     /**
      * @return the id of the tile, which is used in the view.
      */
-    public int getId() {return id; }
+    public int getId() {
+        return id;
+    }
 }

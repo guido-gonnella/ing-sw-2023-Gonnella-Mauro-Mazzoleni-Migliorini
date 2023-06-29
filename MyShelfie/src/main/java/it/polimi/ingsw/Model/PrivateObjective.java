@@ -144,7 +144,7 @@ public class PrivateObjective implements Serializable {
     }
 
     /**
-     * Getter for the id.
+     * Getter of the id.
      */
     public int getId() {
         return id;

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
-import it.polimi.ingsw.Enumeration.MsgType;
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Observer.ViewObservable;
@@ -17,7 +16,7 @@ import java.util.*;
 public class Cli extends ViewObservable implements View{
     private PrintStream out;
     private Scanner input;
-    private String temp;
+
     public Cli(){
         out= new PrintStream(System.out);
         out.println("""
@@ -119,10 +118,9 @@ public class Cli extends ViewObservable implements View{
     }
 
     /**
-     * asks to order the tiles to insert the colums, checks position outside of max size of hand and different position of tiles
+     * asks to order the tiles to insert the columns, checks position outside of max size of hand and different position of tiles
      * @author Andrea Migliorini
      */
-
     @Override
     public void invalidTile(int ROW,int COL) {
         out.print("Tile in " + ROW + "," + COL + " doesn't exist\n");
@@ -156,16 +154,20 @@ public class Cli extends ViewObservable implements View{
         out.print("Input the column in which to insert the tiles in your hand, they will be inserted with the leftmost as the one at the bottom: ");
         do {
             try{
-                valid=true;
-                col =ReadInt();
+                while(!input.hasNextInt()){
+                    out.print("Please input a valid column (a number from 0 to 4): ");
+                    input.next();
+                }
+                col = input.nextInt();
+                valid = true;
             }
             catch(NoSuchElementException e){
                 out.print("Please input a valid column (a number from 0 to 4): ");
-                valid=false;
+                valid = false;
             }
             if(col>4 || col<0){
                 out.print("Please input a valid column (a number from 0 to 4): ");
-                valid=false;
+                valid = false;
             }
 
         } while(!valid);
@@ -175,9 +177,9 @@ public class Cli extends ViewObservable implements View{
 
 
     /**
-     * *prints the board to the player in color
-     @param board the game Board
-      * @author Samuele Mazzoleni
+     * prints the board to the player in color
+     * @param board the game Board
+     * @author Samuele Mazzoleni
      * @author Andrea Migliorini
      **/
     @Override
@@ -199,23 +201,23 @@ public class Cli extends ViewObservable implements View{
                         case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                         case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                        default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                     }
                 }
                 else {
-                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                 }
             }
             out.print("\n");
         }
-        out.print("\n\n");
+        out.print("\n");
     }
 
 
     /**
-     * *prints the board to the player in color
-     @param shelf<Tile>[][] shelf
-      * @author Pier Antonio Mauro
+     * prints the board to the player in color
+     * @param shelf<Tile>[][] shelf
+     * @author Pier Antonio Mauro
      * @author Andrea Migliorini
      **/
     @Override
@@ -237,10 +239,10 @@ public class Cli extends ViewObservable implements View{
                         case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                         case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                        default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                     }
                 } else {
-                    System.out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    System.out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                 }
             }
             System.out.print("\n");
@@ -267,7 +269,7 @@ public class Cli extends ViewObservable implements View{
                 case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                 case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                 case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
             }
         }
         out.println("\n");
@@ -338,16 +340,16 @@ public class Cli extends ViewObservable implements View{
             out.print("and completed: ");
             if (mapObjective.get(player)[0]){
                 flag=true;
-                out.print("\u001B[32m" + "the first objective ✔" + "\u001B[0m");
+                out.print("\u001B[32m" + "completed the first objective " + "\u001B[0m");
             }
             if (flag) {
                 if (mapObjective.get(player)[1]) {
-                    out.print("\u001B[32m" + " and the second objective ✔" + "\u001B[0m");
+                    out.print("\u001B[32m" + " and the second objective " + "\u001B[0m");
                 }
             } else if (mapObjective.get(player)[1]) {
-                out.print("\u001B[32m" + "the second objective ✔" + "\u001B[0m");
+                out.print("\u001B[32m" + "completed the second objective " + "\u001B[0m");
             } else {
-                out.print("\u001B[31m" + "no objectives (╥﹏╥)" + "\u001B[0m");
+                out.print("\u001B[31m" + "no objectives completed" + "\u001B[0m");
             }
             out.print("\n");
         }
@@ -359,7 +361,6 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void showPublicObjective(PubObjType code) {
-        out.print("\n------------- PUBLIC OBJECTIVES -------------\n\n");
         switch (code)
         {
             case ANGLES -> out.println("Place four of the same tiles on the corner of the shelf\n\t[=]---[=]\n\t |    |\n |    |\n\t[=]---[=]\n");
@@ -390,7 +391,6 @@ public class Cli extends ViewObservable implements View{
             out.print("\u001B[30m" + "-" + "\u001B[0m" + i + "\u001B[30m" + "-" + "\u001B[0m");
         }
         out.print ("\n");
-        //prima z era 0, adesso non da problemi nel mostrare gli obiettivi privati
         int z = 0;
         for (int i = 0; i < 6; i++) {
             out.print(i);
@@ -403,11 +403,11 @@ public class Cli extends ViewObservable implements View{
                         case GAME -> out.print("\u001B[33m" + "[G]" + "\u001B[0m");
                         case BOOK -> out.print("\u001B[37m" + "[B]" + "\u001B[0m");
                         case CAT -> out.print("\u001B[32m" + "[C]" + "\u001B[0m");
-                        default -> out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                        default -> out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                     }
                     if(z<5) z++;
                 }else {
-                    out.print("\u001B[30m" + "[■]" + "\u001B[0m");
+                    out.print("\u001B[90m" + "[■]" + "\u001B[0m");
                 }
             }
             out.print("\n");
@@ -415,8 +415,8 @@ public class Cli extends ViewObservable implements View{
     }
 
     /**
-     * Extract the coordinates value from the input.<br>
-     * For example, the player write "4,6" the method return the array [4, 6].
+     * Extract the coordinate values from the input.<br>
+     * For example, the player writes "4,6" the method returns the array [4, 6].
      * @param input the string inserted by the player.
      * @return the array containing the coordinate int values.
      */
@@ -437,6 +437,10 @@ public class Cli extends ViewObservable implements View{
         return values;
     }
 
+    /**
+     * Print on screen the String passed as the parameter.
+     * @param text the String to be showed.
+     */
     public void showText(String text){
         out.print(text);
     }

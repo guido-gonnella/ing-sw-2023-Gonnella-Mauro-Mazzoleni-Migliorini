@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Model;
 
-import java.util.*;
+import org.junit.After;
+import org.junit.Test;
 
-import org.junit.*;
 import static org.junit.Assert.*;
 
 public class GameTest {
@@ -73,8 +73,8 @@ public class GameTest {
         }
         System.out.print("\n");
 
-        game.setFirstPlayer("Tua Madre");
-        System.out.println(game.getFirstPlayer() + "\n");
+        game.setFirstPlayer("Nome1");
+        assertEquals("Nome1", game.getFirstPlayer());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class GameTest {
         System.out.println(tiles + "\n");
 
         while(!game.getSackOfTiles().getLeftTiles().isEmpty()) {
-            Tile tile = sack.getRandomTile();
+            sack.getRandomTile();
             game.setSackOfTiles(sack);
             System.out.println(game.getSackOfTiles().getLeftTiles().size() + "\n");
         }
@@ -178,6 +178,8 @@ public class GameTest {
         game.addPlayer("Nome3");
         game.addPlayer("Nome4");
 
+        game.setBoard();
+
         game.selectTiles(0,3);
         game.selectTiles(0,4);
 
@@ -204,6 +206,8 @@ public class GameTest {
         game.addPlayer("Nome3");
         game.addPlayer("Nome4");
 
+        game.setBoard();
+
         game.selectTiles(0,3);
         game.selectTiles(0,4);
 
@@ -216,6 +220,8 @@ public class GameTest {
         game.addPlayer("Nome2");
         game.addPlayer("Nome3");
         game.addPlayer("Nome4");
+
+        game.setBoard();
 
         Tile tile1 = game.getBoard().getGrid()[0][3].getTile().get();
         Tile tile2 = game.getBoard().getGrid()[0][4].getTile().get();

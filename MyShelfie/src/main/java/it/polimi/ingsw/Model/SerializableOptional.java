@@ -1,15 +1,14 @@
 package it.polimi.ingsw.Model;
 
-import javax.swing.text.html.Option;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
  * Re-implementation of the {@link java.util.Optional Optional<T>} but serializable.<br>
- * If the value is ot null isEmpty return false, and the isPresent return true.<br><br>
+ * If the value is ot null isEmpty return false, and the isPresent returns true.<br><br>
  * The methods in the class are a copy of the original methods.<br>
- * The only method different from the original is of(T value), which if value is null return an empty SerializableOptional
+ * The only method different from the original is of(T value), which if the value is null return an empty SerializableOptional
  * otherwise returns a SerializableOptional with its value equals to the value passed.
  * <br><br>
  * There aren't present the method ifPresent, ifPresentOrElse, filter, map, flatMap, or, stream, orElseGet and orElseThrow.
@@ -40,8 +39,7 @@ public class SerializableOptional<T> implements Serializable {
      * @return empty SerializableOptional
      */
     public static<T> SerializableOptional<T> empty(){
-        SerializableOptional<T> t = (SerializableOptional<T>) EMPTY;
-        return t;
+        return (SerializableOptional<T>) EMPTY;
     }
 
     /**
@@ -57,7 +55,7 @@ public class SerializableOptional<T> implements Serializable {
      * Return a SerializableOptional Instance with the value set equal to the passed parameter.<br>
      * The parameter can be null, the method returns an empty SerializableOptional.
      * @param value the value to be described in the instance.
-     * @return the instance eith the value, or an empty instance.
+     * @return the instance with the value, or an empty instance.
      */
     public static<T> SerializableOptional<T> ofNullable(T value){
         return value != null ? new SerializableOptional<>(value) : (SerializableOptional<T>) EMPTY;
@@ -92,7 +90,7 @@ public class SerializableOptional<T> implements Serializable {
     public T orElse(T other) {return value != null ? value : other;}
 
     /**
-     * Return true the if the instance is equal to the object passed.
+     * Return true if the instance is equal to the object passed.
      * @param o object passed
      * @return true if the object is equal to the instance, false otherwise.
      */
@@ -111,7 +109,7 @@ public class SerializableOptional<T> implements Serializable {
     @Override
     public String toString() {
         return value != null ?"SerializableOptional{" +
-                "value=" + value.toString() + '}'
+                "value=" + value + '}'
                 : "empty";
     }
 }

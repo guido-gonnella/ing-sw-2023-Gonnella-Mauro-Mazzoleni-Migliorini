@@ -40,7 +40,7 @@ public class MenuSceneController extends ViewObservable implements GenericSceneC
             }
         }
         else {
-            new Thread(()->notifyObservers(obs -> obs.onConnection(ipAddress, portAddress))).start();
+            new Thread(() -> notifyObservers(obs -> obs.onConnection(ipAddress, portAddress))).start();
         }
     }
 

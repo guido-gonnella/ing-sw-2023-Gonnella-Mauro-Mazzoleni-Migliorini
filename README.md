@@ -19,3 +19,6 @@
     <li>Socket Communication</li>
   </ul>
 </p>
+
+<h2>Deliverables</h2>
+<p>You can find the UML diagram produces for the project in the Deliverables/uml folder.</p>

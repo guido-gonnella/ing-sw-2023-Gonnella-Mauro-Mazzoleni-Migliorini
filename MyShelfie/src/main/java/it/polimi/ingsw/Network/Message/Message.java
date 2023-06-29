@@ -28,14 +28,6 @@ public class Message implements Serializable {
     }
 
     /**
-     * getter of the message's user
-     * @return the nickname of the user
-     */
-    /*public String getUsername() {
-        return username;
-    }*/
-
-    /**
      * toString method to visualize the Message in the form of a {@link String}
      * @return
      */

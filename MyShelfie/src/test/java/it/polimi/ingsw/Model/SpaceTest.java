@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  * This class tests the {@link PublicObjective} methods.
- * @suthor Pierantonio Mauro
+ * @author Pierantonio Mauro
  */
 
 public class SpaceTest {

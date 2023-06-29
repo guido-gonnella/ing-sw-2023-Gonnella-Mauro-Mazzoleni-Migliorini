@@ -1,8 +1,10 @@
 package it.polimi.ingsw.Model;
 
-import java.util.*;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class BoardTest {
     Board board = new Board();
@@ -23,6 +25,8 @@ public class BoardTest {
         }
 
         assertFalse(board.checkFill());
+
+        board.fill(sack);
 
         System.out.println("Test1:");
 
@@ -62,11 +66,11 @@ public class BoardTest {
 
         assertFalse(board.checkFill());
 
+        board.fill(sack);
+
         System.out.println("Test2:");
 
         print_board(board);
-
-        assertTrue(board.checkFill());
     }
 
     @Test
@@ -77,6 +81,8 @@ public class BoardTest {
         board.getGrid()[1][1].setAvailable();
 
         assertFalse(board.checkFill());
+
+        board.fill(sack);
 
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
@@ -100,6 +106,8 @@ public class BoardTest {
         System.out.print("\n");
 
         board.getGrid()[0][1].setAvailable();
+
+        board.fill(sack);
 
         for(int i = 0; i < board.ROW; i++) {
             for(int j = 0; j < board.COL; j++) {
@@ -134,6 +142,8 @@ public class BoardTest {
         }
 
         assertFalse(board.checkFill());
+
+        board.fill(sack);
 
         System.out.println("Test4:");
 

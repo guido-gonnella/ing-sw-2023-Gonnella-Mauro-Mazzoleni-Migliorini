@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.*;
 import it.polimi.ingsw.Network.ClientPack.ClientConnection;
 import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.*;
+import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.*;
 import it.polimi.ingsw.Network.RMI.ClientRmi;
@@ -12,11 +13,12 @@ import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
-    private ArrayList<Coords> tempTiles;
-    private ArrayList<Tile> hand;
+    private final ArrayList<Coords> tempTiles;
+    private final ArrayList<Tile> hand;
     private final View view;
     private int column;
     private Shelf shelf;
@@ -26,95 +28,99 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     private String nick;
     private final boolean socketConnection;
 
-    public NetworkHandler(View view, boolean socketConnection){
-            this.view = view;
-            tempTiles = new ArrayList<Coords>();
-            hand = new ArrayList<Tile>();
-            shelf = new Shelf();
-            this.socketConnection = socketConnection;
-        }
+    public NetworkHandler(View view, boolean socketConnection) {
+        this.view = view;
+        tempTiles = new ArrayList<Coords>();
+        hand = new ArrayList<Tile>();
+        shelf = new Shelf();
+        this.socketConnection = socketConnection;
+    }
+
+    /**
+     * It creates the connection to the server and distinguishes between
+     * the socket and rmi connection
+     * @param serverAddr address of the server
+     * @param port of connection
+     */
     @Override
     public void onConnection(String serverAddr, int port) {
-        if(socketConnection)
-            client = new ClientSocket(serverAddr, port);
-        else
-            client = new ClientRmi(serverAddr);
-        }
+        if(socketConnection) client = new ClientSocket(serverAddr, port);
+        else client = new ClientRmi(serverAddr);
+    }
 
     /**
     * Method that whenever the client receives a message, notify this instance to be updated with a message.
     */
     @Override
     public void run() {
-            Message msg;
-            view.init();
-            while(!Thread.currentThread().isInterrupted()) {
-                msg = client.readMessage();
+        Message msg;
+        view.init();
+        while(!Thread.currentThread().isInterrupted()) {
+            msg = client.readMessage();
 
-                switch (msg.getMsgType()) {
-                    case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
+            if(msg == null){
+                System.out.print("An error occurred\n");
+                client.disconnect();
+                Thread.currentThread().interrupt();
+                continue;
+            }
+
+            switch ((msg).getMsgType()) {
+                case ASK_NICKNAME ->
                         view.askNickname();
-                        break;
-                    case NUMBER_PLAYER_REQUEST: //ritorna NumberOfPlayerMessage con un numero tra 2 e 4
+                case NUMBER_PLAYER_REQUEST ->
                         view.askPlayerNumber();
-                        break;
-                    case TEXT: //stampa il testo ricevuto, non ritorna niente
+                case TEXT ->
                         view.showText(((TextMessage) msg).getText());
-                        break;
-                    case PUBLIC_OBJECTIVE: //stampa gli obiettivi pubblici, non ritorna niente
-                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
-                        view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
-                        break;
-                    case PRIVATE_OBJECTIVE: //stampa l'obiettivo privato, non ritorna niente
-                        view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
-                        break;
-                    case BOARD_UPDATE: //stampa la board, non ritorna niente
-                        board = ((UpdateBoardMessage) msg).getBoard();
-                        view.boardShow(board.getGrid());
-                        break;
-                    case SHELF_UPDATE: //stampa la shelf, non ritorna niente
-                        shelf = ((UpdateShelfMessage) msg).getShelf();
-                        view.shelfShow(shelf.getShelf());
-                        break;
-                    case FULL_SELECTION_REQUEST:
-                        //stampa la board, restituisce un FullTileSelectionMessage con
-                        //l'arraylist di coordinate selezionate e la colonna selezionata
-                        //il messaggio arrivato ha già la board e la shelf
-
-                        // quello da fare sulla view
-                        selectTileRequest(); //va bene questo?
-                        break;
-                    case END_STATS:
-                        //dice al client che la partita è finita e si è disconnesso, per la visualizzazione
-                        //dei punti se ne occupa il gameController mandando dei messaggi di testo con i
-                        //punteggi e il vincitore, non restituisce niente
-
-                        view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
-                        break;
-                    case END_GAME:
-                        Thread.currentThread().interrupt();
-                        break;
-                    case ERROR:
-                        //it.polimi.ingsw.view.showError();
-                        break;
-                    default: view.showText("something went very wrong");
+                case PUBLIC_OBJECTIVE -> {
+                    view.showText("\n------------- PUBLIC OBJECTIVES -------------\n\n");
+                    view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[0]);
+                    view.showPublicObjective(((PublicObjectiveMessage) msg).getPublicObjectives()[1]);
                 }
+                case PRIVATE_OBJECTIVE ->
+                        view.showPrivateObjective(((PrivateObjectiveMessage) msg).getPrivateObjective());
+                case BOARD_UPDATE -> {
+                    board = ((UpdateBoardMessage) msg).getBoard();
+                    view.boardShow(board.getGrid());
+                }
+                case SHELF_UPDATE -> {
+                    shelf = ((UpdateShelfMessage) msg).getShelf();
+                    view.shelfShow(shelf.getShelf());
+                }
+                case FULL_SELECTION_REQUEST ->
+
+                        selectTileRequest();
+                case END_STATS -> {
+                    view.showText("\n================= ENDING STATS =================\n");
+                    view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
+                }
+                case END_GAME -> {
+                    Thread.currentThread().interrupt();
+                    client.disconnect();
+                }
+                case ERROR -> {
+                    view.showText(((ErrorMessage) msg).getError());
+                    client.disconnect();
+                    Thread.currentThread().interrupt();
+                }
+                default -> view.showText("something went very wrong");
             }
         }
+    }
 
 
     /**
-     * Method that ask the player via view methods to selected the tiles from the board and then to select the column where to put the selected tiles.<br>
-     * Then the method send a {@link FullTileSelectionMessage} to the server containing the selected tiles and the column.
+     * Method that ask the player via view methods to select the tiles from the board and then to select the column where to put the selected tiles.<br>
+     * Then the method sends a {@link FullTileSelectionMessage} to the server containing the selected tiles and the column.
      */
-    private void selectTileRequest(){
+    private void selectTileRequest() {
         boolean valid;
         int max=0;
-        int tilesleft;
+        int tilesLeft;
         for (int i=0;i<5;i++){
-            tilesleft=shelf.tilesLeftColumn(i);
-            if(max<tilesleft) {
-                max=tilesleft;
+            tilesLeft=shelf.tilesLeftColumn(i);
+            if(max<tilesLeft) {
+                max=tilesLeft;
             }
         }
         do {
@@ -158,7 +164,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     }
 
     /**
-     * Method that add the coordinates of the selected tile to the tempTiles list, but firstly check if the coordinates inserted are -1,-1, which means
+     * Method that add the coordinates of the selected tile to the tempTiles list, but firstly, check if the coordinates inserted are -1,-1, which means
      * the player wants to end their selection, or check if the selected coordinated are out of bounds or the space on the board is empty.
      * @param ROW x coordinate
      * @param COL y coordinate
@@ -187,7 +193,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     }
 
     /**
-         * Sends to the server the chosen number of player
+         * Sends to the server the chosen number of players
          * @param numPlayers the max number of players allowed in the game
          */
     @Override
@@ -242,10 +248,10 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
 
     /**
      *
-     * @return return true if the tiles selected is valid, in line and with at least a side free
-     * The method return a boolean value, based on the coordinates of the selected tiles from the game Board.<br>
+     * @return return true if the tiles selected are valid, in line and with at least a side free
+     * The method returns a boolean value, based on the coordinates of the selected tiles from the game Board.<br>
      * It checks firstly if the number of the selected tiles is not greater than three, than based on the number (one, two or three).<br><br>
-     * If the tiles are only one, it checks if the tile have at least one free side. <br>
+     * If the tiles are only one, it checks if the tile has at least one free side. <br>
      * If the tiles are two, it checks if the x coordinates or the y coordinates are the same, then it sorts the array containing the coordinates
      * (sorting on the y if the selection is horizontal, or on the x if the selection is vertical), then checks if the absolute value of the difference of the y values
      * (x values) is 1, meaning the tiles are one next to the other, then checks if the selected tiles have one free side.<br>
@@ -262,7 +268,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                 return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL);
             } else if (tempCoords.size() == 2) {
                 if(tempCoords.get(0).ROW == tempCoords.get(1).ROW){
-                    //swap for sorting the two element array
+                    //swap for sorting the two element arrays
                     if(tempCoords.get(0).COL > tempCoords.get(1).COL){
                         Coords t = tempCoords.get(1);
                         tempCoords.set(1, tempCoords.get(0));
@@ -273,7 +279,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                         return adjacent(tempCoords.get(0).ROW, tempCoords.get(0).COL) && adjacent(tempCoords.get(1).ROW, tempCoords.get(1).COL);
                     }
                 } else if (tempCoords.get(0).COL == tempCoords.get(1).COL) {
-                    //swap for sorting the two element array
+                    //swap for sorting the two element arrays
                     if(tempCoords.get(0).COL > tempCoords.get(1).COL){
                         Coords t = tempCoords.get(1);
                         tempCoords.set(1, tempCoords.get(0));
@@ -342,7 +348,7 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
      * Checks if the tile at the passed coordinate have, at least, a free side.
      * @param x x coordinate
      * @param y y coordinate
-     * @return true if the tile have at least one free side, false otherwise
+     * @return true if the tile has at least one free side, false otherwise
      */
     private boolean adjacent(int x, int y){
         if(x==0 || x== 8 || y==0 || y==8)

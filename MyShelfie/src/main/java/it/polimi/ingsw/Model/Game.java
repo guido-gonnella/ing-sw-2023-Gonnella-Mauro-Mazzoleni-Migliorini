@@ -190,16 +190,16 @@ public class Game implements Serializable {
 
 
     /**
-     * The method return a boolean value, based on the coordinates of the selected tiles from the game Board.<br>
+     * The method returns a boolean value, based on the coordinates of the selected tiles from the game Board.<br>
      * It checks firstly if the number of the selected tiles is not greater than three, than based on the number (one, two or three).<br><br>
-     * If the tiles are only one, it checks if the tile have at least one free side. <br>
+     * If the tiles are only one, it checks if the tile has at least one free side. <br>
      * If the tiles are two, it checks if the x coordinates or the y coordinates are the same, then it sorts the array containing the coordinates
      * (sorting on the y if the selection is horizontal, or on the x if the selection is vertical), then checks if the absolute value of the difference of the y values
      * (x values) is 1, meaning the tiles are one next to the other, then checks if the selected tiles have one free side.<br>
-     * For the the selection of three elements, it first checks if the x values or the y values are the same (same row or column), then order the arraylilst by the x or the y values,
+     * For the selection of three elements, it first checks if the x values or the y values are the same (same row or column), then order the arraylist by the x or the y values,
      * then checks if the difference between the coordinates (x or y values) are -1, meaning the values (x or y) are consecutive, then it checks if the coordinates
      * have at least on free side.
-     * @return return true if the selection is , false otherwise
+     * @return return true if the selection is valid, false otherwise
      * @author Guido Gonnella
      */
     public boolean validSelection(){
@@ -208,7 +208,7 @@ public class Game implements Serializable {
                 return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL);
             } else if (tempTileSelSize() == 2) {
                 if(tempTiles.get(0).ROW == tempTiles.get(1).ROW){
-                    //swap for sorting the two element array
+                    //swap for sorting the two element arrays
                     if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
@@ -219,7 +219,7 @@ public class Game implements Serializable {
                         return adjacent(tempTiles.get(0).ROW, tempTiles.get(0).COL) && adjacent(tempTiles.get(1).ROW, tempTiles.get(1).COL);
                     }
                 } else if (tempTiles.get(0).COL == tempTiles.get(1).COL) {
-                    //swap for sorting the two element array
+                    //swap for sorting the two element arrays
                     if(tempTiles.get(0).COL > tempTiles.get(1).COL){
                         Coords t = tempTiles.get(1);
                         tempTiles.set(1, tempTiles.get(0));
@@ -283,7 +283,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * add to the arraylist, if its size is lower than 3, the coordinates of the tile the current player want to take from the board
+     * add to the arraylist, if its size is lower than 3, the coordinates of the tile the current player wants to take from the board
      * @param x x coordinate
      * @param y y coordinate
      */
@@ -294,7 +294,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * @return  the size of the arraylist containg the temporary selected tiles
+     * @return the size of the arraylist containing the temporary selected tiles
      * @author Guido Gonnella
      */
     public int tempTileSelSize(){ return this.tempTiles.size();}
@@ -310,12 +310,12 @@ public class Game implements Serializable {
     }
 
     /**
-     * Class used when the current player take the tiles from the board
+     * Class used when the current player takes the tiles from the board
      *
-     * @implNote only one tile at time can be taken
+     * @implNote only one tile at a time can be taken
      */
     public Tile takeTiles(int x, int y) {
-        return  this.board.takeTiles(x,y).orElse(null);
+        return this.board.takeTiles(x,y).orElse(null);
     }
 
     /**
@@ -325,17 +325,11 @@ public class Game implements Serializable {
      * @author Pierantonio Mauro
      */
     private boolean adjacent(int x, int y){
-        if(x==0 || x== 8 || y==0 || y==8)
-            return true;
-        if(board.getGrid()[x-1][y].getTile().isEmpty())
-            return true;
-        if(board.getGrid()[x+1][y].getTile().isEmpty())
-            return true;
-        if(board.getGrid()[x][y-1].getTile().isEmpty())
-            return true;
-        if(board.getGrid()[x][y+1].getTile().isEmpty())
-            return true;
-        return false;
+        if(x==0 || x== 8 || y==0 || y==8) return true;
+        if(board.getGrid()[x-1][y].getTile().isEmpty()) return true;
+        if(board.getGrid()[x+1][y].getTile().isEmpty()) return true;
+        if(board.getGrid()[x][y-1].getTile().isEmpty()) return true;
+        return board.getGrid()[x][y + 1].getTile().isEmpty();
     }
 
     /**
@@ -412,7 +406,7 @@ public class Game implements Serializable {
     /**
      * Method that adds a player to the game
      *
-     * @param name playerp's nickname
+     * @param name player's nickname
      * @author Pierantonio Mauro
      */
     public void addPlayer(String name){
@@ -420,7 +414,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Return the list of nicknames of all player
+     * Return the list of nicknames of all players
      * @return an ArrayList of strings containing the nicknames
      * @author Guido Gonnella
      */
@@ -433,7 +427,7 @@ public class Game implements Serializable {
 
     public void setFirstPlayer(String nickname){
         this.firstPlayer = getPlayerByNick(nickname);
-    };
+    }
 
     /**
      * Getter for the firstPlayer

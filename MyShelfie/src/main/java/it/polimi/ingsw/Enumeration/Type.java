@@ -9,5 +9,5 @@ public enum Type {
     GAME,
     PLANT,
     TROPHY,
-    BOOK;
+    BOOK
 }

@@ -18,7 +18,7 @@ public class GameView {
 
     public static int takePort(){
         System.out.print("Select the port: ");
-        int port = 4999; //default value for the port
+        int port; //default value for the port
         Scanner scanner = new Scanner(System.in);
         port = scanner.nextInt();
         return port;
@@ -27,7 +27,7 @@ public class GameView {
     public static String takeAddress(){
         System.out.print("Insert the address: ");
         Scanner scanner = new Scanner(System.in);
-        String address = "localhost";
+        String address;
         address = scanner.next();
         return address;
     }

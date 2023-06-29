@@ -22,7 +22,7 @@ public class Shelf implements Serializable {
 
     /**
      * Constructor method of the class
-     * Declare the matrix of Optional at the fixed dimensions of 6x5, then initialize all the values at Optional.empty()
+     * Declares the matrix of Optional at the fixed dimensions of 6x5, then initialize all the values at Optional.empty()
      *
      * @author Guido Gonnella
      */
@@ -46,8 +46,7 @@ public class Shelf implements Serializable {
      * @author Guido Gonnella
      * */
     public SerializableOptional<Tile>[][] getShelf(){
-        SerializableOptional<Tile>[][] temp = this.shelf;
-        return temp;
+        return this.shelf;
     }
 
     /**
@@ -93,7 +92,7 @@ public class Shelf implements Serializable {
 
     /**
      * Method to check if the shelf is full.
-     * @return true if there aren't any empty spaces int the matrix, false if there are at least one
+     * @return true if there aren't any empty spaces int the matrix, false if there is at least one
      * @author Guido Gonnella
      */
     public boolean isFull(){
@@ -109,11 +108,11 @@ public class Shelf implements Serializable {
     /**
      * Method to check how many more tiles you can insert in a column
      *  @param column is the column of the shelf you want to check
-     * @returns tilesleft is how many more tiles can fit in that column of the shelf
+     * @return tilesLeft is how many more tiles can fit in that column of the shelf
      * @author Andrea Migliorini
      */
     public int tilesLeftColumn(int column){
-        int tilesleft=0;
+        int tilesLeft=0;
         int i=HEIGHT-1;
         for (;i>-1;i--){
             if(shelf[i][column].isEmpty()){
@@ -121,8 +120,8 @@ public class Shelf implements Serializable {
             }
         }
         for (;i>-1;i--){
-            tilesleft++;
+            tilesLeft++;
         }
-        return(tilesleft);
+        return(tilesLeft);
     }
 }

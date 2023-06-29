@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.Gui.SceneControllers;
 
 import it.polimi.ingsw.Observer.ViewObservable;
 import it.polimi.ingsw.View.Gui.Gui2;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -30,11 +31,11 @@ public class MaxPlayerSceneController extends ViewObservable implements GenericS
             else {
                 valid=true;
                 final int maxPlayers = playerNumber;
-                new Thread(()->notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
+                new Thread(() -> notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
             }
         }
 
-        Gui2.planeLoader("WaitingRoomScene.fxml");
+        Platform.runLater(() -> Gui2.planeLoader("MainScene.fxml"));
     }
 
     private void reset() {

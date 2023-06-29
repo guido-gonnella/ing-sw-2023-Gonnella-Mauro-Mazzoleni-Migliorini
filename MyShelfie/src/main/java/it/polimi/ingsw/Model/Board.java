@@ -47,8 +47,8 @@ public class Board implements Serializable {
     /**
      * Method used by the game class to take the tile the player clicked
      *
-     * @param row number of the row of the clicked tile
-     * @param col number of the column of the clicked tile
+     * @param row row number of the clicked tile
+     * @param col column number of the clicked tile
      * @return the tile that will be placed on the player shelf
      */
     public SerializableOptional<Tile> takeTiles(int row, int col) {

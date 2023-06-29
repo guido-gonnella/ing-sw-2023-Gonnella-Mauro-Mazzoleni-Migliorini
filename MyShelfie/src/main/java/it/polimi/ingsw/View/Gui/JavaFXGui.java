@@ -4,9 +4,11 @@ import it.polimi.ingsw.View.Gui.SceneControllers.StartSceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
@@ -21,11 +23,10 @@ public class JavaFXGui extends Application {
         Gui2 view = new Gui2();
         NetworkHandlerTaskqueue networkHandler = new NetworkHandlerTaskqueue(view, true);
         view.addObserver(networkHandler);
-        Thread thread= new Thread(networkHandler, "networkHandler_");
+        Thread thread = new Thread(networkHandler, "networkHandler_");
         thread.start();
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxmls/StartScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmls/StartScene.fxml"));
         Parent root;
         try {
             root = loader.load();
@@ -38,6 +39,8 @@ public class JavaFXGui extends Application {
         // Show the scene containing the root layout.
         Scene scene = new Scene(root);
 
+        stage.setResizable(false);
+        stage.setMaximized(true);
         stage.setFullScreen(true);
         stage.setTitle("MyShelfie");
         stage.setFullScreenExitHint("");

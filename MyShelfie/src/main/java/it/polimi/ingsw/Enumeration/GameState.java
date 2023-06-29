@@ -5,7 +5,7 @@ package it.polimi.ingsw.Enumeration;
  */
 public enum GameState {
     /**
-     * where the gamecontroller initialized the board and picks the objectives
+     * where the gamecontroller initialized the board and picked the objectives
      */
     INIT,
 
@@ -15,7 +15,7 @@ public enum GameState {
     IN_GAME,
 
     /**
-     * where the points are calculated, and broadcasted to all the players
+     * where the points are calculated, and broadcast to all the players
      */
     END
 }

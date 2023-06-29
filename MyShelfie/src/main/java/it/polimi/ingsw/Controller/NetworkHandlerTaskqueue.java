@@ -9,12 +9,14 @@ import it.polimi.ingsw.Network.ClientPack.ClientSocket;
 import it.polimi.ingsw.Network.Message.C2S.FullTileSelectionMessage;
 import it.polimi.ingsw.Network.Message.C2S.NumberOfPlayerMessage;
 import it.polimi.ingsw.Network.Message.C2S.UpdatePlInfoMessage;
+import it.polimi.ingsw.Network.Message.ErrorMessage;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.S2C.*;
 import it.polimi.ingsw.Network.RMI.ClientRmi;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.Observer.ViewObserver;
 import it.polimi.ingsw.View.View;
+import javafx.application.Platform;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -36,14 +38,16 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     private static String nick;
     private final boolean socketConnection;
     private boolean clientlock;
+
     public NetworkHandlerTaskqueue(View view, boolean socketConnection){
-            this.view = view;
-            tempTiles = new ArrayList<Coords>();
-            hand = new ArrayList<Tile>();
-            shelf = new Shelf();
-            this.socketConnection = socketConnection;
-            clientlock= true;
-        }
+        this.view = view;
+        tempTiles = new ArrayList<Coords>();
+        hand = new ArrayList<Tile>();
+        shelf = new Shelf();
+        this.socketConnection = socketConnection;
+        clientlock= true;
+    }
+
     @Override
     public void onConnection(String serverAddr, int port) {
         if(socketConnection) client = new ClientSocket(serverAddr, port);
@@ -70,6 +74,14 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
 
         while (!Thread.currentThread().isInterrupted()) {
             msg=client.readMessage();
+
+            if(msg == null){
+                System.out.print("An error occurred\n");
+                client.disconnect();
+                Thread.currentThread().interrupt();
+                continue;
+            }
+
             switch (msg.getMsgType()) {
                 case ASK_NICKNAME: //ritorna un UpdatePlInfoMessage con lo username
                     clientlock = true;
@@ -128,73 +140,89 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
                     break;
                 case END_GAME:
                     Thread.currentThread().interrupt();
+                    client.disconnect();
                     break;
                 case ERROR:
-                    //it.polimi.ingsw.view.showError();
+                    view.showText(((ErrorMessage) msg).getError());
+                    client.disconnect();
+                    Thread.currentThread().interrupt();
                     break;
                 default:
                     view.showText("something went very wrong");
             }
         }
-
     }
+
     private void selectTileRequest(){
-            boolean valid;
-
-            do {
-                for (loop = 0; loop < 3; loop++) {
-                    view.askSelectTile();
-                }
-                valid = validSelection();
-                if (!valid) {
-                    tempTiles.clear();
-                    view.invalidCombo();
-                }
-            } while (!valid);
-
-            for (Coords tempTile : tempTiles) {
-                Tile tile = board.takeTiles(tempTile.ROW, tempTile.COL).get();
-                hand.add(tile);
+        boolean valid;
+        int max=0;
+        int tilesLeft;
+        for (int i=0;i<5;i++){
+            tilesLeft=shelf.tilesLeftColumn(i);
+            if(max<tilesLeft) {
+                max=tilesLeft;
             }
-            view.showTilesInHand(hand);
-
-            do {
-                valid = true;
-                view.askInsertCol();
-                if (shelf.tilesLeftColumn(column) < hand.size()) {
-                    view.invalidColumn(column);
-                    valid = false;
-                }
-            } while (!valid);
-
-            client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
-
-            for (Tile tile : hand) {
-                shelf.putTile(tile, column);
-            }
-
-            hand.clear();
-            tempTiles.clear();
         }
+        do {
+            loop=0;
+            if (max<3){
+                loop=3-max;
+            }
+            view.askSelectTile();
+            while(loop<3) System.out.print("");
+            valid = validSelection();
+            if (!valid) {
+                tempTiles.clear();
+                view.invalidCombo();
+            }
+        } while (!valid);
+
+        for (Coords tempTile : tempTiles) {
+            Tile tile = board.takeTiles(tempTile.ROW, tempTile.COL).get();
+            hand.add(tile);
+        }
+        view.showTilesInHand(hand);
+
+        do {
+            loop=0;
+            valid = true;
+            view.askInsertCol();
+            while(loop==0) System.out.print("");
+            if (shelf.tilesLeftColumn(column) < hand.size()) {
+                view.invalidColumn(column);
+                valid = false;
+            }
+        } while (!valid);
+
+        client.sendMessage(new FullTileSelectionMessage(tempTiles, column));
+
+        for (Tile tile : hand) {
+            shelf.putTile(tile, column);
+        }
+
+        hand.clear();
+        tempTiles.clear();
+    }
 
     @Override
     public void onSelectTile(int ROW, int COL) {
-            if (ROW == -1 && COL == -1) {
-                loop = 2;
-            }
-            else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
-                view.invalidTile(ROW, COL);
-                view.askSelectTile();
-            }
-            else {
-                tempTiles.add(new Coords(ROW, COL));
-            }
+        if (ROW == -1 && COL == -1) {
+            loop = 3;
         }
+        else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
+            view.invalidTile(ROW, COL);
+        }
+        else {
+            loop++;
+            tempTiles.add(new Coords(ROW, COL));
+        }
+    }
 
     @Override
     public void onSelectCol(int col) {
-            this.column = col;
-        }
+        column = col;
+        loop=1;
+    }
 
     /**
          * Sends to the server the chosen number of player
@@ -202,10 +230,10 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
          */
     @Override
     public void onPlayerNumberReply(int numPlayers){
-            client.sendMessage(new NumberOfPlayerMessage(numPlayers));
+        client.sendMessage(new NumberOfPlayerMessage(numPlayers));
 
-            clientlock=false;
-        }
+        clientlock=false;
+    }
 
     @Override
     public void onSelection(ArrayList<Coords> coords, int col) {
@@ -214,12 +242,12 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
 
     @Override
     public void onNicknameUpdate (String nick){
-            this.nick = nick;
-            client.sendMessage(new UpdatePlInfoMessage(nick));
+        NetworkHandlerTaskqueue.nick = nick;
+        client.sendMessage(new UpdatePlInfoMessage(nick));
 
-            clientlock=false;
+        clientlock=false;
 
-        }
+    }
 
     /**
     * This method validates the given IPv4
