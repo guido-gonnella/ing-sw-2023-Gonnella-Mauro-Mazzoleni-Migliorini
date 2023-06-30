@@ -58,6 +58,9 @@ The compiled JARs will be placed in the folder ```target/``` with the names
 
 Precompiled Jars can be found at the following link: [Jar](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/master/Deliverables/final/jar)
 
+### Coverage
+
+Model Coverage result can be found at the following link: [Coverage result](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/master/Deliverables/final/coverage/coverage_result.jpg)
 ## Execution
 
 ### Server
