@@ -22,10 +22,12 @@ public class Gui2 extends ViewObservable implements View {
 
     private static Scene activeScene;
     private static Stage activeStage;
+
     private static GenericSceneController activeController;
+    private static boolean Turnfirst;
+    private static boolean endofgame;
     @Override
     public void init() {
-
     }
 
     @Override
@@ -35,13 +37,18 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void askSelectTile() {
-        Platform.runLater(() -> ((MainSceneController) activeController).setText("It's your turn!\n"));
+        if (Turnfirst) {
+
+            Platform.runLater(() -> ((MainSceneController) activeController).setText("It's your turn!\n"));
+        }
         Platform.runLater(() -> ((MainSceneController) activeController).enableButtons());
+        Turnfirst=false;
     }
 
 
     @Override
     public void askInsertCol() {
+        Turnfirst=true;
         Platform.runLater(() -> ((MainSceneController) activeController).disableButtons());
         Platform.runLater(() -> ((MainSceneController) activeController).enableColSelection());
     }
@@ -69,6 +76,7 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective) {
+        endofgame=true;
         Platform.runLater(() -> ((MainSceneController) activeController).setFinalPoints(mapPoints, mapObjective));
     }
 
@@ -100,7 +108,9 @@ public class Gui2 extends ViewObservable implements View {
 
     @Override
     public void showText(String text) {
-
+            if (endofgame){
+                Platform.runLater(() -> ((MainSceneController) activeController).setText(text));
+            }
     }
 
     public static void planeLoader(String fxml) {
@@ -119,6 +129,8 @@ public class Gui2 extends ViewObservable implements View {
     public static void initialize(Scene scene, Stage stage) {
         activeScene = scene;
         activeStage = stage;
+        Turnfirst=true;
+        endofgame=false;
         Platform.runLater(() -> planeLoader("MenuScene.fxml"));
     }
 

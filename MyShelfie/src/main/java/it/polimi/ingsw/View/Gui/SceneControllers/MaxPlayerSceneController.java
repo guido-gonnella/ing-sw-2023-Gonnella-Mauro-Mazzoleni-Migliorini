@@ -19,20 +19,24 @@ public class MaxPlayerSceneController extends ViewObservable implements GenericS
     }
 
     private void playersButton(Event event) {
-        int playerNumber;
+        int playerNumber=0;
         boolean valid = false;
 
         while(!valid) {
-            playerNumber = Integer.parseInt(MaxPlayerBox.getText());
+            try {
+                playerNumber = Integer.parseInt(MaxPlayerBox.getText());
+            }catch(NumberFormatException e){
+                valid=false;
+                playerNumber=0;
+            }
+                if (playerNumber > 4 || playerNumber < 2) {
+                    reset();
+                } else {
+                    valid = true;
+                    final int maxPlayers = playerNumber;
+                    new Thread(() -> notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
+                }
 
-            if(playerNumber>4 || playerNumber<2) {
-                reset();
-            }
-            else {
-                valid=true;
-                final int maxPlayers = playerNumber;
-                new Thread(() -> notifyObservers(obs -> obs.onPlayerNumberReply(maxPlayers))).start();
-            }
         }
 
         Platform.runLater(() -> Gui2.planeLoader("MainScene.fxml"));

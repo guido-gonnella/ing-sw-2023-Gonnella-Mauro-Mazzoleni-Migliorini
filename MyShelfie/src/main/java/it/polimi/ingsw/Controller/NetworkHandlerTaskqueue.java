@@ -170,12 +170,16 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
             if (max<3){
                 loop=3-max;
             }
-            view.askSelectTile();
-            while(loop<3) {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+            for (; loop < 3; loop++) {
+                clientlock=true;
+               view.askSelectTile();
+                while(clientlock)
+                {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
             valid = validSelection();
@@ -222,12 +226,15 @@ public class NetworkHandlerTaskqueue implements Observer, ViewObserver, Runnable
     public void onSelectTile(int ROW, int COL) {
         if (ROW == -1 && COL == -1) {
             loop = 3;
+            clientlock=false;
         }
         else if (ROW>8 || ROW<0 || COL<0 || COL>8 || board.getGrid()[ROW][COL].getTile().isEmpty()) {
             view.invalidTile(ROW, COL);
+            loop-=1;
+            clientlock=false;
         }
         else {
-            loop++;
+            clientlock=false;
             tempTiles.add(new Coords(ROW, COL));
         }
     }
