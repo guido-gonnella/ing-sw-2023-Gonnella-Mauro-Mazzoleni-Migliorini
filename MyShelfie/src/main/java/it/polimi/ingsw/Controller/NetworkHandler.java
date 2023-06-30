@@ -200,17 +200,6 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
     public void onPlayerNumberReply(int numPlayers){
             client.sendMessage(new NumberOfPlayerMessage(numPlayers));
         }
-
-    /**
-     * Sends to the server the selected tiles and column, in the form of a {@link FullTileSelectionMessage}
-     * @param coords the coordinates of the selected tiles
-     * @param col the selected column
-     */
-    @Override
-    public void onSelection(ArrayList<Coords> coords, int col) {
-        client.sendMessage(new FullTileSelectionMessage(coords, col));
-    }
-
     /**
      * Update the nickname with the passed parameter, and send it to the server in the form of a {@link UpdatePlInfoMessage}.
      * @param nick the new nickname

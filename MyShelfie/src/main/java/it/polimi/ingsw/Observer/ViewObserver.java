@@ -36,5 +36,4 @@ public interface ViewObserver {
      */
     void onPlayerNumberReply(int numPlayers);
 
-    void onSelection(ArrayList<Coords> coords, int col);
 }
