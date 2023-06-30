@@ -31,7 +31,7 @@
     </TextField>
     <Button fx:id="Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Confirm" textAlignment="CENTER" translateY="35.0">
         <font>
-            <Font size="15.0" />
+            <Font size="16.0" />
         </font>
     </Button>
 </VBox>

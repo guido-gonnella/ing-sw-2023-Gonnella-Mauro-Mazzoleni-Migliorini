@@ -124,7 +124,7 @@ public class GameController implements Runnable{
         }
 
         this.virtualView.endGame(mapPoints, mapObjective);
-        this.virtualView.writeBroadcast(MsgType.TEXT, "\n================= "+winner+ " WINNER WINNER CHICKEN DINNER! =================");
+        this.virtualView.writeBroadcast(MsgType.TEXT, "\n========================== " + winner + " WINNER WINNER CHICKEN DINNER! ==========================");
         this.virtualView.writeBroadcast(MsgType.END_GAME, null);
         for(String p : this.players) this.virtualView.removeUsername(p);
         Thread.currentThread().interrupt();

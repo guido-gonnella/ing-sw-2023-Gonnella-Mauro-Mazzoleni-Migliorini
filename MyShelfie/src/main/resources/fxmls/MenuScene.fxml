@@ -9,10 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="1080.0" prefWidth="1920.0" styleClass="ConfirmIpPort" stylesheets="@../css/StyleScene.css"
-      xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.ingsw.View.Gui.SceneControllers.MenuSceneController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="ConfirmIpPort" stylesheets="@../css/StyleScene.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.View.Gui.SceneControllers.MenuSceneController">
    <padding>
       <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
    </padding>
@@ -41,7 +38,7 @@
    </TextField>
    <Button fx:id="Button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Confirm" textAlignment="CENTER" translateY="35.0">
       <font>
-         <Font size="15.0" />
+         <Font size="16.0" />
       </font>
    </Button>
 </VBox>

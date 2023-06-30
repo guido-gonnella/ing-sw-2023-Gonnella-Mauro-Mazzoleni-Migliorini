@@ -2,6 +2,9 @@ package it.polimi.ingsw.View.Gui.SceneControllers;
 
 import it.polimi.ingsw.Enumeration.PubObjType;
 import it.polimi.ingsw.Model.*;
+import it.polimi.ingsw.View.Gui.JavaFXGui;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -112,12 +115,14 @@ public class MainSceneController implements GenericSceneController {
     public ImageView PrivateObjective;
     public ImageView PublicObjective_1;
     public ImageView PublicObjective_0;
+    public Button QuitGameButton;
 
     @FXML
     public void initialize() {
         Board.setDisable(true);
         EndSelectionButton.setVisible(false);
         ColButtons.setVisible(false);
+        QuitGameButton.setVisible(false);
     }
 
     public void enableButtons() {
@@ -291,5 +296,12 @@ public class MainSceneController implements GenericSceneController {
             }
             TextBox.getChildren().add(new Text("\n"));
         }
+
+        QuitGameButton.setVisible(true);
+    }
+
+    public void quitGame() {
+        Platform.exit();
+        System.exit(0);
     }
 }
