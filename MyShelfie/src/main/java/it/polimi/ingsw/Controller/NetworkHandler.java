@@ -95,8 +95,8 @@ public class NetworkHandler implements Observer, ViewObserver, Runnable{
                     view.showPoints(((EndStatsMessage) msg).getPlayer_points(), ((EndStatsMessage) msg).getPlayer_ComObj());
                 }
                 case END_GAME -> {
-                    Thread.currentThread().interrupt();
                     client.disconnect();
+                    Thread.currentThread().interrupt();
                 }
                 case ERROR -> {
                     view.showText(((ErrorMessage) msg).getError());
