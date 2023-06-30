@@ -17,15 +17,15 @@
 
 The following UML class diagrams represent the initial model of the architecture as developed during the design phase and the final implementation.
 
-- [UML initial design](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/main/Deliverables/final/uml/UML_initial.png)
-- [UML final design](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/main/Deliverables/final/uml/UML_generated_2.png)
+- [UML initial design](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/Gui2/Deliverables/final/uml/UML_initial.png)
+- [UML final design](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/Gui2/Deliverables/final/uml/UML_generated_non_details.png)
 
 ### JavaDoc
 The following documentation includes a description for the majority of the classes and the method used. [Javadoc](https://guido-gonnella.github.io/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/)
 
 ## Communication protocol
 
-The following sequence diagrams describe the communication between the server and the clients. [Sequence diagrams](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/main/Deliverables/final/uml/Sequence%20diagram)
+The following sequence diagrams describe the communication between the server and the clients. [Sequence diagrams](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/Gui2/Deliverables/final/uml/Sequence%20diagram)
 
 ## Libraries and plugins
 
@@ -56,7 +56,7 @@ The compiled JARs will be placed in the folder ```target/``` with the names
 
 ### Jar
 
-Precompiled Jars can be found at the following link: [Jar](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/main/Deliverables/final/jar)
+Precompiled Jars can be found at the following link: [Jar](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/Gui2/Deliverables/final/jar)
 
 ## Execution
 
