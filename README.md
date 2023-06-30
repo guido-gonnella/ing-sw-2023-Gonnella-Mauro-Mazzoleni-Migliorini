@@ -23,6 +23,10 @@ The following UML class diagrams represent the initial model of the architecture
 ### JavaDoc
 The following documentation includes a description for the majority of the classes and the method used. [Javadoc](https://guido-gonnella.github.io/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/)
 
+### Coverage
+
+Model Coverage result can be found at the following link: [Coverage result](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/master/Deliverables/final/coverage/coverage_result.jpg)
+
 ## Communication protocol
 
 The following sequence diagrams describe the communication between the server and the clients. [Sequence diagrams](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/master/Deliverables/final/uml/Sequence%20diagram)
@@ -58,9 +62,6 @@ The compiled JARs will be placed in the folder ```target/``` with the names
 
 Precompiled Jars can be found at the following link: [Jar](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/tree/master/Deliverables/final/jar)
 
-### Coverage
-
-Model Coverage result can be found at the following link: [Coverage result](https://github.com/guido-gonnella/ing-sw-2023-Gonnella-Mauro-Mazzoleni-Migliorini/blob/master/Deliverables/final/coverage/coverage_result.jpg)
 ## Execution
 
 ### Server
