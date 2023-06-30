@@ -1,11 +1,8 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Controller.NetworkHandler;
-import it.polimi.ingsw.Controller.NetworkHandlerTaskqueue;
-import it.polimi.ingsw.View.Gui.Gui;
 import it.polimi.ingsw.View.Gui.JavaFXGui;
 import it.polimi.ingsw.View.Cli;
-import it.polimi.ingsw.View.Gui.JavaFXGui;
 import javafx.application.Application;
 public class ClientApp {
 
@@ -32,7 +29,7 @@ public class ClientApp {
         if(cliView){
             System.out.println("Cli Selected");
             Cli view = new Cli();
-            NetworkHandlerTaskqueue networkHandler = new NetworkHandlerTaskqueue(view, socketConnection);
+            NetworkHandler networkHandler = new NetworkHandler(view, socketConnection);
             view.addObserver(networkHandler);
             Thread thread= new Thread(networkHandler, "networkHandler_");
             thread.start();

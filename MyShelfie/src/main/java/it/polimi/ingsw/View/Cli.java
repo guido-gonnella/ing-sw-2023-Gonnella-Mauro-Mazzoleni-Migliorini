@@ -329,8 +329,6 @@ public class Cli extends ViewObservable implements View{
      */
     @Override
     public void showPoints(Map<String, Integer> mapPoints, Map<String, boolean[]> mapObjective){
-        //Map<String, int>, Map<String, boolean[]>
-        //player1 -> points: 20 | obj1 = tick | obj2 = cross
         boolean flag;
         for (String player: mapPoints.keySet())
         {
