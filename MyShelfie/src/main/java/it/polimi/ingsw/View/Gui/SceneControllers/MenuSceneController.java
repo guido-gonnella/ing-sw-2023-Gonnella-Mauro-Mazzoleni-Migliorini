@@ -16,10 +16,12 @@ public class MenuSceneController extends ViewObservable implements GenericSceneC
     private TextField PortBox;
     @FXML
     private Button Button;
+    private static boolean firsttime;
 
     @FXML
     public void initialize() {
         Button.setOnAction(this::serverInfoButton);
+        firsttime=true;
     }
 
     private void serverInfoButton(Event event) {
@@ -40,8 +42,11 @@ public class MenuSceneController extends ViewObservable implements GenericSceneC
             }
         }
         else {
-            new Thread(() -> notifyObservers(obs -> obs.onConnection(ipAddress, portAddress))).start();
-        }
+            if(firsttime) {
+                new Thread(() -> notifyObservers(obs -> obs.onConnection(ipAddress, portAddress))).start();
+                firsttime=false;
+            }
+            }
     }
 
     private void invalidPortOrIp() throws IOException {
