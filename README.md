@@ -39,7 +39,9 @@ The following sequence diagrams describe the communication between the server an
 
 - Complete Rules
 - Command Line Interface (CLI)
+- GUI
 - Socket Communication
+- Multiple games
 
 ## Compiling
 
